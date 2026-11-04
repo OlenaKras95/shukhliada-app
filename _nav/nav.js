@@ -16,10 +16,21 @@
     return new URL(root + path, document.baseURI).href;
   }
 
-  // Порівнюємо адреси без query/hash і без кінцевого index.html.
+  // Порівнюємо адреси без query і без кінцевого index.html.
+  // Hash враховуємо: стан екрана може жити на тій самій сторінці під #якорем.
   function normalize(href) {
     var u = new URL(href, document.baseURI);
-    return (u.origin + u.pathname).replace(/\/index\.html$/, "/");
+    return (u.origin + u.pathname).replace(/\/index\.html$/, "/") + u.hash;
+  }
+
+  function markCurrent(nav) {
+    var here = normalize(location.href);
+    nav.querySelectorAll(".repo-nav__link").forEach(function (a) {
+      var on = normalize(a.href) === here;
+      a.classList.toggle("is-current", on);
+      if (on) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
   }
 
   var css = document.createElement("link");
@@ -29,7 +40,6 @@
 
   function build() {
     var tree = window.NAV_TREE || [];
-    var here = normalize(location.href);
 
     var nav = document.createElement("nav");
     nav.className = "repo-nav";
@@ -58,10 +68,6 @@
           a.href = resolve(item.path);
           a.textContent = item.title;
           a.style.setProperty("--depth", depth);
-          if (normalize(a.href) === here) {
-            a.classList.add("is-current");
-            a.setAttribute("aria-current", "page");
-          }
           li.appendChild(a);
           if (item.children && item.children.length) {
             li.appendChild(list(item.children, depth + 1));
@@ -73,6 +79,8 @@
     }
 
     nav.appendChild(list(tree, 0));
+    markCurrent(nav);
+    window.addEventListener("hashchange", function () { markCurrent(nav); });
     document.body.insertBefore(nav, document.body.firstChild);
     document.documentElement.classList.add("has-repo-nav");
   }
