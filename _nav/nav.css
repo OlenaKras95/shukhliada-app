@@ -1,0 +1,81 @@
+/* Навігатор репо — нейтральний службовий інструмент, не частина продукту. */
+
+.has-repo-nav body {
+  margin-left: 240px;
+}
+
+.repo-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: 16px 12px;
+  background: #f6f6f6;
+  border-right: 1px solid #dcdcdc;
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #222;
+  z-index: 1000;
+}
+
+.repo-nav__head {
+  display: block;
+  padding: 4px 8px 12px;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  color: #222;
+  text-decoration: none;
+}
+
+.repo-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.repo-nav__branch {
+  margin-top: 12px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #777;
+}
+
+.repo-nav__link {
+  display: block;
+  padding: 4px 8px 4px calc(8px + var(--depth, 0) * 14px);
+  border-radius: 4px;
+  color: #222;
+  text-decoration: none;
+}
+
+.repo-nav__link:hover {
+  background: #e8e8e8;
+}
+
+.repo-nav__link:focus-visible {
+  outline: 2px solid #555;
+  outline-offset: -2px;
+}
+
+.repo-nav__link.is-current {
+  background: #222;
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .has-repo-nav body {
+    margin-left: 0;
+  }
+  .repo-nav {
+    position: static;
+    width: auto;
+    border-right: 0;
+    border-bottom: 1px solid #dcdcdc;
+  }
+}
