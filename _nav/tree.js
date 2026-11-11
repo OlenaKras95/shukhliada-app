@@ -12,5 +12,8 @@
  *  { branch: "Гілка", items: [ { title, path, children? }, ... ] }
  */
 window.NAV_TREE = [
-  { title: "Старт", path: "index.html" }
+  { title: "Старт", path: "index.html" },
+  { branch: "Ресерч", items: [
+    { title: "Підсумок ресерчу", path: "research/research.html" }
+  ] }
 ];
