@@ -5,7 +5,7 @@
  *
  * де ROOT — шлях від сторінки до кореня репо: "./" для кореня,
  * "../" для research/page.html, "../../" для research/screens/page.html.
- * Скрипт сам підтягує _nav/nav.css і _nav/tree.js.
+ * Скрипт сам підтягує _nav/nav.css, _nav/tree.js і іконку сайту favicon.svg.
  */
 (function () {
   var script = document.currentScript;
@@ -37,6 +37,16 @@
   css.rel = "stylesheet";
   css.href = root + "_nav/nav.css";
   document.head.appendChild(css);
+
+  // Іконка сайту для всіх сторінок. Без неї браузер шукає /favicon.ico
+  // у корені домену github.io, поза репо, і отримує 404.
+  if (!document.querySelector('link[rel~="icon"]')) {
+    var icon = document.createElement("link");
+    icon.rel = "icon";
+    icon.type = "image/svg+xml";
+    icon.href = root + "favicon.svg";
+    document.head.appendChild(icon);
+  }
 
   function build() {
     var tree = window.NAV_TREE || [];
