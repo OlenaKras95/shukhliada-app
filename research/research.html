@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ресерч Шухляди</title>
+  <meta name="description" content="Підсумок етапу 0: конкуренти, бенчмарк, патерни і гіпотези для Шухляди.">
+  <style>
+    :root {
+      --bg: #121214;
+      --surface: #1b1b1f;
+      --surface-2: #232328;
+      --line: #313137;
+      --text: #ececef;
+      --muted: #a3a3ad;
+      --accent: #e8916b;
+      --accent-soft: rgba(232, 145, 107, 0.14);
+      --own: #8fc7a3;
+      --pub: #8fb4e8;
+      --video: #d4a6e8;
+      --warn: #e8c46b;
+      --s5: #2f5b43; --s4: #2c4a3a; --s3: #4a4430; --s2: #563628; --s1: #5e2b2b;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 32px 96px; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    h1 { font-size: 36px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.01em; }
+    h2 { font-size: 26px; margin: 72px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+    h2 .num { color: var(--accent); margin-right: 10px; }
+    h3 { font-size: 18px; margin: 36px 0 10px; }
+    p { margin: 0 0 14px; }
+    .lead { color: var(--muted); max-width: 760px; font-size: 17px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; padding: 0; list-style: none; }
+    .toc a { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; background: var(--surface); }
+    .toc a:hover { border-color: var(--accent); }
+    .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 0; padding: 14px 16px; background: var(--surface); border-radius: var(--radius); font-size: 14px; color: var(--muted); }
+    .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+    .tag.own { color: var(--own); background: rgba(143, 199, 163, 0.12); }
+    .tag.pub { color: var(--pub); background: rgba(143, 180, 232, 0.12); }
+    .tag.vid { color: var(--video); background: rgba(212, 166, 232, 0.12); }
+    .tag.ext { color: var(--muted); background: rgba(163, 163, 173, 0.14); }
+    .tag.warn { color: var(--warn); background: rgba(232, 196, 107, 0.12); }
+    code, .src { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 8px; border: 1px solid var(--line); border-radius: var(--radius); }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    thead th { background: var(--surface-2); font-size: 13px; color: var(--muted); font-weight: 600; position: sticky; top: 0; }
+    tbody th { font-weight: 600; background: var(--surface); width: 150px; }
+    tr:last-child td, tr:last-child th { border-bottom: 0; }
+    .matrix td { min-width: 190px; }
+    .scores td, .scores th { text-align: center; }
+    .scores tbody th { text-align: left; width: auto; }
+    .sc { display: inline-block; min-width: 34px; padding: 4px 0; border-radius: 6px; font-weight: 700; }
+    .sc-5 { background: var(--s5); } .sc-4 { background: var(--s4); } .sc-3 { background: var(--s3); } .sc-2 { background: var(--s2); } .sc-1 { background: var(--s1); }
+    .sc-na { color: var(--muted); }
+    .avg td { font-weight: 700; color: var(--accent); background: var(--surface-2); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+    .card h4 { margin: 0 0 8px; font-size: 16px; }
+    .card p, .card li { font-size: 14.5px; }
+    .card ul { margin: 8px 0 0; padding-left: 18px; }
+    .card.key { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 60%); }
+    .card.no { border-style: dashed; }
+    .kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0; }
+    figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    figure a { display: block; background: #0b0b0d; }
+    figure img { display: block; width: 100%; height: 200px; object-fit: cover; object-position: top left; }
+    figcaption { padding: 10px 14px 14px; font-size: 13.5px; color: var(--muted); }
+    figcaption strong { color: var(--text); font-weight: 600; }
+    figcaption .path { display: block; margin-top: 6px; }
+    .quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; margin: 16px 0; font-size: 18px; }
+    .note { color: var(--muted); font-size: 14px; }
+    .hyp td:first-child { font-weight: 700; color: var(--accent); width: 36px; }
+    footer { margin-top: 72px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 720px) {
+      main { padding: 32px 16px 64px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 22px; margin-top: 56px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script src="../_nav/nav.js" data-root="../"></script>
+</head>
+<body>
+<main>
+  <p class="kicker">Етап 0 · Дослідження · 2026-11-11</p>
+  <h1>Ресерч Шухляди</h1>
+  <p class="lead">Підсумок кроків 03–06: хто вже розв'язує задачу «зберегти посилання й знайти потім», як у кращих продуктах завершується збереження й пошук, який патерн ляже на наш контекст і що з цього перевіряти на прототипі. Текстова версія з усіма посиланнями — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/research.md">research.md</a>.</p>
+
+  <ul class="toc">
+    <li><a href="#competitors">1 · Конкуренти</a></li>
+    <li><a href="#benchmark">2 · Бенчмарк</a></li>
+    <li><a href="#patterns">3 · Патерни</a></li>
+    <li><a href="#conclusions">4 · Висновки</a></li>
+  </ul>
+
+  <div class="legend" role="note" aria-label="Звідки дані">
+    <span><span class="tag own">👤 власний акаунт</span> скріни з акаунтів PM, особисте замазано</span>
+    <span><span class="tag pub">🌐 публічне</span> сайти, довідки, магазини</span>
+    <span><span class="tag vid">🎬 трейлер</span> офіційне відео mymind</span>
+    <span><span class="tag ext">📰 сторонній</span> не офіційне джерело</span>
+    <span><span class="tag warn">⚠️ не підтверджено</span> джерела немає</span>
+  </div>
+  <p class="note" style="margin-top:10px">Коди на кшталт <span class="src">04·[R1]</span> — джерело зі списку в нотатці <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md">04-matrix</a>, <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/05-benchmark.md">05-benchmark</a> або <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md">03-competitors</a>. Клік по скріну відкриває оригінал.</p>
+
+  <!-- ============ 1 ============ -->
+  <h2 id="competitors"><span class="num">1</span>Конкуренти</h2>
+  <p class="lead">П'ять продуктів: два прямі аналоги (хард), два, якими аудиторія користується замість архіву (софт), і один еталон швидкого пошуку (аспіраційний).</p>
+
+  <h3>Матриця</h3>
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead>
+        <tr><th scope="col">Вісь</th><th scope="col">Raindrop.io · хард</th><th scope="col">mymind · хард</th><th scope="col">Telegram «Збережене» · софт</th><th scope="col">Notion Web Clipper · софт</th><th scope="col">Raycast · аспіраційний</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Обіцянка на першому екрані</th>
+          <td>«All-in-one bookmark manager», «Runs everywhere»; насичений інтерфейс <span class="src">04·[R1]</span> <span class="tag pub">🌐</span></td>
+          <td>«Remember everything. Organize nothing.» <span class="src">04·[M1]</span> <span class="tag pub">🌐</span></td>
+          <td>сайт про месенджер, про «Збережене» нічого <span class="src">04·[T1]</span> <span class="tag pub">🌐</span></td>
+          <td>команди й ШІ-агенти, про посилання нічого <span class="src">04·[N1]</span> <span class="tag pub">🌐</span></td>
+          <td>«Your shortcut to everything», «Fast» <span class="src">04·[Y1]</span> <span class="tag pub">🌐</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Як зберегти</th>
+          <td>веб: «+ Add» → поле URL → «Submit», падає в поточну колекцію <span class="src">04·[R9]</span> <span class="tag own">👤</span></td>
+          <td>розширення: 1 клік або <code>Cmd+Shift+S</code> <span class="src">04·[M2]</span> <span class="tag pub">🌐</span>; у вебі поля для посилання немає <span class="src">04·[M7]</span> <span class="tag own">👤</span></td>
+          <td>вставити в чат → прев'ю ще до відправки → <code>Enter</code>, 3 дії <span class="src">04·[T5]</span> <span class="tag own">👤</span></td>
+          <td>іконка → назва з хвостом сайту → «Save page»; 2 дії, якщо база вже обрана <span class="src">04·[N10]</span> <span class="tag own">👤</span></td>
+          <td>«Create Quicklink» → посилання → назва → <code>Ctrl+Enter</code>, лише з комп'ютера <span class="src">04·[Y2]</span> <span class="tag pub">🌐</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Як знайти</th>
+          <td>назва, опис, теги, нотатки; текст сторінки й ШІ — лише Pro <span class="src">04·[R4]</span> <span class="src">04·[R11]</span> <span class="tag pub">🌐</span></td>
+          <td>«Folders are dead»; слова запиту стають пігулками-фільтрами <span class="src">04·[M10]</span> <span class="tag vid">🎬</span></td>
+          <td>лупа і прокрутка; теги лише Premium <span class="src">04·[T2]</span> <span class="tag pub">🌐</span> <span class="src">04·[T5]</span> <span class="tag own">👤</span></td>
+          <td><code>Ctrl+K</code>, фільтри за датою й місцем <span class="src">04·[N4]</span> <span class="tag pub">🌐</span></td>
+          <td>нечіткий збіг, ранжування за частотою й давністю <span class="src">04·[Y3]</span> <span class="tag pub">🌐</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Що після збереження</th>
+          <td>у довідці не описано <span class="src">04·[R3]</span> <span class="tag pub">🌐</span></td>
+          <td>«Saved to your mind» + «Add tags» <span class="src">04·[M10]</span> <span class="tag vid">🎬</span>; «Скасувати» немає <span class="tag own">👤</span></td>
+          <td>лише ✓✓; обгортка LinkedIn дає «You're leaving LinkedIn» <span class="src">04·[T5]</span> <span class="tag own">👤</span></td>
+          <td>лише «Open in Notion», ні «збережено», ні назви бази <span class="src">04·[N8]</span> <span class="tag own">👤</span></td>
+          <td>у документації не описано <span class="src">04·[Y2]</span> <span class="tag pub">🌐</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Українська</th>
+          <td>немає, є російська <span class="src">04·[R6]</span> <span class="tag pub">🌐</span></td>
+          <td>лише англійська <span class="src">04·[M4]</span> <span class="tag pub">🌐</span></td>
+          <td><strong>є</strong> <span class="src">04·[T1]</span> <span class="tag pub">🌐</span></td>
+          <td>немає <span class="src">04·[N6]</span> <span class="tag pub">🌐</span></td>
+          <td>не знайдено <span class="src">04·[Y1]</span> <span class="tag pub">🌐</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Google Play</th>
+          <td>4,3 (5,07 тис.) <span class="src">04·[R10]</span></td>
+          <td>3,5 (1,13 тис.) <span class="src">04·[M9]</span></td>
+          <td>3,7 (17,4 млн) <span class="src">04·[T6]</span></td>
+          <td>4,6 — весь Notion; Clipper у Chrome 2,9 <span class="src">04·[N9]</span> <span class="src">04·[N5]</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <th scope="row">Ціна</th>
+          <td>безкоштовно, Pro ≈ $3/міс <span class="src">04·[R8]</span></td>
+          <td>100 карток безкоштовно; від $4,99/міс <span class="src">04·[M6]</span> <span class="src">04·[M8]</span></td>
+          <td>безкоштовно, теги — Premium <span class="src">04·[T2]</span></td>
+          <td>безкоштовний план <span class="src">04·[N1]</span></td>
+          <td>безкоштовно для особистого <span class="src">04·[Y4]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Поза п'ятіркою: <strong>LinkLy</strong> — єдиний знайдений український менеджер посилань, на «ви», без автоназви, пошуку й категорій <span class="src">03 · 1.5</span> <span class="tag own">👤</span>. <strong>Pocket</strong> закрито 8.07.2025, дані тих, хто не встиг експортувати до 8.10.2025, видалено <span class="src">03·[A17]</span> <span class="tag pub">🌐</span>.</p>
+
+  <div class="gallery">
+    <figure>
+      <a href="screens/telegram/04-saved.png"><img src="screens/telegram/04-saved.png" alt="Telegram, Збережене: посилання з LinkedIn показує прев'ю «You're leaving LinkedIn»" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Telegram.</strong> Єдиний сигнал збереження — ✓✓; обгортка LinkedIn дає марне прев'ю. <span class="src path">telegram/04-saved</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/notion/04-web-clipper-saved.png"><img src="screens/notion/04-web-clipper-saved.png" alt="Notion Web Clipper після збереження: лише кнопка Open in Notion" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Notion Web Clipper.</strong> Після «Save page» лише «Open in Notion». <span class="src path">notion/04-web-clipper-saved</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/notion/02-web-clipper-save-page.png"><img src="screens/own/notion/02-web-clipper-save-page.png" alt="Notion Web Clipper до збереження: назва mymind - Apps on Google Play з хвостом сайту" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Notion.</strong> Назва до збереження, але з хвостом сайту: «mymind - Apps on Google Play». <span class="src path">own/notion/02-web-clipper-save-page</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/mymind/10-trailer-saved-add-tags.png"><img src="screens/mymind/10-trailer-saved-add-tags.png" alt="mymind у трейлері: Saved to your mind і поле Add tags" loading="lazy"></a>
+      <figcaption><span class="tag vid">🎬 трейлер</span> <strong>mymind.</strong> Єдине справжнє підтвердження серед конкурентів. <span class="src path">mymind/10-trailer-saved-add-tags</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/mymind/01-landing.png"><img src="screens/mymind/01-landing.png" alt="Лендинг mymind: Remember everything. Organize nothing." loading="lazy"></a>
+      <figcaption><span class="tag pub">🌐 публічне</span> <strong>mymind.</strong> Найсильніша обіцянка «все в одному місці». <span class="src path">mymind/01-landing</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/linkly/06-add-link-saved.png"><img src="screens/own/linkly/06-add-link-saved.png" alt="LinkLy: форма з написом Зміни збережено і назвою Без назви" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>LinkLy.</strong> «Зміни збережено», назва за замовчуванням «Без назви». <span class="src path">own/linkly/06-add-link-saved</span></figcaption>
+    </figure>
+  </div>
+
+  <h3>Три спільні патерни ринку</h3>
+  <div class="cards">
+    <div class="card"><h4>1. Збереження живе поза вебом</h4><p>Основний шлях — розширення, «Поділитися» на телефоні або окремий застосунок. У вебі додавання другорядне або його немає. <span class="src">04·[R2]</span> <span class="src">04·[M2]</span> <span class="src">04·[N2]</span> <span class="tag pub">🌐</span> <span class="src">04·[M7]</span> <span class="tag own">👤</span></p></div>
+    <div class="card"><h4>2. Пошук — текст і фільтри, «розумне» платне</h4><p>Пошук у тексті сторінки й ШІ — Raindrop Pro, понад 100 карток — mymind платно, теги — Telegram Premium. <span class="src">04·[R4]</span> <span class="src">04·[M8]</span> <span class="src">04·[T2]</span> <span class="tag pub">🌐</span></p></div>
+    <div class="card"><h4>3. Що після збереження — майже ніхто не показує</h4><p>У довідках нічого, в акаунтах — ✓✓ і «Open in Notion». Справжнє підтвердження лише в трейлері mymind. Зате до збереження Telegram і Notion показують, що збережеться. <span class="src">04·[T5]</span> <span class="src">04·[N8]</span> <span class="tag own">👤</span> <span class="src">04·[M10]</span> <span class="tag vid">🎬</span></p></div>
+  </div>
+
+  <h3>Три відмінності</h3>
+  <div class="cards">
+    <div class="card"><h4>Структура проти «нічого не впорядковуй»</h4><p>Raindrop і Notion — колекції й бази, mymind — автотеги, Telegram — стрічка. Шухляда з 7 категоріями й пласкими тегами посередині. <span class="src">04·[R1]</span> <span class="src">04·[N2]</span> <span class="src">04·[M1]</span> <span class="tag pub">🌐</span></p></div>
+    <div class="card"><h4>Коли не пам'ятаєш назву</h4><p>Raindrop і mymind — пошук за змістом або ШІ, Raycast — нечіткий збіг і звичка, Telegram — «згадай чат», Notion — дата й місце. <span class="src">04·[R4]</span> <span class="src">04·[Y3]</span> <span class="src">04·[T2]</span> <span class="src">04·[N4]</span> <span class="tag pub">🌐</span></p></div>
+    <div class="card"><h4>Мова й тон</h4><p>Українською — лише Telegram, але він не архів. Теплий тон — лише mymind: «Maybe what you need is some space.» проти «No bookmarks» у Raindrop. <span class="src">04·[T1]</span> <span class="tag pub">🌐</span> <span class="src">04·[M7]</span> <span class="src">04·[R9]</span> <span class="tag own">👤</span></p></div>
+  </div>
+
+  <!-- ============ 2 ============ -->
+  <h2 id="benchmark"><span class="num">2</span>Бенчмарк</h2>
+  <p class="quote">Вимір: <strong>«Як задача завершується»</strong> — що людина бачить після збереження і після пошуку.</p>
+  <p class="lead">Обрали його, бо тут ринок найслабший (патерн 3), а саме тут вирішується «відчуття, що все під рукою» (бриф §2). Еталони — з інших ніш; оцінки 1–5 за довідками <span class="tag pub">🌐</span> і скрінами з акаунтів PM <span class="tag own">👤</span>. Gmail — лише за довідками.</p>
+
+  <div class="table-wrap">
+    <table class="scores">
+      <thead><tr><th scope="col">Критерій</th><th scope="col">Gmail</th><th scope="col">Linear</th><th scope="col">Slack</th><th scope="col">YouTube</th><th scope="col">Maps</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">К1 Видиме підтвердження</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td></tr>
+        <tr><th scope="row">К2 «Де воно тепер»</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-4">4</span></td><td><span class="sc sc-4">4</span></td></tr>
+        <tr><th scope="row">К3 Виправити в один дотик</th><td><span class="sc-na">—</span></td><td><span class="sc sc-3">3</span></td><td><span class="sc-na">—</span></td><td><span class="sc sc-5">5</span><br><span class="note">лише Android</span></td><td><span class="sc sc-2">2</span></td></tr>
+        <tr><th scope="row">К4 Скасувати</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-4">4</span></td><td><span class="sc sc-2">2</span></td><td><span class="sc sc-2">2</span></td><td><span class="sc sc-2">2</span></td></tr>
+        <tr><th scope="row">К5 Слід у системі</th><td><span class="sc sc-4">4</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-4">4</span></td><td><span class="sc sc-3">3</span></td><td><span class="sc sc-5">5</span></td></tr>
+        <tr><th scope="row">К6 Старт пошуку не з нуля</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-4">4</span></td><td><span class="sc sc-4">4</span></td><td><span class="sc sc-4">4</span></td></tr>
+        <tr><th scope="row">К7 Без результатів — не глухий кут</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-2">2</span></td><td><span class="sc sc-3">3</span></td><td><span class="sc sc-1">1</span></td><td><span class="sc sc-3">3</span></td></tr>
+        <tr><th scope="row">К8 Не заважає потоку</th><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-5">5</span></td><td><span class="sc sc-4">4</span></td></tr>
+        <tr class="avg"><th scope="row">Середнє</th><td>4,9</td><td>4,3</td><td>4,0</td><td>3,6</td><td>3,6</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Цитата й джерело для кожної клітинки — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/05-benchmark.md#3-оцінки">05-benchmark, розділ 3</a>. «—» — критерій не стосується продукту.</p>
+
+  <h3>Що показали скріни</h3>
+  <div class="gallery">
+    <figure>
+      <a href="screens/own/linear/01-issue-created-toast.png"><img src="screens/own/linear/01-issue-created-toast.png" alt="Linear: сповіщення Issue created з посиланням View issue" loading="lazy" style="object-position: bottom right"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Linear.</strong> «Issue created» + назва + «View issue»; зникає саме. <span class="src path">own/linear/01-issue-created-toast</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/slack/02-saved-toast.png"><img src="screens/own/slack/02-saved-toast.png" alt="Slack: повідомлення Added to Saved · View saved" loading="lazy" style="object-position: bottom right"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Slack.</strong> «Added to Saved · View saved», але на повідомленні — «Saved for later»: дві назви однієї дії. <span class="src path">own/slack/02-saved-toast</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/youtube/02-saved-toast.png"><img src="screens/own/youtube/02-saved-toast.png" alt="YouTube у вебі: повідомлення Saved to Watch later без кнопок" loading="lazy" style="object-position: bottom left"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>YouTube, веб.</strong> «Saved to Watch later» — без «Змінити» і «Скасувати». <span class="src path">own/youtube/02-saved-toast</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/google-maps/03-saved-toast-add-note.png"><img src="screens/own/google-maps/03-saved-toast-add-note.png" alt="Google Maps: Saved to Saved places і поле Add a note" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Google Maps.</strong> «Saved to Saved places» і одразу поле «Add a note». <span class="src path">own/google-maps/03-saved-toast-add-note</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/slack/05-search-saved-no-results.png"><img src="screens/own/slack/05-search-saved-no-results.png" alt="Slack: пошук серед збереженого, Nothing turned up з підказкою" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Slack, порожній пошук.</strong> «Nothing turned up» + підказка і «Reset», але без схожих результатів. <span class="src path">own/slack/05-search-saved-no-results</span></figcaption>
+    </figure>
+    <figure>
+      <a href="screens/own/linear/03-advanced-search-no-results.png"><img src="screens/own/linear/03-advanced-search-no-results.png" alt="Linear: No results found без підказок" loading="lazy" style="object-position: center"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Linear, порожній пошук.</strong> Лише «No results found for…» — глухий кут. <span class="src path">own/linear/03-advanced-search-no-results</span></figcaption>
+    </figure>
+  </div>
+
+  <h3>Топ-3 механізми для MVP</h3>
+  <div class="cards">
+    <div class="card key">
+      <p class="kicker">Механізм 1 · К1–К3</p>
+      <h4>Підтвердження з назвою, категорією і «Змінити»</h4>
+      <p>Після <code>Ctrl+V</code>: «Вкладаю в Шухляду…» → «Збережено в Шухляді · назва · категорія · Змінити · Скасувати».</p>
+      <ul>
+        <li>Бриф: категорію вгадуємо, змінюють одним кліком (§3.2).</li>
+        <li>Двоступеневе підтвердження — mymind <span class="src">04·[M10]</span> <span class="tag vid">🎬</span>; «Змінити» — YouTube Android <span class="src">05·[Y2]</span> <span class="tag pub">🌐</span>.</li>
+        <li>Назву до збереження показують Telegram і Notion; хвости сайтів відрізаємо <span class="tag own">👤</span>.</li>
+        <li>Категорія як посилання, як «View saved»; необов'язкова нотатка, як «Add a note» у Maps <span class="tag own">👤</span>.</li>
+      </ul>
+    </div>
+    <div class="card key">
+      <p class="kicker">Механізм 2 · К4</p>
+      <h4>«Скасувати» в тому самому повідомленні</h4>
+      <p>Картка створюється одразу, «Скасувати» її видаляє.</p>
+      <ul>
+        <li>Знімає ризик «вставка будь-де одразу зберігає» (бриф §3.1).</li>
+        <li>Серед еталонів так робить лише Gmail <span class="src">05·[G1]</span> <span class="tag pub">🌐</span>; серед конкурентів — ніхто, і mymind теж <span class="tag own">👤</span>.</li>
+        <li>Що людину лякає випадкове збереження — <span class="tag warn">⚠️ не підтверджено</span>.</li>
+      </ul>
+    </div>
+    <div class="card key">
+      <p class="kicker">Механізм 3 · К5–К7</p>
+      <h4>Пошук стартує з недавнього й не буває глухим кутом</h4>
+      <p>До введення — «Нещодавно додане». Нічого не знайшлося — нечіткі збіги і «Шукали лише у „Фільмах“. Шукати всюди?».</p>
+      <ul>
+        <li>Недавнє на старті — Linear <span class="src">05·[L2]</span>; схожі результати — Gmail <span class="src">05·[G2]</span> <span class="tag pub">🌐</span>.</li>
+        <li>Пігулки-фільтри — mymind <span class="tag vid">🎬</span>; «Reset» — Slack <span class="tag own">👤</span>.</li>
+        <li>Цілі слова вище за нечіткі збіги — Raycast 2026 <span class="src">03·[A10]</span> <span class="tag pub">🌐</span>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Один, що не спрацює</h3>
+  <div class="cards">
+    <div class="card no">
+      <p class="kicker">Не беремо</p>
+      <h4>«Збережене» як черга справ зі статусами (Slack Later)</h4>
+      <p>Колишній Later мав статуси й нагадування <span class="src">05·[S3]</span> <span class="tag ext">📰</span>. Тепер Slack сам розділив: «To-dos is for tasks, and Saved is for everything else» <span class="tag own">👤</span>. Шухляда — архів, нагадувань у MVP немає (бриф §3.3), єдиний статус — «Вже переглянуто».</p>
+    </div>
+    <figure>
+      <a href="screens/own/slack/03-saved-list.png"><img src="screens/own/slack/03-saved-list.png" alt="Slack Saved: банер To-dos is for tasks, and Saved is for everything else" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Slack Saved.</strong> Банер про розділення збереженого й справ. <span class="src path">own/slack/03-saved-list</span></figcaption>
+    </figure>
+  </div>
+
+  <!-- ============ 3 ============ -->
+  <h2 id="patterns"><span class="num">3</span>Патерни</h2>
+  <p class="quote">Ключова задача: людина за кілька секунд кладе посилання в одне місце і потім одним пошуком знаходить його, навіть не пам'ятаючи, де й коли зберегла.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Патерн</th><th scope="col">Хто вирішує, куди лягає</th><th scope="col">Як знаходять</th><th scope="col">Приклад</th><th scope="col">Для нас</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1. Захоплення з автосортуванням</th><td>система, одразу</td><td>категорія або пошук</td><td>mymind, YouTube Android</td><td><strong style="color:var(--accent)">обраний</strong></td></tr>
+        <tr><th scope="row">2. Розкладання при збереженні</th><td>людина, до збереження</td><td>відкрити папку</td><td>Maps, Raindrop, Pinterest</td><td>ні — з'їдає 5 секунд</td></tr>
+        <tr><th scope="row">3. Спершу пошук</th><td>ніхто</td><td>лише пошук</td><td>Linear, Raycast</td><td>другий, за умови</td></tr>
+        <tr><th scope="row">4. Хронологічна стрічка</th><td>ніхто</td><td>гортати</td><td>Telegram «Збережене»</td><td>ні — від неї тікають</td></tr>
+        <tr><th scope="row">5. Черга зі статусами</th><td>людина, після</td><td>за статусом</td><td>Pocket, Slack Later</td><td>не підходить</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Опис кожного патерну — як працює, коли підходить і коли ламається — у <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/06-patterns.md">06-patterns</a>.</p>
+
+  <div class="cards">
+    <div class="card key">
+      <p class="kicker">Обраний</p>
+      <h4>Захоплення з автосортуванням</h4>
+      <ul>
+        <li><strong>Лише він вкладається в 5 секунд</strong> (бриф §9): <code>Ctrl+V</code> з будь-якого екрана — одна дія без питань. Протилежне, вибір списку до збереження, видно в Maps і YouTube <span class="tag own">👤</span>; скільки часу це забирає, не вимірювали <span class="tag warn">⚠️</span>.</li>
+        <li><strong>Бриф уже описує саме його:</strong> 7 категорій, вгадуємо за доменом, змінюємо одним кліком (§3.2); обгортки розгортаємо (§3.1).</li>
+        <li><strong>Аудиторія тікає від протилежного:</strong> «Notion — занадто складно; закладки — звалище» (§2). І це найпростіша реалізація (§4).</li>
+      </ul>
+      <p class="note">Умова: без механізмів 1 і 2 помилку вгадування не помітять.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Другий, за умови</p>
+      <h4>Спершу пошук</h4>
+      <p>Якщо на тестах люди ігноруватимуть категорії, головним екраном стає пошук, а категорії — фільтрами. <span class="tag warn">⚠️ не підтверджено</span></p>
+      <p class="kicker" style="margin-top:18px">Не підходить</p>
+      <h4>Черга зі статусами</h4>
+      <p>Архів, а не список справ; нагадувань у MVP немає; Pocket закрили, Slack розділив «Saved» і «To-dos».</p>
+    </div>
+    <figure>
+      <a href="screens/own/google-maps/02-save-pick-list.png"><img src="screens/own/google-maps/02-save-pick-list.png" alt="Google Maps: перед збереженням треба обрати список" loading="lazy"></a>
+      <figcaption><span class="tag own">👤 власний акаунт</span> <strong>Патерн 2 у Maps.</strong> Перш ніж зберегти, треба обрати список. <span class="src path">own/google-maps/02-save-pick-list</span></figcaption>
+    </figure>
+  </div>
+
+  <!-- ============ 4 ============ -->
+  <h2 id="conclusions"><span class="num">4</span>Висновки: прогалини і гіпотези</h2>
+  <p class="lead">Кожна гіпотеза — припущення <span class="tag warn">⚠️</span>, яке перевіряємо на клікабельному прототипі. Планка з брифу §9: додати до 5 секунд, знайти до 10.</p>
+
+  <div class="table-wrap">
+    <table class="hyp">
+      <thead><tr><th scope="col">#</th><th scope="col">Прогалина</th><th scope="col">Гіпотеза</th><th scope="col">Як перевірити</th><th scope="col">Звідки</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ніхто з конкурентів не показує, куди лягло посилання, і не дає виправити <span class="tag own">👤</span> <span class="tag pub">🌐</span></td><td>Назва, категорія і «Змінити» в повідомленні — людина не піде перевіряти список і виправить категорію одразу</td><td>чи відкривають список після збереження; скільки категорій виправлено з повідомлення</td><td>Конкуренти · патерн 3; Бенчмарк · механізм 1</td></tr>
+        <tr><td>2</td><td>«Скасувати» в повідомленні — лише Gmail; немає ні в еталонах, ні в mymind <span class="tag pub">🌐</span> <span class="tag own">👤</span></td><td>«Скасувати» на кілька секунд — вставка будь-де перестане лякати</td><td>тест із випадковою вставкою; питання після</td><td>Бенчмарк · механізм 2</td></tr>
+        <tr><td>3</td><td>Порожній пошук — глухий кут у Linear, Slack, Maps <span class="tag own">👤</span></td><td>Нечіткі збіги і «Шукати всюди?» — знайдуть до 10 с навіть з одруківкою</td><td>завдання з одруківкою і ввімкненим фільтром; час</td><td>Бенчмарк · механізм 3; Конкуренти · відмінність 2</td></tr>
+        <tr><td>4</td><td>У вебі Maps і YouTube не шукають серед свого; у Telegram лише текст <span class="tag own">👤</span> <span class="tag pub">🌐</span></td><td>Пошук серед свого як головна дія з будь-якого місця — знайдуть, не пам'ятаючи, де зберегли</td><td>«знайди те, що зберегли минулого тижня» без назви</td><td>Конкуренти · патерн 2; Бенчмарк · К6–К7</td></tr>
+        <tr><td>5</td><td>Ринок зберігає з розширення й телефона, у нас лише веб <span class="tag pub">🌐</span></td><td>З відкритою вкладкою <code>Ctrl+V</code> вкладається в 5 с; з перемиканням вкладки — <span class="tag warn">⚠️ не підтверджено</span></td><td>час «скопіював → бачу підтвердження»</td><td>Конкуренти · патерн 1</td></tr>
+        <tr><td>6</td><td>Назви з обгорток і з хвостами сайтів <span class="tag own">👤</span></td><td>Розгортання й обрізання хвостів дадуть впізнавану назву й правильнішу категорію</td><td>набір реальних посилань з LinkedIn, Google, Facebook</td><td>Бенчмарк · побічна знахідка; бриф §3.1</td></tr>
+        <tr><td>7</td><td>Немає українського менеджера з автоназвою й теплим тоном <span class="tag pub">🌐</span> <span class="tag own">👤</span></td><td>Українська, «ти» і теплий тон — оберуть Шухляду. <span class="tag warn">⚠️ не підтверджено</span></td><td>питання на тестах і інтерв'ю</td><td>Конкуренти · відмінність 3</td></tr>
+        <tr><td>8</td><td>Архів може зникнути: Pocket видалив дані <span class="tag pub">🌐</span></td><td>Певність, що архів можна забрати, — більше довіри. <span class="tag warn">⚠️ не підтверджено</span>; експорт не в MVP</td><td>після MVP, на інтерв'ю</td><td>Конкуренти · Pocket; бриф §3.6</td></tr>
+        <tr><td>9</td><td>Ринок розділився на «структуру» і «нічого не впорядковуй» <span class="tag pub">🌐</span></td><td>7 категорій, що вгадуються самі, — порядок без роботи. Влучність вгадування <span class="tag warn">⚠️ не підтверджено</span></td><td>частка правильно вгаданих категорій</td><td>Конкуренти · відмінність 1; Патерни</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Що лишилося відкритим</h3>
+  <ul>
+    <li>Питання 1 і 3 з матриці 04 і правила Material Design для повідомлень — PM відклала.</li>
+    <li>Чи розгортає Raindrop посилання-обгортки — у довідках нічого, ймовірно зберігає як є. <span class="tag warn">⚠️ не підтверджено</span></li>
+  </ul>
+
+  <footer>
+    Джерело сторінки — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/research.md">research/research.md</a>. Нотатки: <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md">03</a> · <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md">04</a> · <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/05-benchmark.md">05</a> · <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/06-patterns.md">06</a>. Скріни — <code>research/screens/</code>.
+  </footer>
+</main>
+</body>
+</html>
