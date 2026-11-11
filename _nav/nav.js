@@ -6,6 +6,7 @@
  * де ROOT — шлях від сторінки до кореня репо: "./" для кореня,
  * "../" для research/page.html, "../../" для research/screens/page.html.
  * Скрипт сам підтягує _nav/nav.css, _nav/tree.js і іконку сайту favicon.svg.
+ * Для темної сторінки додай клас на <html class="nav-dark"> — навігатор стане темним.
  */
 (function () {
   var script = document.currentScript;
@@ -25,8 +26,14 @@
 
   function markCurrent(nav) {
     var here = normalize(location.href);
-    nav.querySelectorAll(".repo-nav__link").forEach(function (a) {
-      var on = normalize(a.href) === here;
+    var links = nav.querySelectorAll(".repo-nav__link");
+    // Якщо жоден пункт не збігся разом з #якорем (якір усередині сторінки,
+    // а не стан екрана в дереві) — порівнюємо без якоря.
+    var exact = Array.prototype.some.call(links, function (a) { return normalize(a.href) === here; });
+    if (!exact) here = here.replace(/#.*$/, "");
+    links.forEach(function (a) {
+      var target = exact ? normalize(a.href) : normalize(a.href).replace(/#.*$/, "");
+      var on = target === here;
       a.classList.toggle("is-current", on);
       if (on) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");

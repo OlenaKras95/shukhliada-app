@@ -68,7 +68,34 @@
   font-weight: 600;
 }
 
+/* Темний варіант для темних сторінок: <html class="nav-dark"> */
+.nav-dark .repo-nav {
+  background: #18181b;
+  border-right-color: #2c2c31;
+  color: #d8d8dd;
+}
+.nav-dark .repo-nav__head,
+.nav-dark .repo-nav__link {
+  color: #d8d8dd;
+}
+.nav-dark .repo-nav__branch {
+  color: #8a8a93;
+}
+.nav-dark .repo-nav__link:hover {
+  background: #26262b;
+}
+.nav-dark .repo-nav__link:focus-visible {
+  outline-color: #e8916b;
+}
+.nav-dark .repo-nav__link.is-current {
+  background: #2e2e34;
+  color: #fff;
+}
+
 @media (max-width: 720px) {
+  .nav-dark .repo-nav {
+    border-bottom-color: #2c2c31;
+  }
   .has-repo-nav body {
     margin-left: 0;
   }
