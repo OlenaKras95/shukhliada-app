@@ -32,8 +32,9 @@
     var exact = Array.prototype.some.call(links, function (a) { return normalize(a.href) === here; });
     if (!exact) here = here.replace(/#.*$/, "");
     links.forEach(function (a) {
-      var target = exact ? normalize(a.href) : normalize(a.href).replace(/#.*$/, "");
-      var on = target === here;
+      // У запасному режимі підсвічуємо лише сторінку, а не її пункти-розділи з #якорем.
+      var on = exact ? normalize(a.href) === here
+                     : (a.hash === "" && normalize(a.href) === here);
       a.classList.toggle("is-current", on);
       if (on) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
