@@ -45,9 +45,71 @@
   color: #777;
 }
 
+.repo-nav__row {
+  display: flex;
+  align-items: center;
+  padding-left: calc(var(--depth, 0) * 14px);
+}
+
+/* Пункт без підпунктів отримує порожнє місце під стрілку, щоб текст стояв рівно. */
+.repo-nav__row.is-leaf::before {
+  content: "";
+  flex: 0 0 18px;
+}
+
+.repo-nav__toggle {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.repo-nav__toggle::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: 0.7;
+  transition: transform 0.15s ease;
+}
+
+.repo-nav__toggle[aria-expanded="true"]::before {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repo-nav__toggle::before { transition: none; }
+}
+
+.repo-nav__toggle:hover {
+  background: #e8e8e8;
+}
+
+.repo-nav__toggle:focus-visible {
+  outline: 2px solid #555;
+  outline-offset: -2px;
+}
+
+.repo-nav__list[hidden] {
+  display: none;
+}
+
 .repo-nav__link {
   display: block;
-  padding: 4px 8px 4px calc(8px + var(--depth, 0) * 14px);
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 4px 8px;
   border-radius: 4px;
   color: #222;
   text-decoration: none;
@@ -81,10 +143,12 @@
 .nav-dark .repo-nav__branch {
   color: #8a8a93;
 }
-.nav-dark .repo-nav__link:hover {
+.nav-dark .repo-nav__link:hover,
+.nav-dark .repo-nav__toggle:hover {
   background: #26262b;
 }
-.nav-dark .repo-nav__link:focus-visible {
+.nav-dark .repo-nav__link:focus-visible,
+.nav-dark .repo-nav__toggle:focus-visible {
   outline-color: #e8916b;
 }
 .nav-dark .repo-nav__link.is-current {
