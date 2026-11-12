@@ -14,14 +14,12 @@
  */
 window.NAV_TREE = [
   { title: "Старт", path: "index.html" },
-  { branch: "Ресерч", items: [
-    { title: "Підсумок ресерчу", path: "research/research.html", children: [
-      { title: "Звідки дані", path: "research/research.html#data" },
-      { title: "Конкуренти", path: "research/research.html#competitors" },
-      { title: "Бенчмарк", path: "research/research.html#benchmark" },
-      { title: "Патерни", path: "research/research.html#patterns" },
-      { title: "Висновки", path: "research/research.html#conclusions" },
-      { title: "Джерела", path: "research/research.html#sources" }
-    ] }
+  { title: "Ресерч", path: "research/research.html", children: [
+    { title: "Звідки дані", path: "research/research.html#data" },
+    { title: "Конкуренти", path: "research/research.html#competitors" },
+    { title: "Бенчмарк", path: "research/research.html#benchmark" },
+    { title: "Патерни", path: "research/research.html#patterns" },
+    { title: "Висновки", path: "research/research.html#conclusions" },
+    { title: "Джерела", path: "research/research.html#sources" }
   ] }
 ];
