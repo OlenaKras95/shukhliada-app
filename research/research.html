@@ -88,6 +88,21 @@
     .hyp td:first-child { font-weight: 700; color: var(--accent); width: 36px; }
     .hyp td:nth-child(3) { min-width: 360px; }
     .hyp b { color: var(--accent); font-weight: 700; }
+    .tldr { background: linear-gradient(180deg, var(--accent-soft), var(--surface) 70%); border: 1px solid var(--accent); border-radius: var(--radius); padding: 24px 28px; margin: 28px 0 8px; }
+    .tldr h2 { margin: 0 0 4px; padding: 0; border: 0; font-size: 22px; }
+    .tldr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px 28px; margin-top: 12px; }
+    .tldr-grid h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+    .tldr-grid ol, .tldr-grid ul { margin: 0; padding-left: 20px; font-size: 14.5px; }
+    .tldr-grid li { margin-bottom: 6px; }
+    .tldr-grid p { font-size: 14.5px; }
+    .prio td:nth-child(3), .prio td:nth-child(4), .prio td:nth-child(5), .prio thead th:nth-child(3), .prio thead th:nth-child(4), .prio thead th:nth-child(5) { text-align: center; }
+    .prio td:first-child { font-weight: 700; color: var(--accent); }
+    .prio tr.top td { background: rgba(232, 145, 107, 0.06); }
+    .where { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+    .where.proto { color: var(--own); background: rgba(143, 199, 163, 0.12); }
+    .where.after { color: var(--warn); background: rgba(232, 196, 107, 0.12); }
+    .where.tech { color: var(--pub); background: rgba(143, 180, 232, 0.12); }
+    .risk td:first-child { font-weight: 600; width: 150px; }
     .sources td:first-child { white-space: nowrap; }
     .sources tr:target td { background: var(--accent-soft); }
     footer { margin-top: 72px; color: var(--muted); font-size: 13px; }
@@ -108,7 +123,36 @@
   <h1>Ресерч Шухляди</h1>
   <p class="lead">Підсумок кроків 03–07: хто вже розв'язує задачу «зберегти посилання й знайти потім», що кажуть користувачі, як у найкращих продуктах завершується збереження й пошук, який патерн ляже на наш контекст і що з цього перевіряти на прототипі. Джерело тексту — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/research.md">research.md</a>, бриф — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/CLAUDE.md">CLAUDE.md</a>.</p>
 
+  <section class="tldr" id="tldr" aria-labelledby="tldr-title">
+    <h2 id="tldr-title">TL;DR</h2>
+    <p class="note" style="margin:0">Читається за хвилину. Подробиці й джерела — у розділах нижче.</p>
+    <div class="tldr-grid">
+      <div>
+        <h3>3 головні інсайти</h3>
+        <ol>
+          <li><strong>Після збереження ринок мовчить.</strong> Повного ланцюжка «видно → де лежить → змінити → скасувати» немає ні в кого, навіть в еталонах. <a href="#benchmark">Бенчмарк</a></li>
+          <li><strong>Ринок зберігає поза вебом</strong> — розширення, «Поділитися» на телефоні. У нас лише вебзастосунок, і це головний ризик. <a href="#risk">Ризик</a></li>
+          <li><strong>Впорядковувати вручну не хочуть</strong> («tedious… too much work»). Автокатегорію цінують, коли вона влучає. А шукати серед свого незручно, і порожній пошук — глухий кут. <a href="#competitors">Конкуренти</a></li>
+        </ol>
+      </div>
+      <div>
+        <h3>1 ключове рішення</h3>
+        <p>Патерн <strong>«захоплення з автосортуванням»</strong>: <code>Ctrl+V</code>, і все. Категорію вгадує система, підтвердження показує назву й категорію та дає «Змінити» і «Скасувати». <a href="#patterns">Патерни</a></p>
+      </div>
+      <div>
+        <h3>3 гіпотези на прототип</h3>
+        <ul>
+          <li><a href="#h5">Г5</a> — збереження з окремої вкладки вкладається в 5 с?</li>
+          <li><a href="#h9">Г9</a> — автокатегорію приймають, «Змінити» тиснуть рідко?</li>
+          <li><a href="#h1">Г1</a> — після підтвердження список не йдуть перевіряти?</li>
+        </ul>
+        <p class="note" style="margin-top:8px">Найвищі «ризик × вплив» — <a href="#priority">пріоритет</a>.</p>
+      </div>
+    </div>
+  </section>
+
   <ul class="toc">
+    <li><a href="#tldr">TL;DR</a></li>
     <li><a href="#data">Звідки дані</a></li>
     <li><a href="#competitors">1 · Конкуренти</a></li>
     <li><a href="#benchmark">2 · Бенчмарк</a></li>
@@ -132,7 +176,7 @@
       </tbody>
     </table>
   </div>
-  <p class="note">Код на кшталт <a class="src" href="#s-04-R1">04·R1</a> веде до таблиці <a href="#sources">Джерела</a>; число — нотатка, з якої взято джерело (<a href="https://github.com/OlenaKras95/shukhliada-app/tree/main/research/notes">research/notes/</a>). Перелік усіх скрінів — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/screens/README.md">screens/README.md</a>. Клік по скріну відкриває оригінал.</p>
+  <p class="note">Код на кшталт <a class="src" href="#s-04-R1">04·R1</a> веде до таблиці <a href="#sources">Джерела</a>; число — нотатка, з якої взято джерело (<a href="https://github.com/OlenaKras95/shukhliada-app/tree/main/research/notes">research/notes/</a>), а <a class="src" href="#s-res-W1">res·W1</a> — джерело, додане прямо в підсумок. Перелік усіх скрінів — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/screens/README.md">screens/README.md</a>. Клік по скріну відкриває оригінал.</p>
 
   <!-- ============ 1 ============ -->
   <h2 id="competitors"><span class="num">1</span>Конкуренти</h2>
@@ -400,7 +444,7 @@
 
   <!-- ============ 4 ============ -->
   <h2 id="conclusions"><span class="num">4</span>Висновки: прогалини → гіпотези</h2>
-  <p class="lead">Формат: <strong>Якщо ми зробимо X, то Y, бо Z. Перевіримо: …</strong> Кожна гіпотеза — припущення <span class="tag warn">⚠️</span>, яке перевіряємо на клікабельному прототипі. Планки <span class="tag brief">бриф §9</span>: додати до 5 с, знайти до 10 с.</p>
+  <p class="lead">Формат: <strong>Якщо ми зробимо X, то Y, бо Z. Перевіримо: …</strong> Кожна гіпотеза — припущення <span class="tag warn">⚠️</span>; більшість перевіряємо на клікабельному прототипі, решту після нього — див. <a href="#priority">пріоритет</a>. Планки <span class="tag brief">бриф §9</span>: додати до 5 с, знайти до 10 с.</p>
 
   <div class="table-wrap">
     <table class="hyp">
@@ -410,7 +454,7 @@
         <tr id="h2"><td>2</td><td>«Скасувати» в повідомленні — лише Gmail <a class="src" href="#s-05-G1">05·G1</a>; немає ні в еталонах, ні в mymind <span class="tag own">👤</span></td><td><b>Якщо</b> дати «Скасувати» на кілька секунд у тому самому повідомленні, <b>то</b> людина вставлятиме сміливіше й не прибиратиме випадкові картки вручну, <b>бо</b> помилка виправляється одним кліком там, де сталася. <b>Перевіримо:</b> сценарій з випадковою вставкою — чи знайшли «Скасувати» без підказки і за скільки секунд. <span class="tag warn">⚠️</span></td><td>Бенчмарк · механізм 2, контрольна точка (К4)</td></tr>
         <tr id="h3"><td>3</td><td>Порожній пошук — глухий кут у Linear, Slack, Maps; схожі результати лише в Gmail <a class="src" href="#s-05-G2">05·G2</a> <span class="tag own">👤</span></td><td><b>Якщо</b> замість «нічого не знайдено» показати нечіткі збіги і «Шукати всюди?», <b>то</b> людина знайде посилання до 10 с навіть з одруківкою чи ввімкненим фільтром, <b>бо</b> порожній екран перестає бути кінцем. <b>Перевіримо:</b> завдання з одруківкою і фільтром — медіана часу ≤ 10 с</td><td>Бенчмарк · механізм 3 (К7); Конкуренти · відмінність 2</td></tr>
         <tr id="h4"><td>4</td><td>У вебі Maps і YouTube не шукають серед свого; у Telegram лише текст і прокрутка <span class="tag own">👤</span> <a class="src" href="#s-04-T2">04·T2</a>. Відгуки: «chaos», «can never find again» <a class="src" href="#s-07-V1">07·V1</a> <a class="src" href="#s-07-V2">07·V2</a></td><td><b>Якщо</b> пошук по своєму доступний з будь-якого місця (<code>Ctrl+K</code> / <code>/</code>) і стартує з «Нещодавно доданого», <b>то</b> людина знайде посилання, не пам'ятаючи, де й коли зберегла, <b>бо</b> все лежить в одному місці, а пошук починається з недавнього. <b>Перевіримо:</b> «знайди те, що зберегли минулого тижня» без назви — час ≤ 10 с і кількість дій</td><td>Конкуренти · патерн 2, відгуки; Бенчмарк · К6–К7; Патерни · другий</td></tr>
-        <tr id="h5"><td>5</td><td>Ринок зберігає з розширення й телефона, у нас лише веб <a class="src" href="#s-04-R2">04·R2</a> <a class="src" href="#s-04-M2">04·M2</a>. Відгуки: зайвий крок — «too lazy and omit» <a class="src" href="#s-07-V2">07·V2</a>, «choose the same database every time» <a class="src" href="#s-07-V4">07·V4</a></td><td><b>Якщо</b> <code>Ctrl+V</code> з будь-якого екрана відкритої вкладки зберігає без жодного питання, <b>то</b> додавання вкладеться в 5 с, <b>бо</b> немає кроку «куди покласти». <b>Перевіримо:</b> час «скопіював → бачу підтвердження» з перемиканням вкладки і без. З перемиканням — <span class="tag warn">⚠️ не підтверджено</span></td><td>Конкуренти · патерн 1, відгуки; відкрите питання 1 у 04</td></tr>
+        <tr id="h5"><td>5</td><td>Ринок зберігає з розширення й телефона, у нас лише веб <a class="src" href="#s-04-R2">04·R2</a> <a class="src" href="#s-04-M2">04·M2</a>. Відгуки: зайвий крок — «too lazy and omit» <a class="src" href="#s-07-V2">07·V2</a>, «choose the same database every time» <a class="src" href="#s-07-V4">07·V4</a></td><td><b>Якщо</b> <code>Ctrl+V</code> з будь-якого екрана відкритої вкладки зберігає без жодного питання, <b>то</b> додавання вкладеться в 5 с, <b>бо</b> немає кроку «куди покласти». <b>Перевіримо:</b> час «скопіював → бачу підтвердження» з перемиканням вкладки і без. З перемиканням — <span class="tag warn">⚠️ не підтверджено</span></td><td>Конкуренти · патерн 1, відгуки; відкрите питання 1 у 04. <a href="#risk"><strong>Головний ризик</strong></a></td></tr>
         <tr id="h6"><td>6</td><td>Назви з обгорток і з хвостами сайтів <a class="src" href="#s-04-T5">04·T5</a> <a class="src" href="#s-04-N10">04·N10</a> <span class="tag own">👤</span></td><td><b>Якщо</b> розгортати обгортки й відрізати хвости сайтів, <b>то</b> назва на картці буде впізнаваною, а категорія — правильною частіше, <b>бо</b> обидві беремо зі справжньої сторінки. <b>Перевіримо:</b> набір посилань з LinkedIn, Google, Facebook — частка правильних назв і категорій до й після</td><td>Бенчмарк · побічна знахідка; <span class="tag brief">бриф §3.1</span></td></tr>
         <tr id="h7"><td>7</td><td>Немає українського менеджера з автоназвою й теплим тоном <a class="src" href="#s-04-R1">04·R1</a> <a class="src" href="#s-04-N6">04·N6</a> <a class="src" href="#s-own-linkly">own/linkly</a></td><td><b>Якщо</b> інтерфейс український, на «ти» й теплий, <b>то</b> людина з аудиторії обере Шухляду замість міжнародного аналога, <b>бо</b> не треба перекладати в голові, а тон особистий, не робочий. <b>Перевіримо:</b> питання на тестах та інтерв'ю. <span class="tag warn">⚠️ у відгуках доказів немає</span></td><td>Конкуренти · відмінність 3</td></tr>
         <tr id="h8"><td>8</td><td>Архів може зникнути: Pocket видалив дані <a class="src" href="#s-03-A17">03·A17</a>; «hundreds of links and now they were gone» <a class="src" href="#s-07-V1">07·V1</a></td><td><b>Якщо</b> людина знає, що свій архів зможе забрати, <b>то</b> довірить Шухляді більше посилань, <b>бо</b> зникає страх втратити все разом із сервісом. <b>Перевіримо:</b> після MVP, на інтерв'ю; експорт — перший кандидат після MVP. <span class="tag warn">⚠️</span></td><td>Конкуренти · Pocket, відгуки; <span class="tag brief">бриф §3.6</span></td></tr>
@@ -419,8 +463,48 @@
     </table>
   </div>
 
+  <h3 id="priority">Пріоритет гіпотез: ризик × вплив</h3>
+  <p class="note"><strong>Ризик 1–3</strong> — наскільки ймовірно, що гіпотеза хибна (3 — даних майже немає, 1 — є прямі приклади в еталонах). <strong>Вплив 1–3</strong> — що станеться з ключовою задачею, якщо гіпотеза хибна (3 — ламається «зберегти до 5 с» або «знайти до 10 с», 1 — косметика). Оцінки — судження за даними ресерчу, а не вимір <span class="tag warn">⚠️</span>.</p>
+  <div class="table-wrap">
+    <table class="prio">
+      <thead><tr><th scope="col">#</th><th scope="col">Гіпотеза коротко</th><th scope="col">Ризик</th><th scope="col">Вплив</th><th scope="col">Пріоритет</th><th scope="col">Де перевіряємо</th><th scope="col">Чому такі оцінки</th></tr></thead>
+      <tbody>
+        <tr class="top"><td><a href="#h5">5</a></td><td>Збереження лише у вебзастосунку вкладається в 5 с</td><td>3</td><td>3</td><td><span class="sc sc-1">9</span></td><td><span class="where proto">прототип · топ-3</span></td><td>Ринок робить навпаки; з перемиканням вкладки даних немає. Якщо хибна — ламається «додати до 5 с». <a href="#risk">Ризик</a></td></tr>
+        <tr class="top"><td><a href="#h9">9</a></td><td>Автокатегорія дає порядок без роботи</td><td>3</td><td>3</td><td><span class="sc sc-1">9</span></td><td><span class="where proto">прототип · топ-3</span><br><span class="note">влучність — окремо, на реальних посиланнях</span></td><td>Влучність невідома, а на ній тримається обраний патерн</td></tr>
+        <tr class="top"><td><a href="#h1">1</a></td><td>Підтвердження з категорією і «Змінити» знімає потребу перевіряти список</td><td>2</td><td>3</td><td><span class="sc sc-2">6</span></td><td><span class="where proto">прототип · топ-3</span></td><td>Є в mymind і еталонах, але не в нашому сценарії; умова обраного патерну</td></tr>
+        <tr><td><a href="#h7">7</a></td><td>Українська і «ти» — причина обрати Шухляду</td><td>3</td><td>2</td><td><span class="sc sc-2">6</span></td><td><span class="where after">лише після MVP</span></td><td>Доказів у відгуках немає; вибір між продуктами видно тільки на живому продукті</td></tr>
+        <tr><td><a href="#h8">8</a></td><td>Можливість забрати архів підвищує довіру</td><td>3</td><td>2</td><td><span class="sc sc-2">6</span></td><td><span class="where after">лише після MVP</span></td><td>Експорт — перший кандидат після MVP <span class="tag brief">бриф §3.6</span>; довіра проявляється з часом</td></tr>
+        <tr><td><a href="#h2">2</a></td><td>«Скасувати» робить вставку сміливішою</td><td>2</td><td>2</td><td><span class="sc sc-3">4</span></td><td><span class="where proto">прототип</span></td><td>Є в Gmail; що випадкова вставка лякає, не підтверджено. Якщо хибна — зайва кнопка</td></tr>
+        <tr><td><a href="#h3">3</a></td><td>Нечіткі збіги і «Шукати всюди?» замість глухого кута</td><td>2</td><td>2</td><td><span class="sc sc-3">4</span></td><td><span class="where proto">прототип</span></td><td>Є в Gmail; стосується лише пошуку з одруківкою чи фільтром</td></tr>
+        <tr><td><a href="#h4">4</a></td><td>Пошук з будь-якого місця, старт з «Нещодавно доданого»</td><td>1</td><td>3</td><td><span class="sc sc-4">3</span></td><td><span class="where proto">прототип</span></td><td>Прямі приклади в Linear, Raycast, Notion</td></tr>
+        <tr><td><a href="#h6">6</a></td><td>Розгортання обгорток дає впізнавані назви</td><td>1</td><td>2</td><td><span class="sc sc-5">2</span></td><td><span class="where tech">технічно, етап 3</span></td><td>Потрібні справжні сторінки — на тестових даних не перевірити; рішення вже в <span class="tag brief">бриф §3.1</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="summary"><strong>Топ-3 на прототип: Г5, Г9, Г1.</strong> Г2–Г4 — на прототипі, якщо дозволяє час. Г7 (мова) і Г8 (експорт) — лише після MVP. Г6 — технічна перевірка на етапі 3.</p>
+
+  <h3 id="risk">Головний ризик: збереження лише у вебзастосунку (Г5)</h3>
+  <p><strong>Чому головний.</strong> Найвищий пріоритет (9). Суперечить патерну ринку №1: збереження живе в розширенні, «Поділитися» чи застосунку <a class="src" href="#s-04-R2">04·R2</a> <a class="src" href="#s-04-M2">04·M2</a> <a class="src" href="#s-04-N2">04·N2</a>. Кожен зайвий крок люди пропускають: <q>too lazy and omit</q> <a class="src" href="#s-07-V2">07·V2</a>. За брифом треба скопіювати, перейти на вкладку Шухляди, вставити <span class="tag brief">бриф §3.1</span>, а розширення відкладене <span class="tag brief">§3.6</span>. На телефоні шлях ще довший.</p>
+  <div class="table-wrap">
+    <table class="risk">
+      <thead><tr><th scope="col">Варіант</th><th scope="col">Як працює</th><th scope="col">Де працює</th><th scope="col">Обмеження</th></tr></thead>
+      <tbody>
+        <tr><td>Як у брифі</td><td>Скопіювати → вкладка Шухляди → <code>Ctrl+V</code></td><td>Будь-де</td><td>Перемикання вкладки щоразу; на телефоні довше</td></tr>
+        <tr><td>Букмарклет<br><span class="note">десктоп</span></td><td>Закладка в панелі браузера з коротким JavaScript. Натиснув на будь-якій сторінці — відкривається Шухляда з її адресою: <code>…/save?url=&lt;адреса&gt;</code>, далі той самий потік, що після <code>Ctrl+V</code></td><td>Десктопні браузери; потрібна лише сторінка <code>save</code>, без магазину розширень</td><td>Закладку треба один раз перетягнути в панель — крок онбордингу. Бере лише адресу поточної вкладки. CSP сайтів колись блокувала букмарклети у Firefox; з версії 69 вони запускаються, але довантажене CSP ще може заблокувати <a class="src" href="#s-res-W4">res·W4</a>, тому наш нічого не довантажує, а лише відкриває Шухляду. Чи працює на всіх сайтах — <span class="tag warn">⚠️ не підтверджено</span>. На телефоні незручний</td></tr>
+        <tr><td>Web Share Target<br><span class="note">Android</span></td><td>Шухляда як PWA стає пунктом меню «Поділитися»: поле <code>share_target</code> у маніфесті, посилання приходить на сторінку <code>save</code> <a class="src" href="#s-res-W1">res·W1</a></td><td>Chrome на Android (з версії 76) і браузери на тій самій основі, <strong>лише після встановлення</strong> PWA <a class="src" href="#s-res-W1">res·W1</a> <a class="src" href="#s-res-W2">res·W2</a></td><td><strong>На iPhone і iPad не працює</strong>: Safari не приймає «Поділитися» для вебзастосунків, запит у WebKit відкритий з 2019 року <a class="src" href="#s-res-W3">res·W3</a>. Firefox на Android теж ні <a class="src" href="#s-res-W2">res·W2</a>. Посилання часто приходить у полі тексту, а не адреси. Потрібен адаптив, а він за брифом після десктопа <span class="tag brief">§5</span></td></tr>
+        <tr><td>iPhone</td><td>Простого вебшляху немає — копіювати й вставити</td><td>—</td><td>Можливий обхід через застосунок «Команди» (Shortcuts) — <span class="tag warn">⚠️ не перевіряли</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="summary">
+    <p><strong>Відкрите питання до PM</strong> (бриф не змінюємо): чи додаємо в MVP другий шлях збереження поза вкладкою Шухляди — букмарклет на десктопі, Web Share Target для Android, чи лишаємо як у брифі?</p>
+    <p>Обидва обходи спираються на одну сторінку <code>save?url=…</code> і не суперечать §3.6, бо це не розширення. Але вони розширюють «тільки у вебзастосунку» з §3.1.</p>
+    <p style="margin:0"><strong>Рішення PM (2026-11-12): вирішуємо після перевірки Г5 на прототипі.</strong> Якщо з перемиканням вкладки людина не вкладається в 5 с, найдешевший кандидат — букмарклет. Web Share Target має сенс разом з адаптивом.</p>
+  </div>
+
   <h3>Що лишається відкритим</h3>
   <ul>
+    <li><strong>Другий шлях збереження (Г5)</strong> — букмарклет і/або Web Share Target; вирішуємо після перевірки Г5 на прототипі (<a href="#risk">деталі</a>).</li>
     <li>Питання 1 і 3 з матриці 04 і правила Material Design для повідомлень — PM відклала.</li>
     <li>Чи розгортає Raindrop посилання-обгортки — у довідках нічого, ймовірно зберігає як є. <span class="tag warn">⚠️ не підтверджено</span></li>
     <li>Відгуки поза App Store і Chrome Web Store (Google Play, Reddit, українські спільноти) не зібрано; як болить саме нашій аудиторії — <span class="tag warn">⚠️ не підтверджено</span>.</li>
@@ -484,6 +568,10 @@
         <tr id="s-07-V3"><td>07·V3</td><td>Telegram, відгуки App Store за рік, 900 <span class="tag pub">🌐</span></td><td><a href="https://apps.apple.com/us/app/telegram-messenger/id686449807?see-all=reviews">apps.apple.com/…/id686449807</a></td><td>— (текст)</td></tr>
         <tr id="s-07-V4"><td>07·V4</td><td>Notion Web Clipper, відгуки Chrome Web Store <span class="tag pub">🌐</span></td><td><a href="https://chromewebstore.google.com/detail/knheggckgoiihginacbkhaalnibhilkk/reviews">chromewebstore…/reviews</a></td><td>— (текст)</td></tr>
         <tr id="s-07-V5"><td>07·V5</td><td>Raindrop.io, відгуки Chrome Web Store <span class="tag pub">🌐</span></td><td><a href="https://chromewebstore.google.com/detail/ldgfbffkinooeloadekpmfoklnobpien/reviews">chromewebstore…/reviews</a></td><td>— (текст)</td></tr>
+        <tr id="s-res-W1"><td>res·W1</td><td>Chrome for Developers, Web Share Target API <span class="tag pub">🌐</span></td><td><a href="https://developer.chrome.com/docs/capabilities/web-apis/web-share-target">developer.chrome.com/…/web-share-target</a></td><td>—</td></tr>
+        <tr id="s-res-W2"><td>res·W2</td><td>Can I use, share_target — підтримка в браузерах <span class="tag pub">🌐</span></td><td><a href="https://caniuse.com/mdn-manifests_webapp_share_target">caniuse.com/mdn-manifests_webapp_share_target</a></td><td>—</td></tr>
+        <tr id="s-res-W3"><td>res·W3</td><td>WebKit Bugzilla 194593, Web Share Target у Safari <span class="tag pub">🌐</span></td><td><a href="https://bugs.webkit.org/show_bug.cgi?id=194593">bugs.webkit.org/show_bug.cgi?id=194593</a></td><td>—</td></tr>
+        <tr id="s-res-W4"><td>res·W4</td><td>Mozilla Bugzilla 1478037, букмарклети і CSP, виправлено у Firefox 69 <span class="tag pub">🌐</span></td><td><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1478037">bugzilla.mozilla.org/show_bug.cgi?id=1478037</a></td><td>—</td></tr>
       </tbody>
     </table>
   </div>
