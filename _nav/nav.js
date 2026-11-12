@@ -69,6 +69,19 @@
     head.textContent = "shukhliada-app";
     nav.appendChild(head);
 
+    // Пункт із children — дропдаун: стрілка ховає/показує підпункти,
+    // клік по назві, як і раніше, відкриває сторінку.
+    // Розгорнуто той пункт, на сторінці якого ми зараз; вибір людини пам'ятаємо.
+    var here = normalize(location.href).replace(/#.*$/, "");
+    var subId = 0;
+
+    function readOpen(key) {
+      try { return localStorage.getItem("repo-nav:" + key); } catch (e) { return null; }
+    }
+    function saveOpen(key, open) {
+      try { localStorage.setItem("repo-nav:" + key, open ? "1" : "0"); } catch (e) { /* без збереження */ }
+    }
+
     function list(items, depth) {
       var ul = document.createElement("ul");
       ul.className = "repo-nav__list";
@@ -81,14 +94,44 @@
           li.appendChild(label);
           li.appendChild(list(item.items || [], depth));
         } else {
+          var hasKids = item.children && item.children.length;
+          var row = document.createElement("div");
+          row.className = "repo-nav__row" + (hasKids ? "" : " is-leaf");
+          row.style.setProperty("--depth", depth);
+
           var a = document.createElement("a");
           a.className = "repo-nav__link";
           a.href = resolve(item.path);
           a.textContent = item.title;
-          a.style.setProperty("--depth", depth);
-          li.appendChild(a);
-          if (item.children && item.children.length) {
-            li.appendChild(list(item.children, depth + 1));
+
+          if (hasKids) {
+            var sub = list(item.children, depth + 1);
+            sub.id = "repo-nav-sub-" + (++subId);
+            var saved = readOpen(item.path);
+            var isHere = normalize(a.href).replace(/#.*$/, "") === here;
+            var open = saved === null ? isHere : saved === "1";
+
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "repo-nav__toggle";
+            btn.setAttribute("aria-controls", sub.id);
+            btn.setAttribute("aria-label", "Розгорнути або згорнути: " + item.title);
+            btn.setAttribute("aria-expanded", open ? "true" : "false");
+            sub.hidden = !open;
+            btn.addEventListener("click", function () {
+              var next = btn.getAttribute("aria-expanded") !== "true";
+              btn.setAttribute("aria-expanded", next ? "true" : "false");
+              sub.hidden = !next;
+              saveOpen(item.path, next);
+            });
+
+            row.appendChild(btn);
+            row.appendChild(a);
+            li.appendChild(row);
+            li.appendChild(sub);
+          } else {
+            row.appendChild(a);
+            li.appendChild(row);
           }
         }
         ul.appendChild(li);
