@@ -34,7 +34,7 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Стартова сторінка | [index.html](./index.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/) |
 | Бриф і правила роботи | [CLAUDE.md](./CLAUDE.md) |
 | Дослідження | [research/](./research/) |
-| Підсумок ресерчу | [research/research.md](./research/research.md) · [research.html](./research/research.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/research/research.html) |
+| Ресерч | [research/research.md](./research/research.md) · [research.html](./research/research.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/research/research.html) |
 | Відгуки користувачів | [research/notes/07-reviews.md](./research/notes/07-reviews.md) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |
