@@ -1,20 +1,34 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" class="nav-dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Шухляда — старт</title>
   <style>
-    body {
-      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      color: #222;
-      background: #fff;
+    :root {
+      --bg: #121214;
+      --surface: #1b1b1f;
+      --line: #313137;
+      --text: #ececef;
+      --muted: #a3a3ad;
+      --accent: #e8916b;
     }
-    main { max-width: 680px; padding: 40px 16px; }
-    h1 { margin: 0 0 8px; font-size: 28px; }
-    .lead { margin: 0 0 24px; color: #555; }
-    h2 { margin: 28px 0 8px; font-size: 18px; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    main { max-width: 680px; padding: 48px 32px; }
+    h1 { margin: 0 0 8px; font-size: 32px; letter-spacing: -0.01em; }
+    .lead { margin: 0 0 24px; color: var(--muted); font-size: 17px; }
+    h2 { margin: 32px 0 8px; font-size: 18px; color: var(--accent); }
+    p { margin: 0 0 12px; }
     ul { padding-left: 20px; }
+    li { margin-bottom: 4px; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    @media (max-width: 720px) { main { padding: 32px 16px; } }
   </style>
   <script src="./_nav/nav.js" data-root="./"></script>
 </head>
@@ -39,6 +53,9 @@
       <li>Пошук, стійкий до одруківок, і фільтри</li>
       <li>Вхід через Google; desktop-first, далі адаптив</li>
     </ul>
+
+    <h2>Дослідження</h2>
+    <p>Конкуренти, бенчмарк, патерни й гіпотези — на сторінці <a href="research/research.html">Підсумок ресерчу</a>.</p>
   </main>
 </body>
 </html>
