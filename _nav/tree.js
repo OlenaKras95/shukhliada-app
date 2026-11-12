@@ -15,6 +15,7 @@
 window.NAV_TREE = [
   { title: "Старт", path: "index.html" },
   { title: "Ресерч", path: "research/research.html", children: [
+    { title: "TL;DR", path: "research/research.html#tldr" },
     { title: "Звідки дані", path: "research/research.html#data" },
     { title: "Конкуренти", path: "research/research.html#competitors" },
     { title: "Бенчмарк", path: "research/research.html#benchmark" },
