@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="uk" class="nav-dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Персони і jobs</title>
+  <meta name="description" content="Чотири персони Шухляди, ієрархія jobs to be done і JTBD-матриця: що підтверджено ресерчем, а що лишається гіпотезою.">
+  <style>
+    :root {
+      --bg: #121214;
+      --surface: #1b1b1f;
+      --surface-2: #232328;
+      --line: #313137;
+      --text: #ececef;
+      --muted: #a3a3ad;
+      --accent: #e8916b;
+      --accent-soft: rgba(232, 145, 107, 0.14);
+      --own: #8fc7a3;
+      --pub: #8fb4e8;
+      --brief: #e3c98f;
+      --warn: #e8c46b;
+      --hyp: #d4a6e8;
+      --s3: #2f5b43; --s2: #4a4430; --s1: #563628;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 32px 96px; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    h1 { font-size: 36px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.01em; }
+    h2 { font-size: 26px; margin: 72px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+    h2 .num { color: var(--accent); margin-right: 10px; }
+    h3 { font-size: 18px; margin: 40px 0 10px; }
+    p { margin: 0 0 14px; }
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 4px; }
+    .lead { color: var(--muted); max-width: 780px; font-size: 17px; }
+    .note { color: var(--muted); font-size: 14px; }
+    .kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+    .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; margin: 16px 0 4px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; padding: 0; list-style: none; }
+    .toc li { margin: 0; }
+    .toc a { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; background: var(--surface); }
+    .toc a:hover { border-color: var(--accent); }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+
+    /* позначки */
+    .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+    .tag.primary { color: #1b1b1f; background: var(--accent); }
+    .tag.secondary { color: var(--muted); background: rgba(163, 163, 173, 0.14); }
+    .tag.q { color: var(--warn); background: rgba(232, 196, 107, 0.14); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .tag.hyp { color: var(--hyp); background: rgba(212, 166, 232, 0.14); }
+    .tag.brief { color: var(--brief); background: rgba(227, 201, 143, 0.12); }
+    .tag.warn { color: var(--warn); background: rgba(232, 196, 107, 0.12); }
+    .tag.new { color: var(--own); background: rgba(143, 199, 163, 0.12); }
+
+    /* таблиці */
+    .table-wrap { overflow-x: auto; margin: 12px 0 8px; border: 1px solid var(--line); border-radius: var(--radius); }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    thead th { background: var(--surface-2); font-size: 13px; color: var(--muted); font-weight: 600; }
+    tbody th { font-weight: 600; background: var(--surface); }
+    tr:last-child td, tr:last-child th { border-bottom: 0; }
+    tr.p1 td, tr.p1 th { background: rgba(232, 145, 107, 0.06); }
+
+    /* картки персон */
+    .personas { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin: 16px 0; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .card.primary { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 45%); grid-column: 1 / -1; }
+    .card h3 { margin: 0 0 4px; font-size: 20px; }
+    .card .who { color: var(--muted); font-size: 14.5px; margin: 6px 0 4px; }
+    .card p, .card li { font-size: 14.5px; }
+    .card ul, .card ol { margin: 4px 0 8px; }
+    .card .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px 28px; }
+    .quote { border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; margin: 14px 0 0; font-size: 15px; }
+    .quote small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .caveat { border: 1px dashed var(--warn); border-radius: 10px; padding: 10px 14px; margin: 12px 0 4px; font-size: 14px; }
+    .caveat strong { color: var(--warn); }
+
+    /* ієрархія jobs */
+    .tree { margin: 16px 0; }
+    .job { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin: 10px 0; }
+    .job.main { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 70%); }
+    .job.hyp { border-style: dashed; }
+    .job h4 { margin: 0 0 4px; font-size: 15px; }
+    .job h4 .id { color: var(--accent); margin-right: 6px; }
+    .job .stmt { margin: 0 0 4px; font-size: 15px; }
+    .job .stmt b { color: var(--accent); font-weight: 600; }
+    .job .meta { color: var(--muted); font-size: 13px; margin: 0; }
+    .group { margin: 24px 0 0 22px; padding-left: 18px; border-left: 2px solid var(--line); }
+    .group > .label { margin-top: 0; }
+
+    /* матриця */
+    .matrix td, .matrix th { font-size: 13.5px; }
+    .matrix tbody th { min-width: 170px; }
+    .matrix td.s { min-width: 150px; }
+    .matrix td.f { min-width: 220px; }
+    .matrix td.c { min-width: 280px; }
+    .sc { display: inline-block; min-width: 30px; text-align: center; padding: 2px 0; margin-bottom: 4px; border-radius: 6px; font-weight: 700; }
+    .sc-3 { background: var(--s3); } .sc-2 { background: var(--s2); } .sc-1 { background: var(--s1); }
+    .sc-q { color: var(--warn); background: rgba(232, 196, 107, 0.14); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-weight: 600; }
+    .verdict { font-weight: 700; }
+    .verdict.part { color: var(--warn); }
+    .verdict.yes { color: var(--own); }
+    .verdict.unk { color: var(--muted); }
+
+    .summary { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 16px 0; }
+    .core { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+    .core .card h3 { font-size: 16px; }
+    footer { margin-top: 72px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 720px) {
+      main { padding: 32px 16px 64px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 22px; margin-top: 56px; }
+      .card { padding: 18px 16px; }
+      .group { margin-left: 4px; padding-left: 12px; }
+    }
+  </style>
+  <script src="_nav/nav.js" data-root="./"></script>
+</head>
+<body>
+<main>
+  <p class="kicker">Етап 0 · Дослідження · складено 2026-11-15, виправлено за критикою й доресерчем 2026-11-16</p>
+  <h1>Персони і jobs</h1>
+  <p class="lead">Кого ми проєктуємо, що ці люди хочуть зробити і де Шухляда закриває їхню роботу краще за інших. Персони поділено за поведінкою: де трапляється посилання, куди його кладуть і як потім шукають. Вік і професія — не підстава для поділу. Джерело тексту — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/10-personas.md">10-personas.md</a> і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>; критика й доресерч — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md">12-personas-review.md</a>; підсумок ресерчу — <a href="research/research.html">research.html</a>.</p>
+
+  <ul class="toc">
+    <li><a href="#legend">Як читати</a></li>
+    <li><a href="#personas">Персони</a></li>
+    <li><a href="#jobs">Ієрархія jobs</a></li>
+    <li><a href="#matrix">JTBD-матриця</a></li>
+    <li><a href="#conclusion">Висновок</a></li>
+  </ul>
+
+  <!-- ============ Як читати ============ -->
+  <h2 id="legend">Як читати</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Позначка</th><th scope="col">Що означає</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag primary">primary</span></td><td>Під цю персону проєктуємо. Якщо інтереси розходяться, вирішує вона</td></tr>
+        <tr><td><span class="tag secondary">secondary</span></td><td>Її сценарії мають працювати, але інтерфейс навколо неї не будуємо</td></tr>
+        <tr><td><span class="tag q">[?]</span></td><td>Даних немає. Блок сформульовано як гіпотезу, середнього не ставимо</td></tr>
+        <tr><td><span class="tag hyp">гіпотеза</span></td><td>Висновок без прямого джерела: лише поведінка без мотиву, слова компанії, бриф або перенесення з іншої аудиторії. Спершу перевірити, потім спиратися</td></tr>
+        <tr><td><span class="tag warn">⚠️</span></td><td>Застереження: вибірка мала, стара або чужа</td></tr>
+        <tr><td><code>09·[SV1]</code></td><td>Код джерела: номер нотатки і код у ній. <code>09·[SV1]</code> — наше опитування (n = 11, коло PM): орієнтир, не статистика. <code>07·[V…]</code> — відгуки, <code>08·[…]</code> — кабінетне дослідження, <code>04·[…]</code> — матриця конкурентів, <code>12·[…]</code> — доресерч</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Основа — кабінетне дослідження (<code>08</code>): відгуки App Store, Google Play і Chrome Web Store, академічні дослідження 1996–2011, DOU, дошки побажань Telegram і Raindrop, українські опитування. Опитування (<code>09</code>, n = 11) показує, що з цього трапляється в нашому колі. Інтерв'ю ще не було.</p>
+
+  <!-- ============ Персони ============ -->
+  <h2 id="personas"><span class="num">1</span>Персони</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col"></th><th scope="col">Персона</th><th scope="col">Поведінка</th><th scope="col">Опитування</th></tr></thead>
+      <tbody>
+        <tr class="p1"><th scope="row">П1</th><td><strong>Скидає з телефона</strong> <span class="tag primary">primary</span></td><td>Посилання трапляється в телефоні — летить у «Збережене» Telegram, канал із собою, на скриншот. Потім людина гортає очима</td><td>6 з 11 (у 22–40 — 3 з 7)</td></tr>
+        <tr><th scope="row">П2</th><td><strong>Тримає вкладки й закладки</strong> <span class="tag secondary">secondary</span></td><td>Посилання трапляється за комп'ютером — лишається відкритою вкладкою або йде в закладки. Вручну не впорядковує</td><td>4 з 11 (у 22–40 — 3 з 7)</td></tr>
+        <tr><th scope="row">П3</th><td><strong>Не зберігає — шукає знову</strong> <span class="tag secondary">secondary</span></td><td>Не зберігає взагалі: коли треба — гуглить, вводить адресу з пам'яті чи просить ще раз</td><td>1 з 11</td></tr>
+        <tr><th scope="row">П4</th><td><strong>Переходить з іншого сервісу</strong> <span class="tag secondary">secondary</span></td><td>Вже має менеджер посилань чи Notion — і шукає заміну, бо сервіс закривається, ламається або втомлює</td><td>0 з 11 <span class="tag q">[?]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="personas">
+
+    <!-- П1 -->
+    <article class="card primary" id="p1" aria-labelledby="p1-title">
+      <p class="kicker">П1</p>
+      <h3 id="p1-title">Скидає з телефона <span class="tag primary">primary</span></h3>
+      <p class="who">Посилання трапляються в телефоні, у стрічках і чатах. Кладе туди, що під рукою: «Збережене» Telegram, канал із собою, скриншоти — 2–4 місця одночасно. Спеціальних сервісів не має.</p>
+
+      <div class="cols">
+        <div>
+          <p class="label">Контекст</p>
+          <ul>
+            <li>В Україні смартфоном для новин користуються 91% (96% серед 18–35) <code>08·[I1]</code>, Telegram — головне джерело для 51% <code>08·[RG1]</code>.</li>
+            <li>В опитуванні: «Збережене» Telegram — 6 з 6, скриншоти — 5 з 6; інтерфейс українською — 6 з 6 <code>09·[SV1]</code>.</li>
+            <li>Telegram сам називає «Збережене» «a powerful storage system for your links» <code>08·[TG2]</code>.</li>
+          </ul>
+
+          <p class="label">Jobs</p>
+          <ol>
+            <li><b>Коли</b> в стрічці чи чаті щось трапляється на потім, <b>хочу</b> відкласти це одним рухом, не виходячи із застосунку, <b>щоб</b> не загубити й не збитися.</li>
+            <li><b>Коли</b> згадую «ту річ про…», <b>хочу</b> знайти її, гортаючи збережене очима, <b>щоб</b> не перебирати весь чат. <span class="tag q">[?]</span> що саме гортає — недавнє чи все підряд — не питали.</li>
+            <li><b>Коли</b> все важливе в одному місці, <b>хочу</b> не тримати в голові, де що, <b>щоб</b> звільнити голову.</li>
+            <li><b>Коли</b> відкладено багато, <b>хочу</b> справді до цього повертатися, <b>щоб</b> воно не лежало дарма. <span class="tag warn">⚠️ MVP не закриває: нагадування після MVP</span></li>
+          </ol>
+
+          <p class="label">Болі</p>
+          <ul>
+            <li>«Збережене» — «a literal mess»; папок у ньому просять 409 голосів, тегів — 174; заводять канали «лише я» <code>12·[TG3]</code> <code>12·[TG4]</code>. <span class="tag warn">⚠️ дошка міжнародна</span></li>
+            <li>«Збережене» може зникнути: «все Сохраненные пустые, хотя там было данных за 3 года» <code>12·[GP1]</code>; на Reddit 9 з 11 тредів — про страх утратити <code>12·[RD1]–[RD11]</code>.</li>
+            <li>Пошук вимагає точного слова: «якщо неправильно пишеш — не можеш знайти» <code>09·[SV1]</code>. Перевірено: одруківку й частину слова Telegram не знаходить, інше закінчення — знаходить <code>12·[ST1]</code>.</li>
+            <li>Посилання змішані з файлами й фото; теги — лише Premium <code>04·[T5]</code>; LinkedIn лягає обгорткою «You're leaving LinkedIn».</li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Заспокоює</p>
+          <ul>
+            <li>Зберегти там, де знайшлося: вставка з головного екрана, на Android — «Поділитися → Шухляда» (<span class="tag brief">бриф §3.1</span>). <span class="tag hyp">гіпотеза</span> що цього досить — перевіряємо на прототипі.</li>
+            <li>Знаходиться з іншим закінченням слова: Telegram це вже вміє, тож це мінімум (<span class="tag brief">бриф §3.4</span>) <code>12·[ST1]</code>.</li>
+            <li>Збережене не зникне і його можна забрати: після втрати радять «Remember to make an export next time» <code>12·[RD3]</code>.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> видно, що збереглося. Скарги «retry» — від користувачів Raindrop і mymind; П1 радше боїться, що зникне.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> знаходиться з одруківкою. На одруківки ніхто не скаржиться.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> одне місце замість Telegram. Відгук — від користувача Raindrop; доресерч: сигнал радше проти.</li>
+          </ul>
+
+          <p class="label">Насторожує</p>
+          <ul>
+            <li>Зайві кроки: «too lazy and omit» <code>07·[V2]</code>.</li>
+            <li>Втрата всього: «could it just be gone overnight?» <code>12·[RD9]</code>. Новий сервіс цей страх успадкує.</li>
+            <li><span class="tag q">[?]</span> що зникне з очей — те пропало. Джерело про вкладки браузера <code>08·[C1]</code>, не про «Збережене».</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> на iPhone «Поділитися» немає, лише вставка — і цього може бути замало. Тоді Telegram-бот раніше (<span class="tag brief">бриф §3.6</span>).</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> картки без картинки. Ризик двобічний: «no idea what I'm even looking for» без картинок <code>12·[AS2]</code> — і 123 голоси за список лише з тексту <code>12·[RW3]</code>. П1 бачить прев'ю в Telegram. Перевіряємо на прототипі.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="caveat"><strong>Головний ризик primary.</strong> <span class="tag q">[?]</span> Чи хоче П1 переносити посилання з Telegram в окреме місце — не перевірено. Доресерч прямих доказів не знайшов: кому тісно в «Збереженому», ті лишаються в Telegram і просять папок і тегів там <code>12</code>, розділ 4. Закриють лише інтерв'ю.</div>
+
+      <p class="quote">«В мене часто трапляється, що я закидую собі багато чого в збережене і не можу потім найти щось конкретне, бо важко найти серед посилань, файлів і фото, те що треба»<small>відповідь з опитування, людина з цієї групи <code>09·[SV1]</code></small></p>
+    </article>
+
+    <!-- П2 -->
+    <article class="card" id="p2" aria-labelledby="p2-title">
+      <p class="kicker">П2</p>
+      <h3 id="p2-title">Тримає вкладки й закладки <span class="tag secondary">secondary</span></h3>
+      <p class="who">Посилання трапляються за комп'ютером: у браузері, робочих чатах. Лишає вкладку відкритою або кладе в закладки. Вручну не впорядковує.</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> натрапляю на корисне, <b>хочу</b> відкласти й закрити вкладку, <b>щоб</b> не тримати її «на згадку». На DOU: «до 250 відкритих вкладок», «50+», «20-30» <code>12·[D2]</code>.</li>
+        <li><b>Коли</b> працюю з кількох браузерів, <b>хочу</b> одне місце, <b>щоб</b> не згадувати, де лежить <code>07·[V1]</code>.</li>
+        <li><b>Коли</b> повертаюся через тижні, <b>хочу</b> бачити, навіщо зберіг, <b>щоб</b> не відкривати навмання.</li>
+        <li><b>Коли</b> зберігаю, <b>хочу</b> порядок без роботи, <b>щоб</b> не сортувати вручну.</li>
+        <li><b>Коли</b> шукаю, <b>хочу</b> знайти за назвою, сайтом чи словом. Сайт в опитуванні пам'ятають двоє — обидва з П2.</li>
+      </ol>
+      <p class="label">Болі</p>
+      <ul>
+        <li>Назви закладок не описують зміст — 4,2 з 7 <code>08·[A1]</code>; медіана ≈100 днів до повернення. <span class="tag warn">⚠️ 1996</span></li>
+        <li>«chaos» на кожному пристрої; «far too many clicks» <code>07·[V1]</code> <code>07·[V5]</code>.</li>
+      </ul>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li>Автокатегорія з «Змінити» поруч. <span class="tag hyp">гіпотеза</span> відгуки — від користувачів Raindrop і mymind, не П2.</li>
+        <li>Насторожує: щоразу обирати, куди покласти; автокатегорія промахується; сторінка зникне.</li>
+        <li><span class="tag q">[?]</span> двоє з чотирьох тримають телефон англійською — чи українська буде плюсом.</li>
+      </ul>
+      <p class="quote">«using the bookmarks feature in the web browsers on each was chaos»<small>App Store, Raindrop.io <code>07·[V1]</code> <span class="tag warn">⚠️ англомовний відгук</span></small></p>
+    </article>
+
+    <!-- П3 -->
+    <article class="card" id="p3" aria-labelledby="p3-title">
+      <p class="kicker">П3</p>
+      <h3 id="p3-title">Не зберігає — шукає знову <span class="tag secondary">secondary</span></h3>
+      <p class="who">Не зберігає: коли треба — гуглить, вводить адресу з пам'яті чи просить ще раз. Головний «конкурент» — не інший сервіс, а «загуглити знову».</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> трапляється цікаве, <b>хочу</b> не витрачати сил, <b>бо</b> знайду знову. Через 3–6 місяців 93% знаходять з першої спроби <code>08·[J1]</code>.</li>
+        <li><b>Коли</b> знадобилося, <b>хочу</b> отримати одразу — загуглити чи попросити. Скільки часу це займає, не міряли.</li>
+        <li><b>Коли</b> знайти вдруге не вдається, <b>хочу</b> мати свою копію. <span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> чи стане це приводом почати зберігати.</li>
+      </ol>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> зберегти дешевше, ніж шукати знову: одна вставка, до 5 с.</li>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> реєстрація до першого збереження відштовхне.</li>
+        <li>Експорт не переконає: «забрати все до себе» — 1 з 5 <code>09·[SV1]</code>.</li>
+      </ul>
+      <p class="quote">«of course, the following week, I always want it!»<small>Bruce, Jones, Dumais <code>08·[J1]</code> <span class="tag warn">⚠️ 2004</span></small></p>
+    </article>
+
+    <!-- П4 -->
+    <article class="card" id="p4" aria-labelledby="p4-title">
+      <p class="kicker">П4</p>
+      <h3 id="p4-title">Переходить з іншого сервісу <span class="tag secondary">secondary</span></h3>
+      <p class="who">Вже користується Raindrop, mymind, Pocket чи Notion — і шукає заміну: сервіс закрили, він ламається або втомлює. <span class="tag q">[?]</span> скільки таких серед нашої аудиторії: в опитуванні — 0 з 11.</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> мій сервіс закривається, <b>хочу</b> перенести архів, <b>щоб</b> не починати з нуля. Pocket видалив дані тих, хто не встиг <code>03·[A17]</code>.</li>
+        <li><b>Коли</b> зберігаю, <b>хочу</b>, щоб сервіс сам розклав, <b>щоб</b> не робити це щоразу.</li>
+        <li><b>Коли</b> довіряю роки збережень, <b>хочу</b> знати, що зможу забрати.</li>
+        <li><b>Коли</b> відкладене переглянуто, <b>хочу</b> це позначити. «Archive bookmarks» — 1,2 тис. голосів, «mark as viewed» — 289 на дошці Raindrop <code>12·[RW1]</code> <code>12·[RW2]</code>. <span class="tag new">доресерч</span></li>
+      </ol>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li>Видно, що збереглося, і що посилання вже є: «Вже в Шухляді».</li>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> базове безкоштовно. Про чутливість до ціни даних немає.</li>
+        <li>Насторожує: закриття разом з даними — один зі страхів; немає картинок і пошуку по тексту сторінки <code>12·[RD14]</code>; імпорту в MVP немає, експорт — після MVP.</li>
+      </ul>
+      <p class="quote">«the lack of tags or folders in the bookmark export made me nervous, so I switched to Shaarli»<small>dev.to, 2020 <code>08·[DV1]</code></small></p>
+    </article>
+  </div>
+
+  <h3 id="why-primary">Чому primary — П1</h3>
+  <ol>
+    <li><strong>Кабінетні дані про Україну вказують на телефон і Telegram:</strong> 91% читають новини зі смартфона, Telegram — головне джерело для 51% <code>08·[I1]</code> <code>08·[RG1]</code>.</li>
+    <li><strong>Біль із брифу підтверджено поза нашим колом:</strong> папки в «Збереженому» — 409 голосів, теги — 174 <code>12·[TG3]</code> <code>12·[TG4]</code>. <span class="tag warn">⚠️ ці люди просять порядку в самому Telegram</span></li>
+    <li><strong>Найбільша група в опитуванні:</strong> 6 з 11, і їй найчастіше болить <code>09·[SV1]</code>.</li>
+    <li><strong>Під неї вже ухвалено рішення:</strong> збереження з телефона в MVP (<span class="tag brief">бриф §3.1, §5</span>). <span class="tag warn">⚠️ аргумент круговий: рішення ухвалено на тих самих даних</span></li>
+  </ol>
+  <div class="caveat"><strong>Застереження.</strong> У віці 22–40 П1 і П2 в опитуванні порівну — по 3 з 7. Бриф — desktop-first, а П1 живе в телефоні: брифу це не суперечить, але з якого екрана починати прототип — рішення PM. Чи шукає П1 з комп'ютера — <span class="tag q">[?]</span>.</div>
+
+  <h3 id="changes">Що змінилося після доресерчу</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Що</th><th scope="col">Було</th><th scope="col">Стало</th></tr></thead>
+      <tbody>
+        <tr><td>Біль П1 «губиться в "Збереженому"»</td><td>«57 384 голоси» за «Starred Messages»</td><td>Помилка: 573 «за» і 84 «проти». Біль підтверджують прямі побажання — 409 і 174 голоси</td></tr>
+        <tr><td>Пошук для П1</td><td>Telegram гірше справляється із закінченнями</td><td>Навпаки: закінчення Telegram знаходить — для П1 це мінімум, внесено в бриф §3.4. Одруківку не знаходить ніхто</td></tr>
+        <tr><td>Три тригери П1</td><td>Подано як факт</td><td><span class="tag q">[?]</span> «одне місце замість Telegram», «видно, що збереглося», «нечіткий пошук»</td></tr>
+        <tr><td>П1, болі</td><td>—</td><td>Додано: «Збережене» може зникнути</td></tr>
+        <tr><td>П4, job 4</td><td>—</td><td>Додано: позначити переглянуте (1,2 тис. і 289 голосів)</td></tr>
+        <tr><td>Зняти <span class="tag q">[?]</span></td><td>—</td><td>Не вдалося ніде: прямого підтвердження не знайшлося</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ Jobs ============ -->
+  <h2 id="jobs"><span class="num">2</span>Ієрархія jobs</h2>
+  <p class="lead">Формат: «Коли [ситуація], я хочу [мотивація], щоб [результат]». У формулюваннях — прогрес людини, без назв функцій Шухляди. Job без джерела в основний список не потрапляє — він у гіпотезах.</p>
+
+  <div class="tree">
+    <div class="job main" id="job-main">
+      <h4><span class="id">Main</span>Відкласти за мить і дістати, не пам'ятаючи де й коли</h4>
+      <p class="stmt"><b>Коли</b> мені трапляється щось корисне на потім — у телефоні чи за комп'ютером, <b>я хочу</b> відкласти це за мить і дістати, коли знадобиться, навіть не пам'ятаючи, де й коли воно відклалося, <b>щоб</b> нічого корисного не губилося й не треба було тримати це в голові.</p>
+      <p class="meta">П1 П2 П4 · П3 виконує його інакше — шукає знову · посилання в 2–5 місцях, «знаю, що збережено, але не можу знайти» — 8 з 11 <code>09·[SV1]</code> <code>08·[J1]</code></p>
+    </div>
+
+    <div class="group">
+      <p class="label">Related — кроки до main job</p>
+      <div class="job" id="job-r1">
+        <h4><span class="id">R1</span>Відкласти, не відриваючись</h4>
+        <p class="stmt"><b>Коли</b> посилання трапляється посеред стрічки, чату чи роботи, <b>я хочу</b> відкласти його одним рухом, <b>щоб</b> не загубити й не збитися з думки.</p>
+        <p class="meta">П1 П2 · «too lazy and omit» <code>07·[V2]</code>; у момент знахідки в телефоні 7 з 11 <code>09·[SV1]</code></p>
+      </div>
+      <div class="job" id="job-r2">
+        <h4><span class="id">R2</span>Одразу розуміти, що це й навіщо</h4>
+        <p class="stmt"><b>Коли</b> відкладаю посилання, <b>я хочу</b> бачити, що це за сторінка й навіщо вона мені, <b>щоб</b> через тижні не відкривати навмання.</p>
+        <p class="meta">П2 П1 · назви не описують зміст <code>08·[A1]</code>; «про що воно» пам'ятають 10 з 11 <code>09·[SV1]</code></p>
+      </div>
+      <div class="job" id="job-r3">
+        <h4><span class="id">R3</span>Мати порядок без сортування</h4>
+        <p class="stmt"><b>Коли</b> відкладеного стає багато, <b>я хочу</b>, щоб воно саме лежало впорядковано, <b>щоб</b> не витрачати час на розкладання.</p>
+        <p class="meta">П2 П4 П1 · сортувати «hate» <code>08·[A1]</code>; «too much work» <code>07·[V5]</code> · <span class="tag warn">⚠️ для нашої аудиторії не питали</span></p>
+      </div>
+      <div class="job" id="job-r4">
+        <h4><span class="id">R4</span>Дістати за тим, що пам'ятається</h4>
+        <p class="stmt"><b>Коли</b> мені знову потрібна річ, про яку пам'ятаю лише, про що вона чи як виглядала, <b>я хочу</b> дістати її за кілька секунд — переглянувши очима або назвавши своїми словами, з помилкою чи без, <b>щоб</b> не перебирати чати й не шукати заново.</p>
+        <p class="meta">П1 П2 П3 · гортають очима 6 з 11 <code>09·[SV1]</code>; одруківку не знаходить ні Raindrop, ні mymind, ні Telegram; закінчення — лише Telegram <code>12·[ST1]</code> · <span class="tag hyp">гіпотеза</span> «з помилкою» — на одруківки не скаржаться</p>
+      </div>
+      <div class="job" id="job-r5">
+        <h4><span class="id">R5</span>Справді повертатися до відкладеного</h4>
+        <p class="stmt"><b>Коли</b> на потім відкладено багато, <b>я хочу</b> справді до цього повертатися, <b>щоб</b> відкладене не лежало дарма.</p>
+        <p class="meta">П1 П2 П4 · найчастіший біль опитування: часто — 6 з 11 <code>09·[SV1]</code>; «archive read bookmarks» — 1,2 тис. голосів <code>12·[RW1]</code> · <span class="tag warn">⚠️ MVP не закриває: нагадування після MVP</span></p>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="label">Emotional</p>
+      <div class="job" id="job-e1">
+        <h4><span class="id">E1</span>Не тримати все в голові</h4>
+        <p class="stmt"><b>Коли</b> відкладаю щось важливе, <b>я хочу</b> мати певність, що воно нікуди не дінеться, <b>щоб</b> спокійно викинути це з голови.</p>
+        <p class="meta">П1 П2 · «they free me from the exhaustive task of remembering everything» <code>08·[A1]</code></p>
+      </div>
+      <div class="job" id="job-e2">
+        <h4><span class="id">E2</span>Не боятися втратити все разом із сервісом</h4>
+        <p class="stmt"><b>Коли</b> довіряю сервісу роки відкладеного, <b>я хочу</b> знати, що воно не зникне й його можна забрати, <b>щоб</b> не боятися почати з нуля.</p>
+        <p class="meta">П4 П1 П2 · Pocket видалив дані <code>03·[A17]</code>; «Збережене» теж зникає <code>12·[GP1]</code> <code>12·[RD9]</code></p>
+      </div>
+      <div class="job" id="job-e3">
+        <h4><span class="id">E3</span>Відчувати порядок, а не звалище</h4>
+        <p class="stmt"><b>Коли</b> дивлюся на все, що відклалося, <b>я хочу</b> бачити порядок, а не звалище, <b>щоб</b> не відчувати провини за безлад.</p>
+        <p class="meta">П1 П2 П4 · «no folders, no rules, no guilt» <code>07·[V2]</code>; «a literal mess» <code>12·[TG3]</code> · «…і хотіти туди повертатися» прибрано: даних немає</p>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="label">Social і гіпотези — в основний список не входять</p>
+      <p class="note">Social jobs з джерелом немає: ні дослідження, ні опитування не питали, як людина виглядає в очах інших. Шерінгу в MVP теж немає (<span class="tag brief">бриф §3.5</span>).</p>
+      <div class="job hyp">
+        <h4><span class="id">Г1</span>social · Не турбувати людей повторним проханням <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> мені знову потрібне посилання, яке хтось надіслав, <b>я хочу</b> знайти його без нового прохання, <b>щоб</b> не турбувати людей.</p>
+        <p class="meta">Поведінку видно: «я можу не зберегти і повторно просити лінку» <code>09·[SV1]</code>. Що просити незручно — <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г2</span>social · Вирішити разом, куди йти <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> планую з кимось поїздку чи подію, <b>я хочу</b> швидко показати відкладене, <b>щоб</b> ми разом вирішили.</p>
+        <p class="meta">Лише з брифу (§2), не з даних <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г3</span>social · Виглядати підготовленою людиною <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> готуюся до роботи чи навчання, <b>я хочу</b> мати під рукою свої знахідки, <b>щоб</b> виглядати підготовленою людиною.</p>
+        <p class="meta">Даних немає <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г4</span>emotional · Почуватися як удома <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> відкриваю місце, де лежить моє, <b>я хочу</b> почуватися як удома — рідною мовою, по-людськи, <b>щоб</b> це було моє особисте.</p>
+        <p class="meta">Мова — гіпотеза 7 у <code>research.md</code>; у відгуках доказів немає <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г5</span>emotional · Виправити випадкове без зусиль <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> щось відклалося випадково, <b>я хочу</b> без зусиль це виправити, <b>щоб</b> відкладати без страху.</p>
+        <p class="meta">Чи лякає випадкове збереження — <span class="tag q">[?]</span>, лише тест прототипу</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Матриця ============ -->
+  <h2 id="matrix"><span class="num">3</span>JTBD-матриця</h2>
+  <p class="lead">Рядки — jobs з основного списку. Колонки — персони, функція з брифу і що роблять конкуренти: Raindrop.io, mymind, Telegram «Збережене», Notion Web Clipper, Raycast.</p>
+  <ul class="note">
+    <li><span class="sc sc-3">3</span> — job головний: болить «часто» в половини групи чи більше або персона саме з цим приходить.</li>
+    <li><span class="sc sc-2">2</span> — job є, але не головний: болить «іноді» або дані лише непрямі.</li>
+    <li><span class="sc sc-1">1</span> — дані кажуть, що персоні він майже не потрібен.</li>
+    <li><span class="sc sc-q">[?]</span> — даних про цю персону немає. Це не «неважливо».</li>
+    <li>⚠️ Оцінки П1 і П2 — з опитування (6 і 4 людини) і кабінетних даних; П3 — одна людина; П4 — лише кабінетні дані. Середнього не рахуємо.</li>
+  </ul>
+
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr><th scope="col">Job</th><th scope="col">П1 · primary</th><th scope="col">П2</th><th scope="col">П3</th><th scope="col">П4</th><th scope="col">Функція (бриф)</th><th scope="col">Конкуренти</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row">Main · відкласти за мить і дістати</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«Збережене» в 6 з 6, губиться хоча б іноді в 6 з 6 <code>09·[SV1]</code></td>
+          <td class="s"><span class="sc sc-3">3</span><br>закладки 4 з 4; «chaos» <code>07·[V1]</code></td>
+          <td class="s"><span class="sc sc-1">1</span><br>«Не було такого»; 93% знаходять знову <code>08·[J1]</code></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«no longer have to worry…» <code>07·[V1]</code></td>
+          <td class="f">Усе ядро: вставка з автоназвою (§3.1), пошук (§3.4), синхронізація (§3.5)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Raindrop і mymind — так, але без української; Telegram зберігає, а знайти важко; Notion — «too much work»</td>
+        </tr>
+        <tr>
+          <th scope="row">R1 · відкласти, не відриваючись</th>
+          <td class="s"><span class="sc sc-3">3</span><br>у момент знахідки в телефоні 6 з 6; «too lazy and omit»</td>
+          <td class="s"><span class="sc sc-2">2</span><br>замість збереження — вкладка, 3 з 4</td>
+          <td class="s"><span class="sc sc-1">1</span><br>76% знахідок без збереження</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«choose the same database every time»</td>
+          <td class="f"><code>Ctrl+V</code> без питань; телефон — головний екран і вставка, Android — «Поділитися» (§3.1)</td>
+          <td class="c"><span class="verdict yes">Так</span>, але поза вебом: розширення mymind — 1 клік; Telegram — 3 дії; Raindrop і Notion — з вибором місця</td>
+        </tr>
+        <tr>
+          <th scope="row">R2 · розуміти, що це й навіщо</th>
+          <td class="s"><span class="sc sc-2">2</span><br>«не пам'ятаю назви» іноді в 4 з 6; обгортка LinkedIn</td>
+          <td class="s"><span class="sc sc-2">2</span><br>назви не описують зміст <code>08·[A1]</code></td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="f">Автоназва, опис, іконка; розгортання обгорток; нотатка «навіщо» (§3.1, §3.3)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Автоназва — Raindrop; Notion — назва з хвостом сайту; Telegram обгортку не розгортає</td>
+        </tr>
+        <tr>
+          <th scope="row">R3 · порядок без сортування</th>
+          <td class="s"><span class="sc sc-2">2</span><br>30–40 закріплених — «a management nightmare»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>сортувати «hate»; 37% не впорядковують</td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«too much work»; «auto populate»</td>
+          <td class="f">7 категорій, вгадування за доменом, зміна одним кліком (§3.2)</td>
+          <td class="c"><span class="verdict part">Частково.</span> mymind — автотеги; Raindrop і Notion — ручні колекції; Telegram — лише дати</td>
+        </tr>
+        <tr class="p1">
+          <th scope="row">R4 · дістати за тим, що пам'ятається</th>
+          <td class="s"><span class="sc sc-3">3</span><br>гортають 5 з 6; у Telegram точне слово — підтверджено <code>12·[ST1]</code></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«не можу знайти» часто в 2 з 4</td>
+          <td class="s"><span class="sc sc-2">2</span><br>повторний пошук щотижня в 52–70%</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«difficult for me to find anything»</td>
+          <td class="f">Пошук по назві, опису, домену, нотатці, тегах; стійкий до одруківок; знаходить інші форми слова; <code>Ctrl+K</code>; фільтри (§3.4)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Ручна перевірка <code>12·[ST1]</code>: одруківку не знаходить ніхто; українське закінчення — лише Telegram; частину слова — Raindrop і mymind; розкладку — ніхто. Нечіткий збіг — лише Raycast, а він не архів посилань</td>
+        </tr>
+        <tr>
+          <th scope="row">R5 · повертатися до відкладеного</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«забуваю повернутися» часто в 4 з 6</td>
+          <td class="s"><span class="sc sc-3">3</span><br>часто в 2 з 4; вкладки «as reminders»</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«ніколи»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«archive read bookmarks» — 1,2 тис. голосів <code>12·[RW1]</code> <span class="tag new">було 2</span></td>
+          <td class="f"><strong>У MVP немає:</strong> нагадування — після MVP (§3.6)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Нагадування — у Raindrop Pro</td>
+        </tr>
+        <tr>
+          <th scope="row">E1 · не тримати все в голові</th>
+          <td class="s"><span class="sc sc-2">2</span><br>«не пам'ятаю, куди» іноді в 5 з 6</td>
+          <td class="s"><span class="sc sc-3">3</span><br>закладки як «memory replacement»</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«Не болит»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«loading… retry», «doesn't always save»</td>
+          <td class="f">«Збережено в Шухляді»; «Вже в Шухляді»; синхронізація</td>
+          <td class="c"><span class="verdict part">Частково.</span> Видиме підтвердження — лише mymind; Telegram — ✓✓</td>
+        </tr>
+        <tr>
+          <th scope="row">E2 · не боятися втратити все</th>
+          <td class="s"><span class="sc sc-2">2</span><br>зникало в 5 з 6; «Збережене» зникає й цього бояться — але не П1 з опитування, тож 2</td>
+          <td class="s"><span class="sc sc-2">2</span><br>зникало в 1 з 4; Pocket</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«забрати до себе» — 1 з 5</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«hundreds of links… gone»</td>
+          <td class="f">У MVP — лише дані на сервері. Експорт — перший кандидат після MVP (§3.6)</td>
+          <td class="c"><span class="verdict unk">[?]</span> — експорт у конкурентів не порівнювали</td>
+        </tr>
+        <tr class="p1">
+          <th scope="row">E3 · порядок, а не звалище</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«важко найти серед посилань, файлів і фото»; «a literal mess»</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«chaos»</td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-2">2</span><br>«no guilt»</td>
+          <td class="f">Категорії з кольором, картки з іконкою; тепла палітра (§3.1, §3.2, §6.1)</td>
+          <td class="c"><span class="verdict part">Частково.</span> mymind — так, але англійською і понад 100 карток платно; Telegram — звалище</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Повні клітинки з усіма джерелами — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>, «JTBD-матриця».</p>
+
+  <!-- ============ Висновок ============ -->
+  <h2 id="conclusion"><span class="num">4</span>Висновок</h2>
+  <h3>3 jobs для ядра MVP</h3>
+  <p class="note">Критерій: для П1 — 3, а конкуренти виконують job найслабше. Повністю «ні» немає в жодному рядку.</p>
+  <div class="core">
+    <div class="card">
+      <p class="kicker">1</p>
+      <h3>R4 · дістати за тим, що пам'ятається</h3>
+      <p>Одруківок не прощає ніхто, але на них і не скаржаться. Українські закінчення Telegram уже знаходить — для П1 це мінімум, внесено в бриф §3.4. Іншу розкладку не розпізнає ніхто — перший кандидат після MVP.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">2</p>
+      <h3>E3 · порядок, а не звалище</h3>
+      <p>Telegram, де П1 тримає посилання, і є звалище. <span class="tag warn">⚠️</span> Але ті, кому болить, просять порядку в самому Telegram.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">3</p>
+      <h3>Main · відкласти за мить і дістати</h3>
+      <p>Raindrop і mymind — без української; Telegram не дає знайти.</p>
+    </div>
+  </div>
+  <div class="summary">
+    <p><strong>R5 «повертатися до відкладеного»</strong> за критерієм теж проходить, але нагадування лишаються після MVP (рішення PM 2026-11-15). <strong>R1 «відкласти, не відриваючись»</strong> — обов'язкова умова, а не відмінність: конкуренти його виконують.</p>
+    <p style="margin:0">Головний ризик для всього ядра — <span class="tag q">[?]</span> чи хоче П1 переносити посилання з Telegram. Закриють лише інтерв'ю.</p>
+  </div>
+
+  <h3>Функції без підтвердженого job</h3>
+  <p class="note">Рішення PM (2026-11-16): у MVP лишаються, бриф не міняємо. Після запуску — подивитися, чи ними користуються.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Функція</th><th scope="col">Чому під питанням</th></tr></thead>
+      <tbody>
+        <tr><td>Дата для «Івентів» (§3.3)</td><td>Жоден job не спирається на події з датою. «Планує поїздки й події» — з брифу, не з даних</td></tr>
+        <tr><td>Теги (§3.2)</td><td>Формально R4, але вручну люди не впорядковують. Теги цінують лише в П4 <code>08·[DV1]</code></td></tr>
+        <tr><td><s>«Вже переглянуто» (§3.3)</s> <span class="tag new">більше не кандидат</span></td><td>Доресерч знайшов job у П4: 1,2 тис. і 289 голосів на дошці Raindrop <code>12·[RW1]</code> <code>12·[RW2]</code>. Для П1 — <span class="tag q">[?]</span></td></tr>
+        <tr><td>Українська й теплий тон; «Скасувати» в повідомленні</td><td>Job лише гіпотеза (Г4, Г5) <span class="tag hyp">гіпотеза</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Повні тексти з усіма джерелами — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/10-personas.md">10-personas.md</a> і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>. Що підтверджено, а що вигадано, — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md">12-personas-review.md</a>. Підсумок ресерчу — <a href="research/research.html">research.html</a>.</p>
+  </footer>
+</main>
+</body>
+</html>

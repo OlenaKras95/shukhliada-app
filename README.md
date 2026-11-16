@@ -37,7 +37,9 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Ресерч | [research/research.md](./research/research.md) · [research.html](./research/research.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/research/research.html) |
 | Відгуки користувачів | [research/notes/07-reviews.md](./research/notes/07-reviews.md) |
 | Персони (primary — «Скидає з телефона») | [research/notes/10-personas.md](./research/notes/10-personas.md) |
-| Jobs to be done | [research/notes/11-jtbd.md](./research/notes/11-jtbd.md) |
+| Jobs to be done і JTBD-матриця | [research/notes/11-jtbd.md](./research/notes/11-jtbd.md) |
+| Персони і jobs — сторінка | [personas.html](./personas.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/personas.html) |
+| Критика персон і доресерч | [research/notes/12-personas-review.md](./research/notes/12-personas-review.md) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |
 | Навігатор: скрипт і стилі | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) |
