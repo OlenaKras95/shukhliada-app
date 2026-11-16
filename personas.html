@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="uk" class="nav-dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Персони і jobs</title>
+  <meta name="description" content="Чотири персони Шухляди, ієрархія jobs to be done і JTBD-матриця: що підтверджено ресерчем, а що лишається гіпотезою.">
+  <style>
+    :root {
+      --bg: #121214;
+      --surface: #1b1b1f;
+      --surface-2: #232328;
+      --line: #313137;
+      --text: #ececef;
+      --muted: #a3a3ad;
+      --accent: #e8916b;
+      --accent-soft: rgba(232, 145, 107, 0.14);
+      --own: #8fc7a3;
+      --pub: #8fb4e8;
+      --brief: #e3c98f;
+      --warn: #e8c46b;
+      --hyp: #d4a6e8;
+      --s3: #2f5b43; --s2: #4a4430; --s1: #563628;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 32px 96px; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    h1 { font-size: 36px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.01em; }
+    h2 { font-size: 26px; margin: 72px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+    h2 .num { color: var(--accent); margin-right: 10px; }
+    h3 { font-size: 18px; margin: 40px 0 10px; }
+    p { margin: 0 0 14px; }
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 4px; }
+    .lead { color: var(--muted); max-width: 780px; font-size: 17px; }
+    .note { color: var(--muted); font-size: 14px; }
+    .kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+    .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; margin: 16px 0 4px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; padding: 0; list-style: none; }
+    .toc li { margin: 0; }
+    .toc a { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; background: var(--surface); }
+    .toc a:hover { border-color: var(--accent); }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+
+    /* позначки */
+    .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+    .tag.primary { color: #1b1b1f; background: var(--accent); }
+    .tag.secondary { color: var(--muted); background: rgba(163, 163, 173, 0.14); }
+    .tag.q { color: var(--warn); background: rgba(232, 196, 107, 0.14); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .tag.hyp { color: var(--hyp); background: rgba(212, 166, 232, 0.14); }
+    .tag.brief { color: var(--brief); background: rgba(227, 201, 143, 0.12); }
+    .tag.warn { color: var(--warn); background: rgba(232, 196, 107, 0.12); }
+    .tag.new { color: var(--own); background: rgba(143, 199, 163, 0.12); }
+
+    /* таблиці */
+    .table-wrap { overflow-x: auto; margin: 12px 0 8px; border: 1px solid var(--line); border-radius: var(--radius); }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    thead th { background: var(--surface-2); font-size: 13px; color: var(--muted); font-weight: 600; }
+    tbody th { font-weight: 600; background: var(--surface); }
+    tr:last-child td, tr:last-child th { border-bottom: 0; }
+    tr.p1 td, tr.p1 th { background: rgba(232, 145, 107, 0.06); }
+
+    /* картки персон */
+    .personas { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin: 16px 0; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .card.primary { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 45%); grid-column: 1 / -1; }
+    .card h3 { margin: 0 0 4px; font-size: 20px; }
+    .card .who { color: var(--muted); font-size: 14.5px; margin: 6px 0 4px; }
+    .card p, .card li { font-size: 14.5px; }
+    .card ul, .card ol { margin: 4px 0 8px; }
+    .card .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px 28px; }
+    .quote { border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; margin: 14px 0 0; font-size: 15px; }
+    .quote small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .caveat { border: 1px dashed var(--warn); border-radius: 10px; padding: 10px 14px; margin: 12px 0 4px; font-size: 14px; }
+    .caveat strong { color: var(--warn); }
+    .unknown { background: var(--surface-2); border-radius: 10px; padding: 4px 14px 6px; margin: 14px 0 0; }
+    .unknown .label { margin-top: 10px; color: var(--warn); }
+    .unknown ul { margin: 2px 0 6px; }
+    a.src { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; text-decoration: none; border: 1px solid transparent; }
+    a.src:hover { color: var(--accent); border-color: var(--line); }
+    .compare th[scope="row"] { min-width: 150px; }
+    .compare td { min-width: 190px; }
+    .compare thead th.p1 { color: var(--accent); }
+    .scenario { border: 1px dashed var(--line); border-radius: var(--radius); padding: 18px 22px; margin: 16px 0; background: var(--surface); }
+    .scenario h4 { margin: 0 0 6px; font-size: 16px; }
+    .check td:first-child { min-width: 220px; font-weight: 600; }
+    .core .card ul { padding-left: 18px; }
+
+    /* ієрархія jobs */
+    .tree { margin: 16px 0; }
+    .job { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin: 10px 0; }
+    .job.main { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 70%); }
+    .job.hyp { border-style: dashed; }
+    .job h4 { margin: 0 0 4px; font-size: 15px; }
+    .job h4 .id { color: var(--accent); margin-right: 6px; }
+    .job .stmt { margin: 0 0 4px; font-size: 15px; }
+    .job .stmt b { color: var(--accent); font-weight: 600; }
+    .job .meta { color: var(--muted); font-size: 13px; margin: 0; }
+    .group { margin: 24px 0 0 22px; padding-left: 18px; border-left: 2px solid var(--line); }
+    .group > .label { margin-top: 0; }
+
+    /* матриця */
+    .matrix td, .matrix th { font-size: 13.5px; }
+    .matrix tbody th { min-width: 170px; }
+    .matrix td.s { min-width: 150px; }
+    .matrix td.f { min-width: 220px; }
+    .matrix td.c { min-width: 280px; }
+    .sc { display: inline-block; min-width: 30px; text-align: center; padding: 2px 0; margin-bottom: 4px; border-radius: 6px; font-weight: 700; }
+    .sc-3 { background: var(--s3); } .sc-2 { background: var(--s2); } .sc-1 { background: var(--s1); }
+    .sc-q { color: var(--warn); background: rgba(232, 196, 107, 0.14); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-weight: 600; }
+    .verdict { font-weight: 700; }
+    .verdict.part { color: var(--warn); }
+    .verdict.yes { color: var(--own); }
+    .verdict.unk { color: var(--muted); }
+
+    .summary { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 16px 0; }
+    .core { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+    .core .card h3 { font-size: 16px; }
+    footer { margin-top: 72px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 720px) {
+      main { padding: 32px 16px 64px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 22px; margin-top: 56px; }
+      .card { padding: 18px 16px; }
+      .group { margin-left: 4px; padding-left: 12px; }
+    }
+  </style>
+  <script src="_nav/nav.js" data-root="./"></script>
+</head>
+<body>
+<main>
+  <p class="kicker">Етап 0 · Дослідження · складено 2026-11-15, виправлено за критикою й доресерчем 2026-11-16</p>
+  <h1>Персони і jobs</h1>
+  <p class="lead">Кого ми проєктуємо, що ці люди хочуть зробити і де Шухляда закриває їхню роботу краще за інших. Персони поділено за поведінкою: де трапляється посилання, куди його кладуть і як потім шукають. Вік і професія — не підстава для поділу. Джерело тексту — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/10-personas.md">10-personas.md</a> і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>; критика й доресерч — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md">12-personas-review.md</a>; підсумок ресерчу — <a href="research/research.html">research.html</a>.</p>
+
+  <ul class="toc">
+    <li><a href="#legend">Як читати</a></li>
+    <li><a href="#personas">Персони</a></li>
+    <li><a href="#problems">Проблеми</a></li>
+    <li><a href="#compare">Порівняння персон</a></li>
+    <li><a href="#jobs">Ієрархія jobs</a></li>
+    <li><a href="#checks">Як перевірити гіпотези</a></li>
+    <li><a href="#matrix">JTBD-матриця</a></li>
+    <li><a href="#conclusion">Висновок</a></li>
+  </ul>
+
+  <!-- ============ Як читати ============ -->
+  <h2 id="legend">Як читати</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Позначка</th><th scope="col">Що означає</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag primary">primary</span></td><td>Під цю персону проєктуємо. Якщо інтереси розходяться, вирішує вона</td></tr>
+        <tr><td><span class="tag secondary">secondary</span></td><td>Її сценарії мають працювати, але інтерфейс навколо неї не будуємо</td></tr>
+        <tr><td><span class="tag q">[?]</span></td><td>Даних немає. Блок сформульовано як гіпотезу, середнього не ставимо</td></tr>
+        <tr><td><span class="tag hyp">гіпотеза</span></td><td>Висновок без прямого джерела: лише поведінка без мотиву, слова компанії, бриф або перенесення з іншої аудиторії. Спершу перевірити, потім спиратися</td></tr>
+        <tr><td><span class="tag warn">⚠️</span></td><td>Застереження: вибірка мала, стара або чужа</td></tr>
+        <tr><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></td><td>Код джерела: номер нотатки і код у ній. Натисни — відкриється нотатка на GitHub. <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a> — наше опитування (n = 11, коло PM): орієнтир, не статистика. <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V…]</a> — відгуки, <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[…]</a> — кабінетне дослідження, <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md" title="04-matrix.md">04·[…]</a> — матриця конкурентів, <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[…]</a> — доресерч</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Основа — кабінетне дослідження (<code>08</code>): відгуки App Store, Google Play і Chrome Web Store, академічні дослідження 1996–2011, DOU, дошки побажань Telegram і Raindrop, українські опитування. Опитування (<code>09</code>, n = 11) показує, що з цього трапляється в нашому колі. Інтерв'ю ще не було.</p>
+
+  <!-- ============ Персони ============ -->
+  <h2 id="personas"><span class="num">1</span>Персони</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col"></th><th scope="col">Персона</th><th scope="col">Поведінка</th><th scope="col">Опитування</th></tr></thead>
+      <tbody>
+        <tr class="p1"><th scope="row">П1</th><td><strong>Скидає з телефона</strong> <span class="tag primary">primary</span></td><td>Посилання трапляється в телефоні — летить у «Збережене» Telegram, канал із собою, на скриншот. Потім людина гортає очима</td><td>6 з 11 (у 22–40 — 3 з 7)</td></tr>
+        <tr><th scope="row">П2</th><td><strong>Тримає вкладки й закладки</strong> <span class="tag secondary">secondary</span></td><td>Посилання трапляється за комп'ютером — лишається відкритою вкладкою або йде в закладки. Вручну не впорядковує</td><td>4 з 11 (у 22–40 — 3 з 7)</td></tr>
+        <tr><th scope="row">П3</th><td><strong>Не зберігає — шукає знову</strong> <span class="tag secondary">secondary</span></td><td>Не зберігає взагалі: коли треба — гуглить, вводить адресу з пам'яті чи просить ще раз</td><td>1 з 11</td></tr>
+        <tr><th scope="row">П4</th><td><strong>Переходить з іншого сервісу</strong> <span class="tag secondary">secondary</span></td><td>Вже має менеджер посилань чи Notion — і шукає заміну, бо сервіс закривається, ламається або втомлює</td><td>0 з 11 <span class="tag q">[?]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="personas">
+
+    <!-- П1 -->
+    <article class="card primary" id="p1" aria-labelledby="p1-title">
+      <p class="kicker">П1</p>
+      <h3 id="p1-title">Скидає з телефона <span class="tag primary">primary</span></h3>
+      <p class="who">Посилання трапляються в телефоні, у стрічках і чатах. Кладе туди, що під рукою: «Збережене» Telegram, канал із собою, скриншоти — 2–4 місця одночасно. Спеціальних сервісів не має.</p>
+
+      <div class="cols">
+        <div>
+          <p class="label">Контекст</p>
+          <ul>
+            <li>В Україні смартфоном для новин користуються 91% (96% серед 18–35) <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[I1]</a>, Telegram — головне джерело для 51% <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[RG1]</a>.</li>
+            <li>В опитуванні: «Збережене» Telegram — 6 з 6, скриншоти — 5 з 6; інтерфейс українською — 6 з 6 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>.</li>
+            <li>Telegram сам називає «Збережене» «a powerful storage system for your links» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[TG2]</a>.</li>
+          </ul>
+
+          <p class="label">Jobs</p>
+          <ol>
+            <li><b>Коли</b> в стрічці чи чаті щось трапляється на потім, <b>хочу</b> відкласти це одним рухом, не виходячи із застосунку, <b>щоб</b> не загубити й не збитися.</li>
+            <li><b>Коли</b> згадую «ту річ про…», <b>хочу</b> знайти її, гортаючи збережене очима, <b>щоб</b> не перебирати весь чат. <span class="tag q">[?]</span> що саме гортає — недавнє чи все підряд — не питали.</li>
+            <li><b>Коли</b> все важливе в одному місці, <b>хочу</b> не тримати в голові, де що, <b>щоб</b> звільнити голову.</li>
+            <li><b>Коли</b> відкладено багато, <b>хочу</b> справді до цього повертатися, <b>щоб</b> воно не лежало дарма. <span class="tag warn">⚠️ MVP не закриває: нагадування після MVP</span></li>
+          </ol>
+
+          <p class="label">Болі</p>
+          <p>Губиться в «Збереженому», боїться, що воно зникне, а пошук вимагає точного слова. Детально — <a href="#problems">таблиця проблем</a>.</p>
+
+          <div class="unknown">
+            <p class="label">Під питанням</p>
+            <ul>
+              <li><span class="tag q">[?]</span> чи хоче переносити посилання з Telegram в окреме місце;</li>
+              <li><span class="tag q">[?]</span> що саме гортає — недавнє чи все підряд;</li>
+              <li><span class="tag q">[?]</span> чи шукає збережене з комп'ютера;</li>
+              <li><span class="tag warn">⚠️</span> у групі люди 16–50 років, а не лише 22–40; вибірка з кола PM.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <p class="label">Заспокоює</p>
+          <ul>
+            <li>Зберегти там, де знайшлося: вставка з головного екрана, на Android — «Поділитися → Шухляда» (<span class="tag brief">бриф §3.1</span>). <span class="tag hyp">гіпотеза</span> що цього досить — перевіряємо на прототипі.</li>
+            <li>Знаходиться з іншим закінченням слова: Telegram це вже вміє, тож це мінімум (<span class="tag brief">бриф §3.4</span>) <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[ST1]</a>.</li>
+            <li>Збережене не зникне і його можна забрати: після втрати радять «Remember to make an export next time» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD3]</a>.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> видно, що збереглося. Скарги «retry» — від користувачів Raindrop і mymind; П1 радше боїться, що зникне.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> знаходиться з одруківкою. На одруківки ніхто не скаржиться.</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> одне місце замість Telegram. Відгук — від користувача Raindrop; доресерч: сигнал радше проти.</li>
+          </ul>
+
+          <p class="label">Насторожує</p>
+          <ul>
+            <li>Зайві кроки: «too lazy and omit» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a>.</li>
+            <li>Втрата всього: «could it just be gone overnight?» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD9]</a>. Новий сервіс цей страх успадкує.</li>
+            <li><span class="tag q">[?]</span> що зникне з очей — те пропало. Джерело про вкладки браузера <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[C1]</a>, не про «Збережене».</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> на iPhone «Поділитися» немає, лише вставка — і цього може бути замало. Тоді Telegram-бот раніше (<span class="tag brief">бриф §3.6</span>).</li>
+            <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> картки без картинки. Ризик двобічний: «no idea what I'm even looking for» без картинок <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[AS2]</a> — і 123 голоси за список лише з тексту <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW3]</a>. П1 бачить прев'ю в Telegram. Перевіряємо на прототипі.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="caveat"><strong>Головний ризик primary.</strong> <span class="tag q">[?]</span> Чи хоче П1 переносити посилання з Telegram в окреме місце — не перевірено. Доресерч прямих доказів не знайшов: кому тісно в «Збереженому», ті лишаються в Telegram і просять папок і тегів там <code>12</code>, розділ 4. Закриють лише інтерв'ю.</div>
+
+      <p class="quote">«В мене часто трапляється, що я закидую собі багато чого в збережене і не можу потім найти щось конкретне, бо важко найти серед посилань, файлів і фото, те що треба»<small>відповідь з опитування, людина з цієї групи <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></small></p>
+    </article>
+
+    <!-- П2 -->
+    <article class="card" id="p2" aria-labelledby="p2-title">
+      <p class="kicker">П2</p>
+      <h3 id="p2-title">Тримає вкладки й закладки <span class="tag secondary">secondary</span></h3>
+      <p class="who">Посилання трапляються за комп'ютером: у браузері, робочих чатах. Лишає вкладку відкритою або кладе в закладки. Вручну не впорядковує.</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> натрапляю на корисне, <b>хочу</b> відкласти й закрити вкладку, <b>щоб</b> не тримати її «на згадку». На DOU: «до 250 відкритих вкладок», «50+», «20-30» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[D2]</a>.</li>
+        <li><b>Коли</b> працюю з кількох браузерів, <b>хочу</b> одне місце, <b>щоб</b> не згадувати, де лежить <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V1]</a>.</li>
+        <li><b>Коли</b> повертаюся через тижні, <b>хочу</b> бачити, навіщо зберіг, <b>щоб</b> не відкривати навмання.</li>
+        <li><b>Коли</b> зберігаю, <b>хочу</b> порядок без роботи, <b>щоб</b> не сортувати вручну.</li>
+        <li><b>Коли</b> шукаю, <b>хочу</b> знайти за назвою, сайтом чи словом. Сайт в опитуванні пам'ятають двоє — обидва з П2.</li>
+      </ol>
+      <p class="label">Болі</p>
+      <p>Назви закладок не описують зміст, на кожному пристрої «chaos», вкладки тримають «на згадку». Детально — <a href="#problems">таблиця проблем</a>.</p>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li>Автокатегорія з «Змінити» поруч. <span class="tag hyp">гіпотеза</span> відгуки — від користувачів Raindrop і mymind, не П2.</li>
+        <li>Насторожує: щоразу обирати, куди покласти; автокатегорія промахується; сторінка зникне.</li>
+      </ul>
+      <div class="unknown">
+        <p class="label">Під питанням</p>
+        <ul>
+          <li><span class="tag q">[?]</span> чи сприймуть українську як плюс: двоє з чотирьох тримають телефон англійською;</li>
+          <li><span class="tag q">[?]</span> скільки вкладок тримають у нашій аудиторії: цифри DOU — з ІТ-треду;</li>
+          <li><span class="tag warn">⚠️</span> академічні дані — 1996–2011, про комп'ютер.</li>
+        </ul>
+      </div>
+      <p class="quote">«using the bookmarks feature in the web browsers on each was chaos»<small>App Store, Raindrop.io <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V1]</a> <span class="tag warn">⚠️ англомовний відгук</span></small></p>
+    </article>
+
+    <!-- П3 -->
+    <article class="card" id="p3" aria-labelledby="p3-title">
+      <p class="kicker">П3</p>
+      <h3 id="p3-title">Не зберігає — шукає знову <span class="tag secondary">secondary</span></h3>
+      <p class="who">Не зберігає: коли треба — гуглить, вводить адресу з пам'яті чи просить ще раз. Головний «конкурент» — не інший сервіс, а «загуглити знову».</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> трапляється цікаве, <b>хочу</b> не витрачати сил, <b>бо</b> знайду знову. Через 3–6 місяців 93% знаходять з першої спроби <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[J1]</a>.</li>
+        <li><b>Коли</b> знадобилося, <b>хочу</b> отримати одразу — загуглити чи попросити. Скільки часу це займає, не міряли.</li>
+        <li><b>Коли</b> знайти вдруге не вдається, <b>хочу</b> мати свою копію. <span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> чи стане це приводом почати зберігати.</li>
+      </ol>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> зберегти дешевше, ніж шукати знову: одна вставка, до 5 с.</li>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> реєстрація до першого збереження відштовхне.</li>
+        <li>Експорт не переконає: «забрати все до себе» — 1 з 5 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>.</li>
+      </ul>
+      <div class="unknown">
+        <p class="label">Під питанням</p>
+        <ul>
+          <li><span class="tag q">[?]</span> чи стане «вдруге не знайшлося» приводом зберігати;</li>
+          <li><span class="tag q">[?]</span> скільки часу займає повторний пошук;</li>
+          <li><span class="tag warn">⚠️</span> в опитуванні — одна людина; масовість — з даних 2004 року, до месенджерів.</li>
+        </ul>
+      </div>
+      <p class="quote">«of course, the following week, I always want it!»<small>Bruce, Jones, Dumais <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[J1]</a> <span class="tag warn">⚠️ 2004</span></small></p>
+    </article>
+
+    <!-- П4 -->
+    <article class="card" id="p4" aria-labelledby="p4-title">
+      <p class="kicker">П4</p>
+      <h3 id="p4-title">Переходить з іншого сервісу <span class="tag secondary">secondary</span></h3>
+      <p class="who">Вже користується Raindrop, mymind, Pocket чи Notion — і шукає заміну: сервіс закрили, він ламається або втомлює. <span class="tag q">[?]</span> скільки таких серед нашої аудиторії: в опитуванні — 0 з 11.</p>
+      <p class="label">Jobs</p>
+      <ol>
+        <li><b>Коли</b> мій сервіс закривається, <b>хочу</b> перенести архів, <b>щоб</b> не починати з нуля. Pocket видалив дані тих, хто не встиг <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md" title="03-competitors.md">03·[A17]</a>.</li>
+        <li><b>Коли</b> зберігаю, <b>хочу</b>, щоб сервіс сам розклав, <b>щоб</b> не робити це щоразу.</li>
+        <li><b>Коли</b> довіряю роки збережень, <b>хочу</b> знати, що зможу забрати.</li>
+        <li><b>Коли</b> відкладене переглянуто, <b>хочу</b> це позначити. «Archive bookmarks» — 1,2 тис. голосів, «mark as viewed» — 289 на дошці Raindrop <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW2]</a>. <span class="tag new">доресерч</span></li>
+      </ol>
+      <p class="label">Заспокоює / насторожує</p>
+      <ul>
+        <li>Видно, що збереглося, і що посилання вже є: «Вже в Шухляді».</li>
+        <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> базове безкоштовно. Про чутливість до ціни даних немає.</li>
+        <li>Насторожує: закриття разом з даними — один зі страхів; немає картинок і пошуку по тексту сторінки <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD14]</a>; імпорту в MVP немає, експорт — після MVP.</li>
+      </ul>
+      <div class="unknown">
+        <p class="label">Під питанням</p>
+        <ul>
+          <li><span class="tag q">[?]</span> скільки таких серед нашої аудиторії: в опитуванні — 0 з 11;</li>
+          <li><span class="tag q">[?]</span> чутливість до ціни;</li>
+          <li><span class="tag warn">⚠️</span> усі дані — англомовні відгуки й дошка Raindrop.</li>
+        </ul>
+      </div>
+      <p class="quote">«the lack of tags or folders in the bookmark export made me nervous, so I switched to Shaarli»<small>dev.to, 2020 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[DV1]</a></small></p>
+    </article>
+  </div>
+
+  <h3 id="why-primary">Чому primary — П1</h3>
+  <ol>
+    <li><strong>Кабінетні дані про Україну вказують на телефон і Telegram:</strong> 91% читають новини зі смартфона, Telegram — головне джерело для 51% <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[I1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[RG1]</a>.</li>
+    <li><strong>Біль із брифу підтверджено поза нашим колом:</strong> папки в «Збереженому» — 409 голосів, теги — 174 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG3]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG4]</a>. <span class="tag warn">⚠️ ці люди просять порядку в самому Telegram</span></li>
+    <li><strong>Найбільша група в опитуванні:</strong> 6 з 11, і їй найчастіше болить <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>.</li>
+    <li><strong>Під неї вже ухвалено рішення:</strong> збереження з телефона в MVP (<span class="tag brief">бриф §3.1, §5</span>). <span class="tag warn">⚠️ аргумент круговий: рішення ухвалено на тих самих даних</span></li>
+  </ol>
+  <div class="caveat"><strong>Застереження.</strong> У віці 22–40 П1 і П2 в опитуванні порівну — по 3 з 7. Бриф — desktop-first, а П1 живе в телефоні: брифу це не суперечить, але з якого екрана починати прототип — рішення PM. Чи шукає П1 з комп'ютера — <span class="tag q">[?]</span>.</div>
+
+  <h3 id="problems">Проблеми в теперішніх способах</h3>
+  <p class="label">П1 · Скидає з телефона</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Проблема</th><th scope="col">Спосіб / канал</th><th scope="col">Джерело</th></tr></thead>
+      <tbody>
+        <tr><td>«Many have their Saved Messages as a literal mess»; заводять канали й групи «лише я», аж до «I've reached the limit of possible channels». Папки просять 409 голосів, теги — 174 <span class="tag warn">⚠️ дошка міжнародна</span></td><td>«Збережене» Telegram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG3]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG4]</a></td></tr>
+        <tr><td>Може зникнути: «все Сохраненные пустые, хотя там было данных за 3 года»; на Reddit 9 з 11 тредів — про страх утратити, частина — про вже втрачене</td><td>«Збережене» Telegram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[GP1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD1]</a>–<a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD11]</a></td></tr>
+        <tr><td>Посилання змішані з файлами й фото; стрічка розбита лише датами; теги — тільки Premium</td><td>«Збережене» Telegram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md" title="04-matrix.md">04·[T5]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md" title="04-matrix.md">04·[T2]</a></td></tr>
+        <tr><td>Пошук вимагає точного слова: «якщо неправильно пишеш — не можеш знайти». Перевірено: одруківку й частину слова не знаходить, інше закінчення — знаходить</td><td>«Збережене» Telegram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[ST1]</a></td></tr>
+        <tr><td>Посилання з LinkedIn лягає обгорткою «You're leaving LinkedIn» — назва нічого не каже</td><td>«Збережене» Telegram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md" title="04-matrix.md">04·[T5]</a></td></tr>
+        <tr><td>«screenshot things I can never find again»; скрини забувають переглянути, телефон забивається</td><td>Скриншоти</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[D1]</a></td></tr>
+        <tr><td>«Довго гортати збережені в інстаграмі»</td><td>Instagram</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></td></tr>
+        <tr><td>Збережене колись зникало — 5 з 6 у групі; як саме — не уточнено</td><td>Усі місця</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="label">П2 · Тримає вкладки й закладки</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Проблема</th><th scope="col">Спосіб / канал</th><th scope="col">Джерело</th></tr></thead>
+      <tbody>
+        <tr><td>Назви погано описують зміст — 4,2 з 7 (276 людей), а перейменовують рідко <span class="tag warn">⚠️ 1996</span></td><td>Закладки браузера</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a></td></tr>
+        <tr><td>«chaos» на кожному пристрої; «far too many clicks just to get to a saved bookmark»</td><td>Закладки браузера</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V5]</a></td></tr>
+        <tr><td>Повертаються рідко: медіана ≈100 днів до візиту; посилання ламаються</td><td>Закладки браузера</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a></td></tr>
+        <tr><td>Тримають «as reminders» — і за 2 місяці не пам'ятають навіщо; на DOU — «до 250 відкритих вкладок»</td><td>Відкриті вкладки</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[C1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[D2]</a></td></tr>
+        <tr><td>Впорядковувати — «tedious»; щоразу обирати ту саму базу; назва з хвостом сайту</td><td>Notion + Web Clipper</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V5]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V4]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/04-matrix.md" title="04-matrix.md">04·[N10]</a></td></tr>
+        <tr><td>Знаю, що збережено, але не можу знайти: «часто» — 2 з 4 у групі</td><td>Усі місця</td><td><a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">П3 явного болю не відчуває: «Не болит», «Не було такого» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[D1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>. Проблеми П4 — у картці вище: архів зникав, збереження зависає, «розумне» платне.</p>
+
+  <h3 id="compare">Чим персони відрізняються</h3>
+  <p>Мета в усіх та сама — <a href="#job-main">main job</a>. Різні — шлях, перша перешкода і те, що руйнує довіру.</p>
+  <div class="table-wrap">
+    <table class="compare">
+      <thead><tr><th scope="col"></th><th scope="col" class="p1">П1 · Скидає з телефона <span class="tag primary">primary</span></th><th scope="col">П2 · Тримає вкладки й закладки</th><th scope="col">П3 · Не зберігає — шукає знову</th><th scope="col">П4 · Переходить з іншого сервісу</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Головне питання</th><td>Як знайти те, що скинуто в Telegram?</td><td>Як закрити вкладку й не загубити?</td><td>Навіщо зберігати, якщо знайдеться знову?</td><td>Куди перенести архів, щоб не втратити знову?</td></tr>
+        <tr><th scope="row">Де трапляється посилання</th><td>Телефон: стрічки, чати</td><td>Комп'ютер: браузер, робочі чати</td><td>Будь-де</td><td>Будь-де</td></tr>
+        <tr><th scope="row">Куди кладе зараз</th><td>«Збережене» Telegram, скриншоти</td><td>Вкладки, закладки</td><td>Нікуди</td><td>Raindrop, mymind, Pocket, Notion</td></tr>
+        <tr><th scope="row">Перша перешкода в Шухляді</th><td>Вийти з Telegram в окреме місце; на iPhone «Поділитися» немає</td><td>Перейти на вкладку Шухляди</td><td>Зберігати взагалі</td><td>Імпорту в MVP немає</td></tr>
+        <tr><th scope="row">Втрачає довіру, коли</th><td>Збережене зникло</td><td>Категорія промахується</td><td><span class="tag q">[?]</span> реєстрація до першого збереження</td><td>Сервіс закривають, а забрати нічого</td></tr>
+        <tr><th scope="row">Свій job</th><td>Відкласти одним рухом з телефона</td><td>Закрити вкладку, не загубивши</td><td>Своя копія, коли вдруге не знайшлося</td><td>Перенести архів; позначити переглянуте</td></tr>
+        <tr><th scope="row">Доказів</th><td>6 з 11 в опитуванні; DOU, дошка Telegram, Google Play, Reddit</td><td>4 з 11; дослідження 1996–2011; DOU 2023</td><td>1 з 11; дослідження 2004</td><td>0 з 11; лише англомовні відгуки й дошка Raindrop</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cards-2">
+    <p><strong>Чому чотири персони, а не менше.</strong> П3 і П4 стоять на найслабших даних, але кожна потрібна для іншого. П3 задає планку: зберегти має бути дешевше, ніж загуглити знову. Головний конкурент Шухляди — не інший сервіс, а повторний пошук. П4 — автори майже всіх відгуків; окрема персона не дає перенести їхні слова на П1 як факт.</p>
+    <p><strong>Де межа нечітка.</strong> Одна людина може бути П1 на телефоні й П2 за комп'ютером — в опитуванні такий межовий випадок є. Персони описують поведінку в ситуації, а не окремих людей.</p>
+    <p><strong>Якщо інтереси розходяться, вирішує П1.</strong> Приклад: П4 хоче картинки-прев'ю й пошук по тексту сторінки, а П1 — щоб збереглося одразу й упізнавалося за іконкою сайту. Тому картки лишаються без картинок (<span class="tag brief">бриф §3.1</span>), а впізнаваність перевіряємо тестом прототипу.</p>
+    <p class="label">Що перевірити на інтерв'ю про secondary</p>
+    <ul>
+      <li><strong>П2:</strong> скільки вкладок тримають у нашій аудиторії і чи закриють їх, якщо збережуть.</li>
+      <li><strong>П3:</strong> чи траплялося «вдруге не знайшлося» і чи стало це приводом зберігати.</li>
+      <li><strong>П4:</strong> чи є такі люди серед нашої аудиторії взагалі.</li>
+    </ul>
+  </div>
+
+  <h3 id="scenario">Сценарій П1: iPhone — лише вставка</h3>
+  <div class="scenario">
+    <p class="note" style="margin-top:0">Сценарій — не окрема людина, а умова, у якій П1 виконує ті самі jobs.</p>
+    <p><strong>Умова.</strong> iPhone — 2 з 6 у групі П1 і 4 з 11 в усьому опитуванні <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>. «Поділитися → Шухляда» на iPhone немає: Safari не підтримує Web Share Target (<a href="research/research.html#risk">головний ризик Г5</a>).</p>
+    <p><strong>Як відкладає.</strong> Скопіювати посилання → відкрити Шухляду з головного екрана → вставити (<span class="tag brief">бриф §3.1</span>).</p>
+    <ul>
+      <li><strong>Заспокоює:</strong> Шухляда відкривається з головного екрана одразу з полем для вставки.</li>
+      <li><strong>Насторожує:</strong> зайвий крок порівняно з пересиланням у «Збережене» — «too lazy and omit» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a>.</li>
+      <li><span class="tag q">[?]</span> <span class="tag hyp">гіпотеза</span> чи вистачить цього — гіпотеза 10, перевіряємо на прототипі. Якщо ні — Telegram-бот раніше (<span class="tag brief">бриф §3.6</span>).</li>
+    </ul>
+  </div>
+
+  <h3 id="changes">Що змінилося після доресерчу</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Що</th><th scope="col">Було</th><th scope="col">Стало</th></tr></thead>
+      <tbody>
+        <tr><td>Біль П1 «губиться в "Збереженому"»</td><td>«57 384 голоси» за «Starred Messages»</td><td>Помилка: 573 «за» і 84 «проти». Біль підтверджують прямі побажання — 409 і 174 голоси</td></tr>
+        <tr><td>Пошук для П1</td><td>Telegram гірше справляється із закінченнями</td><td>Навпаки: закінчення Telegram знаходить — для П1 це мінімум, внесено в бриф §3.4. Одруківку не знаходить ніхто</td></tr>
+        <tr><td>Три тригери П1</td><td>Подано як факт</td><td><span class="tag q">[?]</span> «одне місце замість Telegram», «видно, що збереглося», «нечіткий пошук»</td></tr>
+        <tr><td>П1, болі</td><td>—</td><td>Додано: «Збережене» може зникнути</td></tr>
+        <tr><td>П4, job 4</td><td>—</td><td>Додано: позначити переглянуте (1,2 тис. і 289 голосів)</td></tr>
+        <tr><td>Зняти <span class="tag q">[?]</span></td><td>—</td><td>Не вдалося ніде: прямого підтвердження не знайшлося</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ Jobs ============ -->
+  <h2 id="jobs"><span class="num">2</span>Ієрархія jobs</h2>
+  <p class="lead">Формат: «Коли [ситуація], я хочу [мотивація], щоб [результат]». У формулюваннях — прогрес людини, без назв функцій Шухляди. Job без джерела в основний список не потрапляє — він у гіпотезах.</p>
+
+  <div class="tree">
+    <div class="job main" id="job-main">
+      <h4><span class="id">Main</span>Відкласти за мить і дістати, не пам'ятаючи де й коли</h4>
+      <p class="stmt"><b>Коли</b> мені трапляється щось корисне на потім — у телефоні чи за комп'ютером, <b>я хочу</b> відкласти це за мить і дістати, коли знадобиться, навіть не пам'ятаючи, де й коли воно відклалося, <b>щоб</b> нічого корисного не губилося й не треба було тримати це в голові.</p>
+      <p class="meta">П1 П2 П4 · П3 виконує його інакше — шукає знову · посилання в 2–5 місцях, «знаю, що збережено, але не можу знайти» — 8 з 11 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[J1]</a></p>
+    </div>
+
+    <div class="group">
+      <p class="label">Related — кроки до main job</p>
+      <div class="job" id="job-r1">
+        <h4><span class="id">R1</span>Відкласти, не відриваючись</h4>
+        <p class="stmt"><b>Коли</b> посилання трапляється посеред стрічки, чату чи роботи, <b>я хочу</b> відкласти його одним рухом, <b>щоб</b> не загубити й не збитися з думки.</p>
+        <p class="meta">П1 П2 · «too lazy and omit» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a>; у момент знахідки в телефоні 7 з 11 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></p>
+      </div>
+      <div class="job" id="job-r2">
+        <h4><span class="id">R2</span>Одразу розуміти, що це й навіщо</h4>
+        <p class="stmt"><b>Коли</b> відкладаю посилання, <b>я хочу</b> бачити, що це за сторінка й навіщо вона мені, <b>щоб</b> через тижні не відкривати навмання.</p>
+        <p class="meta">П2 П1 · назви не описують зміст <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a>; «про що воно» пам'ятають 10 з 11 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></p>
+      </div>
+      <div class="job" id="job-r3">
+        <h4><span class="id">R3</span>Мати порядок без сортування</h4>
+        <p class="stmt"><b>Коли</b> відкладеного стає багато, <b>я хочу</b>, щоб воно саме лежало впорядковано, <b>щоб</b> не витрачати час на розкладання.</p>
+        <p class="meta">П2 П4 П1 · сортувати «hate» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a>; «too much work» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V5]</a> · <span class="tag warn">⚠️ для нашої аудиторії не питали</span></p>
+      </div>
+      <div class="job" id="job-r4">
+        <h4><span class="id">R4</span>Дістати за тим, що пам'ятається</h4>
+        <p class="stmt"><b>Коли</b> мені знову потрібна річ, про яку пам'ятаю лише, про що вона чи як виглядала, <b>я хочу</b> дістати її за кілька секунд — переглянувши очима або назвавши своїми словами, з помилкою чи без, <b>щоб</b> не перебирати чати й не шукати заново.</p>
+        <p class="meta">П1 П2 П3 · гортають очима 6 з 11 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>; одруківку не знаходить ні Raindrop, ні mymind, ні Telegram; закінчення — лише Telegram <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[ST1]</a> · <span class="tag hyp">гіпотеза</span> «з помилкою» — на одруківки не скаржаться</p>
+      </div>
+      <div class="job" id="job-r5">
+        <h4><span class="id">R5</span>Справді повертатися до відкладеного</h4>
+        <p class="stmt"><b>Коли</b> на потім відкладено багато, <b>я хочу</b> справді до цього повертатися, <b>щоб</b> відкладене не лежало дарма.</p>
+        <p class="meta">П1 П2 П4 · найчастіший біль опитування: часто — 6 з 11 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>; «archive read bookmarks» — 1,2 тис. голосів <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW1]</a> · <span class="tag warn">⚠️ MVP не закриває: нагадування після MVP</span></p>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="label">Emotional</p>
+      <div class="job" id="job-e1">
+        <h4><span class="id">E1</span>Не тримати все в голові</h4>
+        <p class="stmt"><b>Коли</b> відкладаю щось важливе, <b>я хочу</b> мати певність, що воно нікуди не дінеться, <b>щоб</b> спокійно викинути це з голови.</p>
+        <p class="meta">П1 П2 · «they free me from the exhaustive task of remembering everything» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a></p>
+      </div>
+      <div class="job" id="job-e2">
+        <h4><span class="id">E2</span>Не боятися втратити все разом із сервісом</h4>
+        <p class="stmt"><b>Коли</b> довіряю сервісу роки відкладеного, <b>я хочу</b> знати, що воно не зникне й його можна забрати, <b>щоб</b> не боятися почати з нуля.</p>
+        <p class="meta">П4 П1 П2 · Pocket видалив дані <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md" title="03-competitors.md">03·[A17]</a>; «Збережене» теж зникає <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[GP1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD9]</a></p>
+      </div>
+      <div class="job" id="job-e3">
+        <h4><span class="id">E3</span>Відчувати порядок, а не звалище</h4>
+        <p class="stmt"><b>Коли</b> дивлюся на все, що відклалося, <b>я хочу</b> бачити порядок, а не звалище, <b>щоб</b> не відчувати провини за безлад.</p>
+        <p class="meta">П1 П2 П4 · «no folders, no rules, no guilt» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V2]</a>; «a literal mess» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG3]</a> · «…і хотіти туди повертатися» прибрано: даних немає</p>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="label">Social і гіпотези — в основний список не входять</p>
+      <p class="note">Social jobs з джерелом немає: ні дослідження, ні опитування не питали, як людина виглядає в очах інших. Шерінгу в MVP теж немає (<span class="tag brief">бриф §3.5</span>).</p>
+      <div class="job hyp">
+        <h4><span class="id">Г1</span>social · Не турбувати людей повторним проханням <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> мені знову потрібне посилання, яке хтось надіслав, <b>я хочу</b> знайти його без нового прохання, <b>щоб</b> не турбувати людей.</p>
+        <p class="meta">Поведінку видно: «я можу не зберегти і повторно просити лінку» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>. Що просити незручно — <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г2</span>social · Вирішити разом, куди йти <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> планую з кимось поїздку чи подію, <b>я хочу</b> швидко показати відкладене, <b>щоб</b> ми разом вирішили.</p>
+        <p class="meta">Лише з брифу (§2), не з даних <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г3</span>social · Виглядати підготовленою людиною <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> готуюся до роботи чи навчання, <b>я хочу</b> мати під рукою свої знахідки, <b>щоб</b> виглядати підготовленою людиною.</p>
+        <p class="meta">Даних немає <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г4</span>emotional · Почуватися як удома <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> відкриваю місце, де лежить моє, <b>я хочу</b> почуватися як удома — рідною мовою, по-людськи, <b>щоб</b> це було моє особисте.</p>
+        <p class="meta">Мова — гіпотеза 7 у <a class="src" href="research/research.html#conclusions">research.md</a>; у відгуках доказів немає <span class="tag q">[?]</span></p>
+      </div>
+      <div class="job hyp">
+        <h4><span class="id">Г5</span>emotional · Виправити випадкове без зусиль <span class="tag hyp">гіпотеза</span></h4>
+        <p class="stmt"><b>Коли</b> щось відклалося випадково, <b>я хочу</b> без зусиль це виправити, <b>щоб</b> відкладати без страху.</p>
+        <p class="meta">Чи лякає випадкове збереження — <span class="tag q">[?]</span>, лише тест прототипу</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="checks">Як перевірити гіпотези</h3>
+  <p class="note">Разом з гіпотезами-jobs — найважливіші <span class="tag q">[?]</span> з персон.</p>
+  <div class="table-wrap">
+    <table class="check">
+      <thead><tr><th scope="col">Що</th><th scope="col">Звідки зараз</th><th scope="col">Як перевірити</th></tr></thead>
+      <tbody>
+        <tr><td>Г1 · не турбувати людей <span class="tag hyp">гіпотеза</span></td><td>Поведінка є: «повторно просити лінку» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a>; мотив — <span class="tag q">[?]</span></td><td>Інтерв'ю: «Коли востаннє просили надіслати посилання ще раз? Як це було?»</td></tr>
+        <tr><td>Г2 · вирішити разом, куди йти <span class="tag hyp">гіпотеза</span></td><td>Лише бриф (§2)</td><td>Інтерв'ю: чи показують відкладене іншим і як. Шерінгу в MVP немає — після MVP</td></tr>
+        <tr><td>Г3 · виглядати підготовленою людиною <span class="tag hyp">гіпотеза</span></td><td>Даних немає</td><td>Інтерв'ю; пріоритет низький</td></tr>
+        <tr><td>Г4 · рідною мовою, як удома <span class="tag hyp">гіпотеза</span></td><td>Гіпотеза 7 у <a class="src" href="research/research.html#conclusions">research.md</a>; у відгуках доказів немає</td><td>Питання на тестах; по-справжньому — лише після MVP, коли видно вибір між продуктами</td></tr>
+        <tr><td>Г5 · виправити випадкове <span class="tag hyp">гіпотеза</span></td><td>Гіпотеза 2 у <a class="src" href="research/research.html#conclusions">research.md</a></td><td>Прототип: сценарій випадкової вставки — чи знаходять «Скасувати» без підказки</td></tr>
+        <tr><td><span class="tag q">[?]</span> П1 хоче переносити посилання з Telegram</td><td>Сигнал радше проти <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[TG3]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD9]</a></td><td>Інтерв'ю: «Покажи, як востаннє шукали в "Збереженому"»; «Що мало б бути, щоб справді перекладати туди посилання?»</td></tr>
+        <tr><td><span class="tag q">[?]</span> картки без картинки впізнаються</td><td>Ризик двобічний <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[AS2]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW3]</a></td><td>Прототип: 20 посилань «іконка + назва + домен + колір», завдання «знайди очима», порівняти з «Збереженим» Telegram</td></tr>
+        <tr><td><span class="tag q">[?]</span> на iPhone вистачить вставки</td><td>Гіпотеза 10 у <a class="src" href="research/research.html#conclusions">research.md</a></td><td>Прототип на iPhone: час від вставки до «Збережено в Шухляді» ≤ 5 с і чи не кидають на півдорозі</td></tr>
+        <tr><td><span class="tag q">[?]</span> П1 гортає саме недавнє</td><td>Джерела немає</td><td>Інтерв'ю: попросити знайти в «Збереженому» конкретну річ і дивитися, що гортають</td></tr>
+        <tr><td><span class="tag q">[?]</span> скільки П4 серед аудиторії</td><td>0 з 11 в опитуванні</td><td>Ширше опитування або інтерв'ю</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ Матриця ============ -->
+  <h2 id="matrix"><span class="num">3</span>JTBD-матриця</h2>
+  <p class="lead">Рядки — jobs з основного списку. Колонки — персони, функція з брифу і що роблять конкуренти: Raindrop.io, mymind, Telegram «Збережене», Notion Web Clipper, Raycast.</p>
+  <ul class="note">
+    <li><span class="sc sc-3">3</span> — job головний: болить «часто» в половини групи чи більше або персона саме з цим приходить.</li>
+    <li><span class="sc sc-2">2</span> — job є, але не головний: болить «іноді» або дані лише непрямі.</li>
+    <li><span class="sc sc-1">1</span> — дані кажуть, що персоні він майже не потрібен.</li>
+    <li><span class="sc sc-q">[?]</span> — даних про цю персону немає. Це не «неважливо».</li>
+    <li>⚠️ Оцінки П1 і П2 — з опитування (6 і 4 людини) і кабінетних даних; П3 — одна людина; П4 — лише кабінетні дані. Середнього не рахуємо.</li>
+  </ul>
+
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr><th scope="col">Job</th><th scope="col">П1 · primary</th><th scope="col">П2</th><th scope="col">П3</th><th scope="col">П4</th><th scope="col">Функція (бриф)</th><th scope="col">Конкуренти</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row">Main · відкласти за мить і дістати</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«Збережене» в 6 з 6, губиться хоча б іноді в 6 з 6 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md" title="09-survey.md">09·[SV1]</a></td>
+          <td class="s"><span class="sc sc-3">3</span><br>закладки 4 з 4; «chaos» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V1]</a></td>
+          <td class="s"><span class="sc sc-1">1</span><br>«Не було такого»; 93% знаходять знову <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[J1]</a></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«no longer have to worry…» <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/07-reviews.md" title="07-reviews.md">07·[V1]</a></td>
+          <td class="f">Усе ядро: вставка з автоназвою (§3.1), пошук (§3.4), синхронізація (§3.5)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Raindrop і mymind — так, але без української; Telegram зберігає, а знайти важко; Notion — «too much work»</td>
+        </tr>
+        <tr>
+          <th scope="row">R1 · відкласти, не відриваючись</th>
+          <td class="s"><span class="sc sc-3">3</span><br>у момент знахідки в телефоні 6 з 6; «too lazy and omit»</td>
+          <td class="s"><span class="sc sc-2">2</span><br>замість збереження — вкладка, 3 з 4</td>
+          <td class="s"><span class="sc sc-1">1</span><br>76% знахідок без збереження</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«choose the same database every time»</td>
+          <td class="f"><code>Ctrl+V</code> без питань; телефон — головний екран і вставка, Android — «Поділитися» (§3.1)</td>
+          <td class="c"><span class="verdict yes">Так</span>, але поза вебом: розширення mymind — 1 клік; Telegram — 3 дії; Raindrop і Notion — з вибором місця</td>
+        </tr>
+        <tr>
+          <th scope="row">R2 · розуміти, що це й навіщо</th>
+          <td class="s"><span class="sc sc-2">2</span><br>«не пам'ятаю назви» іноді в 4 з 6; обгортка LinkedIn</td>
+          <td class="s"><span class="sc sc-2">2</span><br>назви не описують зміст <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[A1]</a></td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="f">Автоназва, опис, іконка; розгортання обгорток; нотатка «навіщо» (§3.1, §3.3)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Автоназва — Raindrop; Notion — назва з хвостом сайту; Telegram обгортку не розгортає</td>
+        </tr>
+        <tr>
+          <th scope="row">R3 · порядок без сортування</th>
+          <td class="s"><span class="sc sc-2">2</span><br>30–40 закріплених — «a management nightmare»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>сортувати «hate»; 37% не впорядковують</td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«too much work»; «auto populate»</td>
+          <td class="f">7 категорій, вгадування за доменом, зміна одним кліком (§3.2)</td>
+          <td class="c"><span class="verdict part">Частково.</span> mymind — автотеги; Raindrop і Notion — ручні колекції; Telegram — лише дати</td>
+        </tr>
+        <tr class="p1">
+          <th scope="row">R4 · дістати за тим, що пам'ятається</th>
+          <td class="s"><span class="sc sc-3">3</span><br>гортають 5 з 6; у Telegram точне слово — підтверджено <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[ST1]</a></td>
+          <td class="s"><span class="sc sc-3">3</span><br>«не можу знайти» часто в 2 з 4</td>
+          <td class="s"><span class="sc sc-2">2</span><br>повторний пошук щотижня в 52–70%</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«difficult for me to find anything»</td>
+          <td class="f">Пошук по назві, опису, домену, нотатці, тегах; стійкий до одруківок; знаходить інші форми слова; <code>Ctrl+K</code>; фільтри (§3.4)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Ручна перевірка <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[ST1]</a>: одруківку не знаходить ніхто; українське закінчення — лише Telegram; частину слова — Raindrop і mymind; розкладку — ніхто. Нечіткий збіг — лише Raycast, а він не архів посилань</td>
+        </tr>
+        <tr>
+          <th scope="row">R5 · повертатися до відкладеного</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«забуваю повернутися» часто в 4 з 6</td>
+          <td class="s"><span class="sc sc-3">3</span><br>часто в 2 з 4; вкладки «as reminders»</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«ніколи»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«archive read bookmarks» — 1,2 тис. голосів <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW1]</a> <span class="tag new">було 2</span></td>
+          <td class="f"><strong>У MVP немає:</strong> нагадування — після MVP (§3.6)</td>
+          <td class="c"><span class="verdict part">Частково.</span> Нагадування — у Raindrop Pro</td>
+        </tr>
+        <tr>
+          <th scope="row">E1 · не тримати все в голові</th>
+          <td class="s"><span class="sc sc-2">2</span><br>«не пам'ятаю, куди» іноді в 5 з 6</td>
+          <td class="s"><span class="sc sc-3">3</span><br>закладки як «memory replacement»</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«Не болит»</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«loading… retry», «doesn't always save»</td>
+          <td class="f">«Збережено в Шухляді»; «Вже в Шухляді»; синхронізація</td>
+          <td class="c"><span class="verdict part">Частково.</span> Видиме підтвердження — лише mymind; Telegram — ✓✓</td>
+        </tr>
+        <tr>
+          <th scope="row">E2 · не боятися втратити все</th>
+          <td class="s"><span class="sc sc-2">2</span><br>зникало в 5 з 6; «Збережене» зникає й цього бояться — але не П1 з опитування, тож 2</td>
+          <td class="s"><span class="sc sc-2">2</span><br>зникало в 1 з 4; Pocket</td>
+          <td class="s"><span class="sc sc-1">1</span><br>«забрати до себе» — 1 з 5</td>
+          <td class="s"><span class="sc sc-3">3</span><br>«hundreds of links… gone»</td>
+          <td class="f">У MVP — лише дані на сервері. Експорт — перший кандидат після MVP (§3.6)</td>
+          <td class="c"><span class="verdict unk">[?]</span> — експорт у конкурентів не порівнювали</td>
+        </tr>
+        <tr class="p1">
+          <th scope="row">E3 · порядок, а не звалище</th>
+          <td class="s"><span class="sc sc-3">3</span><br>«важко найти серед посилань, файлів і фото»; «a literal mess»</td>
+          <td class="s"><span class="sc sc-2">2</span><br>«chaos»</td>
+          <td class="s"><span class="sc sc-q">[?]</span></td>
+          <td class="s"><span class="sc sc-2">2</span><br>«no guilt»</td>
+          <td class="f">Категорії з кольором, картки з іконкою; тепла палітра (§3.1, §3.2, §6.1)</td>
+          <td class="c"><span class="verdict part">Частково.</span> mymind — так, але англійською і понад 100 карток платно; Telegram — звалище</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Повні клітинки з усіма джерелами — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>, «JTBD-матриця».</p>
+
+  <!-- ============ Висновок ============ -->
+  <h2 id="conclusion"><span class="num">4</span>Висновок</h2>
+  <h3>3 jobs для ядра MVP</h3>
+  <p class="note">Критерій: для П1 — 3, а конкуренти виконують job найслабше. Повністю «ні» немає в жодному рядку.</p>
+  <div class="core">
+    <div class="card">
+      <p class="kicker">1</p>
+      <h3>R4 · дістати за тим, що пам'ятається</h3>
+      <p>Одруківок не прощає ніхто, але на них і не скаржаться. Українські закінчення Telegram уже знаходить — для П1 це мінімум.</p>
+      <p class="label">Для дизайну</p>
+      <ul>
+        <li>Пошук по назві, опису, домену, нотатці й тегах; «закладки» знаходить «закладок» (<span class="tag brief">бриф §3.4</span>).</li>
+        <li>Нечіткі збіги — нижче за точні: вони дають хибні результати <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW4]</a>.</li>
+        <li>Порожній результат — не глухий кут: схожі збіги і «Шукати всюди?» (гіпотеза 3).</li>
+        <li>Пошук стартує з «Нещодавно доданого» (гіпотеза 4).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="kicker">2</p>
+      <h3>E3 · порядок, а не звалище</h3>
+      <p>Telegram, де П1 тримає посилання, і є звалище. <span class="tag warn">⚠️</span> Але ті, кому болить, просять порядку в самому Telegram.</p>
+      <p class="label">Для дизайну</p>
+      <ul>
+        <li>Категорію вгадуємо за доменом, без ручних папок (<span class="tag brief">бриф §3.2</span>).</li>
+        <li>Картка тримається на іконці сайту, домені й кольорі категорії: без картинки вона має виглядати задуманою, а не «скупою».</li>
+        <li>Нотатку «навіщо зберегли» видно в списку <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RD15]</a>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="kicker">3</p>
+      <h3>Main · відкласти за мить і дістати</h3>
+      <p>Raindrop і mymind — без української; Telegram не дає знайти.</p>
+      <p class="label">Для дизайну</p>
+      <ul>
+        <li><code>Ctrl+V</code> будь-де → «Збережено в Шухляді · назва · категорія · Змінити · Скасувати» (механізм 1).</li>
+        <li>На повторне збереження — «Вже в Шухляді» (<span class="tag brief">бриф §3.1</span>).</li>
+        <li>На телефоні — головний екран і вставка, на Android ще «Поділитися».</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">⚠️ «Для дизайну» — висновки з даних, не перевірені на людях. Повний текст — <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>, «Що ядро означає для дизайну».</p>
+  <div class="summary">
+    <p><strong>Наступний у черзі — R5 «повертатися до відкладеного».</strong> Для П1, П2 і П4 — 3, але нагадування після MVP (рішення PM 2026-11-15). У MVP від нього — лише перемикач «Вже переглянуто». <strong>R1 «відкласти, не відриваючись»</strong> — обов'язкова умова, а не відмінність: конкуренти його виконують.</p>
+    <p style="margin:0">Головний ризик для всього ядра — <span class="tag q">[?]</span> чи хоче П1 переносити посилання з Telegram. Закриють лише інтерв'ю.</p>
+  </div>
+
+  <h3>Jobs secondary-персон, які мають працювати</h3>
+  <ul>
+    <li><strong>П2 — закрити вкладку, не загубивши:</strong> <code>Ctrl+V</code> за комп'ютером, desktop-first (<span class="tag brief">бриф §5</span>).</li>
+    <li><strong>П3 — зберегти дешевше, ніж шукати знову:</strong> одна вставка без питань (<span class="tag brief">бриф §9</span>).</li>
+    <li><strong>П4 — позначити переглянуте:</strong> перемикач «Вже переглянуто» (<span class="tag brief">бриф §3.3</span>).</li>
+  </ul>
+
+  <h3>Питання до PM</h3>
+  <p class="note">Бриф не змінено.</p>
+  <ul>
+    <li>Найбільше в Raindrop хвалять пошук по тексту сторінки, а в MVP його немає (<span class="tag brief">бриф §3.4</span>). Чи вертатися до цього після тестів пошуку на прототипі?</li>
+    <li>Чи робити тест карток без картинки до того, як фіксувати дизайн картки?</li>
+  </ul>
+
+  <h3>Функції без підтвердженого job</h3>
+  <p class="note">Рішення PM (2026-11-16): у MVP лишаються, бриф не міняємо. Після запуску — подивитися, чи ними користуються.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Функція</th><th scope="col">Чому під питанням</th></tr></thead>
+      <tbody>
+        <tr><td>Дата для «Івентів» (§3.3)</td><td>Жоден job не спирається на події з датою. «Планує поїздки й події» — з брифу, не з даних</td></tr>
+        <tr><td>Теги (§3.2)</td><td>Формально R4, але вручну люди не впорядковують. Теги цінують лише в П4 <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/08-people.md" title="08-people.md">08·[DV1]</a></td></tr>
+        <tr><td><s>«Вже переглянуто» (§3.3)</s> <span class="tag new">більше не кандидат</span></td><td>Доресерч знайшов job у П4: 1,2 тис. і 289 голосів на дошці Raindrop <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW1]</a> <a class="src" href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md" title="12-personas-review.md">12·[RW2]</a>. Для П1 — <span class="tag q">[?]</span></td></tr>
+        <tr><td>Українська й теплий тон; «Скасувати» в повідомленні</td><td>Job лише гіпотеза (Г4, Г5) <span class="tag hyp">гіпотеза</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Повні тексти з усіма джерелами — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/10-personas.md">10-personas.md</a> і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/11-jtbd.md">11-jtbd.md</a>. Що підтверджено, а що вигадано, — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md">12-personas-review.md</a>. Підсумок ресерчу — <a href="research/research.html">research.html</a>.</p>
+  </footer>
+</main>
+</body>
+</html>
