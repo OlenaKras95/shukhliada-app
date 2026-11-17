@@ -23,12 +23,11 @@ window.NAV_TREE = [
     { title: "Висновки", path: "research/research.html#conclusions" },
     { title: "Джерела", path: "research/research.html#sources" }
   ] },
-  { branch: "Персони", items: [
-    { title: "Персони і jobs", path: "personas.html", children: [
-      { title: "Персони", path: "personas.html#personas" },
-      { title: "Ієрархія jobs", path: "personas.html#jobs" },
-      { title: "JTBD-матриця", path: "personas.html#matrix" },
-      { title: "Висновок", path: "personas.html#conclusion" }
-    ] }
+  { title: "Персони і jobs", path: "personas.html", children: [
+    { title: "TL;DR", path: "personas.html#tldr" },
+    { title: "Персони", path: "personas.html#personas" },
+    { title: "Ієрархія jobs", path: "personas.html#jobs" },
+    { title: "JTBD-матриця", path: "personas.html#matrix" },
+    { title: "Висновок", path: "personas.html#conclusion" }
   ] }
 ];
