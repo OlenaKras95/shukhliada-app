@@ -42,6 +42,7 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Персони і jobs — сторінка | [personas.html](./personas.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/personas.html) |
 | Критика персон і доресерч | [research/notes/12-personas-review.md](./research/notes/12-personas-review.md) |
 | Карта: сутності, екрани й навігація (чернетки) | [sitemap.md](./sitemap.md) |
+| User flows: main job, R4, R3, E2 (чернетки) | [flows.md](./flows.md) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |
 | Навігатор: скрипт і стилі | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) |
