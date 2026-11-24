@@ -29,5 +29,14 @@ window.NAV_TREE = [
     { title: "Ієрархія jobs", path: "personas.html#jobs" },
     { title: "JTBD-матриця", path: "personas.html#matrix" },
     { title: "Висновок", path: "personas.html#conclusion" }
+  ] },
+  { branch: "Структура", items: [
+    { title: "Знімок IA", path: "ia.html", children: [
+      { title: "TL;DR", path: "ia.html#tldr" },
+      { title: "Карта екранів", path: "ia.html#sitemap" },
+      { title: "Навігація", path: "ia.html#navigation" },
+      { title: "Flows", path: "ia.html#flows" },
+      { title: "Трасування", path: "ia.html#trace" }
+    ] }
   ] }
 ];
