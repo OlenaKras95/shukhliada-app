@@ -11,7 +11,8 @@
   Категорію й тег розведено вкладками: це різні розвилки flows.md, R4 — errCat і errTagLoad.
   Виходи звірено з flows.md, R4:
   - errQ → «Повторити» (dQRetry); не вдалося — гортати категорію (dBrowse → loadCat): чипи категорій під помилкою;
-  - errCat / errTagLoad → «Повторити» (dCatRetry / dTagRetry). Запит словом теж лишається — поле вище.
+  - errCat / errTagLoad → «Повторити» (dCatRetry / dTagRetry). Запит словом теж лишається — поле вище;
+  - errTag («R3, далі») → «Повторити» (dTagRetry → search-loading.html#vydaliaiemo-teh); тег на місці, посилання з ним видно нижче.
   Скрізь — «Не минає? Напиши нам на пошту»: повтор може не допомогти (рішення PM 2026-11-25).
 -->
 <html lang="uk">
@@ -26,12 +27,13 @@
     /* відкрита вкладка — для кожного якоря */
     body:has(#ne-vdalosia-shukaty:target) .wf-tabs a[href="#ne-vdalosia-shukaty"],
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
-    body:has(#teh:target) .wf-tabs a[href="#teh"] { border-color: var(--wf-text); font-weight: 600; }
+    body:has(#teh:target) .wf-tabs a[href="#teh"],
+    body:has(#vydalyty-teh:target) .wf-tabs a[href="#vydalyty-teh"] { border-color: var(--wf-text); font-weight: 600; }
   </style>
 </head>
 <body>
 
-<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіху немає: «—» у sitemap.md -->
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіх — лише для видалення тегу (flow «R3, далі») -->
 <nav class="wf-states" aria-label="Стани шару «Пошук»">
   <p>Пошук · стани:</p>
   <ul>
@@ -39,6 +41,7 @@
     <li><a href="search-empty.html">Порожній</a></li>
     <li><a href="search-loading.html">Завантаження</a></li>
     <li><a href="search-error.html" aria-current="page">Помилка</a></li>
+    <li><a href="search-success.html">Успіх</a></li>
   </ul>
 </nav>
 <!-- Варіанти стану — вкладками, без JS: якір і :target (_conventions.md, розділ 7) -->
@@ -48,6 +51,7 @@
     <li><a href="#ne-vdalosia-shukaty">не вдалося шукати</a></li>
     <li><a href="#katehoriia">не вдалося завантажити категорію</a></li>
     <li><a href="#teh">не вдалося завантажити тег</a></li>
+    <li><a href="#vydalyty-teh">не вдалося видалити тег [?]</a></li>
   </ul>
 </nav>
 <div class="device">
@@ -105,7 +109,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
+        <li><a href="account.html">Акаунт</a></li>
       </ul>
     </footer>
   </nav>
@@ -150,7 +154,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -167,7 +171,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -185,7 +189,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -202,7 +206,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -220,7 +224,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -240,7 +244,7 @@
             </div>
             <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <button type="button" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -259,7 +263,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -274,7 +278,7 @@
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «telegra.ph»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -289,7 +293,7 @@
                 <span>✓ Вже переглянуто</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -454,6 +458,163 @@
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
+    </div>
+
+    <!-- Варіант «не вдалося видалити тег [?]» (flow «R3, далі»: errTag → dTagRetry). Тег на місці — на всіх 6 посиланнях.
+         Повтор не вдався — кінець «без виходу» (deadTag): тег лишився, спробувати пізніше; тому ще й пошта -->
+    <div class="wf-variant" id="vydalyty-teh">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · «Повторити» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a> · повтор не вдався — тег лишився, спробувати пізніше або написати на пошту · тег на місці, тож можна й далі гортати його посилання нижче або <a href="search.html#porozhnii-zapyt">скинути фільтр</a></p>
+      <div class="layer-head">
+        <h2>карпати <span>· 6</span></h2>
+        <a href="search.html#porozhnii-zapyt">Скинути</a>
+      </div>
+      <div class="wf-status wf-status--error layer-empty" role="alert">
+        <p><b>Не вдалося видалити тег «карпати»</b></p>
+        <p>Тег на місці, на всіх 6 посиланнях. Спробуй ще раз — або трохи пізніше. <!-- [?] текст; flows.md, errTag --></p>
+        <div class="wf-actions">
+          <a class="wf-btn" href="search-loading.html#vydaliaiemo-teh">Повторити</a>
+          <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+        </div>
+      </div>
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
+        <label for="lq-4" class="vh">Шукати в Шухляді</label>
+        <input id="lq-4" name="q" type="search" autocomplete="off"
+               placeholder="Шукай — знайде й з одруківкою">
+        <kbd>Esc</kbd>
+      </form>
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «карпати»</b></p>
+      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <fieldset class="layer-filters">
+        <legend class="vh">Фільтри</legend>
+        <label>Категорія <select name="cat">
+            <option value="" selected>Усі категорії</option>
+            <option>Фільми й серіали · 12</option>
+            <option>Місця · 7</option>
+            <option>Статті й ресурси · 14</option>
+            <option>Документи · 4</option>
+            <option>Івенти · 3</option>
+            <option>Курси · 5</option>
+            <option>Покупки · 2</option>
+            <option>Інше · 1</option>
+          </select></label>
+        <label>Тег <select name="tag">
+            <option value="">Усі теги</option>
+            <option>дизайн · 8</option>
+            <option selected>карпати · 6</option>
+            <option>київ · 5</option>
+            <option>на вихідні · 4</option>
+            <option>робота · 3</option>
+          </select></label>
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+      </fieldset>
+      <section class="results" aria-label="Усі посилання з тегом, свіже першим">
+        <h3>Усі посилання з тегом, свіже першим <span>· 6</span></h3>
+        <ol class="cards">
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h4>
+                <div class="meta">
+                  <span>rozetka.com.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                  <span>додано сьогодні</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h4>
+                <div class="meta">
+                  <span>youtube.com</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                  <span>додано сьогодні</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://docs.google.com/document/d/karpaty-plan" target="_blank" rel="noopener">Поїздка в Карпати — план</a></h4>
+                <div class="meta">
+                  <span>docs.google.com</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Документи</span>
+                  <span>додано вчора</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://send.monobank.ua/jar/karpaty" target="_blank" rel="noopener">Банка «На Карпати»</a></h4>
+                <div class="meta">
+                  <span>send.monobank.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Інше</span>
+                  <span>додано 15 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</a>
+            </article>
+          </li>
+          <li> <!-- тестове посилання для пошуку [?] -->
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://booking.uz.gov.ua/train/kyiv-vorokhta" target="_blank" rel="noopener">Київ — Ворохта: квитки на потяг</a></h4>
+                <div class="meta">
+                  <span>booking.uz.gov.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                  <span>додано 14 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</a>
+            </article>
+          </li>
+          <li> <!-- тестове посилання для пошуку [?] -->
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://www.google.com/maps/place/hoverla" target="_blank" rel="noopener">Говерла — Google Карти</a></h4>
+                <div class="meta">
+                  <span>google.com/maps</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Місця</span>
+                  <span>додано 10 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</a>
+            </article>
+          </li>
+        </ol>
+      </section>
     </div>
   </dialog>
 

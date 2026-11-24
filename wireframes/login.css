@@ -1,0 +1,26 @@
+/*
+ * Розкладка екрана «Вхід» — спільна для базової сторінки й сторінок станів
+ * (login.html, login-loading/-error/-success.html). Рамка, шапка й повідомлення — у _frame.css.
+ *
+ * «Вхід» стоїть до навігації (_conventions.md, розділ 3): шапка лише з назвою, сайдбара немає.
+ * Тому сітка рамки — в одну колонку: main на всю ширину під шапкою.
+ */
+
+.device { grid-template-columns: minmax(0, 1fr); }
+.device > main { grid-area: 2 / 1 / 3 / -1; }
+
+/* Шапка: лише назва й підпис — колонки пошуку немає */
+.device > header { grid-template-columns: auto 1fr; }
+
+/* Форма входу — вузьким блоком по центру: одна дія, читається з одного погляду */
+.login-box { max-width: 440px; margin: 48px auto 0; }
+.login-lead { margin: 6px 0 0; color: var(--wf-text-2); }
+.login-box .wf-zone { margin-top: 16px; }
+.login-box .wf-status { margin: 0 0 12px; }
+
+/* «Увійти через Google» — єдина дія екрана, на всю ширину блока */
+.login-google { display: block; width: 100%; padding: 10px 12px; text-align: center; font-weight: 600; background: var(--wf-fill); }
+
+@media (max-width: 720px) {
+  .login-box { margin-top: 24px; }
+}

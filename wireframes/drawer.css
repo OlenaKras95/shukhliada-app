@@ -1,6 +1,7 @@
 /*
  * Розкладка екрана «Моя Шухляда» — спільна для базової сторінки й сторінок станів
- * (drawer.html, drawer-empty/-loading/-error/-success.html). Рамка, шапка, сайдбар,
+ * (drawer.html, drawer-empty/-loading/-error/-success.html). «⋯» на картці — посилання .wf-btn
+ * на шар «Посилання», з тим самим виглядом, що в кнопки. Рамка, шапка, сайдбар,
  * чипи, заглушки й повідомлення — у _frame.css.
  */
 
@@ -32,6 +33,12 @@
 
 /* Підпис стану на картці — замість анімації «вкладання» (_conventions.md, розділ 1) */
 .card-state { margin: 3px 0 0; font-size: 13px; font-weight: 600; }
+
+/* «Змінити» в підтвердженні: вибір із 8 категорій (flows.md, R3). Поточна — товстішою рамкою, формою, а не кольором */
+.cat-pick fieldset { margin: 8px 0 0; padding: 0; border: 0; min-width: 0; }
+.cat-pick legend { padding: 0; font-size: 14px; font-weight: 600; }
+.cat-pick ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.cat-pick [aria-current] { border: 2px solid var(--wf-text); font-weight: 600; }
 
 /* Порожня Шухляда: ілюстрація і пояснення в зоні «Нещодавно додане» */
 .empty-note { margin: 10px 0 0; }
