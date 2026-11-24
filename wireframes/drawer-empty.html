@@ -35,8 +35,8 @@
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
     <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
     <p class="wf-brand">Шухляда</p>
-    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
-    <form role="search" action="search.html" class="wf-search">
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
              placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
@@ -48,7 +48,7 @@
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" aria-label="Розділи Шухляди">
-    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
     <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
@@ -58,14 +58,14 @@
     <details class="wf-group" open>
       <summary>Категорії</summary>
       <ul>
-        <li><a href="search.html"><span>Фільми й серіали</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Місця</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Статті й ресурси</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Документи</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Івенти</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Курси</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Покупки</span> <span>0</span></a></li>
-        <li><a href="search.html"><span>Інше</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>0</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
@@ -77,7 +77,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a href="account.html">Акаунт</a></li>
+        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
       </ul>
     </footer>
   </nav>
@@ -93,12 +93,13 @@
     <section class="wf-zone" aria-labelledby="save-title">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити перше посилання; інших дій на екрані немає</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав перше посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
         <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
     </section>
 
     <!-- Зона 2. «Нещодавно додане» -->

@@ -189,6 +189,20 @@ kbd {
 .wf-status p + p { margin-top: 2px; font-size: 14px; }
 .wf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 8px; }
 button:disabled { color: var(--wf-text-2); cursor: default; }
+/* Дія, що в прототипі веде на наступний екран чи стан за flows.md: посилання з виглядом кнопки */
+.wf-btn {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-surface);
+  color: var(--wf-text);
+  text-decoration: none;
+  line-height: normal;
+}
+/* «Далі за flow» — підпис для перегляду, як .wf-label: куди веде кожна гілка розвилки (так і ні).
+   Переходи, які робить сама Шухляда (завантажилось, збереглося), людина тут клікає замість неї */
+.wf-flow { padding: 4px 8px; border: 1px dashed var(--wf-line); }
+.wf-flow a { color: var(--wf-text); }
 
 /* ---------- над рамкою: стани екрана й вкладки варіантів ----------
    Інструмент перегляду вайрфрейму, а не частина Шухляди — тому поза .device (_conventions.md, розділ 7) */

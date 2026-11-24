@@ -60,8 +60,8 @@
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
     <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
     <p class="wf-brand">Шухляда</p>
-    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
-    <form role="search" action="search.html" class="wf-search">
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
              placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
@@ -73,7 +73,7 @@
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" aria-label="Розділи Шухляди">
-    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
     <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
@@ -83,32 +83,32 @@
     <details class="wf-group" open>
       <summary>Категорії</summary>
       <ul>
-        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
-        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
-        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>Івенти</span> <span>3</span></a></li>
-        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
-        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
-        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
-        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#teh"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search-loading.html#teh"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search-loading.html#teh"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#teh"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#teh"><span>робота</span> <span>3</span></a></li>
       </ul>
     </details>
 
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a href="account.html">Акаунт</a></li>
+        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
       </ul>
     </footer>
   </nav>
@@ -117,6 +117,7 @@
   <main>
     <!-- Варіант «завантажуємо Шухляду» -->
     <div class="wf-variant" id="shukhliada">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · Шухляда завантажилась? так → є посилання? так → <a href="drawer.html">Моя Шухляда</a>; ні → <a href="drawer-empty.html">порожня Шухляда</a> · ні → <a href="drawer-error.html#zavantazhennia">«Не вдалося завантажити Шухляду»</a>; прийшли з «Поділитися» → <a href="drawer-error.html#podilytysia">та сама помилка з «Скопіювати посилання»</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p><span class="wf-skel count-skel"></span><span class="vh">Рахуємо посилання</span></p>
@@ -126,7 +127,7 @@
     <section class="wf-zone" aria-labelledby="save-title-1">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-1" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-1">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste-1" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
@@ -176,6 +177,7 @@
 
     <!-- Варіант «вкладається» -->
     <div class="wf-variant" id="vkladaietsia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · збереглося? так → <a href="drawer-success.html">«Збережено в Шухляді»</a> · ні → <a href="drawer-error.html#ne-zberehlosia">«Не вдалося зберегти»</a>; це була третя спроба → <a href="drawer-error.html#tretia-sproba">без повтору</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>48 посилань</p>
@@ -185,7 +187,7 @@
     <section class="wf-zone" aria-labelledby="save-title-2">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-2" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-2">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste-2" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
@@ -218,7 +220,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -235,7 +237,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -252,8 +254,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -266,6 +268,7 @@
 
     <!-- Варіант «підтягується назва, опис, іконка» -->
     <div class="wf-variant" id="pidtiahuietsia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · дані сторінки прийшли? так → <a href="drawer.html">Моя Шухляда</a>: назва, опис, іконка; ні → <a href="drawer.html">Моя Шухляда</a>: лише домен і м'яка заглушка, як у telegra.ph</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -275,7 +278,7 @@
     <section class="wf-zone" aria-labelledby="save-title-3">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-3" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-3">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste-3" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
@@ -313,7 +316,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -330,7 +333,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -347,8 +350,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -361,6 +364,7 @@
 
     <!-- Варіант «скасовуємо [?]» -->
     <div class="wf-variant" id="skasovuiemo">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · скасовано? так → <a href="drawer.html">Моя Шухляда</a>: картки немає · ні → <a href="drawer-error.html#ne-skasuvalosia">«Не вдалося скасувати»</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -370,7 +374,7 @@
     <section class="wf-zone" aria-labelledby="save-title-4">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-4" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-4">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste-4" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
@@ -408,7 +412,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -425,7 +429,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -442,8 +446,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
