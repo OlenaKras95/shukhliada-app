@@ -58,6 +58,13 @@ window.NAV_TREE = [
         { title: "Помилка", path: "wireframes/drawer-error.html" },
         { title: "Успіх", path: "wireframes/drawer-success.html" }
       ] }
+    ] },
+    { branch: "Пошук", items: [
+      { title: "Пошук", path: "wireframes/search.html", children: [
+        { title: "Порожній", path: "wireframes/search-empty.html" },
+        { title: "Завантаження", path: "wireframes/search-loading.html" },
+        { title: "Помилка", path: "wireframes/search-error.html" }
+      ] }
     ] }
   ] }
 ];

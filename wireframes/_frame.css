@@ -43,7 +43,7 @@ body {
 
 /* ---------- шапка: назва продукту · пошук, на всю ширину ---------- */
 .device > header {
-  grid-column: 1 / -1;
+  grid-area: 1 / 1 / 2 / -1; /* місця в сітці — явно: шар займає всю рамку, і автопоміщення його б обходило */
   display: grid;
   grid-template-columns: 208px minmax(0, 640px) 1fr; /* назва — над сайдбаром, пошук — над main */
   align-items: center;
@@ -59,6 +59,7 @@ body {
 
 /* ---------- глобальна навігація: сайдбар ---------- */
 .device > nav {
+  grid-area: 2 / 1 / 3 / 2;
   border-right: 1px solid var(--wf-line);
   padding: 16px 12px;
   display: flex;
@@ -103,7 +104,7 @@ body {
 }
 
 /* ---------- основна частина ---------- */
-.device > main { position: relative; padding: 16px 28px 28px; min-width: 0; overflow-y: auto; } /* relative — щоб приховані .vh не розтягували сторінку */
+.device > main { grid-area: 2 / -2 / 3 / -1; position: relative; padding: 16px 28px 28px; min-width: 0; overflow-y: auto; } /* relative — щоб приховані .vh не розтягували сторінку */
 main h1 { margin: 0; font-size: 22px; }
 main h2 { margin: 0 0 8px; font-size: 16px; }
 main h3 { margin: 0; font-size: 15px; font-weight: 600; }
@@ -218,8 +219,34 @@ button:disabled { color: var(--wf-text-2); cursor: default; }
    Відкриту вкладку позначає стиль сторінки: правило для кожного якоря */
 .wf-variant { display: none; scroll-margin-top: 100vh; } /* перехід на якір не ховає вкладки за край вікна */
 .wf-variant:target,
-main:not(:has(> .wf-variant:target)) > .wf-variant:first-child { display: block; }
+:is(main, .wf-layer):not(:has(> .wf-variant:target)) > .wf-variant:first-of-type { display: block; }
 body:not(:has(.wf-variant:target)) .wf-tabs li:first-child a { border-color: var(--wf-text); font-weight: 600; }
+
+/* ---------- шар: «Пошук», «Посилання» ----------
+   Поверх усієї рамки, як Ctrl+K: власне поле, свої дії. Екран під шаром приглушений і недоступний (inert) —
+   це той екран, з якого шар відкрили (_conventions.md, розділ 3). Закрити — посилання на екран під шаром;
+   Esc і фокус усередині шару — етап 3 [?], у вайрфреймі без JS. */
+.wf-layer {
+  grid-area: 1 / 1 / -1 / -1;
+  position: relative;
+  inset: auto;
+  z-index: 5;
+  align-self: start;
+  width: min(760px, calc(100% - 48px));
+  max-width: none;
+  max-height: calc(100% - 24px);
+  margin: 12px auto 0;
+  padding: 14px 20px 20px;
+  border: 1px solid var(--wf-text-2);
+  background: var(--wf-surface);
+  color: inherit;
+  overflow-y: auto;
+}
+.device:has(> .wf-layer[open]) > :not(.wf-layer) { opacity: .35; }
+.wf-layer > .wf-label { padding-right: 90px; }
+.wf-layer-close { position: absolute; top: 10px; right: 16px; font-size: 14px; }
+.wf-layer h4 { margin: 0; font-size: 15px; font-weight: 600; }
+mark { background: none; color: inherit; font-weight: 700; text-decoration: underline; } /* збіг — формою, не кольором */
 
 /* ---------- телефон: сайдбар — меню за бургером ----------
    Рішення PM 2026-11-24 (sitemap.md, «Навігація»): той самий сайдбар виїжджає зліва, таб-бару немає.
@@ -264,6 +291,7 @@ body:not(:has(.wf-variant:target)) .wf-tabs li:first-child a { border-color: var
   .device.wf-menu-open > .wf-scrim { display: block; position: fixed; inset: 0; z-index: 19; background: rgb(0 0 0 / .4); }
 
   .device > main { padding: 12px 14px 20px; }
+  .wf-layer { width: calc(100% - 16px); margin-top: 8px; padding: 12px 14px 16px; max-height: calc(100% - 16px); }
 }
 
 /* ---------- службове ---------- */

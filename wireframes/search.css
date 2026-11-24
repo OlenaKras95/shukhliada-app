@@ -1,0 +1,34 @@
+/*
+ * Шар «Пошук» — спільне для search.html і сторінок станів (search-empty/-loading/-error.html).
+ * Рамка, шар .wf-layer, поле .wf-search, картки (drawer.css) — не тут.
+ */
+
+/* Заголовок шару: «Пошук» або активний фільтр — «Фільми й серіали · 12» і «Скинути» (рішення PM 2026-11-24) */
+.layer-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 10px; }
+.layer-head h2 { margin: 0; font-size: 20px; }
+.layer-head h2 span { font-weight: 400; color: var(--wf-text-2); }
+
+/* Поле запиту — той самий компонент, що в шапці (.wf-search); підказка клавіші — Esc */
+.wf-layer .wf-search { margin-top: 10px; }
+
+/* Дані, з якими людина звіряє запит: де шукаємо, з яким фільтром, скільки знайшлося */
+.layer-where { margin: 6px 0 0; font-size: 13px; color: var(--wf-text-2); }
+.layer-where b { color: var(--wf-text); font-weight: 600; }
+
+/* Фільтри: категорія, тег, «Нещодавно додане» (бриф §3.4) */
+.layer-filters { margin: 10px 0 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; font-size: 14px; }
+.layer-filters label { display: inline-flex; align-items: center; gap: 6px; }
+select { font: inherit; color: inherit; padding: 4px 6px; border: 1px solid var(--wf-line); background: var(--wf-surface); }
+
+/* Групи результатів: точні збіги, схожі */
+.results { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--wf-line-soft); }
+.results h3 { margin: 0 0 4px; font-size: 14px; }
+.results h3 span { font-weight: 400; color: var(--wf-text-2); }
+.match { margin: 2px 0 0; font-size: 13px; color: var(--wf-text-2); } /* де знайшлося — назва, тег, нотатка */
+
+/* Категорії чипами — під «нічого не знайшлося» і в помилці пошуку: вихід гортати */
+.cat-chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 6px 0 0; padding: 0; }
+.cat-chips .wf-chip { font-size: 13px; line-height: 24px; }
+
+.layer-empty { margin-top: 14px; }
+.layer-empty .wf-illustration { min-height: 90px; }

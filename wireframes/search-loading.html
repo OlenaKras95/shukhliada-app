@@ -1,0 +1,510 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Пошук — шар · завантаження (sitemap.md, «Екрани»: search.html, група «Пошук»).
+  Job: R4 «дістати за тим, що пам'ятається» (research/notes/11-jtbd.md); ще Main, E3, R2 — sitemap.md.
+  Рамка, шапка й навігація — ті самі, що на drawer.html. Під шаром — «Моя Шухляда», приглушена й inert.
+  Шар — поверх усієї рамки, як Ctrl+K: своє поле запиту, той самий компонент .wf-search, що в шапці.
+  Біля поля — дані для звірки запиту: де шукаємо (назва, опис, адреса, нотатка, теги — бриф §3.4), фільтр, скільки знайшлося;
+  у результатах — де знайшлося і сам збіг, підкреслено.
+  Тексти з [?] — мої, ключі в microcopy.md з'являться пізніше; тестові посилання з [?] додано для пошуку.
+  3 варіанти (sitemap.md; flows.md, R4): шукаємо (loadQ) — чекаємо відповіді пошуку на запит;
+  завантажуємо категорію (loadCat) — чекаємо посилання категорії; завантажуємо посилання з тегом (loadTag).
+  Сірі заглушки на місці результатів; запит, фільтр і заголовок уже видно — їх людина ввела чи вибрала сама.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пошук · завантаження · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="drawer.css"> <!-- картки — ті самі, що на «Моїй Шухляді» -->
+  <link rel="stylesheet" href="search.css">
+  <style>
+    /* відкрита вкладка — для кожного якоря */
+    body:has(#shukaiemo:target) .wf-tabs a[href="#shukaiemo"],
+    body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
+    body:has(#teh:target) .wf-tabs a[href="#teh"] { border-color: var(--wf-text); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіху немає: «—» у sitemap.md -->
+<nav class="wf-states" aria-label="Стани шару «Пошук»">
+  <p>Пошук · стани:</p>
+  <ul>
+    <li><a href="search.html">Базовий вигляд</a></li>
+    <li><a href="search-empty.html">Порожній</a></li>
+    <li><a href="search-loading.html" aria-current="page">Завантаження</a></li>
+    <li><a href="search-error.html">Помилка</a></li>
+  </ul>
+</nav>
+<!-- Варіанти стану — вкладками, без JS: якір і :target (_conventions.md, розділ 7) -->
+<nav class="wf-tabs" aria-label="Варіанти: Пошук · завантаження">
+  <p>Пошук · завантаження — варіанти:</p>
+  <ul>
+    <li><a href="#shukaiemo">шукаємо</a></li>
+    <li><a href="#katehoriia">завантажуємо категорію</a></li>
+    <li><a href="#teh">завантажуємо посилання з тегом</a></li>
+  </ul>
+</nav>
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header inert>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
+    <form role="search" action="search.html" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" inert aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <ul>
+        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+      </ul>
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <!-- Екран під шаром — «Моя Шухляда», приглушений і недоступний, поки шар відкрито -->
+  <main inert>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>48 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
+    <section class="wf-zone" aria-labelledby="save-title">
+      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
+      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <form action="#" onsubmit="return false">
+        <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+      </form>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+         чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
+    <section class="wf-zone" aria-labelledby="recent-title">
+      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
+      <h2 id="recent-title">Нещодавно додане</h2>
+      <ol class="cards">
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.imdb.com/title/tt0816692" target="_blank" rel="noopener">Interstellar (2014) — IMDb</a></h3>
+              <div class="meta">
+                <span>imdb.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h3>
+              <div class="meta">
+                <span>rozetka.com.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h3>
+              <div class="meta">
+                <span>youtube.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://docs.google.com/document/d/karpaty-plan" target="_blank" rel="noopener">Поїздка в Карпати — план</a></h3>
+              <div class="meta">
+                <span>docs.google.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Документи</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
+              <div class="meta">
+                <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                <span class="cat"><span class="vh">Категорія: </span>Місця</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: сходити з батьками</p>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
+              <div class="meta">
+                <span>eventbrite.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span>додано 23 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+            <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
+            <button type="button" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://dou.ua/lenta/articles/designer-interview" target="_blank" rel="noopener">Як дизайнеру підготуватися до співбесіди</a></h3>
+              <div class="meta">
+                <span>dou.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 22 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">робота</a></li>
+                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: порадили в чаті курсу</p>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <!-- `лише домен`: сторінка нічого не віддала — домен замість назви, м'яка заглушка замість іконки (бриф §3.1) -->
+            <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
+              <div class="meta">
+                <span>telegra.ph</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 20 листопада</span>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «telegra.ph»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://letterboxd.com/film/shadows-of-forgotten-ancestors" target="_blank" rel="noopener">Shadows of Forgotten Ancestors (1965)</a></h3>
+              <div class="meta">
+                <span>letterboxd.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано 18 листопада</span>
+                <span>✓ Вже переглянуто</span>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+          </article>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <!-- Шар «Пошук» (sitemap.md, «Екрани»: search.html, група «Пошук»; job R4 — research/notes/11-jtbd.md).
+       Відкривається полем пошуку в шапці, Ctrl+K чи /, категорією чи тегом у сайдбарі, чипом тегу на картці -->
+  <dialog class="wf-layer" open aria-label="Пошук">
+    <p class="wf-label"><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</p>
+    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 [?] -->
+
+    <!-- Варіант «шукаємо» -->
+    <div class="wf-variant" id="shukaiemo">
+      <div class="layer-head"><h2 class="vh">Пошук</h2></div>
+      <form role="search" action="search.html" class="wf-search">
+        <label for="lq-1" class="vh">Шукати в Шухляді</label>
+        <input id="lq-1" name="q" type="search" autocomplete="off" value="карпати"
+               placeholder="Шукай — знайде й з одруківкою">
+        <kbd>Esc</kbd>
+      </form>
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах</p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <fieldset class="layer-filters">
+        <legend class="vh">Фільтри</legend>
+        <label>Категорія <select name="cat">
+            <option value="" selected>Усі категорії</option>
+            <option>Фільми й серіали · 12</option>
+            <option>Місця · 7</option>
+            <option>Статті й ресурси · 14</option>
+            <option>Документи · 4</option>
+            <option>Івенти · 3</option>
+            <option>Курси · 5</option>
+            <option>Покупки · 2</option>
+            <option>Інше · 1</option>
+          </select></label>
+        <label>Тег <select name="tag">
+            <option value="" selected>Усі теги</option>
+            <option>дизайн · 8</option>
+            <option>карпати · 6</option>
+            <option>київ · 5</option>
+            <option>на вихідні · 4</option>
+            <option>робота · 3</option>
+          </select></label>
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+      </fieldset>
+      <section class="results" aria-label="Результати" aria-busy="true">
+        <p class="wf-hint" role="status">Шукаємо «карпати»…</p> <!-- [?] текст -->
+        <ol class="cards" aria-hidden="true">
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- Варіант «завантажуємо категорію» -->
+    <div class="wf-variant" id="katehoriia">
+      <div class="layer-head">
+        <h2>Фільми й серіали <span>· 12</span></h2>
+        <a href="search.html#porozhnii-zapyt">Скинути</a>
+      </div>
+      <form role="search" action="search.html" class="wf-search">
+        <label for="lq-2" class="vh">Шукати в Шухляді</label>
+        <input id="lq-2" name="q" type="search" autocomplete="off"
+               placeholder="Шукай — знайде й з одруківкою">
+        <kbd>Esc</kbd>
+      </form>
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>Фільми й серіали</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <fieldset class="layer-filters">
+        <legend class="vh">Фільтри</legend>
+        <label>Категорія <select name="cat">
+            <option value="">Усі категорії</option>
+            <option selected>Фільми й серіали · 12</option>
+            <option>Місця · 7</option>
+            <option>Статті й ресурси · 14</option>
+            <option>Документи · 4</option>
+            <option>Івенти · 3</option>
+            <option>Курси · 5</option>
+            <option>Покупки · 2</option>
+            <option>Інше · 1</option>
+          </select></label>
+        <label>Тег <select name="tag">
+            <option value="" selected>Усі теги</option>
+            <option>дизайн · 8</option>
+            <option>карпати · 6</option>
+            <option>київ · 5</option>
+            <option>на вихідні · 4</option>
+            <option>робота · 3</option>
+          </select></label>
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+      </fieldset>
+      <section class="results" aria-label="Уся категорія" aria-busy="true">
+        <p class="wf-hint" role="status">Завантажуємо «Фільми й серіали»…</p> <!-- [?] текст; flows.md, loadCat -->
+        <ol class="cards" aria-hidden="true">
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- Варіант «завантажуємо посилання з тегом» -->
+    <div class="wf-variant" id="teh">
+      <div class="layer-head">
+        <h2>карпати <span>· 6</span></h2>
+        <a href="search.html#porozhnii-zapyt">Скинути</a>
+        <button type="button">Видалити тег</button> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); підтвердження — flow R3, «далі», крок 08 -->
+      </div>
+      <form role="search" action="search.html" class="wf-search">
+        <label for="lq-3" class="vh">Шукати в Шухляді</label>
+        <input id="lq-3" name="q" type="search" autocomplete="off"
+               placeholder="Шукай — знайде й з одруківкою">
+        <kbd>Esc</kbd>
+      </form>
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «карпати»</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <fieldset class="layer-filters">
+        <legend class="vh">Фільтри</legend>
+        <label>Категорія <select name="cat">
+            <option value="" selected>Усі категорії</option>
+            <option>Фільми й серіали · 12</option>
+            <option>Місця · 7</option>
+            <option>Статті й ресурси · 14</option>
+            <option>Документи · 4</option>
+            <option>Івенти · 3</option>
+            <option>Курси · 5</option>
+            <option>Покупки · 2</option>
+            <option>Інше · 1</option>
+          </select></label>
+        <label>Тег <select name="tag">
+            <option value="">Усі теги</option>
+            <option>дизайн · 8</option>
+            <option selected>карпати · 6</option>
+            <option>київ · 5</option>
+            <option>на вихідні · 4</option>
+            <option>робота · 3</option>
+          </select></label>
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+      </fieldset>
+      <section class="results" aria-label="Посилання з тегом" aria-busy="true">
+        <p class="wf-hint" role="status">Завантажуємо посилання з тегом «карпати»…</p> <!-- [?] текст; flows.md, loadTag -->
+        <ol class="cards" aria-hidden="true">
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+          <li>
+            <article class="card-skel">
+              <span class="wf-icon"></span>
+              <div class="card-text"><span class="wf-skel"></span><span class="wf-skel"></span></div>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </dialog>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>
