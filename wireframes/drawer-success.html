@@ -1,0 +1,202 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Моя Шухляда · успіх (sitemap.md, «Екрани»: «збережено» — «Збережено в Шухляді»: домен, поки назва підтягується,
+  категорія, «Змінити», «Скасувати»). «Моя Шухляда» — екран дії: людина вкладає посилання, тож успіх є.
+  Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст.
+  flows.md, Main: saved «успіх кроку: «Збережено в Шухляді», домен і категорія, «Змінити», «Скасувати»» → meta (підтягується).
+  Що далі: виправити категорію («Змінити», flow R3), прибрати випадкову вставку («Скасувати»), вставити наступне — поле знову порожнє,
+  або відкрити збережене — картка зверху «Нещодавно доданого». Підтвердження зникає за кілька секунд (бриф §3.1).
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Моя Шухляда · успіх · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="drawer.css">
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7) -->
+<nav class="wf-states" aria-label="Стани екрана «Моя Шухляда»">
+  <p>Моя Шухляда · стани:</p>
+  <ul>
+    <li><a href="drawer.html">Базовий вигляд</a></li>
+    <li><a href="drawer-empty.html">Порожній</a></li>
+    <li><a href="drawer-loading.html">Завантаження</a></li>
+    <li><a href="drawer-error.html">Помилка</a></li>
+    <li><a href="drawer-success.html" aria-current="page">Успіх</a></li>
+  </ul>
+</nav>
+
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
+    <form role="search" action="search.html" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>Івенти</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <ul>
+        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+      </ul>
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <main>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>49 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
+    <section class="wf-zone" aria-labelledby="save-title">
+      <p class="wf-label"><b>Поле для вставки</b> · збережено: підтвердження під полем, поле знову вільне</p>
+      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <form action="#" onsubmit="return false">
+        <label for="paste">Встав посилання — і воно вже в Шухляді</label>
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…">
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
+      </form>
+      <!-- Підтвердження — біля поля, де вставляли. Зникає за кілька секунд (бриф §3.1) -->
+      <aside class="wf-status" role="status" aria-label="Підтвердження">
+        <p><b>Збережено в Шухляді</b></p>
+        <p>meetup.com · Категорія: <b>Івенти</b></p> <!-- домен, поки назва підтягується -->
+        <div class="wf-actions">
+          <button type="button">Змінити</button> <!-- категорію, одним кліком: flow R3 -->
+          <button type="button">Скасувати</button>
+          <span class="wf-hint">Можна вставляти наступне</span> <!-- [?] текст -->
+        </div>
+      </aside>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» -->
+    <section class="wf-zone" aria-labelledby="recent-title">
+      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху; назва, опис та іконка ще підтягуються</p>
+      <h2 id="recent-title">Нещодавно додане</h2>
+      <ol class="cards">
+        <li>
+          <article aria-busy="true">
+            <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.meetup.com/kyiv-ux/events/december" target="_blank" rel="noopener">meetup.com</a></h3>
+              <div class="meta">
+                <span>meetup.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span>додано щойно</span>
+              </div>
+              <p class="card-state" role="status">Підтягуємо назву й опис…</p> <!-- [?] текст -->
+            </div>
+            <button type="button" aria-label="Відкрити посилання «meetup.com»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.imdb.com/title/tt0816692" target="_blank" rel="noopener">Interstellar (2014) — IMDb</a></h3>
+              <div class="meta">
+                <span>imdb.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h3>
+              <div class="meta">
+                <span>rozetka.com.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h3>
+              <div class="meta">
+                <span>youtube.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+          </article>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>
