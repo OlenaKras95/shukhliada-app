@@ -75,6 +75,50 @@ function listsAfter(blockIndex) {
 }
 html = html.replace(/<!--LISTS:(\d+)-->/g, (all, n) => "\n" + listsAfter(+n - 1) + "\n");
 
+// ---------- цілі розділи з markdown: <!--MD:файл#Заголовок--> ----------
+// Абзаци, списки й таблиці. Розділ — від заголовка до наступного заголовка того самого чи вищого рівня.
+const sources = { "flows.md": md, "sitemap.md": sitemap };
+function inlineFrom(file, s) {
+  let h = esc(s);
+  h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
+  h = h.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+  h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (all, text, href) => {
+    const url = /^https?:/.test(href) ? href : href.startsWith("#") ? REPO + file + href : REPO + href;
+    return `<a href="${url}">${text}</a>`;
+  });
+  return h;
+}
+function tableHtml(file, lines) {
+  const cells = (l) => l.replace(/^\s*\|/, "").replace(/\|\s*$/, "").split("|").map((c) => c.trim());
+  const [head, , ...rows] = lines;
+  const th = cells(head).map((c) => `<th>${inlineFrom(file, c)}</th>`).join("");
+  const tr = rows.map((r) => "<tr>" + cells(r).map((c, i) =>
+    i === 0 ? `<th>${inlineFrom(file, c)}</th>` : `<td>${inlineFrom(file, c)}</td>`).join("") + "</tr>").join("\n");
+  return `<div class="table-wrap"><table>\n<thead><tr>${th}</tr></thead>\n<tbody>\n${tr}\n</tbody></table></div>`;
+}
+function mdSection(file, title) {
+  const src = sources[file];
+  if (!src) throw new Error("unknown source " + file);
+  const re = new RegExp("^(#{2,4}) " + title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*$", "m");
+  const m = re.exec(src);
+  if (!m) throw new Error(`no section «${title}» in ${file}`);
+  const level = m[1].length;
+  const rest = src.slice(m.index + m[0].length);
+  const end = rest.search(new RegExp("^#{1," + level + "} |^---$", "m"));
+  const body = (end === -1 ? rest : rest.slice(0, end)).trim();
+  return body.split(/\n\s*\n/).map((block) => {
+    const lines = block.split("\n");
+    if (lines.every((l) => l.trim().startsWith("|"))) return tableHtml(file, lines);
+    if (lines.every((l) => /^(\d+\.|-)\s/.test(l))) return listHtml(lines);
+    const head = /^\*\*([^*]+):\*\*\s*$/.exec(lines[0]);
+    if (head && lines.slice(1).every((l) => /^(\d+\.|-)\s/.test(l))) {
+      return `<p><b>${esc(head[1])}:</b></p>\n` + listHtml(lines.slice(1));
+    }
+    return `<p>${inlineFrom(file, lines.join(" "))}</p>`;
+  }).join("\n");
+}
+html = html.replace(/<!--MD:([^#>]+)#([^>]+?)-->/g, (all, file, title) => "\n" + mdSection(file.trim(), title.trim()) + "\n");
+
 // ---------- теги jobs з назвами з матриці трасування ----------
 const names = {};
 const after = sitemap.slice(sitemap.indexOf("### Матриця: після рішень"));
@@ -94,7 +138,7 @@ html = html.replace(/<!--JOBS:([^>]+)-->/g, (all, spec) => spec.trim().split(/\s
   return `<span class="tag ${cls}" tabindex="0" data-name="${esc(full)}">${esc(label)}<span class="vh"> — ${esc(name)}</span></span>`;
 }).join(""));
 
-const left = html.match(/<!--(FLOW|LISTS|JOBS):/);
+const left = html.match(/<!--(FLOW|LISTS|JOBS|MD):/);
 if (left) throw new Error("unreplaced marker " + left[0]);
 fs.writeFileSync(out, html);
 console.log("blocks:", fences.length, "jobs:", Object.keys(names).length);
