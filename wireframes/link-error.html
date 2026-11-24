@@ -1,0 +1,572 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Посилання — шар · помилка (sitemap.md, «Екрани»: link.html, група «Посилання»).
+  Job: R2 «одразу розуміти, що це й навіщо» (research/notes/11-jtbd.md); ще R3, R4. Розкладку шару обґрунтовано в link.html.
+  Рамка, шапка й навігація — ті самі, що на drawer.html. Під шаром — «Моя Шухляда», приглушена й inert.
+  4 варіанти (sitemap.md; flows.md, R3 і «R3, далі»). Помилку видно формою — товста рамка, — і стоїть вона там, де людина діяла.
+  Виходи звірено з flows.md — тупика немає в жодному варіанті:
+  - errLink / errDup → «Повторити» або «Закрити» шар: категорію виправить пізніше (endClose);
+  - errEdit → «Повторити»; текст лишається в полі, поки шар відкрито (deadEdit) [?];
+  - errChange → «Повторити»; категорія як була, виправити пізніше через «⋯» (endLater);
+  - errDel → «Повторити» або «Скасувати»; посилання лишилося (deadDel) [?].
+  «Не минає? Напиши нам на пошту» (рішення PM 2026-11-25) — у кожному з чотирьох: причина невідома, і повтор може не допомогти.
+  Тексти з [?] — мої; ключі в microcopy.md з'являться пізніше.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Посилання · помилка · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="drawer.css"> <!-- картки під шаром — ті самі, що на «Моїй Шухляді» -->
+  <link rel="stylesheet" href="link.css">
+  <style>
+    /* відкрита вкладка — для кожного якоря */
+    body:has(#ne-vidkrylos:target) .wf-tabs a[href="#ne-vidkrylos"],
+    body:has(#zmina:target) .wf-tabs a[href="#zmina"],
+    body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
+    body:has(#vydalennia:target) .wf-tabs a[href="#vydalennia"] { border-color: var(--wf-text); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- Стани шару — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Порожнього немає: «—» у sitemap.md -->
+<nav class="wf-states" aria-label="Стани шару «Посилання»">
+  <p>Посилання · стани:</p>
+  <ul>
+    <li><a href="link.html">Базовий вигляд</a></li>
+    <li><a href="link-loading.html">Завантаження</a></li>
+    <li><a href="link-error.html" aria-current="page">Помилка</a></li>
+    <li><a href="link-success.html">Успіх</a></li>
+  </ul>
+</nav>
+<!-- Варіанти стану — вкладками, без JS: якір і :target (_conventions.md, розділ 7) -->
+<nav class="wf-tabs" aria-label="Варіанти: Посилання · помилка">
+  <p>Посилання · помилка — варіанти:</p>
+  <ul>
+    <li><a href="#ne-vidkrylos">не вдалося відкрити посилання</a></li>
+    <li><a href="#zmina">не вдалося зберегти зміну [?]</a></li>
+    <li><a href="#katehoriia">не вдалося змінити категорію [?]</a></li>
+    <li><a href="#vydalennia">не вдалося видалити [?]</a></li>
+  </ul>
+</nav>
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header inert>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" inert aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <ul>
+        <li><a href="search-loading.html#teh"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search-loading.html#teh"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search-loading.html#teh"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#teh"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#teh"><span>робота</span> <span>3</span></a></li>
+      </ul>
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <!-- Екран під шаром — «Моя Шухляда», приглушений і недоступний, поки шар відкрито. Вміст — вигляд «робочий» з drawer.html -->
+  <main inert>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>48 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
+    <section class="wf-zone" aria-labelledby="save-title">
+      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
+      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
+        <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+      </form>
+      <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
+      <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+         чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
+    <section class="wf-zone" aria-labelledby="recent-title">
+      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
+      <h2 id="recent-title">Нещодавно додане</h2>
+      <ol class="cards">
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.imdb.com/title/tt0816692" target="_blank" rel="noopener">Interstellar (2014) — IMDb</a></h3>
+              <div class="meta">
+                <span>imdb.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h3>
+              <div class="meta">
+                <span>rozetka.com.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h3>
+              <div class="meta">
+                <span>youtube.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://docs.google.com/document/d/karpaty-plan" target="_blank" rel="noopener">Поїздка в Карпати — план</a></h3>
+              <div class="meta">
+                <span>docs.google.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Документи</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
+              <div class="meta">
+                <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                <span class="cat"><span class="vh">Категорія: </span>Місця</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: сходити з батьками</p>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
+              <div class="meta">
+                <span>eventbrite.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span>додано 23 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+            <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
+            <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://dou.ua/lenta/articles/designer-interview" target="_blank" rel="noopener">Як дизайнеру підготуватися до співбесіди</a></h3>
+              <div class="meta">
+                <span>dou.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 22 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">робота</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: порадили в чаті курсу</p>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <!-- `лише домен`: сторінка нічого не віддала — домен замість назви, м'яка заглушка замість іконки (бриф §3.1) -->
+            <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
+              <div class="meta">
+                <span>telegra.ph</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 20 листопада</span>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://letterboxd.com/film/shadows-of-forgotten-ancestors" target="_blank" rel="noopener">Shadows of Forgotten Ancestors (1965)</a></h3>
+              <div class="meta">
+                <span>letterboxd.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано 18 листопада</span>
+                <span>✓ Вже переглянуто</span>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
+          </article>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <!-- Шар «Посилання» (sitemap.md, «Екрани»: link.html, група «Посилання»; job R2, ще R3, R4 — research/notes/11-jtbd.md).
+       Відкривається «⋯» на картці — на головному чи в результатах пошуку — і з «Вже в Шухляді» -->
+  <dialog class="wf-layer" open aria-label="Посилання">
+    <p class="wf-label"><b>Посилання · шар</b> · job <a href="../research/notes/11-jtbd.md#r2--одразу-розуміти-що-це-й-навіщо">R2</a> «одразу розуміти, що це й навіщо» · головна дія — звірити, що це й навіщо, і виправити поле</p>
+    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 [?] -->
+
+    <!-- Варіант «не вдалося відкрити посилання» (flows.md, R3: errLink; Main: errDup). Назву, сайт і адресу видно з картки [?] -->
+    <div class="wf-variant" id="ne-vidkrylos">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3; Main) · «Повторити» → <a href="link-loading.html#vidkryvaiemo">відкриваємо посилання</a>; вдалося → <a href="link.html">шар з полями</a> · ні — закриває шар → <a href="drawer.html">список як був</a>, виправити пізніше через «⋯»</p>
+      <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
+      <header class="link-head">
+        <span class="wf-icon" aria-hidden="true"></span>
+        <h2>Музей Ханенків — Google Карти</h2>
+        <p class="link-addr"><b>google.com/maps</b> · <span class="vh">Адреса: </span>https://www.google.com/maps/place/khanenko-museum</p>
+        <a class="wf-btn" href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Відкрити сторінку</a>
+      </header>
+      <aside class="wf-status wf-status--error" role="alert">
+        <p><b>Не вдалося відкрити посилання</b></p>
+        <p>Шухляда зараз не відповідає. Спробуй ще раз — або закрий і повернись пізніше.</p> <!-- [?] текст -->
+        <div class="wf-actions">
+          <a class="wf-btn" href="link-loading.html#vidkryvaiemo">Повторити</a>
+          <a class="wf-btn" href="drawer.html">Закрити</a> <!-- не вийшло — закрити шар (sitemap.md) -->
+          <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+        </div>
+      </aside>
+    </div>
+
+    <!-- Варіант «не вдалося зберегти зміну» [?] (flows.md, «R3, далі»: errEdit): зміна лишається в полі, повідомлення — під ним -->
+    <div class="wf-variant" id="zmina">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · «Повторити» → <a href="link-loading.html#zberihaiemo">зберігаємо зміну</a>; вдалося → <a href="link-success.html#zmina">зміну збережено</a> · ні — текст лишається в полі, поки шар відкрито: спробувати пізніше або написати на пошту · закриває шар → <a href="drawer.html">список</a></p>
+      <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
+      <header class="link-head">
+        <span class="wf-icon" aria-hidden="true"></span>
+        <h2>Музей Ханенків — Google Карти</h2>
+        <p class="link-addr"><b>google.com/maps</b> · <span class="vh">Адреса: </span>https://www.google.com/maps/place/khanenko-museum</p>
+        <a class="wf-btn" href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Відкрити сторінку</a>
+      </header>
+      <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+      <form class="link-fields" action="link-loading.html#zberihaiemo">
+        <p class="field">
+          <label for="name-1">Назва</label>
+          <input id="name-1" name="title" type="text" value="Музей Ханенків — Google Карти">
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="desc-1">Опис</label>
+          <textarea id="desc-1" name="description" rows="2">Музей мистецтв імені Богдана та Варвари Ханенків · вул. Терещенківська, 15–17, Київ</textarea>
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="note-1">Нотатка</label>
+          <textarea id="note-1" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні" aria-invalid="true" aria-describedby="note-err-1">сходити з батьками в неділю</textarea> <!-- [?] текст -->
+          <small class="field-src">Нотатку додано 24 листопада</small> <!-- [?] текст -->
+        </p>
+        <aside class="wf-status wf-status--error field-msg" id="note-err-1" role="alert">
+          <p><b>Не вдалося зберегти зміну</b></p>
+          <p>Текст лишився в полі, поки шар відкрито. Спробуй ще раз.</p> <!-- [?] текст -->
+          <div class="wf-actions">
+            <a class="wf-btn" href="link-loading.html#zberihaiemo">Повторити</a>
+            <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+          </div>
+        </aside>
+        <fieldset class="field">
+          <legend>Категорія</legend>
+          <!-- Вибір із 8 — розкривний, без JS: один клік відкриває, другий обирає (sitemap.md, «Глибина»). Вибір — перехід, тому посилання -->
+          <details class="cat-pick">
+            <summary><span class="cat">Місця</span> <span class="cat-change">Змінити</span></summary>
+            <ul class="cat-options" aria-label="Категорії">
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Фільми й серіали</a></li>
+              <li><a class="wf-btn" href="link.html" aria-current="true">Місця</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
+            </ul>
+          </details>
+          <small class="field-src">Вгадано за сайтом google.com/maps</small> <!-- [?] текст; статус категорії: `вгадана` -->
+        </fieldset>
+        <fieldset class="field">
+          <legend>Теги</legend>
+          <ul class="link-tags" aria-label="Теги посилання">
+            <li><span class="wf-chip">київ <a href="link-loading.html#zberihaiemo" aria-label="Зняти тег «київ»">×</a></span></li>
+          </ul>
+          <span class="tag-add">
+            <label for="tag-1" class="vh">Додати тег</label>
+            <input id="tag-1" name="tag" type="text" list="known-tags-1" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <button type="submit">Додати</button>
+          </span>
+          <datalist id="known-tags-1"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+        </fieldset>
+        <p class="field field--switch">
+          <input id="seen-1" name="seen" type="checkbox" role="switch">
+          <label for="seen-1">Вже переглянуто</label>
+        </p>
+        <p class="field-ro">Додано <time datetime="2026-11-24">24 листопада 2026</time></p>
+      </form>
+      <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
+      <footer class="link-foot">
+        <a class="wf-btn" href="link.html#vydalyty">Видалити</a>
+      </footer>
+    </div>
+
+    <!-- Варіант «не вдалося змінити категорію» [?] (flows.md, R3: errChange): на шарі — біля категорії (рішення PM 2026-11-24). Категорія лишилася вгаданою -->
+    <div class="wf-variant" id="katehoriia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="link-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="link-success.html#katehoriia">категорію змінено</a> · ні — категорія як була, посилання на місці: «Закрити» → <a href="drawer.html">список</a>, виправити пізніше через «⋯»</p>
+      <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
+      <header class="link-head">
+        <span class="wf-icon" aria-hidden="true"></span>
+        <h2>Як дизайнеру підготуватися до співбесіди</h2>
+        <p class="link-addr"><b>dou.ua</b> · <span class="vh">Адреса: </span>https://dou.ua/lenta/articles/designer-interview</p>
+        <a class="wf-btn" href="https://dou.ua/lenta/articles/designer-interview" target="_blank" rel="noopener">Відкрити сторінку</a>
+      </header>
+      <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+      <form class="link-fields" action="link-loading.html#zberihaiemo">
+        <p class="field">
+          <label for="name-2">Назва</label>
+          <input id="name-2" name="title" type="text" value="Як дизайнеру підготуватися до співбесіди">
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="desc-2">Опис</label>
+          <textarea id="desc-2" name="description" rows="2">Що питають на співбесіді дизайнера і як розповісти про своє портфоліо</textarea>
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="note-2">Нотатка</label>
+          <textarea id="note-2" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">порадили в чаті курсу</textarea> <!-- [?] текст -->
+          <small class="field-src">Нотатку додано 22 листопада</small> <!-- [?] текст -->
+        </p>
+        <fieldset class="field">
+          <legend>Категорія</legend>
+          <!-- Вибір із 8 — розкривний, без JS: один клік відкриває, другий обирає (sitemap.md, «Глибина»). Вибір — перехід, тому посилання -->
+          <details class="cat-pick">
+            <summary><span class="cat">Інше</span> <span class="cat-change">Змінити</span></summary>
+            <ul class="cat-options" aria-label="Категорії">
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Фільми й серіали</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Місця</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
+              <li><a class="wf-btn" href="link.html" aria-current="true">Інше</a></li>
+            </ul>
+          </details>
+          <small class="field-src">Сайт незнайомий — тому «Інше»</small> <!-- [?] текст; статус категорії: `вгадана` -->
+          <aside class="wf-status wf-status--error" role="alert">
+            <p><b>Не вдалося змінити категорію</b></p>
+            <p>Посилання лишилося в «Інше». Спробуй ще раз — або виправ пізніше через «⋯» на картці.</p> <!-- [?] текст -->
+            <div class="wf-actions">
+              <a class="wf-btn" href="link-loading.html#katehoriia">Повторити</a>
+              <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+            </div>
+          </aside>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Теги</legend>
+          <ul class="link-tags" aria-label="Теги посилання">
+            <li><span class="wf-chip">робота <a href="link-loading.html#zberihaiemo" aria-label="Зняти тег «робота»">×</a></span></li>
+            <li><span class="wf-chip">дизайн <a href="link-loading.html#zberihaiemo" aria-label="Зняти тег «дизайн»">×</a></span></li>
+          </ul>
+          <span class="tag-add">
+            <label for="tag-2" class="vh">Додати тег</label>
+            <input id="tag-2" name="tag" type="text" list="known-tags-2" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <button type="submit">Додати</button>
+          </span>
+          <datalist id="known-tags-2"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+        </fieldset>
+        <p class="field field--switch">
+          <input id="seen-2" name="seen" type="checkbox" role="switch">
+          <label for="seen-2">Вже переглянуто</label>
+        </p>
+        <p class="field-ro">Додано <time datetime="2026-11-22">22 листопада 2026</time></p>
+      </form>
+      <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
+      <footer class="link-foot">
+        <a class="wf-btn" href="link.html#vydalyty">Видалити</a>
+      </footer>
+    </div>
+
+    <!-- Варіант «не вдалося видалити» [?] (flows.md, «R3, далі»: errDel): посилання на місці, поля знову доступні -->
+    <div class="wf-variant" id="vydalennia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · «Повторити» → <a href="link-loading.html#vydaliaiemo">видаляємо</a>; вдалося → <a href="link-success.html#vydaleno">видалено</a> · ні — посилання лишилося: «Скасувати» → <a href="link.html">шар як був</a>, спробувати пізніше або написати на пошту</p>
+      <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
+      <header class="link-head">
+        <span class="wf-icon" aria-hidden="true"></span>
+        <h2>Музей Ханенків — Google Карти</h2>
+        <p class="link-addr"><b>google.com/maps</b> · <span class="vh">Адреса: </span>https://www.google.com/maps/place/khanenko-museum</p>
+        <a class="wf-btn" href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Відкрити сторінку</a>
+      </header>
+      <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+      <form class="link-fields" action="link-loading.html#zberihaiemo">
+        <p class="field">
+          <label for="name-3">Назва</label>
+          <input id="name-3" name="title" type="text" value="Музей Ханенків — Google Карти">
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="desc-3">Опис</label>
+          <textarea id="desc-3" name="description" rows="2">Музей мистецтв імені Богдана та Варвари Ханенків · вул. Терещенківська, 15–17, Київ</textarea>
+          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+        </p>
+        <p class="field">
+          <label for="note-3">Нотатка</label>
+          <textarea id="note-3" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">сходити з батьками</textarea> <!-- [?] текст -->
+          <small class="field-src">Нотатку додано 24 листопада</small> <!-- [?] текст -->
+        </p>
+        <fieldset class="field">
+          <legend>Категорія</legend>
+          <!-- Вибір із 8 — розкривний, без JS: один клік відкриває, другий обирає (sitemap.md, «Глибина»). Вибір — перехід, тому посилання -->
+          <details class="cat-pick">
+            <summary><span class="cat">Місця</span> <span class="cat-change">Змінити</span></summary>
+            <ul class="cat-options" aria-label="Категорії">
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Фільми й серіали</a></li>
+              <li><a class="wf-btn" href="link.html" aria-current="true">Місця</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
+            </ul>
+          </details>
+          <small class="field-src">Вгадано за сайтом google.com/maps</small> <!-- [?] текст; статус категорії: `вгадана` -->
+        </fieldset>
+        <fieldset class="field">
+          <legend>Теги</legend>
+          <ul class="link-tags" aria-label="Теги посилання">
+            <li><span class="wf-chip">київ <a href="link-loading.html#zberihaiemo" aria-label="Зняти тег «київ»">×</a></span></li>
+          </ul>
+          <span class="tag-add">
+            <label for="tag-3" class="vh">Додати тег</label>
+            <input id="tag-3" name="tag" type="text" list="known-tags-3" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <button type="submit">Додати</button>
+          </span>
+          <datalist id="known-tags-3"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+        </fieldset>
+        <p class="field field--switch">
+          <input id="seen-3" name="seen" type="checkbox" role="switch">
+          <label for="seen-3">Вже переглянуто</label>
+        </p>
+        <p class="field-ro">Додано <time datetime="2026-11-24">24 листопада 2026</time></p>
+      </form>
+      <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
+      <footer class="link-foot">
+        <aside class="wf-status wf-status--error" role="alert">
+          <p><b>Не вдалося видалити</b></p>
+          <p>Посилання на місці, нічого не загубилося. Спробуй ще раз трохи згодом.</p> <!-- [?] текст -->
+          <div class="wf-actions">
+            <a class="wf-btn" href="link-loading.html#vydaliaiemo">Повторити</a>
+            <a class="wf-btn" href="link.html">Скасувати</a>
+            <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+          </div>
+        </aside>
+      </footer>
+    </div>
+  </dialog>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   категорія, «Змінити», «Скасувати»). «Моя Шухляда» — екран дії: людина вкладає посилання, тож успіх є.
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст.
   flows.md, Main: saved «успіх кроку: «Збережено в Шухляді», домен і категорія, «Змінити», «Скасувати»» → meta (підтягується).
-  Що далі: виправити категорію («Змінити», flow R3), прибрати випадкову вставку («Скасувати»), вставити наступне — поле знову порожнє,
+  Що далі: виправити категорію («Змінити» → drawer.html#zminyty, flow R3), прибрати випадкову вставку («Скасувати»), вставити наступне — поле знову порожнє,
   або відкрити збережене — картка зверху «Нещодавно доданого». Підтвердження зникає за кілька секунд (бриф §3.1).
 -->
 <html lang="uk">
@@ -84,7 +84,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
+        <li><a href="account.html">Акаунт</a></li>
       </ul>
     </footer>
   </nav>
@@ -111,12 +111,12 @@
         <p><b>Збережено в Шухляді</b></p>
         <p>meetup.com · Категорія: <b>Івенти</b></p> <!-- домен, поки назва підтягується -->
         <div class="wf-actions">
-          <button type="button">Змінити</button> <!-- категорію, одним кліком: flow R3 -->
+          <a class="wf-btn" href="drawer.html#zminyty">Змінити</a> <!-- категорію, одним кліком: flow R3 → вибір із 8 -->
           <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Скасувати</a>
           <span class="wf-hint">Можна вставляти наступне</span> <!-- [?] текст -->
         </div>
       </aside>
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · саме → <a href="drawer-loading.html#pidtiahuietsia">підтягується назва, опис, іконка</a> · «Скасувати» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a> · «Змінити» — flow R3, екрана ще немає · вставити наступне — поле вище</p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · саме → <a href="drawer-loading.html#pidtiahuietsia">підтягується назва, опис, іконка</a> · «Скасувати» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a> · «Змінити» → <a href="drawer.html#zminyty">вибір із 8 категорій</a> (flow R3) · вставити наступне — поле вище</p>
     </section>
 
     <!-- Зона 2. «Нещодавно додане» -->
@@ -136,7 +136,7 @@
               </div>
               <p class="card-state" role="status">Підтягуємо назву й опис…</p> <!-- [?] текст -->
             </div>
-            <button type="button" aria-label="Відкрити посилання «meetup.com»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -153,7 +153,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -170,7 +170,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -188,7 +188,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>

@@ -1,5 +1,5 @@
 /*
- * Шар «Пошук» — спільне для search.html і сторінок станів (search-empty/-loading/-error.html).
+ * Шар «Пошук» — спільне для search.html і сторінок станів (search-empty/-loading/-error/-success.html).
  * Рамка, шар .wf-layer, поле .wf-search, картки (drawer.css) — не тут.
  */
 
@@ -32,3 +32,10 @@ select { font: inherit; color: inherit; padding: 4px 6px; border: 1px solid var(
 
 .layer-empty { margin-top: 14px; }
 .layer-empty .wf-illustration { min-height: 90px; }
+
+/* Видалення тегу (flow «R3, далі»): попередження, «видаляємо тег» — біля тегу у фільтрі.
+   Поки не відповіли чи не дочекалися, решта шару недоступна (inert) і приглушена [?] */
+.tag-warn { margin-top: 10px; }
+.tag-warn h3 { margin: 0; font-size: 16px; }
+.tag-warn h3 + p { margin-top: 4px; font-size: 14px; }
+.wf-layer .wf-variant [inert] { opacity: .45; }

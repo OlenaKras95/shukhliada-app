@@ -1,0 +1,62 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Вхід · успіх (sitemap.md, «Екрани»: «ввійшли» — з Google-пошти видно, в який акаунт, далі «Моя Шухляда»;
+  з «Поділитися» — одразу стан збереження). flows.md, Main: dLogin так → loadHome; з «Поділитися» — далі перевірка й «вкладається».
+  Пошта — щоб людина з кількома Google-акаунтами бачила, в який увійшла: від цього залежить, яку Шухляду побачить [?].
+  «Вхід» — службовий екран без job, вхідна умова для всіх (sitemap.md, «Трасування»). Стоїть до навігації: шапка лише з назвою,
+  без поля пошуку, бургера й сайдбара (_conventions.md, розділ 3); сітка в одну колонку — login.css.
+  Порожнього стану немає («—» у sitemap.md): це форма входу, даних до входу немає. login-empty.html не робимо.
+  Тексти з [?] у коментарях — мої, не з брифу й реєстру; ключі в microcopy.md з'являться пізніше.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вхід · успіх · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="login.css"> <!-- розкладка екрана, спільна зі сторінками станів -->
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7) -->
+<nav class="wf-states" aria-label="Стани екрана «Вхід»">
+  <p>Вхід · стани:</p>
+  <ul>
+    <li><a href="login.html">Базовий вигляд</a></li>
+    <li><a href="login-loading.html">Завантаження</a></li>
+    <li><a href="login-error.html">Помилка</a></li>
+    <li><a href="login-success.html" aria-current="page">Успіх</a></li>
+  </ul>
+</nav>
+
+<div class="device">
+
+  <!-- Шапка «Входу» — лише назва: шукати ще нічого, і пунктів навігації до входу немає (_conventions.md, розділ 3).
+       Без бургера й сайдбара; сітка рамки в одну колонку — login.css -->
+  <header>
+    <p class="wf-brand">Шухляда</p>
+    <p class="wf-label"><b>Шапка</b> · лише назва — без пошуку й меню</p>
+  </header>
+
+  <main>
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · прийшли з «Поділитися»? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a> → «Збережено в Шухляді» · ні → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a> → <a href="drawer.html">Моя Шухляда</a></p>
+    <div class="login-box">
+      <h1>Вхід</h1>
+      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- [?] текст; бриф §1 --></p>
+      <section class="wf-zone" aria-labelledby="login-title-1">
+        <p class="wf-label"><b>Вхід</b> · ввійшли — видно, в який акаунт; далі «Моя Шухляда»</p>
+        <h2 id="login-title-1" class="vh">Увійти в Шухляду</h2>
+        <aside class="wf-status" role="status">
+          <p><b>Вхід через Google — готово</b></p> <!-- [?] текст; без роду — бриф §6.4 -->
+          <p>Акаунт: <b>sasha.kovalenko.demo@gmail.com</b>. Відкриваємо Шухляду… <!-- [?] пошта вигадана --></p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>

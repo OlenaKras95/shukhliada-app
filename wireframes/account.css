@@ -1,0 +1,68 @@
+/*
+ * Розкладка екрана «Акаунт» — спільна для базової сторінки й сторінок станів
+ * (account.html, account-empty/-loading/-error/-success.html). Рамка, шапка, сайдбар,
+ * повідомлення й кнопки — у _frame.css.
+ *
+ * Три зони згори донизу (job E2, flows.md): «Забрати архів» — головна, нагорі;
+ * «Вийти» — службові дії окремою зоною; «Видалити акаунт» — внизу, відділено.
+ * Небезпечну дію видно формою — товстою рамкою, — а не кольором (_conventions.md, розділ 7).
+ */
+
+/* Вміст «Акаунта» вузький: це кілька дій, а не список — на 1280px рядки інакше розтягуються */
+.device > main > * { max-width: 760px; }
+
+.account-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.account-head p { margin: 0; color: var(--wf-text-2); }
+
+.account-lead { margin: 0 0 10px; }
+
+/* Біля «Експорту» — з чим людина звіряє: скільки посилань піде у файл, формат і колонки */
+.export-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+.export-facts dt { color: var(--wf-text-2); }
+.export-facts dd { margin: 0; }
+.export-cols { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.export-cols li { padding: 0 6px; border: 1px solid var(--wf-line-soft); background: var(--wf-fill); font-size: 13px; }
+.export-file { font: inherit; font-weight: 600; } /* назва файлу — як є, без моноширинного шрифту */
+
+/* Головна дія зони — вагою й заливкою; небезпечна — товстою рамкою */
+.wf-btn.account-primary, button.account-primary { background: var(--wf-fill); font-weight: 600; }
+.wf-btn.account-danger-btn, button.account-danger-btn { border: 2px solid var(--wf-text); font-weight: 600; }
+
+/* Службові дії: кнопка й пояснення поруч, рядками */
+.account-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.account-rows li { display: grid; grid-template-columns: 220px 1fr; align-items: baseline; gap: 4px 12px; }
+.account-rows .wf-btn, .account-rows button { justify-self: start; }
+.account-rows .wf-hint { margin: 0; }
+.account-rows .wf-status { grid-column: 1 / -1; margin: 0; }
+
+/* «Видалити акаунт» — окремо внизу: великий відступ і лінія над зоною */
+.account-danger { margin-top: 40px; position: relative; }
+.account-danger::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -21px;
+  border-top: 1px solid var(--wf-line);
+}
+
+/* Пропозиція забрати архів і попередження «назавжди» — у самій зоні видалення, товстою рамкою з широким краєм:
+   так їх не сплутати з помилкою (.wf-status--error — рівна товста рамка) */
+.account-confirm {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border: 2px solid var(--wf-text);
+  border-left-width: 8px;
+  background: var(--wf-surface);
+}
+.account-confirm p { margin: 0; }
+.account-confirm p + p, .account-confirm ul { margin-top: 4px; font-size: 14px; }
+.account-confirm ul { padding-left: 20px; margin-bottom: 0; }
+
+@media (max-width: 720px) {
+  .account-rows li { grid-template-columns: minmax(0, 1fr); }
+}

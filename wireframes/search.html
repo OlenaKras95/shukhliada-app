@@ -13,7 +13,10 @@
   - `лише схожі` — «музй» → «Музей Ханенків» (одруківка);
   - `з фільтром` і нічого — «Шукали лише у „Фільмах“. Шукати всюди?» (flows.md, everywhere);
   - фільтр категорії без запиту — уся категорія, свіже першим; заголовок «Фільми й серіали · 12» і «Скинути» (рішення PM 2026-11-24);
-  - фільтр тегу без запиту — усі посилання з тегом; біля тегу «Видалити тег».
+  - фільтр тегу без запиту — усі посилання з тегом; біля тегу «Видалити тег»;
+  - попередження перед видаленням тегу (flow «R3, далі», tagWarn) — тег зніметься з усіх 6 посилань, посилання лишаються, відновити не можна [?];
+    «Видалити тег» → search-loading.html#vydaliaiemo-teh, «Скасувати» → фільтр тегу.
+  «⋯» на картці — шар «Посилання» (link.html); «Акаунт» — account.html.
   «Найближче, що є» не показуємо: хибні результати підривають довіру (flows.md, R4).
 -->
 <html lang="uk">
@@ -31,12 +34,13 @@
     body:has(#lyshe-skhozhi:target) .wf-tabs a[href="#lyshe-skhozhi"],
     body:has(#z-filtrom-nichoho:target) .wf-tabs a[href="#z-filtrom-nichoho"],
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
-    body:has(#teh:target) .wf-tabs a[href="#teh"] { border-color: var(--wf-text); font-weight: 600; }
+    body:has(#teh:target) .wf-tabs a[href="#teh"],
+    body:has(#vydalyty-teh:target) .wf-tabs a[href="#vydalyty-teh"] { border-color: var(--wf-text); font-weight: 600; }
   </style>
 </head>
 <body>
 
-<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіху немає: «—» у sitemap.md -->
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіх — лише для видалення тегу (flow «R3, далі») -->
 <nav class="wf-states" aria-label="Стани шару «Пошук»">
   <p>Пошук · стани:</p>
   <ul>
@@ -44,6 +48,7 @@
     <li><a href="search-empty.html">Порожній</a></li>
     <li><a href="search-loading.html">Завантаження</a></li>
     <li><a href="search-error.html">Помилка</a></li>
+    <li><a href="search-success.html">Успіх</a></li>
   </ul>
 </nav>
 <!-- Інші вигляди — вкладками на базовій сторінці, без JS: якір і :target (_conventions.md, розділ 7) -->
@@ -56,6 +61,7 @@
     <li><a href="#z-filtrom-nichoho">з фільтром і нічого</a></li>
     <li><a href="#katehoriia">фільтр категорії</a></li>
     <li><a href="#teh">фільтр тегу</a></li>
+    <li><a href="#vydalyty-teh">попередження перед видаленням тегу</a></li>
   </ul>
 </nav>
 <div class="device">
@@ -113,7 +119,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
+        <li><a href="account.html">Акаунт</a></li>
       </ul>
     </footer>
   </nav>
@@ -158,7 +164,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -175,7 +181,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -193,7 +199,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -210,7 +216,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -228,7 +234,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -248,7 +254,7 @@
             </div>
             <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <button type="button" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -267,7 +273,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -282,7 +288,7 @@
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «telegra.ph»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -297,7 +303,7 @@
                 <span>✓ Вже переглянуто</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -362,7 +368,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -379,7 +385,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -397,7 +403,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
           <li>
@@ -414,7 +420,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
             </article>
           </li>
           <li>
@@ -432,7 +438,7 @@
                 </div>
                 <p class="note">Нотатка: сходити з батьками</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
             </article>
           </li>
         </ol>
@@ -492,7 +498,7 @@
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -511,7 +517,7 @@
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
           <li>
@@ -529,7 +535,7 @@
                 </div>
                 <p class="match">Збіг у назві й тезі</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
             </article>
           </li>
           <li>
@@ -547,7 +553,7 @@
                 </div>
                 <p class="match">Збіг у назві й тезі</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -565,7 +571,7 @@
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -583,7 +589,7 @@
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</a>
             </article>
           </li>
         </ol>
@@ -603,7 +609,7 @@
                 </div>
                 <p class="match">Інша форма слова: «Карпатах»</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Взимку в Карпатах: що взяти з собою»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Взимку в Карпатах: що взяти з собою»">⋯</a>
             </article>
           </li>
         </ol>
@@ -664,7 +670,7 @@
                 <p class="note">Нотатка: сходити з батьками</p>
                 <p class="match">Схоже на «музей» — можливо, одруківка</p>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
             </article>
           </li>
         </ol>
@@ -772,7 +778,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -787,7 +793,7 @@
                   <span>✓ Вже переглянуто</span>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -804,7 +810,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Dune: Part Two (2024) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Dune: Part Two (2024) — IMDb»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -818,7 +824,7 @@
                   <span>додано 2 листопада</span>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Severance (2022–) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Severance (2022–) — IMDb»">⋯</a>
             </article>
           </li>
         </ol>
@@ -827,11 +833,11 @@
 
     <!-- Варіант «фільтр тегу» -->
     <div class="wf-variant" id="teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно серед посилань з тегом? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно серед посилань з тегом? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · («R3, далі») «Видалити тег» → <a href="search.html#vydalyty-teh">попередження</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
-        <button type="button">Видалити тег</button> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); підтвердження — flow R3, «далі», крок 08 -->
+        <a class="wf-btn" href="search.html#vydalyty-teh">Видалити тег</a> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); далі — попередження (flow «R3, далі») -->
       </div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-6" class="vh">Шукати в Шухляді</label>
@@ -881,7 +887,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -899,7 +905,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
           <li>
@@ -916,7 +922,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
             </article>
           </li>
           <li>
@@ -933,7 +939,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -950,7 +956,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</a>
             </article>
           </li>
           <li> <!-- тестове посилання для пошуку [?] -->
@@ -967,7 +973,163 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</a>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- Варіант «попередження перед видаленням тегу» (flow «R3, далі»: tagWarn → dTagSure).
+         Попередження — біля тегу у фільтрі, там, де «Видалити тег». Поки не відповіли, решта шару недоступна (inert) [?] -->
+    <div class="wf-variant" id="vydalyty-teh">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · підтверджує? так → «Видалити тег» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a>; ні → «Скасувати» → <a href="search.html#teh">тег на місці, фільтр той самий</a></p>
+      <div class="layer-head">
+        <h2>карпати <span>· 6</span></h2>
+      </div>
+      <section class="wf-status tag-warn" role="alertdialog" aria-labelledby="tag-warn-title" aria-describedby="tag-warn-text">
+        <h3 id="tag-warn-title">Видалити тег «карпати»?</h3> <!-- [?] текст -->
+        <p id="tag-warn-text">Тег зніметься з усіх 6 посилань. Самі посилання лишаться в Шухляді. Відновити тег не можна. <!-- [?] текст; бриф §3.2; sitemap.md, «Інші вигляди» --></p>
+        <div class="wf-actions">
+          <a class="wf-btn" href="search-loading.html#vydaliaiemo-teh">Видалити тег</a>
+          <a class="wf-btn" href="search.html#teh">Скасувати</a> <!-- кінець «передумала, тег на місці» — назад у фільтр тегу -->
+        </div>
+      </section>
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search" inert>
+        <label for="lq-7" class="vh">Шукати в Шухляді</label>
+        <input id="lq-7" name="q" type="search" autocomplete="off"
+               placeholder="Шукай — знайде й з одруківкою">
+        <kbd>Esc</kbd>
+      </form>
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «карпати»</b></p>
+      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <fieldset class="layer-filters" inert>
+        <legend class="vh">Фільтри</legend>
+        <label>Категорія <select name="cat">
+            <option value="" selected>Усі категорії</option>
+            <option>Фільми й серіали · 12</option>
+            <option>Місця · 7</option>
+            <option>Статті й ресурси · 14</option>
+            <option>Документи · 4</option>
+            <option>Івенти · 3</option>
+            <option>Курси · 5</option>
+            <option>Покупки · 2</option>
+            <option>Інше · 1</option>
+          </select></label>
+        <label>Тег <select name="tag">
+            <option value="">Усі теги</option>
+            <option>дизайн · 8</option>
+            <option selected>карпати · 6</option>
+            <option>київ · 5</option>
+            <option>на вихідні · 4</option>
+            <option>робота · 3</option>
+          </select></label>
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+      </fieldset>
+      <section class="results" aria-label="Усі посилання з тегом, свіже першим" inert>
+        <h3>Усі посилання з тегом, свіже першим <span>· 6</span></h3>
+        <ol class="cards">
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h4>
+                <div class="meta">
+                  <span>rozetka.com.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                  <span>додано сьогодні</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h4>
+                <div class="meta">
+                  <span>youtube.com</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                  <span>додано сьогодні</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://docs.google.com/document/d/karpaty-plan" target="_blank" rel="noopener">Поїздка в Карпати — план</a></h4>
+                <div class="meta">
+                  <span>docs.google.com</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Документи</span>
+                  <span>додано вчора</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://send.monobank.ua/jar/karpaty" target="_blank" rel="noopener">Банка «На Карпати»</a></h4>
+                <div class="meta">
+                  <span>send.monobank.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Інше</span>
+                  <span>додано 15 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</a>
+            </article>
+          </li>
+          <li> <!-- тестове посилання для пошуку [?] -->
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://booking.uz.gov.ua/train/kyiv-vorokhta" target="_blank" rel="noopener">Київ — Ворохта: квитки на потяг</a></h4>
+                <div class="meta">
+                  <span>booking.uz.gov.ua</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                  <span>додано 14 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</a>
+            </article>
+          </li>
+          <li> <!-- тестове посилання для пошуку [?] -->
+            <article>
+              <span class="wf-icon" aria-hidden="true"></span>
+              <div class="card-text">
+                <h4><a href="https://www.google.com/maps/place/hoverla" target="_blank" rel="noopener">Говерла — Google Карти</a></h4>
+                <div class="meta">
+                  <span>google.com/maps</span>
+                  <span class="cat"><span class="vh">Категорія: </span>Місця</span>
+                  <span>додано 10 листопада</span>
+                  <ul class="tags" aria-label="Теги">
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                  </ul>
+                </div>
+              </div>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Говерла — Google Карти»">⋯</a>
             </article>
           </li>
         </ol>

@@ -63,7 +63,28 @@ window.NAV_TREE = [
       { title: "Пошук", path: "wireframes/search.html", children: [
         { title: "Порожній", path: "wireframes/search-empty.html" },
         { title: "Завантаження", path: "wireframes/search-loading.html" },
-        { title: "Помилка", path: "wireframes/search-error.html" }
+        { title: "Помилка", path: "wireframes/search-error.html" },
+        { title: "Успіх", path: "wireframes/search-success.html" }
+      ] }
+    ] },
+    { branch: "Посилання", items: [
+      { title: "Посилання", path: "wireframes/link.html", children: [
+        { title: "Завантаження", path: "wireframes/link-loading.html" },
+        { title: "Помилка", path: "wireframes/link-error.html" },
+        { title: "Успіх", path: "wireframes/link-success.html" }
+      ] }
+    ] },
+    { branch: "Мої дані", items: [
+      { title: "Акаунт", path: "wireframes/account.html", children: [
+        { title: "Порожній", path: "wireframes/account-empty.html" },
+        { title: "Завантаження", path: "wireframes/account-loading.html" },
+        { title: "Помилка", path: "wireframes/account-error.html" },
+        { title: "Успіх", path: "wireframes/account-success.html" }
+      ] },
+      { title: "Вхід", path: "wireframes/login.html", children: [
+        { title: "Завантаження", path: "wireframes/login-loading.html" },
+        { title: "Помилка", path: "wireframes/login-error.html" },
+        { title: "Успіх", path: "wireframes/login-success.html" }
       ] }
     ] }
   ] }

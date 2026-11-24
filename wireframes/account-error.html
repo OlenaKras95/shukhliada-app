@@ -1,0 +1,494 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Акаунт · помилка (sitemap.md, «Екрани»: експорт «не вдалося» — «Повторити» [?], а перед видаленням — «Архів не забрано»:
+  повернутися або видалити без архіву (рішення PM 2026-11-24); не вдалося вийти на всіх пристроях — «Повторити», без мережі — причина в мережі;
+  не вдалося видалити акаунт — дані на місці, «Повторити» [?]). Помилки звичайного виходу немає: він на самому пристрої.
+  Базова сторінка — account.html; шапка, навігація й зони ті самі, змінено лише вміст. Варіанти — вкладками над рамкою.
+  Помилка стоїть у тій зоні, де була дія: експорт — в «Архіві», вихід — у «Вихід», видалення — у «Видаленні акаунта».
+
+  Виходи звірено з flows.md, E2 — тупика немає в жодному варіанті:
+  - errExp → «Повторити» (dExpRetry); не вдалося знову й людина йде видаляти → «Архів не забрано» (noArch);
+  - noArch → «Повернутися на «Акаунт»» або «Видалити без архіву» → попередження «назавжди» (dNoArch);
+  - errAll → «Повторити» (dAllRetry); без мережі — те саме, сказано, що причина в мережі;
+  - errDel → «Повторити» (dDelRetry) або «Скасувати» — лишитися з акаунтом.
+  «Не минає? Напиши нам на пошту» — help-shukhliada@gmail.com (рішення PM 2026-11-25): там, де повтор може не допомогти —
+  файл, «Архів не забрано», вихід на всіх пристроях, видалення. Без мережі — ні: причина відома.
+  Шапка й навігація — байт-у-байт як у drawer.html; змінено лише поточний пункт: «Акаунт» (aria-current).
+  Тексти з [?] у коментарях — мої, не з брифу й реєстру; ключі в microcopy.md з'являться пізніше.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Акаунт · помилка · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="account.css"> <!-- розкладка екрана, спільна зі сторінками станів -->
+  <style>
+    /* відкрита вкладка — для кожного якоря */
+    body:has(#eksport:target) .wf-tabs a[href="#eksport"],
+    body:has(#arkhiv-ne-zabrano:target) .wf-tabs a[href="#arkhiv-ne-zabrano"],
+    body:has(#vykhid-vsiudy:target) .wf-tabs a[href="#vykhid-vsiudy"],
+    body:has(#bez-merezhi:target) .wf-tabs a[href="#bez-merezhi"],
+    body:has(#vydalennia:target) .wf-tabs a[href="#vydalennia"] { border-color: var(--wf-text); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7) -->
+<nav class="wf-states" aria-label="Стани екрана «Акаунт»">
+  <p>Акаунт · стани:</p>
+  <ul>
+    <li><a href="account.html">Базовий вигляд</a></li>
+    <li><a href="account-empty.html">Порожній</a></li>
+    <li><a href="account-loading.html">Завантаження</a></li>
+    <li><a href="account-error.html" aria-current="page">Помилка</a></li>
+    <li><a href="account-success.html">Успіх</a></li>
+  </ul>
+</nav>
+<!-- Варіанти — вкладки без JS: якір і :target (_conventions.md, розділ 7) -->
+<nav class="wf-tabs" aria-label="Варіанти: Акаунт · помилка">
+  <p>Акаунт · помилка — варіанти:</p>
+  <ul>
+    <li><a href="#eksport">не вдалося підготувати файл [?]</a></li>
+    <li><a href="#arkhiv-ne-zabrano">перед видаленням: архів не забрано</a></li>
+    <li><a href="#vykhid-vsiudy">не вдалося вийти на всіх пристроях</a></li>
+    <li><a href="#bez-merezhi">без мережі</a></li>
+    <li><a href="#vydalennia">не вдалося видалити акаунт [?]</a></li>
+  </ul>
+</nav>
+
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <ul>
+        <li><a href="search-loading.html#teh"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search-loading.html#teh"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search-loading.html#teh"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#teh"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#teh"><span>робота</span> <span>3</span></a></li>
+      </ul>
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html" aria-current="page">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <main>
+    <!-- Варіант «не вдалося підготувати файл [?]» -->
+    <div class="wf-variant" id="eksport">
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · «Повторити» → <a href="account-loading.html#eksport">готується файл</a>; вдалося → <a href="account-success.html">файл завантажено</a> · не вдалося знову: йде видаляти акаунт? так → <a href="account-error.html#arkhiv-ne-zabrano">«Архів не забрано»</a> · ні → Шухляда на місці, спробувати пізніше → <a href="account.html">Акаунт</a></p>
+
+    <div class="account-head">
+      <h1>Акаунт</h1>
+      <p>Саша Коваленко · sasha.kovalenko.demo@gmail.com · вхід через Google</p> <!-- [?] ім'я й пошта вигадані, не дані реальної людини (_conventions.md, розділ 5) -->
+    </div>
+
+    <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
+    <section class="wf-zone" aria-labelledby="export-title-1">
+      <p class="wf-label"><b>Архів</b> · не вдалося підготувати файл — повторити</p>
+      <h2 id="export-title-1">Забрати архів</h2> <!-- [?] текст -->
+      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- [?] текст; бриф §3.5 --></p>
+      <dl class="export-facts">
+        <dt>У файл піде</dt>
+        <dd>48 посилань — уся Шухляда</dd> <!-- [?] текст -->
+        <dt>Формат</dt>
+        <dd>таблиця CSV — кожне поле окремою колонкою</dd> <!-- бриф §3.5 -->
+        <dt>Колонки</dt>
+        <dd>
+          <ul class="export-cols" aria-label="Колонки у файлі">
+            <li>адреса</li>
+            <li>назва</li>
+            <li>опис</li>
+            <li>категорія</li>
+            <li>теги</li>
+            <li>нотатка</li>
+            <li>«Вже переглянуто»</li>
+            <li>дата івенту</li>
+            <li>дата додавання</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="wf-status wf-status--error" role="alert">
+        <p><b>Не вдалося підготувати файл</b></p> <!-- [?] текст; flows.md, E2: errExp -->
+        <p>Шухляда на місці — нічого не загубилося. Спробуй ще раз. <!-- [?] текст --></p>
+        <div class="wf-actions">
+          <a class="wf-btn" href="account-loading.html#eksport">Повторити</a>
+          <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+        </div>
+      </div>
+      <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
+    </section>
+
+    <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
+    <section class="wf-zone" aria-labelledby="out-title-1">
+      <p class="wf-label"><b>Вихід</b> · службові дії, рідко</p>
+      <h2 id="out-title-1">Вийти з Шухляди</h2> <!-- [?] текст -->
+      <ul class="account-rows">
+        <li>
+          <a class="wf-btn" href="login.html#pislia-vykhodu">Вийти</a> <!-- на самому пристрої, без мережі: ні завантаження, ні помилки (рішення PM 2026-11-24) -->
+          <p class="wf-hint">Лише на цьому пристрої. Усе збережене лишається в Шухляді. <!-- [?] текст; бриф §3.5 --></p>
+        </li>
+        <li>
+          <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- [?] текст; рішення PM 2026-11-24 --></p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
+    <section class="wf-zone account-danger" aria-labelledby="del-title-1">
+      <p class="wf-label"><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу</p>
+      <h2 id="del-title-1">Видалити акаунт</h2>
+      <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- [?] текст; бриф §3.5 --></p>
+      <div class="wf-actions">
+        <a class="wf-btn account-danger-btn" href="account.html#propozytsiia">Видалити акаунт</a>
+      </div>
+    </section>
+    </div>
+
+    <!-- Варіант «перед видаленням: архів не забрано» -->
+    <div class="wf-variant" id="arkhiv-ne-zabrano">
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · людина обирає сама: «Повернутися на «Акаунт»» → <a href="account.html">Акаунт</a> · «Видалити без архіву» → <a href="account.html#nazavzhdy">попередження «назавжди»</a> (рішення PM 2026-11-24)</p>
+
+    <div class="account-head">
+      <h1>Акаунт</h1>
+      <p>Саша Коваленко · sasha.kovalenko.demo@gmail.com · вхід через Google</p> <!-- [?] ім'я й пошта вигадані, не дані реальної людини (_conventions.md, розділ 5) -->
+    </div>
+
+    <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
+    <section class="wf-zone" aria-labelledby="export-title-2">
+      <p class="wf-label"><b>Архів</b> · файл так і не вдалося підготувати</p>
+      <h2 id="export-title-2">Забрати архів</h2> <!-- [?] текст -->
+      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- [?] текст; бриф §3.5 --></p>
+      <dl class="export-facts">
+        <dt>У файл піде</dt>
+        <dd>48 посилань — уся Шухляда</dd> <!-- [?] текст -->
+        <dt>Формат</dt>
+        <dd>таблиця CSV — кожне поле окремою колонкою</dd> <!-- бриф §3.5 -->
+        <dt>Колонки</dt>
+        <dd>
+          <ul class="export-cols" aria-label="Колонки у файлі">
+            <li>адреса</li>
+            <li>назва</li>
+            <li>опис</li>
+            <li>категорія</li>
+            <li>теги</li>
+            <li>нотатка</li>
+            <li>«Вже переглянуто»</li>
+            <li>дата івенту</li>
+            <li>дата додавання</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="wf-actions">
+        <a class="wf-btn account-primary" href="account-loading.html#eksport">Експорт</a>
+      </div>
+      <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
+    </section>
+
+    <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
+    <section class="wf-zone" aria-labelledby="out-title-2">
+      <p class="wf-label"><b>Вихід</b> · службові дії, рідко</p>
+      <h2 id="out-title-2">Вийти з Шухляди</h2> <!-- [?] текст -->
+      <ul class="account-rows">
+        <li>
+          <a class="wf-btn" href="login.html#pislia-vykhodu">Вийти</a> <!-- на самому пристрої, без мережі: ні завантаження, ні помилки (рішення PM 2026-11-24) -->
+          <p class="wf-hint">Лише на цьому пристрої. Усе збережене лишається в Шухляді. <!-- [?] текст; бриф §3.5 --></p>
+        </li>
+        <li>
+          <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- [?] текст; рішення PM 2026-11-24 --></p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
+    <section class="wf-zone account-danger" aria-labelledby="del-title-2">
+      <p class="wf-label"><b>Видалення акаунта</b> · архів не забрано — повернутися або видалити без архіву</p>
+      <h2 id="del-title-2">Видалити акаунт</h2>
+      <div class="wf-status wf-status--error" role="alert">
+        <p><b>Архів не забрано</b></p> <!-- текст — flows.md, E2: noArch -->
+        <p>Файл не вдалося підготувати, тож посилання поки лише в Шухляді. Можна повернутися й спробувати пізніше — або видалити акаунт без архіву. <!-- [?] текст --></p>
+        <div class="wf-actions">
+          <a class="wf-btn account-primary" href="account.html">Повернутися на «Акаунт»</a>
+          <a class="wf-btn account-danger-btn" href="account.html#nazavzhdy">Видалити без архіву</a>
+          <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- Варіант «не вдалося вийти на всіх пристроях» -->
+    <div class="wf-variant" id="vykhid-vsiudy">
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · «Повторити» → <a href="account-loading.html#vykhid-vsiudy">виходимо на всіх пристроях</a>; вдалося → <a href="login.html#pislia-vykhodu-vsiudy">«Вхід»</a> · не вдалося знову — інші пристрої лишаються з входом: спробувати пізніше або написати на пошту</p>
+
+    <div class="account-head">
+      <h1>Акаунт</h1>
+      <p>Саша Коваленко · sasha.kovalenko.demo@gmail.com · вхід через Google</p> <!-- [?] ім'я й пошта вигадані, не дані реальної людини (_conventions.md, розділ 5) -->
+    </div>
+
+    <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
+    <section class="wf-zone" aria-labelledby="export-title-3">
+      <p class="wf-label"><b>Архів</b> · головна дія — забрати всю Шухляду файлом</p>
+      <h2 id="export-title-3">Забрати архів</h2> <!-- [?] текст -->
+      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- [?] текст; бриф §3.5 --></p>
+      <dl class="export-facts">
+        <dt>У файл піде</dt>
+        <dd>48 посилань — уся Шухляда</dd> <!-- [?] текст -->
+        <dt>Формат</dt>
+        <dd>таблиця CSV — кожне поле окремою колонкою</dd> <!-- бриф §3.5 -->
+        <dt>Колонки</dt>
+        <dd>
+          <ul class="export-cols" aria-label="Колонки у файлі">
+            <li>адреса</li>
+            <li>назва</li>
+            <li>опис</li>
+            <li>категорія</li>
+            <li>теги</li>
+            <li>нотатка</li>
+            <li>«Вже переглянуто»</li>
+            <li>дата івенту</li>
+            <li>дата додавання</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="wf-actions">
+        <a class="wf-btn account-primary" href="account-loading.html#eksport">Експорт</a>
+      </div>
+      <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
+    </section>
+
+    <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
+    <section class="wf-zone" aria-labelledby="out-title-3">
+      <p class="wf-label"><b>Вихід</b> · не вдалося вийти на всіх пристроях — повторити</p>
+      <h2 id="out-title-3">Вийти з Шухляди</h2> <!-- [?] текст -->
+      <ul class="account-rows">
+        <li>
+          <a class="wf-btn" href="login.html#pislia-vykhodu">Вийти</a> <!-- на самому пристрої, без мережі: ні завантаження, ні помилки (рішення PM 2026-11-24) -->
+          <p class="wf-hint">Лише на цьому пристрої. Усе збережене лишається в Шухляді. <!-- [?] текст; бриф §3.5 --></p>
+        </li>
+        <li>
+          <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- [?] текст; рішення PM 2026-11-24 --></p>
+          <div class="wf-status wf-status--error" role="alert">
+            <p><b>Не вдалося вийти на всіх пристроях</b></p> <!-- flows.md, E2: errAll -->
+            <p>Інші пристрої поки лишаються з входом. Спробуй ще раз. <!-- [?] текст --></p>
+            <div class="wf-actions">
+              <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Повторити</a>
+              <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
+    <section class="wf-zone account-danger" aria-labelledby="del-title-3">
+      <p class="wf-label"><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу</p>
+      <h2 id="del-title-3">Видалити акаунт</h2>
+      <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- [?] текст; бриф §3.5 --></p>
+      <div class="wf-actions">
+        <a class="wf-btn account-danger-btn" href="account.html#propozytsiia">Видалити акаунт</a>
+      </div>
+    </section>
+    </div>
+
+    <!-- Варіант «без мережі» -->
+    <div class="wf-variant" id="bez-merezhi">
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · мережа повернулася — «Повторити» → <a href="account-loading.html#vykhid-vsiudy">виходимо на всіх пристроях</a> · ні — лишитися на <a href="account.html">«Акаунті»</a> й спробувати, коли буде мережа</p>
+
+    <div class="account-head">
+      <h1>Акаунт</h1>
+      <p>Саша Коваленко · sasha.kovalenko.demo@gmail.com · вхід через Google</p> <!-- [?] ім'я й пошта вигадані, не дані реальної людини (_conventions.md, розділ 5) -->
+    </div>
+
+    <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
+    <section class="wf-zone" aria-labelledby="export-title-4">
+      <p class="wf-label"><b>Архів</b> · головна дія — забрати всю Шухляду файлом</p>
+      <h2 id="export-title-4">Забрати архів</h2> <!-- [?] текст -->
+      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- [?] текст; бриф §3.5 --></p>
+      <dl class="export-facts">
+        <dt>У файл піде</dt>
+        <dd>48 посилань — уся Шухляда</dd> <!-- [?] текст -->
+        <dt>Формат</dt>
+        <dd>таблиця CSV — кожне поле окремою колонкою</dd> <!-- бриф §3.5 -->
+        <dt>Колонки</dt>
+        <dd>
+          <ul class="export-cols" aria-label="Колонки у файлі">
+            <li>адреса</li>
+            <li>назва</li>
+            <li>опис</li>
+            <li>категорія</li>
+            <li>теги</li>
+            <li>нотатка</li>
+            <li>«Вже переглянуто»</li>
+            <li>дата івенту</li>
+            <li>дата додавання</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="wf-actions">
+        <a class="wf-btn account-primary" href="account-loading.html#eksport">Експорт</a>
+      </div>
+      <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
+    </section>
+
+    <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
+    <section class="wf-zone" aria-labelledby="out-title-4">
+      <p class="wf-label"><b>Вихід</b> · без мережі — сказано, що причина в мережі</p>
+      <h2 id="out-title-4">Вийти з Шухляди</h2> <!-- [?] текст -->
+      <ul class="account-rows">
+        <li>
+          <a class="wf-btn" href="login.html#pislia-vykhodu">Вийти</a> <!-- на самому пристрої, без мережі: ні завантаження, ні помилки (рішення PM 2026-11-24) -->
+          <p class="wf-hint">Лише на цьому пристрої. Усе збережене лишається в Шухляді. <!-- [?] текст; бриф §3.5 --></p>
+        </li>
+        <li>
+          <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- [?] текст; рішення PM 2026-11-24 --></p>
+          <div class="wf-status wf-status--error" role="alert">
+            <p><b>Не вдалося вийти на всіх пристроях — немає мережі</b></p> <!-- рішення PM 2026-11-24 -->
+            <p>Спробуй, коли мережа повернеться. Інші пристрої поки лишаються з входом. <!-- [?] текст --></p>
+            <div class="wf-actions">
+              <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Повторити</a> <!-- без пошти: причина відома, як у drawer-error.html#bez-merezhi -->
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
+    <section class="wf-zone account-danger" aria-labelledby="del-title-4">
+      <p class="wf-label"><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу</p>
+      <h2 id="del-title-4">Видалити акаунт</h2>
+      <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- [?] текст; бриф §3.5 --></p>
+      <div class="wf-actions">
+        <a class="wf-btn account-danger-btn" href="account.html#propozytsiia">Видалити акаунт</a>
+      </div>
+    </section>
+    </div>
+
+    <!-- Варіант «не вдалося видалити акаунт [?]» -->
+    <div class="wf-variant" id="vydalennia">
+    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · «Повторити» → <a href="account-loading.html#vydalennia">видаляємо акаунт</a>; вдалося → <a href="login.html#akaunt-vydaleno">«Вхід»: акаунт видалено</a> · не вдалося знову — акаунт лишився: спробувати пізніше або написати на пошту · передумали → <a href="account.html">Акаунт</a></p>
+
+    <div class="account-head">
+      <h1>Акаунт</h1>
+      <p>Саша Коваленко · sasha.kovalenko.demo@gmail.com · вхід через Google</p> <!-- [?] ім'я й пошта вигадані, не дані реальної людини (_conventions.md, розділ 5) -->
+    </div>
+
+    <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
+    <section class="wf-zone" aria-labelledby="export-title-5">
+      <p class="wf-label"><b>Архів</b> · головна дія — забрати всю Шухляду файлом</p>
+      <h2 id="export-title-5">Забрати архів</h2> <!-- [?] текст -->
+      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- [?] текст; бриф §3.5 --></p>
+      <dl class="export-facts">
+        <dt>У файл піде</dt>
+        <dd>48 посилань — уся Шухляда</dd> <!-- [?] текст -->
+        <dt>Формат</dt>
+        <dd>таблиця CSV — кожне поле окремою колонкою</dd> <!-- бриф §3.5 -->
+        <dt>Колонки</dt>
+        <dd>
+          <ul class="export-cols" aria-label="Колонки у файлі">
+            <li>адреса</li>
+            <li>назва</li>
+            <li>опис</li>
+            <li>категорія</li>
+            <li>теги</li>
+            <li>нотатка</li>
+            <li>«Вже переглянуто»</li>
+            <li>дата івенту</li>
+            <li>дата додавання</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="wf-actions">
+        <a class="wf-btn account-primary" href="account-loading.html#eksport">Експорт</a>
+      </div>
+      <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
+    </section>
+
+    <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
+    <section class="wf-zone" aria-labelledby="out-title-5">
+      <p class="wf-label"><b>Вихід</b> · службові дії, рідко</p>
+      <h2 id="out-title-5">Вийти з Шухляди</h2> <!-- [?] текст -->
+      <ul class="account-rows">
+        <li>
+          <a class="wf-btn" href="login.html#pislia-vykhodu">Вийти</a> <!-- на самому пристрої, без мережі: ні завантаження, ні помилки (рішення PM 2026-11-24) -->
+          <p class="wf-hint">Лише на цьому пристрої. Усе збережене лишається в Шухляді. <!-- [?] текст; бриф §3.5 --></p>
+        </li>
+        <li>
+          <a class="wf-btn" href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- [?] текст; рішення PM 2026-11-24 --></p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
+    <section class="wf-zone account-danger" aria-labelledby="del-title-5">
+      <p class="wf-label"><b>Видалення акаунта</b> · не вдалося видалити — дані на місці, повторити</p>
+      <h2 id="del-title-5">Видалити акаунт</h2>
+      <div class="wf-status wf-status--error" role="alert">
+        <p><b>Не вдалося видалити акаунт</b></p> <!-- [?] текст; flows.md, E2: errDel -->
+        <p>Нічого не видалено: усі 48 посилань і теги на місці. Спробуй ще раз. <!-- [?] текст --></p>
+        <div class="wf-actions">
+          <a class="wf-btn account-danger-btn" href="account-loading.html#vydalennia">Повторити</a>
+          <a class="wf-btn" href="account.html">Скасувати</a>
+          <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
+        </div>
+      </div>
+    </section>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>

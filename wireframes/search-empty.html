@@ -10,7 +10,7 @@
   5 варіантів (sitemap.md, «Екрани»; flows.md, R4) — і в кожного вихід:
   - порожня категорія (emptyCat → query): шукати словом, «Скинути» фільтр, «Моя Шухляда»;
   - тегів ще немає (noTags → query, рішення PM 2026-11-24): підказка, де теги додають, і «Нещодавно додане»;
-  - тег без посилань [?] (emptyTag → query; тег лишається, бриф §3.2): шукати словом, «Скинути», «Видалити тег»;
+  - тег без посилань [?] (emptyTag → query; тег лишається, бриф §3.2): шукати словом, «Скинути», «Видалити тег» → попередження (search.html#vydalyty-teh);
   - Шухляда порожня [?] (emptyAll → flow Main, вставка): «Відкласти перше посилання» — на поле для вставки;
   - нічого не знайшлося (nothing → fallback, рішення PM 2026-11-22): «спробуй інше слово», де шукали, під ним категорії й «Нещодавно додане».
   Сайдбар у варіантах змінює лише вміст — нулі й «Тегів ще немає»; так у вайрфреймі зроблено стилем сторінки.
@@ -48,7 +48,7 @@
 </head>
 <body>
 
-<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіху немає: «—» у sitemap.md -->
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7). Успіх — лише для видалення тегу (flow «R3, далі») -->
 <nav class="wf-states" aria-label="Стани шару «Пошук»">
   <p>Пошук · стани:</p>
   <ul>
@@ -56,6 +56,7 @@
     <li><a href="search-empty.html" aria-current="page">Порожній</a></li>
     <li><a href="search-loading.html">Завантаження</a></li>
     <li><a href="search-error.html">Помилка</a></li>
+    <li><a href="search-success.html">Успіх</a></li>
   </ul>
 </nav>
 <!-- Варіанти стану — вкладками, без JS: якір і :target (_conventions.md, розділ 7) -->
@@ -125,7 +126,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
+        <li><a href="account.html">Акаунт</a></li>
       </ul>
     </footer>
   </nav>
@@ -170,7 +171,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -187,7 +188,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -205,7 +206,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -222,7 +223,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -240,7 +241,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -260,7 +261,7 @@
             </div>
             <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <button type="button" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -279,7 +280,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -294,7 +295,7 @@
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «telegra.ph»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -309,7 +310,7 @@
                 <span>✓ Вже переглянуто</span>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -373,7 +374,7 @@
 
     <!-- Варіант «тегів ще немає» -->
     <div class="wf-variant" id="bez-tehiv">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · свіже нижче — картка, сторінка сайту · тег додають через «⋯» на картці (шару «Посилання» ще немає)</p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · свіже нижче — картка, сторінка сайту · тег додають через «⋯» на картці → <a href="link.html">шар «Посилання»</a> (flow «R3, далі»)</p>
       <div class="layer-head"><h2>Теги</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
@@ -396,12 +397,12 @@
             <option>Покупки · 2</option>
             <option>Інше · 1</option>
           </select></label>
-        <span>Тег: <b>тегів ще немає</b> — тег додають через «⋯» на картці</span> <!-- flows.md, R4: noTags -->
+        <span>Тег: <b>тегів ще немає</b> — тег додають через <a href="link.html">«⋯» на картці</a></span> <!-- flows.md, R4: noTags -->
         <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
       </fieldset>
       <div class="layer-empty">
         <p class="empty-note"><b>Тегів ще немає</b></p>
-        <p class="empty-note">Тег додають на картці: «⋯» → шар «Посилання». Поки шукай словом або гортай свіже. <!-- [?] текст; flows.md, noTags --></p>
+        <p class="empty-note">Тег додають на картці: «⋯» → <a href="link.html">шар «Посилання»</a>. Поки шукай словом або гортай свіже. <!-- [?] текст; flows.md, noTags --></p>
       </div>
       <section class="results" aria-label="Нещодавно додане">
         <h3>Нещодавно додане</h3>
@@ -420,7 +421,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -437,7 +438,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -455,7 +456,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
         </ol>
@@ -464,11 +465,11 @@
 
     <!-- Варіант «тег без посилань [?]» -->
     <div class="wf-variant" id="teh-bez-posylan">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · «Скинути фільтр» → <a href="search.html#porozhnii-zapyt">Пошук без фільтра</a> · «Видалити тег» — flow R3, крок 08</p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · «Скинути фільтр» → <a href="search.html#porozhnii-zapyt">Пошук без фільтра</a> · «Видалити тег» → <a href="search.html#vydalyty-teh">попередження</a> (flow «R3, далі»; приклад попередження — тег «карпати» [?])</p>
       <div class="layer-head">
         <h2>на вихідні <span>· 0</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
-        <button type="button">Видалити тег</button> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); підтвердження — flow R3, «далі», крок 08 -->
+        <a class="wf-btn" href="search.html#vydalyty-teh">Видалити тег</a> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); далі — попередження (flow «R3, далі») -->
       </div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
@@ -618,7 +619,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -635,7 +636,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -653,7 +654,7 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
         </ol>

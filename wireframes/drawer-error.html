@@ -3,7 +3,7 @@
   Вайрфрейм · Моя Шухляда · помилка (sitemap.md, «Екрани»: не вдалося завантажити Шухляду — «Повторити», після «Поділитися» ще
   «Скопіювати посилання»; вставлене — не посилання [?]; не вдалося зберегти — «Спробувати ще» і «Скопіювати посилання», до 3 спроб;
   без мережі — причина в мережі, спроба не рахується; після третьої — без повтору, лише «Скопіювати посилання»;
-  не вдалося скасувати — на картці, «Повторити» [?]). Помилка «Змінити» — flow R3, крок 08: тут її немає.
+  не вдалося скасувати — на картці, «Повторити» [?]; крок 08: не вдалося змінити категорію — на картці, бо підтвердження зникає, «Повторити» [?], flow R3).
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст. Варіанти — вкладками над рамкою.
   
   Виходи звірено з flows.md, Main — тупика немає в жодному варіанті:
@@ -12,7 +12,8 @@
   - errSave → «Спробувати ще» (dRetry → dNet) або «Скопіювати посилання» й закрити картку (dCopy);
   - errNet → «Спробувати ще», коли мережа повернулася, або «Скопіювати посилання»; спроба до ліміту 3 не рахується (бриф §3.1);
   - errFinal → лише «Скопіювати посилання» (dCopy → endCopy);
-  - errCancel → «Повторити»; не вдалося — «Видалити» через «⋯» на шарі «Посилання» (delLater, flow R3).
+  - errCancel → «Повторити»; не вдалося — «Видалити» через «⋯» на шарі «Посилання» (delLater, flow R3) → link.html#vydalyty;
+  - errChange (flows.md, R3) → «Повторити» (saveCat, drawer-loading.html#katehoriia); не вдалося знову — категорію виправити пізніше через «⋯» → link.html#katehoriia (endLater).
   «Не минає? Напиши нам на пошту» — допомога поштою на help-shukhliada@gmail.com (рішення PM 2026-11-25): посилання відкриває лист. Стоїть там, де повтор не допоміг
   чи може не допомогти — завантаження, збереження, третя спроба; без мережі, «не посилання» й скасування — ні: там причина відома чи є інший вихід.
 -->
@@ -31,7 +32,8 @@
     body:has(#ne-zberehlosia:target) .wf-tabs a[href="#ne-zberehlosia"],
     body:has(#bez-merezhi:target) .wf-tabs a[href="#bez-merezhi"],
     body:has(#tretia-sproba:target) .wf-tabs a[href="#tretia-sproba"],
-    body:has(#ne-skasuvalosia:target) .wf-tabs a[href="#ne-skasuvalosia"] { border-color: var(--wf-text); font-weight: 600; }
+    body:has(#ne-skasuvalosia:target) .wf-tabs a[href="#ne-skasuvalosia"],
+    body:has(#zminyty:target) .wf-tabs a[href="#zminyty"] { border-color: var(--wf-text); font-weight: 600; }
     /* Шухляду не завантажено: кількостей і тегів у сайдбарі немає — кількості сховано, список тегів прибрано. Назви категорій відомі завжди (бриф §3.2) */
     body:not(:has(.wf-variant:target)) .device > nav .wf-group a span:last-child,
     body:has(#zavantazhennia:target) .device > nav .wf-group a span:last-child,
@@ -65,6 +67,7 @@
     <li><a href="#bez-merezhi">без мережі</a></li>
     <li><a href="#tretia-sproba">після третьої спроби</a></li>
     <li><a href="#ne-skasuvalosia">не вдалося скасувати [?]</a></li>
+    <li><a href="#zminyty">не вдалося змінити категорію [?]</a></li>
   </ul>
 </nav>
 
@@ -123,7 +126,7 @@
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
+        <li><a href="account.html">Акаунт</a></li>
       </ul>
     </footer>
   </nav>
@@ -247,7 +250,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -264,7 +267,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -282,7 +285,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -346,7 +349,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -363,7 +366,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -381,7 +384,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -444,7 +447,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -461,7 +464,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -479,7 +482,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -542,7 +545,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -559,7 +562,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -577,7 +580,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -586,7 +589,7 @@
 
     <!-- Варіант «не вдалося скасувати [?]» -->
     <div class="wf-variant" id="ne-skasuvalosia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> без картки · не вдалося — «Видалити» через «⋯» на шарі «Посилання» (екрана ще немає, flow R3)</p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> без картки · не вдалося — <a href="link.html#vydalyty">«Видалити» через «⋯»</a> на шарі «Посилання» (flow R3)</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -627,7 +630,7 @@
                 </div>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Kyiv UX Community — груднева зустріч»">⋯</button>
+            <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Kyiv UX Community — груднева зустріч»">⋯</a>
           </article>
         </li>
         <li>
@@ -644,7 +647,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -661,7 +664,7 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -679,7 +682,91 @@
                 </ul>
               </div>
             </div>
-            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+          </article>
+        </li>
+      </ol>
+    </section>
+    </div>
+    <!-- Варіант «не вдалося змінити категорію [?]» — flows.md, R3: errChange. Помилка на картці, а не в підтвердженні: воно зникає (рішення PM 2026-11-24).
+         Приклад — обгортка linkedin.com (drawer.html#obhortka): обрано «Статті й ресурси», зміну не збережено — лишилося «Інше» -->
+    <div class="wf-variant" id="zminyty">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="drawer-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="drawer.html">Моя Шухляда</a>: картка з новою категорією · не вдалося знову — посилання на місці, категорію виправити пізніше через <a href="link.html#katehoriia">«⋯» → категорія</a></p>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>49 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
+    <section class="wf-zone" aria-labelledby="save-title-8">
+      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
+      <h2 id="save-title-8" class="vh">Відкласти посилання</h2>
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
+        <label for="paste-8">Встав посилання — і воно вже в Шухляді</label>
+        <input id="paste-8" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…">
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
+      </form>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» -->
+    <section class="wf-zone" aria-labelledby="recent-title-8">
+      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Змінити» — на картці, бо підтвердження вже зникло; категорія — стара</p>
+      <h2 id="recent-title-8">Нещодавно додане</h2>
+      <ol class="cards">
+        <li>
+          <article>
+            <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: домен обгортки [?] -->
+              <div class="meta">
+                <span>linkedin.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- зміну не збережено — вгадана категорія -->
+                <span>додано щойно</span>
+              </div>
+              <div class="wf-status wf-status--error" role="alert">
+                <p><b>Не вдалося змінити категорію</b></p>
+                <p>Посилання на місці, лишилося в «Інше». Спробуй ще раз або зміни пізніше — через «⋯» на картці. <!-- [?] текст; flows.md, R3: errChange, endLater --></p>
+                <div class="wf-actions">
+                  <a class="wf-btn" href="drawer-loading.html#katehoriia">Повторити</a>
+                </div>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html#katehoriia" aria-label="Відкрити посилання «linkedin.com»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.imdb.com/title/tt0816692" target="_blank" rel="noopener">Interstellar (2014) — IMDb</a></h3>
+              <div class="meta">
+                <span>imdb.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h3>
+              <div class="meta">
+                <span>rozetka.com.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
       </ol>
