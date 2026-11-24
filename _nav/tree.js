@@ -34,7 +34,16 @@ window.NAV_TREE = [
     { title: "TL;DR", path: "ia.html#tldr" },
     { title: "Карта екранів", path: "ia.html#sitemap" },
     { title: "Навігація", path: "ia.html#navigation" },
-    { title: "Flows", path: "ia.html#flows" },
+    { title: "Flows", path: "ia.html#flows", children: [
+      { title: "Як читати", path: "ia.html#flows-read" },
+      { title: "Чому ці jobs", path: "ia.html#flows-why" },
+      { title: "Main · Відкласти й дістати", path: "ia.html#flow-main" },
+      { title: "R4 · Дістати за пам'яттю", path: "ia.html#flow-r4" },
+      { title: "R3 · Порядок без сортування", path: "ia.html#flow-r3" },
+      { title: "R3, далі · Шар «Посилання»", path: "ia.html#flow-r3-next" },
+      { title: "E2 · Не втратити все", path: "ia.html#flow-e2" },
+      { title: "Кінці без виходу", path: "ia.html#dead-ends" }
+    ] },
     { title: "Трасування", path: "ia.html#trace" }
   ] }
 ];
