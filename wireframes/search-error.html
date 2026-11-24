@@ -57,8 +57,8 @@
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
     <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
     <p class="wf-brand">Шухляда</p>
-    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
-    <form role="search" action="search.html" class="wf-search">
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
              placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
@@ -70,7 +70,7 @@
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
-    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
     <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
@@ -80,32 +80,32 @@
     <details class="wf-group" open>
       <summary>Категорії</summary>
       <ul>
-        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
-        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
-        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>Івенти</span> <span>3</span></a></li>
-        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
-        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
-        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
-        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#teh"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search-loading.html#teh"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search-loading.html#teh"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#teh"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#teh"><span>робота</span> <span>3</span></a></li>
       </ul>
     </details>
 
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a href="account.html">Акаунт</a></li>
+        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
       </ul>
     </footer>
   </nav>
@@ -122,7 +122,7 @@
     <section class="wf-zone" aria-labelledby="save-title">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
         <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
@@ -146,7 +146,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -163,7 +163,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -180,8 +180,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -198,7 +198,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Документи</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -215,7 +215,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                 </ul>
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
@@ -233,8 +233,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано 23 листопада</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
-                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                 </ul>
               </div>
             </div>
@@ -253,8 +253,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано 22 листопада</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">робота</a></li>
-                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">робота</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
                 </ul>
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
@@ -304,8 +304,9 @@
 
     <!-- Варіант «не вдалося шукати» -->
     <div class="wf-variant" id="ne-vdalosia-shukaty">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#shukaiemo">шукаємо</a> · не вдалося знову — гортає категорію? так → чип категорії нижче → <a href="search-loading.html#katehoriia">завантажуємо категорію</a>; ні — прийти пізніше або написати на пошту</p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
         <input id="lq-1" name="q" type="search" autocomplete="off" value="карпати"
                placeholder="Шукай — знайде й з одруківкою">
@@ -340,32 +341,33 @@
         <p><b>Не вдалося шукати</b></p>
         <p>Пошук зараз не відповідає. Спробуй ще раз — або знайди, гортаючи категорію. <!-- [?] текст; flows.md, errQ, dBrowse --></p>
         <div class="wf-actions">
-          <button type="button">Повторити</button>
+          <a class="wf-btn" href="search-loading.html#shukaiemo">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
       <section class="results" aria-label="Гортати категорію">
         <h3>Гортай категорію</h3> <!-- flows.md: dBrowse → loadCat -->
         <ul class="cat-chips" aria-label="Категорії">
-          <li><a class="wf-chip" href="search.html#katehoriia">Фільми й серіали · 12</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Місця · 7</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Статті й ресурси · 14</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Документи · 4</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Івенти · 3</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Курси · 5</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Покупки · 2</a></li>
-          <li><a class="wf-chip" href="search.html#katehoriia">Інше · 1</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Фільми й серіали · 12</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Місця · 7</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Статті й ресурси · 14</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Документи · 4</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Івенти · 3</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Курси · 5</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Покупки · 2</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Інше · 1</a></li>
         </ul>
       </section>
     </div>
 
     <!-- Варіант «не вдалося завантажити категорію» -->
     <div class="wf-variant" id="katehoriia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#katehoriia">завантажуємо категорію</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
       </div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
         <input id="lq-2" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
@@ -400,7 +402,7 @@
         <p><b>Не вдалося завантажити «Фільми й серіали»</b></p>
         <p>Посилання на місці — їх просто не вдалося показати. Спробуй ще раз. <!-- [?] текст; flows.md, errCat --></p>
         <div class="wf-actions">
-          <button type="button">Повторити</button>
+          <a class="wf-btn" href="search-loading.html#katehoriia">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
@@ -408,11 +410,12 @@
 
     <!-- Варіант «не вдалося завантажити тег» -->
     <div class="wf-variant" id="teh">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#teh">завантажуємо посилання з тегом</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
       </div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
         <input id="lq-3" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
@@ -447,7 +450,7 @@
         <p><b>Не вдалося завантажити тег «карпати»</b></p>
         <p>Посилання на місці — їх просто не вдалося показати. Спробуй ще раз. <!-- [?] текст; flows.md, errTagLoad --></p>
         <div class="wf-actions">
-          <button type="button">Повторити</button>
+          <a class="wf-btn" href="search-loading.html#teh">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>

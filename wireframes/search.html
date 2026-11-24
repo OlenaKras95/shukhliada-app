@@ -65,8 +65,8 @@
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
     <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
     <p class="wf-brand">Шухляда</p>
-    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
-    <form role="search" action="search.html" class="wf-search">
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
+    <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
              placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
@@ -78,7 +78,7 @@
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
-    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
     <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
@@ -88,32 +88,32 @@
     <details class="wf-group" open>
       <summary>Категорії</summary>
       <ul>
-        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
-        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
-        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>Івенти</span> <span>3</span></a></li>
-        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
-        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
-        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
-        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
-        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
-        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#teh"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search-loading.html#teh"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search-loading.html#teh"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search-loading.html#teh"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search-loading.html#teh"><span>робота</span> <span>3</span></a></li>
       </ul>
     </details>
 
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
     <footer>
       <ul>
-        <li><a href="account.html">Акаунт</a></li>
+        <li><a>Акаунт</a></li> <!-- екрана «Акаунт» ще немає (крок 08): посилання з'явиться разом з account.html -->
       </ul>
     </footer>
   </nav>
@@ -130,7 +130,7 @@
     <section class="wf-zone" aria-labelledby="save-title">
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
-      <form action="#" onsubmit="return false">
+      <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
         <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
@@ -154,7 +154,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -171,7 +171,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -188,8 +188,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано сьогодні</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
-                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                 </ul>
               </div>
             </div>
@@ -206,7 +206,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Документи</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                 </ul>
               </div>
             </div>
@@ -223,7 +223,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                 </ul>
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
@@ -241,8 +241,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано 23 листопада</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
-                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                 </ul>
               </div>
             </div>
@@ -261,8 +261,8 @@
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано 22 листопада</span>
                 <ul class="tags" aria-label="Теги">
-                  <li><a class="wf-chip" href="search.html">робота</a></li>
-                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">робота</a></li>
+                  <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
                 </ul>
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
@@ -312,8 +312,9 @@
 
     <!-- Варіант «запит порожній» -->
     <div class="wf-variant" id="porozhnii-zapyt">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · у Шухляді є посилання? так → цей вигляд: свіже видно; ні → <a href="search-empty.html#porozhnia-shukhliada">«спершу відклади посилання»</a> · річ серед свіжого? так → картка, сторінка сайту; ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
         <input id="lq-1" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
@@ -357,7 +358,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
               </div>
@@ -374,7 +375,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">карпати</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                   </ul>
                 </div>
               </div>
@@ -391,8 +392,8 @@
                   <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">карпати</a></li>
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
               </div>
@@ -409,7 +410,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Документи</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">карпати</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">карпати</a></li>
                   </ul>
                 </div>
               </div>
@@ -426,7 +427,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">київ</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                   </ul>
                 </div>
                 <p class="note">Нотатка: сходити з батьками</p>
@@ -440,8 +441,9 @@
 
     <!-- Варіант «точні збіги — схожі нижче» -->
     <div class="wf-variant" id="tochni">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ серед результатів? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
         <input id="lq-2" name="q" type="search" autocomplete="off" value="карпати"
                placeholder="Шукай — знайде й з одруківкою">
@@ -485,7 +487,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
@@ -503,8 +505,8 @@
                   <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
@@ -522,7 +524,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Документи</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у назві й тезі</p>
@@ -540,7 +542,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Інше</span>
                   <span>додано 15 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у назві й тезі</p>
@@ -558,7 +560,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                   <span>додано 14 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
@@ -576,7 +578,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                   <span>додано 10 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
                 <p class="match">Збіг у тезі «карпати»</p>
@@ -610,8 +612,9 @@
 
     <!-- Варіант «лише схожі» -->
     <div class="wf-variant" id="lyshe-skhozhi">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ серед схожих? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
         <input id="lq-3" name="q" type="search" autocomplete="off" value="музй"
                placeholder="Шукай — знайде й з одруківкою">
@@ -655,7 +658,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">київ</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">київ</a></li>
                   </ul>
                 </div>
                 <p class="note">Нотатка: сходити з батьками</p>
@@ -670,11 +673,12 @@
 
     <!-- Варіант «з фільтром і нічого» -->
     <div class="wf-variant" id="z-filtrom-nichoho">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · шукає всюди? так → «Шукати всюди» → <a href="search-loading.html#shukaiemo">шукаємо</a> без фільтра · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#tochni">Скинути</a>
       </div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-4" class="vh">Шукати в Шухляді</label>
         <input id="lq-4" name="q" type="search" autocomplete="off" value="карпати"
                placeholder="Шукай — знайде й з одруківкою">
@@ -708,18 +712,19 @@
       <div class="wf-status layer-empty" role="status">
         <p><b>Шукали лише у «Фільмах». Шукати всюди?</b></p> <!-- flows.md, R4: everywhere; _conventions.md, «Тексти інтерфейсу» -->
         <div class="wf-actions">
-          <a href="search.html#tochni">Шукати всюди</a> <!-- той самий запит без фільтра: 6 точних, 1 схожий -->
+          <a class="wf-btn" href="search-loading.html#shukaiemo">Шукати всюди</a> <!-- той самий запит без фільтра: 6 точних, 1 схожий -->
         </div>
       </div>
     </div>
 
     <!-- Варіант «фільтр категорії» -->
     <div class="wf-variant" id="katehoriia">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно в категорії? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
       </div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-5" class="vh">Шукати в Шухляді</label>
         <input id="lq-5" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
@@ -763,7 +768,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
               </div>
@@ -795,7 +800,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                   <span>додано 12 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
               </div>
@@ -822,12 +827,13 @@
 
     <!-- Варіант «фільтр тегу» -->
     <div class="wf-variant" id="teh">
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно серед посилань з тегом? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
         <button type="button">Видалити тег</button> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); підтвердження — flow R3, «далі», крок 08 -->
       </div>
-      <form role="search" action="search.html" class="wf-search">
+      <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-6" class="vh">Шукати в Шухляді</label>
         <input id="lq-6" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
@@ -871,7 +877,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
               </div>
@@ -888,8 +894,8 @@
                   <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                   <span>додано сьогодні</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
-                    <li><a class="wf-chip" href="search.html#teh">на вихідні</a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh">на вихідні</a></li>
                   </ul>
                 </div>
               </div>
@@ -906,7 +912,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Документи</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
               </div>
@@ -923,7 +929,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Інше</span>
                   <span>додано 15 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
               </div>
@@ -940,7 +946,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                   <span>додано 14 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
               </div>
@@ -957,7 +963,7 @@
                   <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                   <span>додано 10 листопада</span>
                   <ul class="tags" aria-label="Теги">
-                    <li><a class="wf-chip" href="search.html#teh"><mark>карпати</mark></a></li>
+                    <li><a class="wf-chip" href="search-loading.html#teh"><mark>карпати</mark></a></li>
                   </ul>
                 </div>
               </div>
