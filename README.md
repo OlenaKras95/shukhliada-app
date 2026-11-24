@@ -43,7 +43,8 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Критика персон і доресерч | [research/notes/12-personas-review.md](./research/notes/12-personas-review.md) |
 | Карта: сутності, екрани, навігація й трасування (чернетки) | [sitemap.md](./sitemap.md) |
 | User flows: main job, R4, R3, E2 (чернетки) | [flows.md](./flows.md) |
-| Знімок IA: дерево екранів, навігація, flows і трасування — з `sitemap.md` і `flows.md` | [ia.html](./ia.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/ia.html) |
+| Структура IA: дерево екранів, навігація, flows і трасування — знімок `sitemap.md` і `flows.md` | [ia.html](./ia.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/ia.html) |
+| Збирання `ia.html`: `node _build/build-ia.mjs` | [_build/build-ia.mjs](./_build/build-ia.mjs) · шаблон [_build/ia.template.html](./_build/ia.template.html) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |
 | Навігатор: скрипт і стилі | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) |

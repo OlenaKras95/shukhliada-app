@@ -1,0 +1,629 @@
+<!doctype html>
+<!-- Згенеровано скриптом _build/build-ia.mjs із _build/ia.template.html, flows.md і sitemap.md. Руками не редагуй: правки — у шаблон чи в джерела, потім node _build/build-ia.mjs -->
+<html lang="uk" class="nav-dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Структура IA</title>
+  <meta name="description" content="Знімок інформаційної архітектури Шухляди: дерево екранів з jobs і файлами, навігація, усі user flows і матриця трасування «екран × job».">
+  <style>
+    :root {
+      --bg: #121214;
+      --surface: #1b1b1f;
+      --surface-2: #232328;
+      --line: #313137;
+      --text: #ececef;
+      --muted: #a3a3ad;
+      --accent: #e8916b;
+      --accent-soft: rgba(232, 145, 107, 0.14);
+      --own: #8fc7a3;
+      --pub: #8fb4e8;
+      --brief: #e3c98f;
+      --warn: #e8c46b;
+      --hyp: #d4a6e8;
+      --dead: #e57373;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 32px 96px; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    h1 { font-size: 36px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.01em; }
+    h2 { font-size: 26px; margin: 72px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+    h2 .num { color: var(--accent); margin-right: 10px; }
+    h3 { font-size: 18px; margin: 40px 0 10px; }
+    p { margin: 0 0 14px; }
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 4px; }
+    .lead { color: var(--muted); max-width: 780px; font-size: 17px; }
+    .note { color: var(--muted); font-size: 14px; }
+    .kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; padding: 0; list-style: none; }
+    .toc li { margin: 0; }
+    .toc a { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; background: var(--surface); }
+    .toc a:hover { border-color: var(--accent); }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+
+    /* позначки */
+    .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+    .tag.main { color: #1b1b1f; background: var(--accent); }
+    .tag.job { color: var(--text); background: rgba(163, 163, 173, 0.16); }
+    .tag.hyp { color: var(--hyp); background: rgba(212, 166, 232, 0.14); }
+    .tag.cond { color: var(--warn); background: rgba(232, 196, 107, 0.14); }
+    .tag.svc { color: var(--pub); background: rgba(143, 180, 232, 0.14); }
+    .tag.layer { color: var(--own); background: rgba(143, 199, 163, 0.12); }
+    .tag.home { color: var(--accent); background: var(--accent-soft); }
+    .tag.dead { color: var(--dead); background: rgba(229, 115, 115, 0.14); }
+
+    /* TL;DR */
+    .tldr { background: linear-gradient(180deg, var(--accent-soft), var(--surface) 70%); border: 1px solid var(--accent); border-radius: var(--radius); padding: 24px 28px; margin: 28px 0 8px; }
+    .tldr h2 { margin: 0 0 4px; padding: 0; border: 0; font-size: 22px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0 8px; }
+    .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+    .stat b { display: block; font-size: 26px; line-height: 1.1; color: var(--accent); }
+    .stat span { font-size: 13.5px; color: var(--muted); }
+
+    /* таблиці */
+    .table-wrap { overflow-x: auto; margin: 12px 0 8px; border: 1px solid var(--line); border-radius: var(--radius); }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+    thead th { background: var(--surface-2); font-size: 13px; color: var(--muted); font-weight: 600; }
+    tbody th { font-weight: 600; background: var(--surface); }
+    tr:last-child td, tr:last-child th { border-bottom: 0; }
+
+    /* дерево карти */
+    .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+    .tree ul { margin-left: 14px; padding-left: 20px; border-left: 2px solid var(--line); }
+    .tree li { position: relative; margin: 10px 0; }
+    .tree ul > li::before { content: ""; position: absolute; left: -20px; top: 22px; width: 16px; border-top: 2px solid var(--line); }
+    .node { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; }
+    .node.root { display: inline-block; border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--surface) 80%); }
+    .node.group { display: inline-block; background: var(--surface-2); padding: 6px 14px; }
+    .node.group b { font-size: 14px; }
+    .node.group span { color: var(--muted); font-size: 13px; margin-left: 6px; }
+    .node.screen.home { border-color: var(--accent); }
+    .node.screen.svc { border-style: dashed; border-color: var(--pub); }
+    .node h4 { margin: 0 0 4px; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+    .node .jobs { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 2px; }
+    .node .what { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+    .tag.type { color: var(--muted); background: transparent; border: 1px solid var(--line); font-weight: 500; }
+    .node .jobs { position: relative; }
+    .jobs .tag[data-name] { cursor: help; }
+    .jobs .tag.hyp { border: 1px dashed rgba(212, 166, 232, 0.6); }
+    .jobs .tag[data-name]:hover::after, .jobs .tag[data-name]:focus-visible::after {
+      content: attr(data-name); position: absolute; left: 0; top: calc(100% + 6px); z-index: 5;
+      width: max-content; max-width: min(360px, 100%); white-space: normal; text-align: left;
+      background: #2b2b31; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+      padding: 6px 10px; font-size: 12.5px; font-weight: 500; line-height: 1.4; box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+    .jobs .tag[data-name]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0; font-size: 13.5px; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* flows */
+    .flow { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin: 18px 0 28px; }
+    .flow h3 { margin: 0 0 6px; }
+    .flow .meta { font-size: 14px; color: var(--muted); margin: 0 0 4px; }
+    .diagram { overflow-x: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 12px 0 6px; }
+    .diagram pre.mermaid { margin: 0; color: var(--muted); font-size: 12px; white-space: pre; }
+    .diagram pre.mermaid[data-processed] { white-space: normal; color: inherit; font-size: inherit; line-height: normal; }
+    .diagram pre.mermaid[data-processed] p { margin: 0; }
+    .diagram svg { max-width: none; height: auto; }
+    .diagram-bar { display: flex; justify-content: flex-end; gap: 6px; margin: 12px 0 -4px; }
+    .zoom[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+    .diagram.grab { cursor: grab; }
+    .diagram.grabbing { cursor: grabbing; user-select: none; }
+    .diagram svg path.flowchart-link.main { stroke: #8fc7a3 !important; stroke-width: 3px !important; }
+    .lists { margin: 14px 0 0; }
+    .lists details { border-top: 1px solid var(--line); padding: 8px 0; }
+    .lists summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+    .lists summary span { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; }
+    .lists summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .lists ol, .lists ul { margin: 8px 0 4px; font-size: 14px; }
+    .lists li { margin-bottom: 6px; }
+    .lists p { font-size: 14px; margin: 10px 0 0; }
+    .zoom { font: inherit; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+    .zoom:hover { border-color: var(--accent); }
+    .zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .diagram svg g.node { cursor: pointer; }
+    .diagram svg path.flowchart-link.back { stroke-dasharray: 5 4; }
+    .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { opacity: 0.14; transition: opacity 0.15s ease; }
+    .diagram svg.focus g.node.on, .diagram svg.focus path.flowchart-link.on, .diagram svg.focus g.edgeLabel.on { opacity: 1; }
+    .diagram svg.focus path.flowchart-link.on, .diagram svg.focus path.flowchart-link.main.on { stroke: #e8916b !important; stroke-width: 3px !important; }
+    .diagram svg g.node.sel { filter: drop-shadow(0 0 6px #e8916b) drop-shadow(0 0 2px #e8916b); }
+    @media (prefers-reduced-motion: reduce) { .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { transition: none; } }
+    .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 2px solid; vertical-align: -2px; }
+    .sw-ok { background: #1f3a2a; border-color: #8fc7a3; }
+    .sw-dead { background: #3d1f22; border-color: #e57373; }
+    .sw-err { background: #3d2e18; border-color: #e8a85b; }
+    .sw-load { background: #1c2a40; border-color: #8fb4e8; }
+    .sw-empty { background: #2a2824; border-color: #a89f8f; }
+
+    /* матриця */
+    .matrix th, .matrix td { text-align: center; font-size: 13.5px; }
+    .matrix thead th:first-child, .matrix tbody th { text-align: left; min-width: 260px; }
+    .matrix .x { color: var(--own); font-weight: 700; }
+    .matrix .cond { color: var(--warn); font-weight: 600; white-space: nowrap; }
+    .matrix td.orphan, .matrix th.orphan { background: rgba(229, 115, 115, 0.12); }
+    .matrix tr.orphan th, .matrix tr.orphan td { background: rgba(229, 115, 115, 0.12); }
+    .matrix tr.orphan th { box-shadow: inset 3px 0 0 var(--dead); }
+    .matrix th.orphan { color: var(--dead); }
+    .matrix td.svc, .matrix th.svc { background: rgba(143, 180, 232, 0.08); }
+    .matrix th.svc { color: var(--pub); }
+    .matrix tr.backlog td { color: var(--muted); font-size: 12.5px; background: rgba(163, 163, 173, 0.06); }
+    .matrix tr.hyp th { color: var(--muted); }
+
+    footer { margin-top: 72px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 720px) {
+      main { padding: 32px 16px 64px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 22px; margin-top: 56px; }
+      .tldr { padding: 20px 16px; }
+      .flow { padding: 16px 14px; }
+      .tree ul { margin-left: 6px; padding-left: 14px; }
+      .tree ul > li::before { left: -14px; width: 10px; }
+    }
+  </style>
+  <script src="_nav/nav.js" data-root="./"></script>
+</head>
+<body>
+<main>
+  <p class="kicker">Етап 1 · Прототип · знімок на 2026-11-24</p>
+  <h1>Структура IA</h1>
+  <p class="lead">Інформаційна архітектура Шухляди на одній сторінці: які є екрани і для чого кожен, як між ними ходять, якими маршрутами людина виконує jobs і чи кожен екран і кожен job має пару.</p>
+  <p class="note">Це знімок для перегляду, а не джерело. Джерело правди — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/sitemap.md">sitemap.md</a> (сутності, екрани, навігація, трасування) і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/flows.md">flows.md</a> (маршрути). Стани екранів, сутності й обґрунтування кожного рішення — там. Jobs — <a href="personas.html#jobs">Персони і jobs</a>.</p>
+
+  <section class="tldr" id="tldr" aria-labelledby="tldr-title">
+    <h2 id="tldr-title">TL;DR</h2>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>екранів: 3 екрани і 2 шари</span></div>
+      <div class="stat"><b>3</b><span>пункти глобальної навігації</span></div>
+      <div class="stat"><b>1</b><span>клік від головного до main job</span></div>
+      <div class="stat"><b>14</b><span>jobs у трасуванні</span></div>
+      <div class="stat"><b>6</b><span>діаграм у 4 flows</span></div>
+      <div class="stat"><b>0</b><span>сиріт: «Вхід» — службовий виняток</span></div>
+    </div>
+    <p style="margin:8px 0 0">Головний екран — <b>«Моя Шухляда»</b>: поле для вставки нагорі, під ним «Нещодавно додане», нижче категорії. Пошук і Посилання — шари поверх екрана. На «Моїй Шухляді» 11 jobs із 14, тож вайрфрейм має розвести їх на зони.</p>
+  </section>
+
+  <ul class="toc">
+    <li><a href="#sitemap">Карта екранів</a></li>
+    <li><a href="#navigation">Навігація</a></li>
+    <li><a href="#flows">Flows</a></li>
+    <li><a href="#trace">Трасування</a></li>
+  </ul>
+
+  <!-- ============ Карта ============ -->
+  <h2 id="sitemap"><span class="num">1</span>Карта екранів</h2>
+  <p>Дерево: продукт → група → екран. Групи названо сутностями. Біля кожного екрана — файл макета і jobs; жирним той job, заради якого екран є. Вставка <code>Ctrl+V</code> і пошук <code>Ctrl+K</code> / <code>/</code> працюють на кожному екрані.</p>
+  <div class="legend">
+    <span><span class="tag type">глобальний</span> тип екрана: глобальний — пункт навігації, контекстний — відкривається з іншого екрана</span>
+    <span><span class="tag main">Main</span> job, заради якого екран є; наведи — побачиш назву</span>
+    <span><span class="tag job">R1</span> job, що теж тут виконується</span>
+    <span><span class="tag hyp" style="border:1px dashed rgba(212,166,232,0.6)">Г1 [?]</span> лише гіпотеза</span>
+    <span><span class="tag cond">умовно</span> до інтерв'ю</span>
+    <span><span class="tag layer">шар</span> поверх поточного екрана</span>
+    <span><span class="tag svc">службовий</span> без власного job</span>
+  </div>
+
+  <ul class="tree">
+    <li>
+      <div class="node root"><b>Шухляда</b> <span class="note">— вебзастосунок, desktop-first, адаптив до телефона</span></div>
+      <ul>
+        <li>
+          <div class="node group"><b>Шухляда</b><span>відкласти й побачити, що все на місці</span></div>
+          <ul>
+            <li>
+              <div class="node screen home">
+                <h4>Моя Шухляда <span class="tag home">головний</span> <span class="tag type">глобальний</span> <code>drawer.html</code></h4>
+                <div class="jobs"><!--JOBS:*Main R1 R4 E1 E3 R3 R2 Г1 Г3~ Г4~ Г5--></div>
+                <p class="what">Поле для вставки. «Нещодавно додане»: дотик до картки — сторінка сайту, «⋯» — шар «Посилання». Категорії з кількістю. Вхід у пошук.</p>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="node group"><b>Пошук</b><span>дістати своїми словами, категорією чи тегом</span></div>
+          <ul>
+            <li>
+              <div class="node screen">
+                <h4>Пошук <span class="tag layer">шар</span> <span class="tag type">глобальний</span> <code>search.html</code></h4>
+                <div class="jobs"><!--JOBS:*R4 Main E3 R2 Г1 Г3~--></div>
+                <p class="what">Запит і фільтри: категорія, тег, «Нещодавно додане». Категорія з головного відкриває цей шар з фільтром. Біля тегу у фільтрі — «Видалити тег».</p>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="node group"><b>Посилання</b><span>зрозуміти, що це й навіщо, і виправити</span></div>
+          <ul>
+            <li>
+              <div class="node screen">
+                <h4>Посилання <span class="tag layer">шар</span> <span class="tag type">контекстний</span> <code>link.html</code></h4>
+                <div class="jobs"><!--JOBS:*R2 R3 R4--></div>
+                <p class="what">Назва, опис, нотатка «навіщо», категорія, теги, «Вже переглянуто», дата для «Івентів». Відкрити сторінку, видалити. Відкривається «⋯» на картці або з «Вже в Шухляді».</p>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="node group"><b>Мої дані</b><span>увійти, забрати архів або піти зовсім</span></div>
+          <ul>
+            <li>
+              <div class="node screen">
+                <h4>Акаунт <span class="tag type">глобальний</span> <code>account.html</code></h4>
+                <div class="jobs"><!--JOBS:*E2--></div>
+                <p class="what">Експорт усієї Шухляди в CSV. Видалити акаунт — спершу пропозиція забрати архів. Службові дії без job: <span class="tag svc">Вийти</span> на цьому пристрої, без мережі; <span class="tag svc">Вийти на всіх пристроях</span> — з мережею.</p>
+              </div>
+            </li>
+            <li>
+              <div class="node screen svc">
+                <h4>Вхід <span class="tag svc">службовий</span> <span class="tag type">контекстний</span> <code>login.html</code></h4>
+                <div class="jobs"><span class="tag svc">без job — вхідна умова для всіх jobs</span></div>
+                <p class="what">Вхід через Google. Перший екран для того, хто ще не ввійшов; після виходу чи видалення акаунта. Стоїть до навігації.</p>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="note">Домашній екран телефона — не наш екран: звідти відкривається «Моя Шухляда». Сторінки сайтів теж не наші екрани.</p>
+
+  <!-- ============ Навігація ============ -->
+  <h2 id="navigation"><span class="num">2</span>Навігація</h2>
+  <p>На десктопі — сайдбар, на телефоні — таб-бар; склад пунктів однаковий. Глибину рахуємо для П1 «Скидає з телефона» на телефоні. Клік — дотик чи клік у Шухляді; системне «Вставити», меню «Поділитися», «Назад» телефона і вхід не рахуємо.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Пункт</th><th>У таб-барі</th><th>Веде в</th><th>Job</th><th>Навіщо</th></tr></thead>
+      <tbody>
+        <tr><th>Моя Шухляда</th><td>Шухляда</td><td><code>drawer.html</code></td><td>Main, R1, E1, E3</td><td>Обидві половини main job: поле, щоб відкласти, і «Нещодавно додане», щоб дістати</td></tr>
+        <tr><th>Пошук</th><td>Пошук</td><td><code>search.html</code></td><td>R4</td><td>Шар над поточним екраном. На видноті, бо на телефоні немає <code>Ctrl+K</code></td></tr>
+        <tr><th>Акаунт</th><td>Акаунт</td><td><code>account.html</code></td><td>E2</td><td>Експорт має бути видно. Тут же обидва виходи. На десктопі — унизу сайдбара</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Не пункти: «Посилання» (одне конкретне посилання, шар з картки), «Вхід» (до навігації), категорії (фільтр Пошуку), «+ Додати» (дубль поля). Перемикача немає: Шухляда одна на акаунт.</p>
+
+  <h3>Глибина від головного</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Що</th><th>Шлях</th><th>Кліків</th><th>Межа 3</th></tr></thead>
+      <tbody>
+        <tr><th>Відкласти, телефон, вставка</th><td>Дотик до поля → «Вставити» → «Збережено в Шухляді»</td><td><b>1</b> · дотиків iPhone 3, Android 2</td><td>так</td></tr>
+        <tr><th>Відкласти, Android, «Поділитися»</th><td>«Поділитися → Шухляда» → стан збереження</td><td><b>0</b></td><td>так</td></tr>
+        <tr><th>Відкласти, десктоп</th><td><code>Ctrl+V</code> будь-де</td><td><b>0</b></td><td>так</td></tr>
+        <tr><th>Виправити категорію після збереження</th><td>«Змінити» в підтвердженні → категорія</td><td>2</td><td>так</td></tr>
+        <tr><th>Виправити категорію пізніше</th><td>«⋯» → категорія на шарі → нова категорія</td><td>3</td><td>на межі</td></tr>
+        <tr><th>Скасувати випадкову вставку</th><td>«Скасувати» в підтвердженні</td><td>1</td><td>так</td></tr>
+        <tr><th>Дістати свіже, гортаючи</th><td>Картка в «Нещодавно доданому» → сторінка</td><td><b>1</b></td><td>так</td></tr>
+        <tr><th>Дістати старіше, гортаючи категорію</th><td>Категорія → шар «Пошук» → картка</td><td>2</td><td>так</td></tr>
+        <tr><th>Дістати словом</th><td>«Пошук» → запит → результат</td><td>2</td><td>так</td></tr>
+        <tr><th>Дістати за тегом</th><td>«Пошук» → тег у фільтрі → картка</td><td>3</td><td>на межі</td></tr>
+        <tr><th>Подивитися, навіщо зберегли, і виправити</th><td>«⋯» → шар «Посилання» → поле</td><td>2</td><td>так</td></tr>
+        <tr><th>Видалити посилання</th><td>«⋯» → «Видалити» → «назавжди»</td><td>3</td><td>так</td></tr>
+        <tr><th>Видалити тег</th><td>«Пошук» → «Видалити тег» → підтвердження</td><td>3</td><td>так</td></tr>
+        <tr><th>Вийти · Вийти на всіх пристроях</th><td>«Акаунт» → дія</td><td>2</td><td>так</td></tr>
+        <tr><th>Забрати архів</th><td>«Акаунт» → «Експорт» → файл</td><td>2</td><td>так</td></tr>
+        <tr><th>Видалити акаунт</th><td>«Акаунт» → «Видалити акаунт» → пропозиція архіву → «назавжди»</td><td>4</td><td><span class="tag dead">понад межу свідомо</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ Flows ============ -->
+  <h2 id="flows"><span class="num">3</span>Flows</h2>
+  <p>Main job і три related jobs: R4 — найчастіший біль і ядро MVP, R3 — найчастіша дія після збереження, E2 — найризикованіший, бо видалення остаточне. R1, R2, E1 і E3 живуть усередині цих маршрутів. Flows не перевірено на людях.</p>
+  <div class="legend">
+    <span><code>[Екран]</code> екран з реєстру</span>
+    <span><code>{питання?}</code> розвилка</span>
+    <span><code>(стан)</code> стан екрана</span>
+    <span><code>([кінець])</code> кінець</span>
+    <span><code>- - →</code> крок назад</span>
+    <span><span class="swatch" style="background:transparent;border-color:#8fc7a3;border-width:3px;border-radius:2px;height:0;width:18px;vertical-align:3px"></span> основний шлях до успіху</span>
+    <span><span class="swatch sw-ok"></span> успіх</span>
+    <span><span class="swatch sw-dead"></span> без виходу</span>
+    <span><span class="swatch sw-err"></span> error</span>
+    <span><span class="swatch sw-load"></span> loading</span>
+    <span><span class="swatch sw-empty"></span> empty</span>
+  </div>
+  <p class="note"><b>Клікни на вузол</b> — підсвітиться весь шлях через нього: звідки до нього доходять і куди з нього можна дійти. Повторний клік, клік повз вузол або <code>Esc</code> — скинути. Пунктир — крок назад: повтор чи повернення. Зелена лінія — шлях до успіху без помилок. Масштаб: «Читати» — текст читається, діаграму тягнеш мишею вбік; «Огляд» — уся діаграма в ширину сторінки; «100 %» — натуральна величина. <code>[?]</code> — припущення, яке ще не вирішила PM.</p>
+
+  <section class="flow" id="flow-main" aria-labelledby="flow-main-title">
+    <h3 id="flow-main-title">Main · Відкласти за мить і дістати, коли знадобиться</h3>
+    <p class="meta"><b>Персона:</b> П1 «Скидає з телефона». <b>Обставини:</b> телефон, посилання трапилось у стрічці чи чаті; на Android ще й «Поділитися». Два заходи: відкласти зараз і дістати через дні.</p>
+    <p class="meta"><b>Кліків:</b> відкласти — 1, дістати свіже — 1.</p>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:1--></pre></div>
+    <div class="lists"><!--LISTS:1--></div>
+  </section>
+
+  <section class="flow" id="flow-r4" aria-labelledby="flow-r4-title">
+    <h3 id="flow-r4-title">R4 · Дістати за тим, що пам'ятається</h3>
+    <p class="meta"><b>Персона:</b> П1, той самий шлях у П2. <b>Обставини:</b> річ знадобилася, а в «Нещодавно доданому» її вже не видно. П1 спершу гортає, П2 частіше шукає словом. Ціль — знайти до 10 с.</p>
+    <p class="meta"><b>Кліків:</b> категорія → картка — 2; запит → картка — 2; тег → картка — 3.</p>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:2--></pre></div>
+    <div class="lists"><!--LISTS:2--></div>
+  </section>
+
+  <section class="flow" id="flow-r3" aria-labelledby="flow-r3-title">
+    <h3 id="flow-r3-title">R3 · Мати порядок без сортування</h3>
+    <p class="meta"><b>Персона:</b> П2 «Тримає вкладки й закладки». <b>Обставини:</b> комп'ютер, вставила <code>Ctrl+V</code> і хоче закрити вкладку. Від збереження до правильної категорії.</p>
+    <p class="meta"><b>Кліків:</b> вгадано — 0; «Змінити» → категорія — 2; пізніше через «⋯» — 3.</p>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:3--></pre></div>
+    <div class="lists"><!--LISTS:3--></div>
+  </section>
+
+  <section class="flow" id="flow-r3-next" aria-labelledby="flow-r3-next-title">
+    <h3 id="flow-r3-next-title">R3, далі · Дії на шарі «Посилання» і видалення тегу</h3>
+    <p class="meta"><b>Персона:</b> П2 — R2 «що це й навіщо» її job. Тег знімають на шарі «Посилання», а видаляють у фільтрі тегів на шарі «Пошук».</p>
+    <p class="meta"><b>Кліків:</b> «⋯» → поле — 2; видалити посилання — 3; видалити тег — 3.</p>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:4--></pre></div>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:5--></pre></div>
+    <div class="lists"><!--LISTS:5--></div>
+  </section>
+
+  <section class="flow" id="flow-e2" aria-labelledby="flow-e2-title">
+    <h3 id="flow-e2-title">E2 · Не боятися втратити все разом із сервісом</h3>
+    <p class="meta"><b>Персона:</b> П1 і П2. <b>Обставини:</b> забрати архів про запас або перед тим, як піти зовсім. Тут же обидва виходи — службові дії без job.</p>
+    <p class="meta"><b>Кліків:</b> експорт — 2; кожен вихід — 2; видалення акаунта — 4, свідомо.</p>
+    <div class="diagram"><pre class="mermaid"><!--FLOW:6--></pre></div>
+    <div class="lists"><!--LISTS:6--></div>
+  </section>
+
+  <!-- ============ Трасування ============ -->
+  <h2 id="trace"><span class="num">4</span>Трасування «екран × job»</h2>
+  <p><b>x</b> — без цього екрана job не закривається, або людина отримує тут частину результату. Не рахуються вхідні умови, прохід через екран і <code>Ctrl+V</code> на іншому екрані. <b>Сирота</b> — екран без жодного job або job без жодного екрана.</p>
+  <div class="legend">
+    <span><span class="tag dead">сирота</span> порожня колонка чи рядок</span>
+    <span><span class="tag svc">службовий</span> порожньо свідомо</span>
+    <span><span class="tag cond">x умовно</span> до інтерв'ю</span>
+    <span><span class="tag job">backlog</span> функція поза MVP</span>
+  </div>
+
+  <h3>До рішень: 5 сиріт</h3>
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr><th>Job</th><th>Моя Шухляда</th><th>Пошук</th><th>Посилання</th><th>Акаунт</th><th class="orphan">Вхід · сирота</th></tr></thead>
+      <tbody>
+        <tr><th><b>Main</b> Відкласти за мить і дістати, коли знадобиться</th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="orphan"></td></tr>
+        <tr><th><b>R1</b> Відкласти, не відриваючись</th><td class="x">x</td><td></td><td></td><td></td><td class="orphan"></td></tr>
+        <tr><th><b>R2</b> Одразу розуміти, що це й навіщо</th><td class="x">x</td><td class="x">x</td><td class="x">x</td><td></td><td class="orphan"></td></tr>
+        <tr><th><b>R3</b> Мати порядок без сортування</th><td class="x">x</td><td></td><td class="x">x</td><td></td><td class="orphan"></td></tr>
+        <tr><th><b>R4</b> Дістати за тим, що пам'ятається</th><td class="x">x</td><td class="x">x</td><td class="x">x</td><td></td><td class="orphan"></td></tr>
+        <tr class="orphan"><th><b>R5</b> Справді повертатися до відкладеного</th><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th><b>E1</b> Не тримати все в голові</th><td class="x">x</td><td></td><td></td><td></td><td class="orphan"></td></tr>
+        <tr><th><b>E2</b> Не боятися втратити все разом із сервісом</th><td></td><td></td><td></td><td class="x">x</td><td class="orphan"></td></tr>
+        <tr><th><b>E3</b> Відчувати порядок, а не звалище</th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="orphan"></td></tr>
+        <tr class="hyp"><th><b>Г1</b> · social · знайти без нового прохання <span class="tag hyp">[?]</span></th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="orphan"></td></tr>
+        <tr class="orphan hyp"><th><b>Г2</b> · social · показати відкладене, щоб вирішити разом <span class="tag hyp">[?]</span></th><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="orphan hyp"><th><b>Г3</b> · social · мати знахідки під рукою, щоб бути підготовленою <span class="tag hyp">[?]</span></th><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="orphan hyp"><th><b>Г4</b> · emotional · почуватися як удома, рідною мовою <span class="tag hyp">[?]</span></th><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="hyp"><th><b>Г5</b> · emotional · без зусиль виправити випадкове <span class="tag hyp">[?]</span></th><td class="x">x</td><td></td><td></td><td></td><td class="orphan"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Що стало із сиротами</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Сирота</th><th>Рішення PM (2026-11-24)</th><th>Чому</th></tr></thead>
+      <tbody>
+        <tr><th>Вхід <code>login.html</code></th><td><span class="tag svc">службовий екран-виняток</span></td><td>Вхідна умова для всіх jobs, сам жодного не закриває. Прив'язка до E1 порушувала правило «вхідні умови не рахуються». Видалити не можна: без входу немає синхронізації й експорту</td></tr>
+        <tr><th>R5 Справді повертатися</th><td><span class="tag job">backlog</span></td><td>Нагадувань у MVP немає. «Вже переглянуто» позначає, але не нагадує. Перший у backlog: «забуваю повернутися» часто в 7 з 14</td></tr>
+        <tr><th>Г2 Вирішити разом</th><td><span class="tag job">backlog</span></td><td>Потрібен шерінг, а його в MVP немає. Job — гіпотеза без даних</td></tr>
+        <tr><th>Г3 Під рукою</th><td><span class="tag cond">умовно</span> → Моя Шухляда, Пошук</td><td>«Під рукою» — це і є main job. Позначка тримається лише до інтерв'ю</td></tr>
+        <tr><th>Г4 Як удома</th><td><span class="tag cond">умовно</span> → Моя Шухляда</td><td>Мова й тон — властивість усіх екранів, але першими їх зустрічають на головному. Тут job перевірити першим</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Після рішень: 0 сиріт</h3>
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr><th>Job</th><th>Моя Шухляда</th><th>Пошук</th><th>Посилання</th><th>Акаунт</th><th class="svc">Вхід · службовий</th></tr></thead>
+      <tbody>
+        <tr><th><b>Main</b> Відкласти за мить і дістати, коли знадобиться</th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="svc"></td></tr>
+        <tr><th><b>R1</b> Відкласти, не відриваючись</th><td class="x">x</td><td></td><td></td><td></td><td class="svc"></td></tr>
+        <tr><th><b>R2</b> Одразу розуміти, що це й навіщо</th><td class="x">x</td><td class="x">x</td><td class="x">x</td><td></td><td class="svc"></td></tr>
+        <tr><th><b>R3</b> Мати порядок без сортування</th><td class="x">x</td><td></td><td class="x">x</td><td></td><td class="svc"></td></tr>
+        <tr><th><b>R4</b> Дістати за тим, що пам'ятається</th><td class="x">x</td><td class="x">x</td><td class="x">x</td><td></td><td class="svc"></td></tr>
+        <tr class="backlog"><th><b>R5</b> Справді повертатися до відкладеного</th><td colspan="5">backlog — нагадування поза MVP</td></tr>
+        <tr><th><b>E1</b> Не тримати все в голові</th><td class="x">x</td><td></td><td></td><td></td><td class="svc"></td></tr>
+        <tr><th><b>E2</b> Не боятися втратити все разом із сервісом</th><td></td><td></td><td></td><td class="x">x</td><td class="svc"></td></tr>
+        <tr><th><b>E3</b> Відчувати порядок, а не звалище</th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="svc"></td></tr>
+        <tr class="hyp"><th><b>Г1</b> · social · знайти без нового прохання <span class="tag hyp">[?]</span></th><td class="x">x</td><td class="x">x</td><td></td><td></td><td class="svc"></td></tr>
+        <tr class="backlog hyp"><th><b>Г2</b> · social · показати відкладене, щоб вирішити разом <span class="tag hyp">[?]</span></th><td colspan="5">backlog — шерінг поза MVP</td></tr>
+        <tr class="hyp"><th><b>Г3</b> · social · мати знахідки під рукою, щоб бути підготовленою <span class="tag hyp">[?]</span></th><td class="cond">x умовно</td><td class="cond">x умовно</td><td></td><td></td><td class="svc"></td></tr>
+        <tr class="hyp"><th><b>Г4</b> · emotional · почуватися як удома, рідною мовою <span class="tag hyp">[?]</span></th><td class="cond">x умовно</td><td></td><td></td><td></td><td class="svc"></td></tr>
+        <tr class="hyp"><th><b>Г5</b> · emotional · без зусиль виправити випадкове <span class="tag hyp">[?]</span></th><td class="x">x</td><td></td><td></td><td></td><td class="svc"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Позначка ще не означає, що все гаразд. На «Моїй Шухляді» 11 jobs із 14 — вайрфрейм має розвести їх на зони. «Акаунт» тримається на одному E2. Позначка R4 на «Посиланні» стоїть на тегах і нотатці, а теги — кандидати на видалення після запуску. Г1, Г3, Г4 і Г5 — гіпотези: не підстава для нових функцій.</p>
+
+  <footer>
+    Знімок зібрано 2026-11-24 з <code>sitemap.md</code> і <code>flows.md</code>. Діаграми взято з <code>flows.md</code> дослівно, змінено лише кольори під темну тему. Змінилося джерело — перезбираємо знімок.
+  </footer>
+</main>
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: "dark",
+    securityLevel: "strict",
+    htmlLabels: false,
+    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    themeVariables: {
+      darkMode: true,
+      background: "#121214",
+      primaryColor: "#232328",
+      primaryTextColor: "#ececef",
+      primaryBorderColor: "#55555e",
+      secondaryColor: "#1b1b1f",
+      tertiaryColor: "#1b1b1f",
+      lineColor: "#8a8a94",
+      edgeLabelBackground: "#1b1b1f",
+      fontSize: "14px"
+    },
+    flowchart: { useMaxWidth: false, htmlLabels: false, curve: "basis", wrappingWidth: 220 }
+  });
+  mermaid.run({ querySelector: "pre.mermaid" }).then(function () {
+    // Масштаб: «Читати» — не дрібніше за 80 % натуральної величини, далі прокрутка вбік;
+    // «Огляд» — уся діаграма в ширину; «100 %» — натуральна величина.
+    var READ = 0.8;
+    document.querySelectorAll(".diagram").forEach(function (box) {
+      var svg = box.querySelector("svg");
+      if (!svg) return;
+      var natural = svg.viewBox.baseVal.width;
+      var bar = document.createElement("div");
+      bar.className = "diagram-bar";
+      bar.setAttribute("role", "group");
+      bar.setAttribute("aria-label", "Масштаб діаграми");
+      var btns = {};
+      function inner() {
+        var cs = getComputedStyle(box);
+        return box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      }
+      function apply(mode) {
+        var w = inner();
+        var px = mode === "full" ? natural
+               : mode === "fit" ? Math.min(natural, w)
+               : Math.min(natural, Math.max(w, natural * READ));
+        svg.style.width = px + "px";
+        box.dataset.mode = mode;
+        box.classList.toggle("grab", px > w + 1);
+        Object.keys(btns).forEach(function (k) { btns[k].setAttribute("aria-pressed", k === mode ? "true" : "false"); });
+      }
+      [["read", "Читати"], ["fit", "Огляд"], ["full", "100 %"]].forEach(function (m) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "zoom";
+        b.textContent = m[1];
+        b.addEventListener("click", function () { apply(m[0]); });
+        btns[m[0]] = b;
+        bar.appendChild(b);
+      });
+      box.parentNode.insertBefore(bar, box);
+      apply("read");
+      window.addEventListener("resize", function () { apply(box.dataset.mode || "read"); });
+
+      // Перетягування мишею вбік, коли діаграма ширша за рамку.
+      var drag = null;
+      box.addEventListener("pointerdown", function (ev) {
+        if (ev.pointerType !== "mouse" || ev.button !== 0 || !box.classList.contains("grab") || ev.target.closest("g.node")) return;
+        drag = { x: ev.clientX, sl: box.scrollLeft, moved: false };
+      });
+      window.addEventListener("pointermove", function (ev) {
+        if (!drag) return;
+        var dx = ev.clientX - drag.x;
+        if (Math.abs(dx) > 4) { drag.moved = true; box.classList.add("grabbing"); }
+        box.scrollLeft = drag.sl - dx;
+      });
+      window.addEventListener("pointerup", function () {
+        if (drag && drag.moved) box.dataset.dragged = "1";
+        drag = null;
+        box.classList.remove("grabbing");
+      });
+    });
+    document.querySelectorAll(".diagram svg").forEach(makeInteractive);
+  }).catch(function (e) {
+    console.error("Mermaid:", e);
+  });
+
+  // Клік по вузлу: підсвітити всі шляхи через нього — попередників і нащадків.
+  // Ребра-повернення (повтор, «назад») визначаємо обходом у глибину і не йдемо по них,
+  // інакше петля повтору підсвітила б усю діаграму. Їх малюємо пунктиром.
+  function makeInteractive(svg) {
+    var nodeOf = function (g) { var m = /^flowchart-(.+)-\d+$/.exec(g.id); return m ? m[1] : null; };
+    var nodes = new Map();
+    svg.querySelectorAll("g.node").forEach(function (g) { var id = nodeOf(g); if (id) nodes.set(id, g); });
+    var labels = Array.prototype.slice.call(svg.querySelectorAll("g.edgeLabels > g.edgeLabel"));
+    var edges = [];
+    svg.querySelectorAll("path.flowchart-link").forEach(function (p) {
+      var m = /^L_(.+)_(.+)_(\d+)$/.exec(p.id);
+      if (!m || !nodes.has(m[1]) || !nodes.has(m[2])) return;
+      edges.push({ from: m[1], to: m[2], n: +m[3], path: p });
+    });
+    edges.sort(function (a, b) { return a.n - b.n; });
+    edges.forEach(function (e, i) { e.label = labels[i] || null; });
+
+    // Зворотні ребра: DFS у порядку з flows.md, від вузлів без входів.
+    var out = new Map(), hasIn = new Set();
+    edges.forEach(function (e) { (out.get(e.from) || out.set(e.from, []).get(e.from)).push(e); hasIn.add(e.to); });
+    var state = new Map();
+    function dfs(u) {
+      state.set(u, 1);
+      (out.get(u) || []).forEach(function (e) {
+        var s = state.get(e.to);
+        if (s === 1) e.back = true;
+        else if (!s) dfs(e.to);
+      });
+      state.set(u, 2);
+    }
+    nodes.forEach(function (g, id) { if (!hasIn.has(id) && !state.get(id)) dfs(id); });
+    nodes.forEach(function (g, id) { if (!state.get(id)) dfs(id); });
+    edges.forEach(function (e) { if (e.back) e.path.classList.add("back"); });
+
+    // Основний шлях: ребра, що лежать на шляху від початку до успіху (cOk)
+    // і не заходять у помилку чи кінець без виходу (cErr, cDead).
+    var cls = function (id, c) { return nodes.get(id).classList.contains(c); };
+    var bad = function (id) { return cls(id, "cErr") || cls(id, "cDead"); };
+    var fe = edges.filter(function (e) { return !e.back && !bad(e.from) && !bad(e.to); });
+    var hasFwdIn = new Set(edges.filter(function (e) { return !e.back; }).map(function (e) { return e.to; }));
+    var reachF = new Set(), st = [];
+    nodes.forEach(function (g, id) { if (!hasFwdIn.has(id) && !bad(id)) { reachF.add(id); st.push(id); } });
+    while (st.length) { var x = st.pop(); fe.forEach(function (e) { if (e.from === x && !reachF.has(e.to)) { reachF.add(e.to); st.push(e.to); } }); }
+    var reachB = new Set();
+    nodes.forEach(function (g, id) { if (cls(id, "cOk")) { reachB.add(id); st.push(id); } });
+    while (st.length) { var y = st.pop(); fe.forEach(function (e) { if (e.to === y && !reachB.has(e.from)) { reachB.add(e.from); st.push(e.from); } }); }
+    fe.forEach(function (e) {
+      if (reachF.has(e.from) && reachB.has(e.from) && reachF.has(e.to) && reachB.has(e.to)) e.path.classList.add("main");
+    });
+
+    var fwd = edges.filter(function (e) { return !e.back; });
+    function walk(start, down) {
+      var seen = new Set([start]), stack = [start];
+      while (stack.length) {
+        var x = stack.pop();
+        fwd.forEach(function (e) {
+          var u = down ? e.from : e.to, v = down ? e.to : e.from;
+          if (u === x && !seen.has(v)) { seen.add(v); stack.push(v); }
+        });
+      }
+      return seen;
+    }
+    var current = null;
+    function reset() {
+      current = null;
+      svg.classList.remove("focus");
+      svg.querySelectorAll(".on, .sel").forEach(function (el) { el.classList.remove("on", "sel"); });
+    }
+    function focus(id) {
+      reset(); current = id;
+      var down = walk(id, true), up = walk(id, false);
+      svg.classList.add("focus");
+      nodes.forEach(function (g, n) { if (down.has(n) || up.has(n)) g.classList.add("on"); });
+      nodes.get(id).classList.add("sel");
+      fwd.forEach(function (e) {
+        if ((down.has(e.from) && down.has(e.to)) || (up.has(e.from) && up.has(e.to))) {
+          e.path.classList.add("on");
+          if (e.label) e.label.classList.add("on");
+        }
+      });
+    }
+    svg.addEventListener("click", function (ev) {
+      var box = svg.closest(".diagram");
+      if (box && box.dataset.dragged) { delete box.dataset.dragged; return; }
+      var g = ev.target.closest("g.node");
+      var id = g && nodeOf(g);
+      if (!id || id === current) reset(); else focus(id);
+    });
+    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") reset(); });
+  }
+</script>
+</body>
+</html>
