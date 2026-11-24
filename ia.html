@@ -1,9 +1,10 @@
 <!doctype html>
+<!-- Згенеровано скриптом _build/build-ia.mjs із _build/ia.template.html, flows.md і sitemap.md. Руками не редагуй: правки — у шаблон чи в джерела, потім node _build/build-ia.mjs -->
 <html lang="uk" class="nav-dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Знімок IA</title>
+  <title>Структура IA</title>
   <meta name="description" content="Знімок інформаційної архітектури Шухляди: дерево екранів з jobs і файлами, навігація, усі user flows і матриця трасування «екран × job».">
   <style>
     :root {
@@ -88,6 +89,18 @@
     .node h4 { margin: 0 0 4px; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
     .node .jobs { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 2px; }
     .node .what { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+    .tag.type { color: var(--muted); background: transparent; border: 1px solid var(--line); font-weight: 500; }
+    .node .jobs { position: relative; }
+    .jobs .tag[data-name] { cursor: help; }
+    .jobs .tag.hyp { border: 1px dashed rgba(212, 166, 232, 0.6); }
+    .jobs .tag[data-name]:hover::after, .jobs .tag[data-name]:focus-visible::after {
+      content: attr(data-name); position: absolute; left: 0; top: calc(100% + 6px); z-index: 5;
+      width: max-content; max-width: min(360px, 100%); white-space: normal; text-align: left;
+      background: #2b2b31; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+      padding: 6px 10px; font-size: 12.5px; font-weight: 500; line-height: 1.4; box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+    .jobs .tag[data-name]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0; font-size: 13.5px; color: var(--muted); }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
 
@@ -100,11 +113,29 @@
     .diagram pre.mermaid[data-processed] { white-space: normal; color: inherit; font-size: inherit; line-height: normal; }
     .diagram pre.mermaid[data-processed] p { margin: 0; }
     .diagram svg { max-width: none; height: auto; }
-    .diagram.fit svg { max-width: 100%; height: auto; }
-    .diagram-bar { display: flex; justify-content: flex-end; margin: 12px 0 -4px; }
+    .diagram-bar { display: flex; justify-content: flex-end; gap: 6px; margin: 12px 0 -4px; }
+    .zoom[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+    .diagram.grab { cursor: grab; }
+    .diagram.grabbing { cursor: grabbing; user-select: none; }
+    .diagram svg path.flowchart-link.main { stroke: #8fc7a3 !important; stroke-width: 3px !important; }
+    .lists { margin: 14px 0 0; }
+    .lists details { border-top: 1px solid var(--line); padding: 8px 0; }
+    .lists summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+    .lists summary span { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; }
+    .lists summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .lists ol, .lists ul { margin: 8px 0 4px; font-size: 14px; }
+    .lists li { margin-bottom: 6px; }
+    .lists p { font-size: 14px; margin: 10px 0 0; }
     .zoom { font: inherit; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
     .zoom:hover { border-color: var(--accent); }
     .zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .diagram svg g.node { cursor: pointer; }
+    .diagram svg path.flowchart-link.back { stroke-dasharray: 5 4; }
+    .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { opacity: 0.14; transition: opacity 0.15s ease; }
+    .diagram svg.focus g.node.on, .diagram svg.focus path.flowchart-link.on, .diagram svg.focus g.edgeLabel.on { opacity: 1; }
+    .diagram svg.focus path.flowchart-link.on, .diagram svg.focus path.flowchart-link.main.on { stroke: #e8916b !important; stroke-width: 3px !important; }
+    .diagram svg g.node.sel { filter: drop-shadow(0 0 6px #e8916b) drop-shadow(0 0 2px #e8916b); }
+    @media (prefers-reduced-motion: reduce) { .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { transition: none; } }
     .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 2px solid; vertical-align: -2px; }
     .sw-ok { background: #1f3a2a; border-color: #8fc7a3; }
     .sw-dead { background: #3d1f22; border-color: #e57373; }
@@ -142,7 +173,7 @@
 <body>
 <main>
   <p class="kicker">Етап 1 · Прототип · знімок на 2026-11-24</p>
-  <h1>Знімок IA</h1>
+  <h1>Структура IA</h1>
   <p class="lead">Інформаційна архітектура Шухляди на одній сторінці: які є екрани і для чого кожен, як між ними ходять, якими маршрутами людина виконує jobs і чи кожен екран і кожен job має пару.</p>
   <p class="note">Це знімок для перегляду, а не джерело. Джерело правди — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/sitemap.md">sitemap.md</a> (сутності, екрани, навігація, трасування) і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/flows.md">flows.md</a> (маршрути). Стани екранів, сутності й обґрунтування кожного рішення — там. Jobs — <a href="personas.html#jobs">Персони і jobs</a>.</p>
 
@@ -170,9 +201,10 @@
   <h2 id="sitemap"><span class="num">1</span>Карта екранів</h2>
   <p>Дерево: продукт → група → екран. Групи названо сутностями. Біля кожного екрана — файл макета і jobs; жирним той job, заради якого екран є. Вставка <code>Ctrl+V</code> і пошук <code>Ctrl+K</code> / <code>/</code> працюють на кожному екрані.</p>
   <div class="legend">
-    <span><span class="tag main">Main</span> job, заради якого екран є</span>
+    <span><span class="tag type">глобальний</span> тип екрана: глобальний — пункт навігації, контекстний — відкривається з іншого екрана</span>
+    <span><span class="tag main">Main</span> job, заради якого екран є; наведи — побачиш назву</span>
     <span><span class="tag job">R1</span> job, що теж тут виконується</span>
-    <span><span class="tag hyp">Г1 [?]</span> лише гіпотеза</span>
+    <span><span class="tag hyp" style="border:1px dashed rgba(212,166,232,0.6)">Г1 [?]</span> лише гіпотеза</span>
     <span><span class="tag cond">умовно</span> до інтерв'ю</span>
     <span><span class="tag layer">шар</span> поверх поточного екрана</span>
     <span><span class="tag svc">службовий</span> без власного job</span>
@@ -187,8 +219,8 @@
           <ul>
             <li>
               <div class="node screen home">
-                <h4>Моя Шухляда <span class="tag home">головний</span> <code>drawer.html</code></h4>
-                <div class="jobs"><span class="tag main">Main</span><span class="tag job">R1</span><span class="tag job">R4</span><span class="tag job">E1</span><span class="tag job">E3</span><span class="tag job">R3</span><span class="tag job">R2</span><span class="tag hyp">Г1 [?]</span><span class="tag hyp">Г3 [?]</span><span class="tag cond">Г3 умовно</span><span class="tag hyp">Г4 [?]</span><span class="tag cond">Г4 умовно</span><span class="tag hyp">Г5 [?]</span></div>
+                <h4>Моя Шухляда <span class="tag home">головний</span> <span class="tag type">глобальний</span> <code>drawer.html</code></h4>
+                <div class="jobs"><span class="tag main" tabindex="0" data-name="Main — Відкласти за мить і дістати, коли знадобиться">Main<span class="vh"> — Відкласти за мить і дістати, коли знадобиться</span></span><span class="tag job" tabindex="0" data-name="R1 — Відкласти, не відриваючись">R1<span class="vh"> — Відкласти, не відриваючись</span></span><span class="tag job" tabindex="0" data-name="R4 — Дістати за тим, що пам'ятається">R4<span class="vh"> — Дістати за тим, що пам'ятається</span></span><span class="tag job" tabindex="0" data-name="E1 — Не тримати все в голові">E1<span class="vh"> — Не тримати все в голові</span></span><span class="tag job" tabindex="0" data-name="E3 — Відчувати порядок, а не звалище">E3<span class="vh"> — Відчувати порядок, а не звалище</span></span><span class="tag job" tabindex="0" data-name="R3 — Мати порядок без сортування">R3<span class="vh"> — Мати порядок без сортування</span></span><span class="tag job" tabindex="0" data-name="R2 — Одразу розуміти, що це й навіщо">R2<span class="vh"> — Одразу розуміти, що це й навіщо</span></span><span class="tag hyp" tabindex="0" data-name="Г1 — social · знайти без нового прохання (гіпотеза)">Г1 [?]<span class="vh"> — social · знайти без нового прохання</span></span><span class="tag hyp" tabindex="0" data-name="Г3 — social · мати знахідки під рукою, щоб бути підготовленою (гіпотеза), прив'язано умовно до інтерв'ю">Г3 [?] · умовно<span class="vh"> — social · мати знахідки під рукою, щоб бути підготовленою</span></span><span class="tag hyp" tabindex="0" data-name="Г4 — emotional · почуватися як удома, рідною мовою (гіпотеза), прив'язано умовно до інтерв'ю">Г4 [?] · умовно<span class="vh"> — emotional · почуватися як удома, рідною мовою</span></span><span class="tag hyp" tabindex="0" data-name="Г5 — emotional · без зусиль виправити випадкове (гіпотеза)">Г5 [?]<span class="vh"> — emotional · без зусиль виправити випадкове</span></span></div>
                 <p class="what">Поле для вставки. «Нещодавно додане»: дотик до картки — сторінка сайту, «⋯» — шар «Посилання». Категорії з кількістю. Вхід у пошук.</p>
               </div>
             </li>
@@ -199,8 +231,8 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Пошук <span class="tag layer">шар</span> <code>search.html</code></h4>
-                <div class="jobs"><span class="tag main">R4</span><span class="tag job">Main</span><span class="tag job">E3</span><span class="tag job">R2</span><span class="tag hyp">Г1 [?]</span><span class="tag hyp">Г3 [?]</span><span class="tag cond">Г3 умовно</span></div>
+                <h4>Пошук <span class="tag layer">шар</span> <span class="tag type">глобальний</span> <code>search.html</code></h4>
+                <div class="jobs"><span class="tag main" tabindex="0" data-name="R4 — Дістати за тим, що пам'ятається">R4<span class="vh"> — Дістати за тим, що пам'ятається</span></span><span class="tag job" tabindex="0" data-name="Main — Відкласти за мить і дістати, коли знадобиться">Main<span class="vh"> — Відкласти за мить і дістати, коли знадобиться</span></span><span class="tag job" tabindex="0" data-name="E3 — Відчувати порядок, а не звалище">E3<span class="vh"> — Відчувати порядок, а не звалище</span></span><span class="tag job" tabindex="0" data-name="R2 — Одразу розуміти, що це й навіщо">R2<span class="vh"> — Одразу розуміти, що це й навіщо</span></span><span class="tag hyp" tabindex="0" data-name="Г1 — social · знайти без нового прохання (гіпотеза)">Г1 [?]<span class="vh"> — social · знайти без нового прохання</span></span><span class="tag hyp" tabindex="0" data-name="Г3 — social · мати знахідки під рукою, щоб бути підготовленою (гіпотеза), прив'язано умовно до інтерв'ю">Г3 [?] · умовно<span class="vh"> — social · мати знахідки під рукою, щоб бути підготовленою</span></span></div>
                 <p class="what">Запит і фільтри: категорія, тег, «Нещодавно додане». Категорія з головного відкриває цей шар з фільтром. Біля тегу у фільтрі — «Видалити тег».</p>
               </div>
             </li>
@@ -211,8 +243,8 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Посилання <span class="tag layer">шар</span> <code>link.html</code></h4>
-                <div class="jobs"><span class="tag main">R2</span><span class="tag job">R3</span><span class="tag job">R4</span></div>
+                <h4>Посилання <span class="tag layer">шар</span> <span class="tag type">контекстний</span> <code>link.html</code></h4>
+                <div class="jobs"><span class="tag main" tabindex="0" data-name="R2 — Одразу розуміти, що це й навіщо">R2<span class="vh"> — Одразу розуміти, що це й навіщо</span></span><span class="tag job" tabindex="0" data-name="R3 — Мати порядок без сортування">R3<span class="vh"> — Мати порядок без сортування</span></span><span class="tag job" tabindex="0" data-name="R4 — Дістати за тим, що пам'ятається">R4<span class="vh"> — Дістати за тим, що пам'ятається</span></span></div>
                 <p class="what">Назва, опис, нотатка «навіщо», категорія, теги, «Вже переглянуто», дата для «Івентів». Відкрити сторінку, видалити. Відкривається «⋯» на картці або з «Вже в Шухляді».</p>
               </div>
             </li>
@@ -223,14 +255,14 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Акаунт <code>account.html</code></h4>
-                <div class="jobs"><span class="tag main">E2</span></div>
+                <h4>Акаунт <span class="tag type">глобальний</span> <code>account.html</code></h4>
+                <div class="jobs"><span class="tag main" tabindex="0" data-name="E2 — Не боятися втратити все разом із сервісом">E2<span class="vh"> — Не боятися втратити все разом із сервісом</span></span></div>
                 <p class="what">Експорт усієї Шухляди в CSV. Видалити акаунт — спершу пропозиція забрати архів. Службові дії без job: <span class="tag svc">Вийти</span> на цьому пристрої, без мережі; <span class="tag svc">Вийти на всіх пристроях</span> — з мережею.</p>
               </div>
             </li>
             <li>
               <div class="node screen svc">
-                <h4>Вхід <span class="tag svc">службовий</span> <code>login.html</code></h4>
+                <h4>Вхід <span class="tag svc">службовий</span> <span class="tag type">контекстний</span> <code>login.html</code></h4>
                 <div class="jobs"><span class="tag svc">без job — вхідна умова для всіх jobs</span></div>
                 <p class="what">Вхід через Google. Перший екран для того, хто ще не ввійшов; після виходу чи видалення акаунта. Стоїть до навігації.</p>
               </div>
@@ -290,133 +322,135 @@
     <span><code>{питання?}</code> розвилка</span>
     <span><code>(стан)</code> стан екрана</span>
     <span><code>([кінець])</code> кінець</span>
+    <span><code>- - →</code> крок назад</span>
+    <span><span class="swatch" style="background:transparent;border-color:#8fc7a3;border-width:3px;border-radius:2px;height:0;width:18px;vertical-align:3px"></span> основний шлях до успіху</span>
     <span><span class="swatch sw-ok"></span> успіх</span>
     <span><span class="swatch sw-dead"></span> без виходу</span>
     <span><span class="swatch sw-err"></span> error</span>
     <span><span class="swatch sw-load"></span> loading</span>
     <span><span class="swatch sw-empty"></span> empty</span>
   </div>
-  <p class="note">Діаграми вписано в ширину сторінки; «Повний розмір» показує їх у натуральну величину, тоді вони прокручуються. <code>[?]</code> — припущення, яке ще не вирішила PM.</p>
+  <p class="note"><b>Клікни на вузол</b> — підсвітиться весь шлях через нього: звідки до нього доходять і куди з нього можна дійти. Повторний клік, клік повз вузол або <code>Esc</code> — скинути. Пунктир — крок назад: повтор чи повернення. Зелена лінія — шлях до успіху без помилок. Масштаб: «Читати» — текст читається, діаграму тягнеш мишею вбік; «Огляд» — уся діаграма в ширину сторінки; «100 %» — натуральна величина. <code>[?]</code> — припущення, яке ще не вирішила PM.</p>
 
   <section class="flow" id="flow-main" aria-labelledby="flow-main-title">
     <h3 id="flow-main-title">Main · Відкласти за мить і дістати, коли знадобиться</h3>
     <p class="meta"><b>Персона:</b> П1 «Скидає з телефона». <b>Обставини:</b> телефон, посилання трапилось у стрічці чи чаті; на Android ще й «Поділитися». Два заходи: відкласти зараз і дістати через дні.</p>
     <p class="meta"><b>Кліків:</b> відкласти — 1, дістати свіже — 1.</p>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    dWay{"Як відкриває Шухляду?"}
-    dWay --&gt;|"з домашнього екрана телефона, щоб вставити"| home[Моя Шухляда]
-    dWay --&gt;|"«Поділитися → Шухляда», лише Android"| share("стан: посилання прийшло з «Поділитися», Шухляда тримає його, поки людина входить і Шухляда завантажується")
+    dWay{&quot;Як відкриває Шухляду?&quot;}
+    dWay --&gt;|&quot;з домашнього екрана телефона, щоб вставити&quot;| home[Моя Шухляда]
+    dWay --&gt;|&quot;«Поділитися → Шухляда», лише Android&quot;| share(&quot;стан: посилання прийшло з «Поділитися», Шухляда тримає його, поки людина входить і Шухляда завантажується&quot;)
     share --&gt; home
-    home --&gt; dSession{"Людина вже ввійшла?"}
-    dSession --&gt;|так| loadHome("loading: завантажуємо Шухляду")
+    home --&gt; dSession{&quot;Людина вже ввійшла?&quot;}
+    dSession --&gt;|так| loadHome(&quot;loading: завантажуємо Шухляду&quot;)
     dSession --&gt;|ні| login[Вхід]
-    login --&gt; loadLogin("loading: вхід через Google")
-    loadLogin --&gt; dLogin{"Вхід вдався?"}
+    login --&gt; loadLogin(&quot;loading: вхід через Google&quot;)
+    loadLogin --&gt; dLogin{&quot;Вхід вдався?&quot;}
     dLogin --&gt;|так| loadHome
-    dLogin --&gt;|ні| errLogin("error: не вдалося увійти, є «Повторити». Прийшли з «Поділитися» — ще «Скопіювати посилання»")
-    errLogin --&gt; dLoginRetry{"Повтор вдався?"}
+    dLogin --&gt;|ні| errLogin(&quot;error: не вдалося увійти, є «Повторити». Прийшли з «Поділитися» — ще «Скопіювати посилання»&quot;)
+    errLogin --&gt; dLoginRetry{&quot;Повтор вдався?&quot;}
     dLoginRetry --&gt;|так| loadHome
-    dLoginRetry --&gt;|ні| deadLogin(["без виходу: без входу не зберегти, лишається спробувати пізніше. Посилання не губиться: при вставці воно в буфері, з «Поділитися» — «Скопіювати посилання»"])
+    dLoginRetry --&gt;|ні| deadLogin([&quot;без виходу: без входу не зберегти, лишається спробувати пізніше. Посилання не губиться: при вставці воно в буфері, з «Поділитися» — «Скопіювати посилання»&quot;])
 
-    loadHome --&gt; dData{"Шухляда завантажилась?"}
-    dData --&gt;|ні| errHome("error: не вдалося завантажити Шухляду, є «Повторити». Прийшли з «Поділитися» — ще «Скопіювати посилання»")
-    errHome --&gt; dHomeRetry{"Повтор вдався?"}
-    dHomeRetry --&gt;|ні| deadHome(["без виходу: Шухляда не відповідає, лишається прийти пізніше. Посилання не губиться, як після невдалого входу"])
+    loadHome --&gt; dData{&quot;Шухляда завантажилась?&quot;}
+    dData --&gt;|ні| errHome(&quot;error: не вдалося завантажити Шухляду, є «Повторити». Прийшли з «Поділитися» — ще «Скопіювати посилання»&quot;)
+    errHome --&gt; dHomeRetry{&quot;Повтор вдався?&quot;}
+    dHomeRetry --&gt;|ні| deadHome([&quot;без виходу: Шухляда не відповідає, лишається прийти пізніше. Посилання не губиться, як після невдалого входу&quot;])
     dHomeRetry --&gt;|так| dEmpty
-    dData --&gt;|так| dEmpty{"У Шухляді вже є посилання?"}
-    dEmpty --&gt;|ні| empty("empty: Шухляда порожня, ілюстрація, поле — єдина дія")
-    dEmpty --&gt;|так| list("стан: поле нагорі, «Нещодавно додане», категорії з кількістю")
-    empty --&gt; dShared{"Посилання прийшло з «Поділитися»?"}
+    dData --&gt;|так| dEmpty{&quot;У Шухляді вже є посилання?&quot;}
+    dEmpty --&gt;|ні| empty(&quot;empty: Шухляда порожня, ілюстрація, поле — єдина дія&quot;)
+    dEmpty --&gt;|так| list(&quot;стан: поле нагорі, «Нещодавно додане», категорії з кількістю&quot;)
+    empty --&gt; dShared{&quot;Посилання прийшло з «Поділитися»?&quot;}
     list --&gt; dShared
-    dShared --&gt;|ні| paste("стан: дотик до поля, системне «Вставити»")
+    dShared --&gt;|ні| paste(&quot;стан: дотик до поля, системне «Вставити»&quot;)
     dShared --&gt;|так| dIsLink
-    paste --&gt; dIsLink{"Вставлене — посилання?"}
-    dIsLink --&gt;|ні| errNotLink("error: це не посилання, підказка скопіювати посилання [?]")
-    errNotLink --&gt; dHasLink{"Є посилання, щоб вставити?"}
+    paste --&gt; dIsLink{&quot;Вставлене — посилання?&quot;}
+    dIsLink --&gt;|ні| errNotLink(&quot;error: це не посилання, підказка скопіювати посилання [?]&quot;)
+    errNotLink --&gt; dHasLink{&quot;Є посилання, щоб вставити?&quot;}
     dHasLink --&gt;|так| paste
-    dHasLink --&gt;|ні| endNotLink(["кінець: закриває підказку й іде по посилання. З «Поділитися» — «Назад» телефона в застосунок"])
-    dIsLink --&gt;|так| dDup{"Таке посилання вже є в Шухляді?"}
-    dDup --&gt;|так| dup("стан: «Вже в Шухляді» з переходом до наявного")
-    dup --&gt; dGoDup{"Переходить до наявного?"}
-    dGoDup --&gt;|ні| okDup(["успіх: посилання вже в Шухляді, вдруге відкладати не треба"])
+    dHasLink --&gt;|ні| endNotLink([&quot;кінець: закриває підказку й іде по посилання. З «Поділитися» — «Назад» телефона в застосунок&quot;])
+    dIsLink --&gt;|так| dDup{&quot;Таке посилання вже є в Шухляді?&quot;}
+    dDup --&gt;|так| dup(&quot;стан: «Вже в Шухляді» з переходом до наявного&quot;)
+    dup --&gt; dGoDup{&quot;Переходить до наявного?&quot;}
+    dGoDup --&gt;|ні| okDup([&quot;успіх: посилання вже в Шухляді, вдруге відкладати не треба&quot;])
     dGoDup --&gt;|так| linkDup[Посилання]
-    linkDup --&gt; loadDup("loading: відкриваємо посилання")
-    loadDup --&gt; dDupOpen{"Посилання відкрилось?"}
-    dDupOpen --&gt;|так| okDupSeen(["успіх: відкладено раніше, видно, де лежить"])
-    dDupOpen --&gt;|ні| errDup("error: не вдалося відкрити посилання, є «Повторити»")
-    errDup --&gt; dDupRetry{"Повтор вдався?"}
+    linkDup --&gt; loadDup(&quot;loading: відкриваємо посилання&quot;)
+    loadDup --&gt; dDupOpen{&quot;Посилання відкрилось?&quot;}
+    dDupOpen --&gt;|так| okDupSeen([&quot;успіх: відкладено раніше, видно, де лежить&quot;])
+    dDupOpen --&gt;|ні| errDup(&quot;error: не вдалося відкрити посилання, є «Повторити»&quot;)
+    errDup --&gt; dDupRetry{&quot;Повтор вдався?&quot;}
     dDupRetry --&gt;|так| okDupSeen
-    dDupRetry --&gt;|"ні, закриває шар"| okDup
-    dDup --&gt;|ні| dNet{"Є мережа?"}
-    dNet --&gt;|ні| errNet("error: не вдалося зберегти — немає мережі, спробуй пізніше. Є «Спробувати ще» і «Скопіювати посилання». Спроба не рахується")
-    errNet --&gt; dNetBack{"Мережа повернулася, поки картка відкрита?"}
-    dNetBack --&gt;|"так, «Спробувати ще»"| saving
+    dDupRetry --&gt;|&quot;ні, закриває шар&quot;| okDup
+    dDup --&gt;|ні| dNet{&quot;Є мережа?&quot;}
+    dNet --&gt;|ні| errNet(&quot;error: не вдалося зберегти — немає мережі, спробуй пізніше. Є «Спробувати ще» і «Скопіювати посилання». Спроба не рахується&quot;)
+    errNet --&gt; dNetBack{&quot;Мережа повернулася, поки картка відкрита?&quot;}
+    dNetBack --&gt;|&quot;так, «Спробувати ще»&quot;| saving
     dNetBack --&gt;|ні| dCopy
-    dNet --&gt;|так| saving("loading: вкладається, анімація «вкладання», на картці домен")
-    saving --&gt; dSaved{"Збереглося?"}
-    dSaved --&gt;|ні| errSave("error: не вдалося зберегти, є «Спробувати ще» і «Скопіювати посилання»")
-    errSave --&gt; dTries{"Це була третя спроба?"}
-    dTries --&gt;|ні| dRetry{"Пробує ще раз?"}
-    dRetry --&gt;|"так, «Спробувати ще»"| dNet
-    dRetry --&gt;|"ні, закриває картку"| dCopy
-    dTries --&gt;|так| errFinal("error: третя спроба — повідомлення без повтору і «Скопіювати посилання»")
-    errFinal --&gt; dCopy{"Скопіювала посилання?"}
-    dCopy --&gt;|так| endCopy(["кінець: у Шухляді посилання немає, але воно в людини — збереже пізніше"])
-    dCopy --&gt;|ні| deadSave(["без виходу: людина закриває картку, посилання не збереглося і не скопійоване"])
-    dSaved --&gt;|так| dWrap{"Це обгортка, яку не вдалося розгорнути? [?]"}
-    dWrap --&gt;|так| wrapFail("стан: «Збережено в Шухляді», але домен обгортки, наприклад linkedin.com, і категорію вгадано хибно [?]")
+    dNet --&gt;|так| saving(&quot;loading: вкладається, анімація «вкладання», на картці домен&quot;)
+    saving --&gt; dSaved{&quot;Збереглося?&quot;}
+    dSaved --&gt;|ні| errSave(&quot;error: не вдалося зберегти, є «Спробувати ще» і «Скопіювати посилання»&quot;)
+    errSave --&gt; dTries{&quot;Це була третя спроба?&quot;}
+    dTries --&gt;|ні| dRetry{&quot;Пробує ще раз?&quot;}
+    dRetry --&gt;|&quot;так, «Спробувати ще»&quot;| dNet
+    dRetry --&gt;|&quot;ні, закриває картку&quot;| dCopy
+    dTries --&gt;|так| errFinal(&quot;error: третя спроба — повідомлення без повтору і «Скопіювати посилання»&quot;)
+    errFinal --&gt; dCopy{&quot;Скопіювала посилання?&quot;}
+    dCopy --&gt;|так| endCopy([&quot;кінець: у Шухляді посилання немає, але воно в людини — збереже пізніше&quot;])
+    dCopy --&gt;|ні| deadSave([&quot;без виходу: людина закриває картку, посилання не збереглося і не скопійоване&quot;])
+    dSaved --&gt;|так| dWrap{&quot;Це обгортка, яку не вдалося розгорнути? [?]&quot;}
+    dWrap --&gt;|так| wrapFail(&quot;стан: «Збережено в Шухляді», але домен обгортки, наприклад linkedin.com, і категорію вгадано хибно [?]&quot;)
     wrapFail --&gt; linkR3
-    dWrap --&gt;|ні| saved("успіх кроку: «Збережено в Шухляді», домен і категорія, «Змінити», «Скасувати»")
-    saved --&gt; meta("loading: підтягується назва, опис, іконка")
-    meta --&gt; dMeta{"Дані сторінки прийшли?"}
-    dMeta --&gt;|так| full("стан: повні — назва, опис, іконка")
-    dMeta --&gt;|ні| domain("стан: лише домен, м'яка заглушка замість іконки")
-    full --&gt; dCat{"Категорію вгадано правильно?"}
+    dWrap --&gt;|ні| saved(&quot;успіх кроку: «Збережено в Шухляді», домен і категорія, «Змінити», «Скасувати»&quot;)
+    saved --&gt; meta(&quot;loading: підтягується назва, опис, іконка&quot;)
+    meta --&gt; dMeta{&quot;Дані сторінки прийшли?&quot;}
+    dMeta --&gt;|так| full(&quot;стан: повні — назва, опис, іконка&quot;)
+    dMeta --&gt;|ні| domain(&quot;стан: лише домен, м'яка заглушка замість іконки&quot;)
+    full --&gt; dCat{&quot;Категорію вгадано правильно?&quot;}
     domain --&gt; dCat
-    dCat --&gt;|ні| linkR3("перехід: flow R3")
-    dCat --&gt;|так| dOops{"Вставила випадково? [?]"}
-    dOops --&gt;|так| dInTime{"«Скасувати» ще на екрані?"}
-    dInTime --&gt;|ні| delLater("перехід: flow R3, «Видалити» на шарі «Посилання», 3 кліки")
-    dInTime --&gt;|так| cancelling("loading: скасовуємо [?]")
-    cancelling --&gt; dCancelled{"Скасовано?"}
-    dCancelled --&gt;|так| cancel("стан: скасовано, картки немає")
-    cancel --&gt; endCancel(["кінець: випадкову вставку прибрано, Г5 [?]"])
-    dCancelled --&gt;|ні| errCancel("error: не вдалося скасувати — на картці, бо підтвердження зникає; є «Повторити» [?]")
-    errCancel --&gt; dCancelRetry{"Повтор вдався?"}
+    dCat --&gt;|ні| linkR3(&quot;перехід: flow R3&quot;)
+    dCat --&gt;|так| dOops{&quot;Вставила випадково? [?]&quot;}
+    dOops --&gt;|так| dInTime{&quot;«Скасувати» ще на екрані?&quot;}
+    dInTime --&gt;|ні| delLater(&quot;перехід: flow R3, «Видалити» на шарі «Посилання», 3 кліки&quot;)
+    dInTime --&gt;|так| cancelling(&quot;loading: скасовуємо [?]&quot;)
+    cancelling --&gt; dCancelled{&quot;Скасовано?&quot;}
+    dCancelled --&gt;|так| cancel(&quot;стан: скасовано, картки немає&quot;)
+    cancel --&gt; endCancel([&quot;кінець: випадкову вставку прибрано, Г5 [?]&quot;])
+    dCancelled --&gt;|ні| errCancel(&quot;error: не вдалося скасувати — на картці, бо підтвердження зникає; є «Повторити» [?]&quot;)
+    errCancel --&gt; dCancelRetry{&quot;Повтор вдався?&quot;}
     dCancelRetry --&gt;|так| cancel
     dCancelRetry --&gt;|ні| delLater
-    dOops --&gt;|ні| dFrom{"Прийшла через «Поділитися»?"}
-    dFrom --&gt;|так| back("стан: «Назад» телефона — знову в Telegram")
-    dFrom --&gt;|ні| stay("стан: картка зверху «Нещодавно доданого»")
-    back --&gt; later("стан: минають дні, річ знадобилася")
+    dOops --&gt;|ні| dFrom{&quot;Прийшла через «Поділитися»?&quot;}
+    dFrom --&gt;|так| back(&quot;стан: «Назад» телефона — знову в Telegram&quot;)
+    dFrom --&gt;|ні| stay(&quot;стан: картка зверху «Нещодавно доданого»&quot;)
+    back --&gt; later(&quot;стан: минають дні, річ знадобилася&quot;)
     stay --&gt; later
 
     later --&gt; home2[Моя Шухляда]
-    home2 --&gt; dSession2{"Людина ще ввійшла на цьому пристрої?"}
-    dSession2 --&gt;|так| load2("loading: завантажуємо Шухляду")
-    dSession2 --&gt;|"ні, виходила"| login2[Вхід]
-    login2 --&gt; loadLogin2("loading: вхід через Google")
-    loadLogin2 --&gt; dLogin2{"Вхід вдався?"}
+    home2 --&gt; dSession2{&quot;Людина ще ввійшла на цьому пристрої?&quot;}
+    dSession2 --&gt;|так| load2(&quot;loading: завантажуємо Шухляду&quot;)
+    dSession2 --&gt;|&quot;ні, виходила&quot;| login2[Вхід]
+    login2 --&gt; loadLogin2(&quot;loading: вхід через Google&quot;)
+    loadLogin2 --&gt; dLogin2{&quot;Вхід вдався?&quot;}
     dLogin2 --&gt;|так| load2
-    dLogin2 --&gt;|ні| errLogin2("error: не вдалося увійти, є «Повторити»")
-    errLogin2 --&gt; dLoginRetry2{"Повтор вдався?"}
+    dLogin2 --&gt;|ні| errLogin2(&quot;error: не вдалося увійти, є «Повторити»&quot;)
+    errLogin2 --&gt; dLoginRetry2{&quot;Повтор вдався?&quot;}
     dLoginRetry2 --&gt;|так| load2
-    dLoginRetry2 --&gt;|ні| deadLogin2(["без виходу: без входу не дістати, лишається спробувати пізніше"])
-    load2 --&gt; dData2{"Шухляда завантажилась?"}
-    dData2 --&gt;|ні| errHome2("error: не вдалося завантажити Шухляду, є «Повторити»")
-    errHome2 --&gt; dHomeRetry2{"Повтор вдався?"}
-    dHomeRetry2 --&gt;|ні| deadHome2(["без виходу: Шухляда не відповідає, лишається прийти пізніше"])
+    dLoginRetry2 --&gt;|ні| deadLogin2([&quot;без виходу: без входу не дістати, лишається спробувати пізніше&quot;])
+    load2 --&gt; dData2{&quot;Шухляда завантажилась?&quot;}
+    dData2 --&gt;|ні| errHome2(&quot;error: не вдалося завантажити Шухляду, є «Повторити»&quot;)
+    errHome2 --&gt; dHomeRetry2{&quot;Повтор вдався?&quot;}
+    dHomeRetry2 --&gt;|ні| deadHome2([&quot;без виходу: Шухляда не відповідає, лишається прийти пізніше&quot;])
     dHomeRetry2 --&gt;|так| dRecent
-    dData2 --&gt;|так| dRecent{"Річ видно в «Нещодавно доданому»?"}
-    dRecent --&gt;|ні| linkR4("перехід: flow R4")
-    dRecent --&gt;|так| tap("стан: дотик до картки — сторінка сайту в новій вкладці")
-    tap --&gt; dPage{"Сторінка відкривається?"}
-    dPage --&gt;|так| ok(["успіх: річ дістала, не пам'ятаючи, де й коли відклала"])
-    dPage --&gt;|ні| gone("стан: сайт показує, що сторінки вже немає. Шухляда цього не бачить, копій сторінок не робить, бриф §4")
-    gone --&gt; dClean{"Прибирає биту картку?"}
+    dData2 --&gt;|так| dRecent{&quot;Річ видно в «Нещодавно доданому»?&quot;}
+    dRecent --&gt;|ні| linkR4(&quot;перехід: flow R4&quot;)
+    dRecent --&gt;|так| tap(&quot;стан: дотик до картки — сторінка сайту в новій вкладці&quot;)
+    tap --&gt; dPage{&quot;Сторінка відкривається?&quot;}
+    dPage --&gt;|так| ok([&quot;успіх: річ дістала, не пам'ятаючи, де й коли відклала&quot;])
+    dPage --&gt;|ні| gone(&quot;стан: сайт показує, що сторінки вже немає. Шухляда цього не бачить, копій сторінок не робить, бриф §4&quot;)
+    gone --&gt; dClean{&quot;Прибирає биту картку?&quot;}
     dClean --&gt;|так| delLater
-    dClean --&gt;|ні| deadPage(["без виходу: посилання є, а сторінки вже немає"])
+    dClean --&gt;|ні| deadPage([&quot;без виходу: посилання є, а сторінки вже немає&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cDead fill:#3d1f22,stroke:#e57373,color:#fbe4e4
@@ -429,91 +463,149 @@ flowchart TD
     class loadHome,loadLogin,loadLogin2,saving,meta,load2,loadDup,cancelling cLoad
     class empty cEmpty
 </pre></div>
+    <div class="lists">
+<details><summary>Розвилки<span>36</span></summary>
+<ol>
+<li><b>Як відкриває Шухляду?</b> З домашнього екрана телефона, щоб вставити (iPhone і Android), або «Поділитися» (лише Android). «Поділитися» стоїть першим: посилання приходить ще до входу й завантаження і мусить їх пережити (рішення PM 2026-11-24).</li>
+<li><b>Людина вже ввійшла?</b> Ні — «Вхід» (рішення PM 2026-11-21: спершу вхід).</li>
+<li><b>Вхід вдався?</b> Ні — помилка з «Повторити»; хто прийшов з «Поділитися», має ще «Скопіювати посилання».</li>
+<li><b>Повтор входу вдався?</b> Ні — без виходу, але посилання не губиться.</li>
+<li><b>Шухляда завантажилась?</b> Ні — помилка з «Повторити» і, для «Поділитися», «Скопіювати посилання».</li>
+<li><b>Повтор завантаження вдався?</b> Ні — без виходу, посилання не губиться.</li>
+<li><b>У Шухляді вже є посилання?</b> Ні — порожній стан.</li>
+<li><b>Посилання прийшло з «Поділитися»?</b> Так — одразу перевірка; ні — вставка.</li>
+<li><b>Вставлене — посилання?</b> Ні — підказка <code>[?]</code>.</li>
+<li><b>Є посилання, щоб вставити?</b> Так — знову вставка; ні — кінець: людина йде по посилання, з «Поділитися» — «Назад» у застосунок.</li>
+<li><b>Таке посилання вже є?</b> Так — «Вже в Шухляді»; порівнюємо очищені адреси (бриф §3.1).</li>
+<li><b>Переходить до наявного?</b> Ні — успіх, посилання вже лежить; так — шар «Посилання».</li>
+<li><b>Посилання відкрилось?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — людина закриває шар; посилання однаково в Шухляді, тож це успіх.</li>
+<li><b>Є мережа?</b> Ні — «не вдалося зберегти» з причиною, «Спробувати ще» і «Скопіювати посилання»; спроба не рахується (рішення PM 2026-11-24).</li>
+<li><b>Мережа повернулася, поки картка відкрита?</b> Так — «Спробувати ще»; ні — чи скопіювала посилання.</li>
+<li><b>Збереглося?</b> Ні — «Спробувати ще» і «Скопіювати посилання»: «Скопіювати» є в кожній невдачі, не лише після третьої (рішення PM 2026-11-24).</li>
+<li><b>Це була третя спроба?</b> Ні — чи пробує людина ще раз. Так — повідомлення без повтору, але з «Скопіювати посилання» (бриф §3.1, рішення PM 2026-11-22).</li>
+<li><b>Пробує ще раз?</b> Так — «Спробувати ще», і знову перевіряємо мережу: зникла — спроба не рахується. Ні — людина закриває картку раніше, тож спершу чи скопіювала посилання: після «Поділитися» його немає в буфері.</li>
+<li><b>Скопіювала посилання?</b> Після третьої спроби, без мережі чи коли закриває картку раніше. Так — кінець, посилання в людини; ні — без виходу.</li>
+<li><b>Це обгортка, яку не вдалося розгорнути?</b> <code>[?]</code> Так — домен обгортки й хибна категорія, далі flow R3 (бриф §3.1).</li>
+<li><b>Дані сторінки прийшли?</b> Ні — лише домен.</li>
+<li><b>Категорію вгадано правильно?</b> Ні — flow R3.</li>
+<li><b>Вставила випадково?</b> Так — «Скасувати» <code>[?]</code> (Г5).</li>
+<li><b>«Скасувати» ще на екрані?</b> Ні — видалити через шар «Посилання», flow R3.</li>
+<li><b>Скасовано?</b> Ні — помилка на картці з «Повторити» <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — видалити через шар «Посилання».</li>
+<li><b>Прийшла через «Поділитися»?</b> Так — «Назад» телефона веде назад у Telegram.</li>
+<li><b>Людина ще ввійшла на цьому пристрої?</b> (другий захід) Ні, бо виходила — знову «Вхід».</li>
+<li><b>Вхід вдався?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор входу вдався?</b> Ні — без виходу.</li>
+<li><b>Шухляда завантажилась?</b> (другий захід) Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — без виходу.</li>
+<li><b>Річ видно в «Нещодавно доданому»?</b> Ні — flow R4.</li>
+<li><b>Сторінка відкривається?</b> Ні — сторінки вже немає.</li>
+<li><b>Прибирає биту картку?</b> Так — «Видалити» на шарі «Посилання», flow R3; ні — без виходу.</li>
+</ol>
+</details>
+<details><summary>Стани<span>5</span></summary>
+<ul>
+<li><b>empty:</b> Шухляда порожня — ілюстрація, поле єдина дія.</li>
+<li><b>loading:</b> вхід через Google (на обох заходах); завантажуємо Шухляду (на обох заходах); <code>вкладається</code>; <code>підтягується</code> назва, опис, іконка; відкриваємо посилання; скасовуємо <code>[?]</code>.</li>
+<li><b>error:</b> не вдалося увійти (на обох заходах); не вдалося завантажити Шухляду (на обох заходах); вставлене — не посилання <code>[?]</code>; не вдалося відкрити посилання; немає мережі — з «Спробувати ще» і «Скопіювати посилання»; не вдалося зберегти — теж з «Спробувати ще» і «Скопіювати посилання»; третя спроба — без повтору, з «Скопіювати посилання»; не вдалося скасувати — на картці <code>[?]</code>.</li>
+<li><b>стан:</b> посилання з «Поділитися» чекає входу; сайт показує, що сторінки вже немає — це стан сторінки сайту, а не нашого екрана; поле й «Нещодавно додане»; «Вже в Шухляді»; обгортку не розгорнуто <code>[?]</code>; <code>повні</code>; <code>лише домен</code>; <code>скасовано</code>; повернення в Telegram; картка зверху списку; сторінка сайту в новій вкладці.</li>
+<li><b>успіх кроку:</b> «Збережено в Шухляді» з «Змінити» і «Скасувати».</li>
+</ul>
+</details>
+<details open><summary>Кінці<span>3</span></summary>
+<ul>
+<li><b>успіх:</b> річ дістала — job закрито; «Вже в Шухляді» — відкладено раніше, з переходом до наявного чи без.</li>
+<li><b>кінець:</b> вставлене — не посилання, людина йде по посилання; випадкову вставку прибрано; без мережі, після трьох спроб чи коли картку закрито раніше посилання скопійоване — людина збереже пізніше.</li>
+<li><b>без виходу:</b> вхід не вдається (на обох заходах); Шухляда не відповідає (на обох заходах); посилання не збереглося і не скопійоване; сторінки вже немає, а биту картку людина лишила. Коли вхід чи Шухляда підводять на першому заході, посилання не губиться.</li>
+</ul>
+</details>
+</div>
   </section>
 
   <section class="flow" id="flow-r4" aria-labelledby="flow-r4-title">
     <h3 id="flow-r4-title">R4 · Дістати за тим, що пам'ятається</h3>
     <p class="meta"><b>Персона:</b> П1, той самий шлях у П2. <b>Обставини:</b> річ знадобилася, а в «Нещодавно доданому» її вже не видно. П1 спершу гортає, П2 частіше шукає словом. Ціль — знайти до 10 с.</p>
     <p class="meta"><b>Кліків:</b> категорія → картка — 2; запит → картка — 2; тег → картка — 3.</p>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    home[Моя Шухляда] --&gt; dHow{"Як шукає?"}
-    dHow --&gt;|гортає категорію| cat("стан: дотик до категорії з кількістю")
-    dHow --&gt;|тегом| tagOpen("стан: пункт «Пошук», тег у фільтрі тегів")
-    dHow --&gt;|словом| open("стан: пункт «Пошук» або Ctrl+K")
+    home[Моя Шухляда] --&gt; dHow{&quot;Як шукає?&quot;}
+    dHow --&gt;|гортає категорію| cat(&quot;стан: дотик до категорії з кількістю&quot;)
+    dHow --&gt;|тегом| tagOpen(&quot;стан: пункт «Пошук», тег у фільтрі тегів&quot;)
+    dHow --&gt;|словом| open(&quot;стан: пункт «Пошук» або Ctrl+K&quot;)
     cat --&gt; search[Пошук]
     tagOpen --&gt; search
     open --&gt; search
-    search --&gt; dFilter{"З яким фільтром відкрито?"}
-    dFilter --&gt;|тег| dHasTags{"У людини вже є теги?"}
-    dHasTags --&gt;|ні| noTags("empty: тегів ще немає — тег додають на картці, «⋯» → шар «Посилання»")
+    search --&gt; dFilter{&quot;З яким фільтром відкрито?&quot;}
+    dFilter --&gt;|тег| dHasTags{&quot;У людини вже є теги?&quot;}
+    dHasTags --&gt;|ні| noTags(&quot;empty: тегів ще немає — тег додають на картці, «⋯» → шар «Посилання»&quot;)
     noTags --&gt; query
-    dHasTags --&gt;|так| loadTag("loading: завантажуємо посилання з тегом")
-    loadTag --&gt; dTagLoaded{"Тег завантажився?"}
-    dTagLoaded --&gt;|ні| errTagLoad("error: не вдалося завантажити тег, є «Повторити»")
-    errTagLoad --&gt; dTagRetry{"Повтор вдався?"}
-    dTagRetry --&gt;|ні| deadTagLoad(["без виходу: Шухляда не відповідає, лишається прийти пізніше"])
+    dHasTags --&gt;|так| loadTag(&quot;loading: завантажуємо посилання з тегом&quot;)
+    loadTag --&gt; dTagLoaded{&quot;Тег завантажився?&quot;}
+    dTagLoaded --&gt;|ні| errTagLoad(&quot;error: не вдалося завантажити тег, є «Повторити»&quot;)
+    errTagLoad --&gt; dTagRetry{&quot;Повтор вдався?&quot;}
+    dTagRetry --&gt;|ні| deadTagLoad([&quot;без виходу: Шухляда не відповідає, лишається прийти пізніше&quot;])
     dTagRetry --&gt;|так| dTagEmpty
-    dTagLoaded --&gt;|так| dTagEmpty{"З цим тегом є посилання?"}
-    dTagEmpty --&gt;|ні| emptyTag("empty: з цього тегу знято всі посилання — тег лишається, бриф §3.2 [?]")
+    dTagLoaded --&gt;|так| dTagEmpty{&quot;З цим тегом є посилання?&quot;}
+    dTagEmpty --&gt;|ні| emptyTag(&quot;empty: з цього тегу знято всі посилання — тег лишається, бриф §3.2 [?]&quot;)
     emptyTag --&gt; query
-    dTagEmpty --&gt;|так| tagList("стан: усі посилання з тегом, свіже першим")
-    tagList --&gt; dSeenTag{"Річ видно серед них?"}
+    dTagEmpty --&gt;|так| tagList(&quot;стан: усі посилання з тегом, свіже першим&quot;)
+    tagList --&gt; dSeenTag{&quot;Річ видно серед них?&quot;}
     dSeenTag --&gt;|так| tap
     dSeenTag --&gt;|ні| query
-    dFilter --&gt;|категорія| loadCat("loading: завантажуємо категорію")
-    loadCat --&gt; dCatLoaded{"Категорія завантажилась?"}
-    dCatLoaded --&gt;|ні| errCat("error: не вдалося завантажити категорію, є «Повторити»")
-    errCat --&gt; dCatRetry{"Повтор вдався?"}
-    dCatRetry --&gt;|ні| deadCat(["без виходу: Шухляда не відповідає, лишається прийти пізніше"])
+    dFilter --&gt;|категорія| loadCat(&quot;loading: завантажуємо категорію&quot;)
+    loadCat --&gt; dCatLoaded{&quot;Категорія завантажилась?&quot;}
+    dCatLoaded --&gt;|ні| errCat(&quot;error: не вдалося завантажити категорію, є «Повторити»&quot;)
+    errCat --&gt; dCatRetry{&quot;Повтор вдався?&quot;}
+    dCatRetry --&gt;|ні| deadCat([&quot;без виходу: Шухляда не відповідає, лишається прийти пізніше&quot;])
     dCatRetry --&gt;|так| dCatEmpty
-    dCatLoaded --&gt;|так| dCatEmpty{"У категорії є посилання?"}
-    dCatEmpty --&gt;|ні| emptyCat("empty: у цій категорії ще нічого, ілюстрація")
+    dCatLoaded --&gt;|так| dCatEmpty{&quot;У категорії є посилання?&quot;}
+    dCatEmpty --&gt;|ні| emptyCat(&quot;empty: у цій категорії ще нічого, ілюстрація&quot;)
     emptyCat --&gt; query
-    dCatEmpty --&gt;|так| catList("стан: уся категорія, свіже першим")
-    catList --&gt; dSeen{"Річ видно в категорії?"}
+    dCatEmpty --&gt;|так| catList(&quot;стан: уся категорія, свіже першим&quot;)
+    catList --&gt; dSeen{&quot;Річ видно в категорії?&quot;}
     dSeen --&gt;|так| tap
     dSeen --&gt;|ні| query
-    dFilter --&gt;|без фільтра| dAny{"У Шухляді є посилання?"}
-    dAny --&gt;|ні| emptyAll("empty: Шухляда порожня — спершу відклади посилання, поле поруч [?]")
-    emptyAll --&gt; linkMain("перехід: flow Main, вставка")
-    dAny --&gt;|так| emptyQ("empty: запит порожній, видно «Нещодавно додане»")
-    emptyQ --&gt; dSeenRecent{"Річ видно серед свіжого?"}
+    dFilter --&gt;|без фільтра| dAny{&quot;У Шухляді є посилання?&quot;}
+    dAny --&gt;|ні| emptyAll(&quot;empty: Шухляда порожня — спершу відклади посилання, поле поруч [?]&quot;)
+    emptyAll --&gt; linkMain(&quot;перехід: flow Main, вставка&quot;)
+    dAny --&gt;|так| emptyQ(&quot;empty: запит порожній, видно «Нещодавно додане»&quot;)
+    emptyQ --&gt; dSeenRecent{&quot;Річ видно серед свіжого?&quot;}
     dSeenRecent --&gt;|так| tap
-    dSeenRecent --&gt;|ні| query("стан: вводить, що пам'ятає, своїми словами, з помилкою чи без")
-    query --&gt; loadQ("loading: шукаємо")
-    loadQ --&gt; dAnswer{"Пошук відповів?"}
-    dAnswer --&gt;|ні| errQ("error: не вдалося шукати, є «Повторити»")
-    errQ --&gt; dQRetry{"Повтор вдався?"}
-    dQRetry --&gt;|ні| dBrowse{"Гортає категорію замість пошуку?"}
+    dSeenRecent --&gt;|ні| query(&quot;стан: вводить, що пам'ятає, своїми словами, з помилкою чи без&quot;)
+    query --&gt; loadQ(&quot;loading: шукаємо&quot;)
+    loadQ --&gt; dAnswer{&quot;Пошук відповів?&quot;}
+    dAnswer --&gt;|ні| errQ(&quot;error: не вдалося шукати, є «Повторити»&quot;)
+    errQ --&gt; dQRetry{&quot;Повтор вдався?&quot;}
+    dQRetry --&gt;|ні| dBrowse{&quot;Гортає категорію замість пошуку?&quot;}
     dBrowse --&gt;|так| loadCat
-    dBrowse --&gt;|ні| deadQ(["без виходу: пошук не відповідає, лишається прийти пізніше"])
+    dBrowse --&gt;|ні| deadQ([&quot;без виходу: пошук не відповідає, лишається прийти пізніше&quot;])
     dQRetry --&gt;|так| dExact
-    dAnswer --&gt;|так| dExact{"Є точні збіги?"}
-    dExact --&gt;|так| exact("стан: точні збіги вгорі, схожі нижче")
-    dExact --&gt;|ні| dSimilar{"Є схожі — одруківка, інша форма слова?"}
-    dSimilar --&gt;|так| similar("стан: лише схожі")
-    dSimilar --&gt;|ні| dWithFilter{"Шукали з фільтром?"}
-    dWithFilter --&gt;|так| everywhere("стан: «Шукали лише у „Фільмах“. Шукати всюди?», так само для тегу")
-    everywhere --&gt; dAll{"Шукає всюди?"}
+    dAnswer --&gt;|так| dExact{&quot;Є точні збіги?&quot;}
+    dExact --&gt;|так| exact(&quot;стан: точні збіги вгорі, схожі нижче&quot;)
+    dExact --&gt;|ні| dSimilar{&quot;Є схожі — одруківка, інша форма слова?&quot;}
+    dSimilar --&gt;|так| similar(&quot;стан: лише схожі&quot;)
+    dSimilar --&gt;|ні| dWithFilter{&quot;Шукали з фільтром?&quot;}
+    dWithFilter --&gt;|так| everywhere(&quot;стан: «Шукали лише у „Фільмах“. Шукати всюди?», так само для тегу&quot;)
+    everywhere --&gt; dAll{&quot;Шукає всюди?&quot;}
     dAll --&gt;|так| loadQ
     dAll --&gt;|ні| nothing
-    dWithFilter --&gt;|ні| nothing("error: нічого не знайшлося — спробуй інше слово. Сказано, де шукали: назва, опис, адреса, нотатка, теги")
-    exact --&gt; dFound{"Річ серед результатів?"}
+    dWithFilter --&gt;|ні| nothing(&quot;error: нічого не знайшлося — спробуй інше слово. Сказано, де шукали: назва, опис, адреса, нотатка, теги&quot;)
+    exact --&gt; dFound{&quot;Річ серед результатів?&quot;}
     similar --&gt; dFound
     dFound --&gt;|ні| nothing
-    nothing --&gt; fallback("стан: під повідомленням — категорії й «Нещодавно додане»")
-    fallback --&gt; dOther{"Що далі?"}
+    nothing --&gt; fallback(&quot;стан: під повідомленням — категорії й «Нещодавно додане»&quot;)
+    fallback --&gt; dOther{&quot;Що далі?&quot;}
     dOther --&gt;|інше слово| query
     dOther --&gt;|гортає категорію| loadCat
-    dOther --&gt;|здається| deadNothing(["без виходу: речі в Шухляді немає або її описано іншими словами, людина шукає знову в інтернеті"])
-    dFound --&gt;|так| tap("стан: дотик до картки — сторінка сайту в новій вкладці")
-    tap --&gt; dPage{"Сторінка відкривається?"}
-    dPage --&gt;|так| ok(["успіх: дістала за тим, що пам'ятала, не перебираючи чатів"])
-    dPage --&gt;|ні| gone("стан: сайт показує, що сторінки вже немає. Шухляда цього не бачить, копій сторінок не робить")
-    gone --&gt; dClean{"Прибирає биту картку?"}
-    dClean --&gt;|так| delLater("перехід: flow R3, «Видалити» на шарі «Посилання»")
-    dClean --&gt;|ні| deadPage(["без виходу: посилання є, а сторінки вже немає"])
+    dOther --&gt;|здається| deadNothing([&quot;без виходу: речі в Шухляді немає або її описано іншими словами, людина шукає знову в інтернеті&quot;])
+    dFound --&gt;|так| tap(&quot;стан: дотик до картки — сторінка сайту в новій вкладці&quot;)
+    tap --&gt; dPage{&quot;Сторінка відкривається?&quot;}
+    dPage --&gt;|так| ok([&quot;успіх: дістала за тим, що пам'ятала, не перебираючи чатів&quot;])
+    dPage --&gt;|ні| gone(&quot;стан: сайт показує, що сторінки вже немає. Шухляда цього не бачить, копій сторінок не робить&quot;)
+    gone --&gt; dClean{&quot;Прибирає биту картку?&quot;}
+    dClean --&gt;|так| delLater(&quot;перехід: flow R3, «Видалити» на шарі «Посилання»&quot;)
+    dClean --&gt;|ні| deadPage([&quot;без виходу: посилання є, а сторінки вже немає&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cDead fill:#3d1f22,stroke:#e57373,color:#fbe4e4
@@ -526,52 +618,95 @@ flowchart TD
     class loadCat,loadTag,loadQ cLoad
     class emptyCat,emptyQ,emptyAll,noTags,emptyTag cEmpty
 </pre></div>
+    <div class="lists">
+<details><summary>Розвилки<span>22</span></summary>
+<ol>
+<li><b>Як шукає?</b> Гортає категорію (частіше П1), тегом або словом (частіше П2).</li>
+<li><b>З яким фільтром відкрито?</b> Категорія чи тег — шар «Пошук» з цим фільтром; без фільтра — перевіряємо, чи є що шукати.</li>
+<li><b>У людини вже є теги?</b> Ні — порожній стан фільтра тегів (рішення PM 2026-11-24), далі запит словом.</li>
+<li><b>Тег завантажився?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — без виходу.</li>
+<li><b>З цим тегом є посилання?</b> Ні — тег без посилань сам не зникає (бриф §3.2), тож людина на нього натрапить: порожній стан <code>[?]</code>, далі запит словом.</li>
+<li><b>Категорія завантажилась?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — без виходу.</li>
+<li><b>У категорії є посилання?</b> Ні — порожній стан.</li>
+<li><b>У Шухляді є посилання?</b> Ні — порожня Шухляда з переходом до поля <code>[?]</code>; так — порожній запит.</li>
+<li><b>Річ видно в категорії?</b> / <b>серед посилань з тегом?</b> / <b>серед свіжого?</b> Ні — вводить запит.</li>
+<li><b>Пошук відповів?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — можна гортати категорію.</li>
+<li><b>Гортає категорію замість пошуку?</b> Так — категорія; ні — без виходу.</li>
+<li><b>Є точні збіги?</b> Ні — шукаємо схожі.</li>
+<li><b>Є схожі — одруківка, інша форма слова?</b> Так — <code>лише схожі</code> (бриф §3.4).</li>
+<li><b>Шукали з фільтром?</b> Так — «Шукати всюди?» (гіпотеза 3), з категорією чи тегом однаково.</li>
+<li><b>Шукає всюди?</b> Так — новий пошук без фільтра.</li>
+<li><b>Річ серед результатів?</b> Ні — як «нічого не знайшлося».</li>
+<li><b>Що далі?</b> Інше слово — новий запит; гортає категорію з тих, що під повідомленням; здається — без виходу (рішення PM 2026-11-22).</li>
+<li><b>Сторінка відкривається?</b> Ні — сторінки вже немає.</li>
+<li><b>Прибирає биту картку?</b> Так — «Видалити» на шарі «Посилання», flow R3; ні — без виходу.</li>
+</ol>
+</details>
+<details><summary>Стани<span>4</span></summary>
+<ul>
+<li><b>empty:</b> порожня категорія; тегів ще немає (рішення PM 2026-11-24); тег без посилань <code>[?]</code>; Шухляда порожня — «спершу відклади посилання» <code>[?]</code>; запит <code>порожній</code> — видно «Нещодавно додане» (гіпотеза 4).</li>
+<li><b>loading:</b> завантажуємо категорію; завантажуємо посилання з тегом; шукаємо.</li>
+<li><b>error:</b> не вдалося завантажити категорію; не вдалося завантажити тег; не вдалося шукати; <code>нічого не знайшлося</code> — «спробуй інше слово» (бриф §6.4) і де шукали.</li>
+<li><b>стан:</b> уся категорія; усі посилання з тегом; сайт показує, що сторінки вже немає; вводить запит; <code>точні збіги</code>; <code>лише схожі</code>; «Шукати всюди?»; під «нічого не знайшлося» — категорії й «Нещодавно додане»; сторінка сайту в новій вкладці.</li>
+</ul>
+</details>
+<details open><summary>Кінці<span>2</span></summary>
+<ul>
+<li><b>успіх:</b> річ дістала.</li>
+<li><b>без виходу:</b> категорія чи тег не завантажується; пошук не відповідає, а гортати людина не хоче; людина здалася — речі немає або її описано іншими словами, і вона повертається до «загуглити знову», тобто до поведінки П3; сторінки вже немає, а биту картку людина лишила.</li>
+</ul>
+</details>
+<p class="note"><b>Найближче, що є, не показуємо</b>, коли збігів немає: хибні результати підривають довіру <code>12·[RW4]</code>.</p>
+</div>
   </section>
 
   <section class="flow" id="flow-r3" aria-labelledby="flow-r3-title">
     <h3 id="flow-r3-title">R3 · Мати порядок без сортування</h3>
     <p class="meta"><b>Персона:</b> П2 «Тримає вкладки й закладки». <b>Обставини:</b> комп'ютер, вставила <code>Ctrl+V</code> і хоче закрити вкладку. Від збереження до правильної категорії.</p>
     <p class="meta"><b>Кліків:</b> вгадано — 0; «Змінити» → категорія — 2; пізніше через «⋯» — 3.</p>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    home[Моя Шухляда] --&gt; pasted("стан: Ctrl+V будь-де, збереження як у flow Main")
-    pasted --&gt; guess("loading: вкладається, вгадуємо категорію з домену")
-    guess --&gt; dRule{"Для цього сайту є правило людини?"}
-    dRule --&gt;|так| byRule("стан: категорія з правила сайту")
-    dRule --&gt;|ні| dKnown{"Домен є в загальному списку?"}
-    dKnown --&gt;|так| byList("стан: категорія за списком, наприклад IMDb — Фільми й серіали")
-    dKnown --&gt;|ні| unknown("стан: невідомий домен — «Статті й ресурси» або «Інше»")
-    byRule --&gt; confirm("успіх кроку: «Збережено в Шухляді» з категорією і «Змінити»")
+    home[Моя Шухляда] --&gt; pasted(&quot;стан: Ctrl+V будь-де, збереження як у flow Main&quot;)
+    pasted --&gt; guess(&quot;loading: вкладається, вгадуємо категорію з домену&quot;)
+    guess --&gt; dRule{&quot;Для цього сайту є правило людини?&quot;}
+    dRule --&gt;|так| byRule(&quot;стан: категорія з правила сайту&quot;)
+    dRule --&gt;|ні| dKnown{&quot;Домен є в загальному списку?&quot;}
+    dKnown --&gt;|так| byList(&quot;стан: категорія за списком, наприклад IMDb — Фільми й серіали&quot;)
+    dKnown --&gt;|ні| unknown(&quot;стан: невідомий домен — «Статті й ресурси» або «Інше»&quot;)
+    byRule --&gt; confirm(&quot;успіх кроку: «Збережено в Шухляді» з категорією і «Змінити»&quot;)
     byList --&gt; confirm
     unknown --&gt; confirm
-    confirm --&gt; dRight{"Категорія та?"}
-    dRight --&gt;|так| okGuess(["успіх: лягло куди треба без жодного кліку"])
-    dRight --&gt;|ні| dNoticed{"Помітила, поки підтвердження на екрані?"}
-    dNoticed --&gt;|так| change("стан: «Змінити» — вибір із 7 категорій")
-    change --&gt; dPick{"Обрала категорію?"}
+    confirm --&gt; dRight{&quot;Категорія та?&quot;}
+    dRight --&gt;|так| okGuess([&quot;успіх: лягло куди треба без жодного кліку&quot;])
+    dRight --&gt;|ні| dNoticed{&quot;Помітила, поки підтвердження на екрані?&quot;}
+    dNoticed --&gt;|так| change(&quot;стан: «Змінити» — вибір із 7 категорій&quot;)
+    change --&gt; dPick{&quot;Обрала категорію?&quot;}
     dPick --&gt;|так| saveCat
-    dPick --&gt;|"ні, закрила вибір"| laterSeen
-    dNoticed --&gt;|ні| laterSeen("стан: пізніше в списку — «⋯» на картці")
+    dPick --&gt;|&quot;ні, закрила вибір&quot;| laterSeen
+    dNoticed --&gt;|ні| laterSeen(&quot;стан: пізніше в списку — «⋯» на картці&quot;)
     laterSeen --&gt; linkLayer[Посилання]
-    linkLayer --&gt; loadLink("loading: відкриваємо посилання")
-    loadLink --&gt; dLinkOk{"Посилання відкрилось?"}
-    dLinkOk --&gt;|ні| errLink("error: не вдалося відкрити посилання, є «Повторити»")
-    errLink --&gt; dLinkRetry{"Повтор вдався?"}
+    linkLayer --&gt; loadLink(&quot;loading: відкриваємо посилання&quot;)
+    loadLink --&gt; dLinkOk{&quot;Посилання відкрилось?&quot;}
+    dLinkOk --&gt;|ні| errLink(&quot;error: не вдалося відкрити посилання, є «Повторити»&quot;)
+    errLink --&gt; dLinkRetry{&quot;Повтор вдався?&quot;}
     dLinkRetry --&gt;|так| change2
-    dLinkRetry --&gt;|ні| endClose(["кінець: закриває шар, повертається до списку — категорію виправить пізніше"])
-    dLinkOk --&gt;|так| change2("стан: категорія на шарі «Посилання» — вибір із 7")
-    change2 --&gt; dPick2{"Обрала категорію?"}
+    dLinkRetry --&gt;|ні| endClose([&quot;кінець: закриває шар, повертається до списку — категорію виправить пізніше&quot;])
+    dLinkOk --&gt;|так| change2(&quot;стан: категорія на шарі «Посилання» — вибір із 7&quot;)
+    change2 --&gt; dPick2{&quot;Обрала категорію?&quot;}
     dPick2 --&gt;|так| saveCat
-    dPick2 --&gt;|"ні, закрила вибір"| layerBack("перехід: шар «Посилання» як був, дії — нижче")
-    saveCat("loading: зберігаємо категорію") --&gt; dChanged{"Зміну збережено?"}
-    dChanged --&gt;|ні| errChange("error: не вдалося змінити категорію, є «Повторити». Після підтвердження — на картці, бо підтвердження зникає; на шарі — біля категорії [?]")
-    errChange --&gt; dChangeRetry{"Повтор вдався?"}
-    dChangeRetry --&gt;|ні| endLater(["кінець: категорію не змінено, посилання на місці — виправити пізніше через «⋯» на картці"])
+    dPick2 --&gt;|&quot;ні, закрила вибір&quot;| layerBack(&quot;перехід: шар «Посилання» як був, дії — нижче&quot;)
+    saveCat(&quot;loading: зберігаємо категорію&quot;) --&gt; dChanged{&quot;Зміну збережено?&quot;}
+    dChanged --&gt;|ні| errChange(&quot;error: не вдалося змінити категорію, є «Повторити». Після підтвердження — на картці, бо підтвердження зникає; на шарі — біля категорії [?]&quot;)
+    errChange --&gt; dChangeRetry{&quot;Повтор вдався?&quot;}
+    dChangeRetry --&gt;|ні| endLater([&quot;кінець: категорію не змінено, посилання на місці — виправити пізніше через «⋯» на картці&quot;])
     dChangeRetry --&gt;|так| changed
-    dChanged --&gt;|так| changed("стан: категорія змінена людиною")
-    changed --&gt; dMulti{"Сайт з різним вмістом — YouTube, Google, Medium?"}
-    dMulti --&gt;|так| okNoRule(["успіх: це посилання на місці, правило не створюємо — наступні вгадуємо як зазвичай"])
-    dMulti --&gt;|ні| okRule(["успіх: правило сайту — наступні посилання з нього ляжуть туди самі, старі не чіпаємо"])
+    dChanged --&gt;|так| changed(&quot;стан: категорія змінена людиною&quot;)
+    changed --&gt; dMulti{&quot;Сайт з різним вмістом — YouTube, Google, Medium?&quot;}
+    dMulti --&gt;|так| okNoRule([&quot;успіх: це посилання на місці, правило не створюємо — наступні вгадуємо як зазвичай&quot;])
+    dMulti --&gt;|ні| okRule([&quot;успіх: правило сайту — наступні посилання з нього ляжуть туди самі, старі не чіпаємо&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cErr fill:#3d2e18,stroke:#e8a85b,color:#fff1dc
@@ -580,38 +715,70 @@ flowchart TD
     class errLink,errChange cErr
     class guess,loadLink,saveCat cLoad
 </pre></div>
+    <div class="lists">
+<details><summary>Розвилки<span>11</span></summary>
+<ol>
+<li><b>Для цього сайту є правило людини?</b> Так — категорія з правила (рішення PM 2026-11-18, бриф §3.2).</li>
+<li><b>Домен є в загальному списку?</b> Ні — «Статті й ресурси» або «Інше» (бриф §3.2).</li>
+<li><b>Категорія та?</b> Так — успіх без кліку.</li>
+<li><b>Помітила, поки підтвердження на екрані?</b> Так — «Змінити» в підтвердженні; ні — пізніше, через шар «Посилання».</li>
+<li><b>Обрала категорію?</b> (у підтвердженні) Ні — підтвердження зникає, категорія як вгадано; виправити можна пізніше на шарі «Посилання».</li>
+<li><b>Посилання відкрилось?</b> Ні — помилка з «Повторити».</li>
+<li><b>Повтор вдався?</b> Ні — кінець: людина закриває шар і повертається до списку.</li>
+<li><b>Обрала категорію?</b> (на шарі) Ні — шар «Посилання» як був, далі його дії.</li>
+<li><b>Зміну збережено?</b> Ні — помилка з «Повторити» <code>[?]</code>: після підтвердження — на картці, на шарі — біля категорії (рішення PM 2026-11-24).</li>
+<li><b>Повтор вдався?</b> Ні — кінець: посилання на місці, категорію виправити пізніше через «⋯».</li>
+<li><b>Сайт з різним вмістом?</b> Так — правило не створюємо; ні — правило сайту.</li>
+</ol>
+</details>
+<details><summary>Стани<span>5</span></summary>
+<ul>
+<li><b>loading:</b> <code>вкладається</code> і вгадуємо категорію; відкриваємо посилання; зберігаємо категорію.</li>
+<li><b>error:</b> не вдалося відкрити посилання; не вдалося змінити категорію — на картці чи біля категорії <code>[?]</code>.</li>
+<li><b>стан:</b> категорія з правила, за списком або для невідомого домену; вибір із 7 категорій; <code>змінена людиною</code>.</li>
+<li><b>успіх кроку:</b> «Збережено в Шухляді» з категорією і «Змінити».</li>
+<li><b>empty:</b> немає — посилання щойно збережене, категорія в нього є завжди.</li>
+</ul>
+</details>
+<details open><summary>Кінці<span>2</span></summary>
+<ul>
+<li><b>успіх:</b> вгадано правильно; виправлено без правила; виправлено й створено правило сайту.</li>
+<li><b>кінець:</b> шар не відкрився, людина закрила його; зміна не зберігається — посилання на місці, категорію виправить пізніше. Тупиків без виходу в цій частині немає: пізніше лишається «⋯» на картці.</li>
+</ul>
+</details>
+</div>
   </section>
 
   <section class="flow" id="flow-r3-next" aria-labelledby="flow-r3-next-title">
     <h3 id="flow-r3-next-title">R3, далі · Дії на шарі «Посилання» і видалення тегу</h3>
     <p class="meta"><b>Персона:</b> П2 — R2 «що це й навіщо» її job. Тег знімають на шарі «Посилання», а видаляють у фільтрі тегів на шарі «Пошук».</p>
     <p class="meta"><b>Кліків:</b> «⋯» → поле — 2; видалити посилання — 3; видалити тег — 3.</p>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    layer[Посилання] --&gt; dAct{"Що робить на шарі?"}
-    dAct --&gt;|"правка: назва, опис, нотатка, дата для «Івентів»"| edit("стан: правка в полі, зберігається одразу, без «Зберегти» [?]")
-    dAct --&gt;|"теги: додати чи зняти"| tags("стан: тег додано чи знято")
-    dAct --&gt;|"«Вже переглянуто»"| seen("стан: перемикач «Вже переглянуто»")
-    dAct --&gt;|видалити| delWarn("стан: попередження «назавжди»")
-    dAct --&gt;|закриває шар| endClose(["кінець: шар закрито, список під ним як був"])
-    edit --&gt; saveEdit("loading: зберігаємо зміну [?]")
+    layer[Посилання] --&gt; dAct{&quot;Що робить на шарі?&quot;}
+    dAct --&gt;|&quot;правка: назва, опис, нотатка, дата для «Івентів»&quot;| edit(&quot;стан: правка в полі, зберігається одразу, без «Зберегти» [?]&quot;)
+    dAct --&gt;|&quot;теги: додати чи зняти&quot;| tags(&quot;стан: тег додано чи знято&quot;)
+    dAct --&gt;|&quot;«Вже переглянуто»&quot;| seen(&quot;стан: перемикач «Вже переглянуто»&quot;)
+    dAct --&gt;|видалити| delWarn(&quot;стан: попередження «назавжди»&quot;)
+    dAct --&gt;|закриває шар| endClose([&quot;кінець: шар закрито, список під ним як був&quot;])
+    edit --&gt; saveEdit(&quot;loading: зберігаємо зміну [?]&quot;)
     tags --&gt; saveEdit
     seen --&gt; saveEdit
-    saveEdit --&gt; dEdit{"Зміну збережено?"}
-    dEdit --&gt;|так| okEdit(["успіх: через тижні видно, що це й навіщо, а за тегом — знайти"])
-    dEdit --&gt;|ні| errEdit("error: не вдалося зберегти зміну — зміна лишається в полі, є «Повторити» [?]")
-    errEdit --&gt; dEditRetry{"Повтор вдався?"}
+    saveEdit --&gt; dEdit{&quot;Зміну збережено?&quot;}
+    dEdit --&gt;|так| okEdit([&quot;успіх: через тижні видно, що це й навіщо, а за тегом — знайти&quot;])
+    dEdit --&gt;|ні| errEdit(&quot;error: не вдалося зберегти зміну — зміна лишається в полі, є «Повторити» [?]&quot;)
+    errEdit --&gt; dEditRetry{&quot;Повтор вдався?&quot;}
     dEditRetry --&gt;|так| okEdit
-    dEditRetry --&gt;|ні| deadEdit(["без виходу: зміна не зберігається; поки шар відкрито, текст лишається в полі — спробувати пізніше [?]"])
-    delWarn --&gt; dDelSure{"Підтверджує видалення?"}
+    dEditRetry --&gt;|ні| deadEdit([&quot;без виходу: зміна не зберігається; поки шар відкрито, текст лишається в полі — спробувати пізніше [?]&quot;])
+    delWarn --&gt; dDelSure{&quot;Підтверджує видалення?&quot;}
     dDelSure --&gt;|ні| layer
-    dDelSure --&gt;|так| deleting("loading: видаляємо [?]")
-    deleting --&gt; dDel{"Видалено?"}
-    dDel --&gt;|так| okDel(["успіх: видалено назавжди — шар закрився, посилання зникло зі списку"])
-    dDel --&gt;|ні| errDel("error: не вдалося видалити, посилання на місці, є «Повторити» [?]")
-    errDel --&gt; dDelRetry{"Повтор вдався?"}
+    dDelSure --&gt;|так| deleting(&quot;loading: видаляємо [?]&quot;)
+    deleting --&gt; dDel{&quot;Видалено?&quot;}
+    dDel --&gt;|так| okDel([&quot;успіх: видалено назавжди — шар закрився, посилання зникло зі списку&quot;])
+    dDel --&gt;|ні| errDel(&quot;error: не вдалося видалити, посилання на місці, є «Повторити» [?]&quot;)
+    errDel --&gt; dDelRetry{&quot;Повтор вдався?&quot;}
     dDelRetry --&gt;|так| okDel
-    dDelRetry --&gt;|ні| deadDel(["без виходу: посилання лишилося — спробувати пізніше [?]"])
+    dDelRetry --&gt;|ні| deadDel([&quot;без виходу: посилання лишилося — спробувати пізніше [?]&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cDead fill:#3d1f22,stroke:#e57373,color:#fbe4e4
@@ -622,22 +789,22 @@ flowchart TD
     class errEdit,errDel cErr
     class saveEdit,deleting cLoad
 </pre></div>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    search[Пошук] --&gt; dHasTags{"У людини вже є теги?"}
-    dHasTags --&gt;|ні| emptyTags("empty: тегів ще немає — тег додають на картці, «⋯» → шар «Посилання»")
-    emptyTags --&gt; endNoTags(["кінець: видаляти нічого"])
-    dHasTags --&gt;|так| tagFilter("стан: фільтр тегів, біля тегу — «Видалити тег»")
-    tagFilter --&gt; tagWarn("стан: попередження — тег зніметься з усіх посилань, відновити не можна [?]")
-    tagWarn --&gt; dTagSure{"Підтверджує?"}
-    dTagSure --&gt;|ні| endTagKeep(["кінець: передумала, тег на місці"])
-    dTagSure --&gt;|так| delTag("loading: видаляємо тег [?]")
-    delTag --&gt; dTagDel{"Тег видалено?"}
-    dTagDel --&gt;|так| okTag(["успіх: тег видалено, фільтр знято, посилання на місці"])
-    dTagDel --&gt;|ні| errTag("error: не вдалося видалити тег, є «Повторити» [?]")
-    errTag --&gt; dTagRetry{"Повтор вдався?"}
+    search[Пошук] --&gt; dHasTags{&quot;У людини вже є теги?&quot;}
+    dHasTags --&gt;|ні| emptyTags(&quot;empty: тегів ще немає — тег додають на картці, «⋯» → шар «Посилання»&quot;)
+    emptyTags --&gt; endNoTags([&quot;кінець: видаляти нічого&quot;])
+    dHasTags --&gt;|так| tagFilter(&quot;стан: фільтр тегів, біля тегу — «Видалити тег»&quot;)
+    tagFilter --&gt; tagWarn(&quot;стан: попередження — тег зніметься з усіх посилань, відновити не можна [?]&quot;)
+    tagWarn --&gt; dTagSure{&quot;Підтверджує?&quot;}
+    dTagSure --&gt;|ні| endTagKeep([&quot;кінець: передумала, тег на місці&quot;])
+    dTagSure --&gt;|так| delTag(&quot;loading: видаляємо тег [?]&quot;)
+    delTag --&gt; dTagDel{&quot;Тег видалено?&quot;}
+    dTagDel --&gt;|так| okTag([&quot;успіх: тег видалено, фільтр знято, посилання на місці&quot;])
+    dTagDel --&gt;|ні| errTag(&quot;error: не вдалося видалити тег, є «Повторити» [?]&quot;)
+    errTag --&gt; dTagRetry{&quot;Повтор вдався?&quot;}
     dTagRetry --&gt;|так| okTag
-    dTagRetry --&gt;|ні| deadTag(["без виходу: тег лишився — спробувати пізніше [?]"])
+    dTagRetry --&gt;|ні| deadTag([&quot;без виходу: тег лишився — спробувати пізніше [?]&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cDead fill:#3d1f22,stroke:#e57373,color:#fbe4e4
@@ -650,73 +817,104 @@ flowchart TD
     classDef cEmpty fill:#2a2824,stroke:#a89f8f,color:#f1efea
     class emptyTags cEmpty
 </pre></div>
+    <div class="lists">
+<details><summary>Розвилки<span>10</span></summary>
+<ol>
+<li><b>Що робить на шарі?</b> Правка полів, теги, «Вже переглянуто», видалення або закриває шар (бриф §3.3).</li>
+<li><b>Зміну збережено?</b> Ні — помилка, зміна лишається в полі <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — без виходу <code>[?]</code>.</li>
+<li><b>Підтверджує видалення?</b> Ні — назад на шар; так — видаляємо назавжди (рішення PM 2026-11-18, бриф §3.3).</li>
+<li><b>Видалено?</b> Ні — помилка з «Повторити» <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — без виходу <code>[?]</code>.</li>
+<li><b>У людини вже є теги?</b> Ні — порожній стан фільтра тегів: видаляти нічого, підказка, де теги додають (рішення PM 2026-11-24).</li>
+<li><b>Підтверджує?</b> (тег) Ні — тег на місці.</li>
+<li><b>Тег видалено?</b> Ні — помилка з «Повторити» <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — без виходу <code>[?]</code>.</li>
+</ol>
+</details>
+<details><summary>Стани<span>4</span></summary>
+<ul>
+<li><b>loading:</b> зберігаємо зміну <code>[?]</code>; видаляємо <code>[?]</code>; видаляємо тег <code>[?]</code>.</li>
+<li><b>error:</b> не вдалося зберегти зміну <code>[?]</code>; не вдалося видалити <code>[?]</code>; не вдалося видалити тег <code>[?]</code>.</li>
+<li><b>стан:</b> правка в полі; тег додано чи знято; «Вже переглянуто»; попередження «назавжди»; «Видалити тег» у фільтрі; попередження про тег <code>[?]</code>.</li>
+<li><b>empty:</b> тегів ще немає — у фільтрі тегів «Пошуку» (рішення PM 2026-11-24). На шарі «Посилання» порожнього стану немає: його відкривають з картки, посилання є завжди.</li>
+</ul>
+</details>
+<details open><summary>Кінці<span>3</span></summary>
+<ul>
+<li><b>успіх:</b> зміну збережено; посилання видалено назавжди; тег видалено, посилання на місці.</li>
+<li><b>кінець:</b> шар закрито без змін; тегів ще немає — видаляти нічого; передумала видаляти тег.</li>
+<li><b>без виходу:</b> зміна, видалення чи видалення тегу не проходять — лишається спробувати пізніше <code>[?]</code>.</li>
+</ul>
+</details>
+</div>
   </section>
 
   <section class="flow" id="flow-e2" aria-labelledby="flow-e2-title">
     <h3 id="flow-e2-title">E2 · Не боятися втратити все разом із сервісом</h3>
     <p class="meta"><b>Персона:</b> П1 і П2. <b>Обставини:</b> забрати архів про запас або перед тим, як піти зовсім. Тут же обидва виходи — службові дії без job.</p>
     <p class="meta"><b>Кліків:</b> експорт — 2; кожен вихід — 2; видалення акаунта — 4, свідомо.</p>
-    <div class="diagram fit"><pre class="mermaid">
+    <div class="diagram"><pre class="mermaid">
 flowchart TD
-    home[Моя Шухляда] --&gt; toAcc("стан: пункт «Акаунт» у навігації")
+    home[Моя Шухляда] --&gt; toAcc(&quot;стан: пункт «Акаунт» у навігації&quot;)
     toAcc --&gt; acc[Акаунт]
-    acc --&gt; dWhat{"Що хоче?"}
-    dWhat --&gt;|забрати архів| exportBtn("стан: «Експорт» — уся Шухляда в CSV")
-    dWhat --&gt;|піти зовсім| delBtn("стан: «Видалити акаунт»")
-    dWhat --&gt;|"вийти, службова дія"| logoutBtn("стан: «Вийти»")
-    logoutBtn --&gt; localOut("стан: вхід стерто на цьому пристрої, мережа не потрібна")
+    acc --&gt; dWhat{&quot;Що хоче?&quot;}
+    dWhat --&gt;|забрати архів| exportBtn(&quot;стан: «Експорт» — уся Шухляда в CSV&quot;)
+    dWhat --&gt;|піти зовсім| delBtn(&quot;стан: «Видалити акаунт»&quot;)
+    dWhat --&gt;|&quot;вийти, службова дія&quot;| logoutBtn(&quot;стан: «Вийти»&quot;)
+    logoutBtn --&gt; localOut(&quot;стан: вхід стерто на цьому пристрої, мережа не потрібна&quot;)
     localOut --&gt; loginOut[Вхід]
-    loginOut --&gt; okOut(["успіх: вийшла, на цьому пристрої Шухляду не відкрити без входу, дані лишаються на сервері"])
-    dWhat --&gt;|"вийти на всіх пристроях, службова дія"| allBtn("стан: «Вийти на всіх пристроях» — забула вийти на чужому комп'ютері")
-    allBtn --&gt; loggingAll("loading: виходимо на всіх пристроях")
-    loggingAll --&gt; dAll{"Вийшли на всіх?"}
+    loginOut --&gt; okOut([&quot;успіх: вийшла, на цьому пристрої Шухляду не відкрити без входу, дані лишаються на сервері&quot;])
+    dWhat --&gt;|&quot;вийти на всіх пристроях, службова дія&quot;| allBtn(&quot;стан: «Вийти на всіх пристроях» — забула вийти на чужому комп'ютері&quot;)
+    allBtn --&gt; loggingAll(&quot;loading: виходимо на всіх пристроях&quot;)
+    loggingAll --&gt; dAll{&quot;Вийшли на всіх?&quot;}
     dAll --&gt;|так| loginAll[Вхід]
-    loginAll --&gt; okAll(["успіх: вхід закрито всюди, і тут теж. Інші пристрої випадуть на «Вхід» не одразу — коли скінчиться їхній поточний вхід [?]"])
-    dAll --&gt;|ні| errAll("error: не вдалося вийти на всіх пристроях, є «Повторити». Немає мережі — сказано, що причина в мережі")
-    errAll --&gt; dAllRetry{"Повтор вдався?"}
+    loginAll --&gt; okAll([&quot;успіх: вхід закрито всюди, і тут теж. Інші пристрої випадуть на «Вхід» не одразу — коли скінчиться їхній поточний вхід [?]&quot;])
+    dAll --&gt;|ні| errAll(&quot;error: не вдалося вийти на всіх пристроях, є «Повторити». Немає мережі — сказано, що причина в мережі&quot;)
+    errAll --&gt; dAllRetry{&quot;Повтор вдався?&quot;}
     dAllRetry --&gt;|так| loginAll
-    dAllRetry --&gt;|ні| deadAll(["без виходу: інші пристрої лишаються з входом — спробувати пізніше, коли буде мережа"])
-    delBtn --&gt; offer("стан: пропозиція спершу забрати архів")
-    offer --&gt; dTake{"Забирає архів?"}
+    dAllRetry --&gt;|ні| deadAll([&quot;без виходу: інші пристрої лишаються з входом — спробувати пізніше, коли буде мережа&quot;])
+    delBtn --&gt; offer(&quot;стан: пропозиція спершу забрати архів&quot;)
+    offer --&gt; dTake{&quot;Забирає архів?&quot;}
     dTake --&gt;|так| exportBtn
     dTake --&gt;|ні| warn
-    exportBtn --&gt; dHasLinks{"У Шухляді є посилання?"}
-    dHasLinks --&gt;|ні| emptyExp("empty: Шухляда порожня, забирати нічого [?]")
-    emptyExp --&gt; dLeavingEmpty{"Йде видаляти акаунт?"}
-    dLeavingEmpty --&gt;|ні| endEmpty(["кінець: забирати нічого, Шухляда порожня"])
+    exportBtn --&gt; dHasLinks{&quot;У Шухляді є посилання?&quot;}
+    dHasLinks --&gt;|ні| emptyExp(&quot;empty: Шухляда порожня, забирати нічого [?]&quot;)
+    emptyExp --&gt; dLeavingEmpty{&quot;Йде видаляти акаунт?&quot;}
+    dLeavingEmpty --&gt;|ні| endEmpty([&quot;кінець: забирати нічого, Шухляда порожня&quot;])
     dLeavingEmpty --&gt;|так| warn
-    dHasLinks --&gt;|так| prep("loading: готується файл [?]")
-    prep --&gt; dReady{"Файл готовий?"}
-    dReady --&gt;|ні| errExp("error: не вдалося підготувати файл, є «Повторити» [?]")
-    errExp --&gt; dExpRetry{"Повтор вдався?"}
-    dExpRetry --&gt;|ні| dLeavingErr{"Йде видаляти акаунт?"}
-    dLeavingErr --&gt;|ні| deadExp(["без виходу: архів зараз не забрати, Шухляда на місці — спробувати пізніше"])
-    dLeavingErr --&gt;|так| noArch("стан: «Архів не забрано» — видалити без нього або повернутися")
-    noArch --&gt; dNoArch{"Що обирає?"}
+    dHasLinks --&gt;|так| prep(&quot;loading: готується файл [?]&quot;)
+    prep --&gt; dReady{&quot;Файл готовий?&quot;}
+    dReady --&gt;|ні| errExp(&quot;error: не вдалося підготувати файл, є «Повторити» [?]&quot;)
+    errExp --&gt; dExpRetry{&quot;Повтор вдався?&quot;}
+    dExpRetry --&gt;|ні| dLeavingErr{&quot;Йде видаляти акаунт?&quot;}
+    dLeavingErr --&gt;|ні| deadExp([&quot;без виходу: архів зараз не забрати, Шухляда на місці — спробувати пізніше&quot;])
+    dLeavingErr --&gt;|так| noArch(&quot;стан: «Архів не забрано» — видалити без нього або повернутися&quot;)
+    noArch --&gt; dNoArch{&quot;Що обирає?&quot;}
     dNoArch --&gt;|повернутися| acc
     dNoArch --&gt;|видалити без архіву| warn
     dExpRetry --&gt;|так| file
-    dReady --&gt;|так| file("успіх кроку: готово, файл CSV завантажено")
-    file --&gt; dOpens{"Файл відкривається з українськими літерами й усіма полями?"}
-    dOpens --&gt;|ні| hint("стан: підказка біля «Експорту» — «Не відкривається в Excel? Відкрий у Google Sheets»")
-    hint --&gt; dSheets{"У Google Sheets відкрилось?"}
+    dReady --&gt;|так| file(&quot;успіх кроку: готово, файл CSV завантажено&quot;)
+    file --&gt; dOpens{&quot;Файл відкривається з українськими літерами й усіма полями?&quot;}
+    dOpens --&gt;|ні| hint(&quot;стан: підказка біля «Експорту» — «Не відкривається в Excel? Відкрий у Google Sheets»&quot;)
+    hint --&gt; dSheets{&quot;У Google Sheets відкрилось?&quot;}
     dSheets --&gt;|так| dLeaving
-    dSheets --&gt;|ні| dLeavingFile{"Йде видаляти акаунт?"}
-    dLeavingFile --&gt;|ні| deadFile(["без виходу: файл є, але архів не прочитати [?]"])
-    dLeavingFile --&gt;|"так, свідомо без архіву"| warn
-    dOpens --&gt;|так| dLeaving{"Йде видаляти акаунт?"}
-    dLeaving --&gt;|ні| okExport(["успіх: архів у людини, Шухляда на місці"])
-    dLeaving --&gt;|так| warn("стан: попередження «назавжди» — посилання, теги, правила сайтів")
-    warn --&gt; dSure{"Підтверджує видалення?"}
-    dSure --&gt;|ні| endStay(["кінець: передумала, усе на місці"])
-    dSure --&gt;|так| deleting("loading: видаляємо акаунт [?]")
-    deleting --&gt; dDeleted{"Видалено?"}
-    dDeleted --&gt;|ні| errDel("error: не вдалося видалити, дані на місці, є «Повторити» [?]")
-    errDel --&gt; dDelRetry{"Повтор вдався?"}
-    dDelRetry --&gt;|ні| deadDel(["без виходу: акаунт лишився, а людина хоче піти — спробувати пізніше"])
+    dSheets --&gt;|ні| dLeavingFile{&quot;Йде видаляти акаунт?&quot;}
+    dLeavingFile --&gt;|ні| deadFile([&quot;без виходу: файл є, але архів не прочитати [?]&quot;])
+    dLeavingFile --&gt;|&quot;так, свідомо без архіву&quot;| warn
+    dOpens --&gt;|так| dLeaving{&quot;Йде видаляти акаунт?&quot;}
+    dLeaving --&gt;|ні| okExport([&quot;успіх: архів у людини, Шухляда на місці&quot;])
+    dLeaving --&gt;|так| warn(&quot;стан: попередження «назавжди» — посилання, теги, правила сайтів&quot;)
+    warn --&gt; dSure{&quot;Підтверджує видалення?&quot;}
+    dSure --&gt;|ні| endStay([&quot;кінець: передумала, усе на місці&quot;])
+    dSure --&gt;|так| deleting(&quot;loading: видаляємо акаунт [?]&quot;)
+    deleting --&gt; dDeleted{&quot;Видалено?&quot;}
+    dDeleted --&gt;|ні| errDel(&quot;error: не вдалося видалити, дані на місці, є «Повторити» [?]&quot;)
+    errDel --&gt; dDelRetry{&quot;Повтор вдався?&quot;}
+    dDelRetry --&gt;|ні| deadDel([&quot;без виходу: акаунт лишився, а людина хоче піти — спробувати пізніше&quot;])
     dDelRetry --&gt;|так| login
     dDeleted --&gt;|так| login[Вхід]
-    login --&gt; okDeleted(["успіх: акаунт і всі дані видалено назавжди. Архів у людини, якщо забрала"])
+    login --&gt; okDeleted([&quot;успіх: акаунт і всі дані видалено назавжди. Архів у людини, якщо забрала&quot;])
 
     classDef cOk fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5
     classDef cDead fill:#3d1f22,stroke:#e57373,color:#fbe4e4
@@ -729,6 +927,46 @@ flowchart TD
     class prep,deleting,loggingAll cLoad
     class emptyExp cEmpty
 </pre></div>
+    <div class="lists">
+<details><summary>Розвилки<span>17</span></summary>
+<ol>
+<li><b>Що хоче?</b> Забрати архів, піти зовсім, вийти або вийти на всіх пристроях. Обидва виходи — службові дії. У звичайному розвилок немає: він на самому пристрої й не залежить від мережі.</li>
+<li><b>Вийшли на всіх?</b> Потрібна мережа, тож може не вдатися — помилка з «Повторити»; без мережі сказано, що причина в мережі (рішення PM 2026-11-24).</li>
+<li><b>Повтор вдався?</b> Ні — без виходу: інші пристрої лишаються з входом, спробувати пізніше.</li>
+<li><b>Забирає архів?</b> Перед видаленням Шухляда пропонує експорт (бриф §3.5); ні — одразу попередження.</li>
+<li><b>У Шухляді є посилання?</b> Ні — порожній стан <code>[?]</code>.</li>
+<li><b>Йде видаляти акаунт?</b> (Шухляда порожня) Ні — кінець, забирати нічого; так — попередження.</li>
+<li><b>Файл готовий?</b> Ні — помилка з «Повторити» <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — чи йде людина видаляти акаунт.</li>
+<li><b>Йде видаляти акаунт?</b> (файл не готовий) Ні — без виходу; так — «Архів не забрано».</li>
+<li><b>Що обирає?</b> Повернутися на «Акаунт» або видалити без архіву, далі попередження «назавжди» (рішення PM 2026-11-24).</li>
+<li><b>Файл відкривається з українськими літерами й усіма полями?</b> Файл зберігаємо з позначкою кодування, тож Excel має показати літери (рішення PM 2026-11-22). Ні — підказка про Google Sheets.</li>
+<li><b>У Google Sheets відкрилось?</b> Ні — чи йде людина видаляти акаунт.</li>
+<li><b>Йде видаляти акаунт?</b> (файл не читається) Ні — без виходу <code>[?]</code>. Так — попередження «назавжди». Шухляда не знає, що файл не читається, тож «Архів не забрано» тут не з'явиться: людина вирішує сама.</li>
+<li><b>Йде видаляти акаунт?</b> (файл відкрився) Ні — успіх експорту.</li>
+<li><b>Підтверджує видалення?</b> Ні — кінець, усе на місці.</li>
+<li><b>Видалено?</b> Ні — помилка з «Повторити» <code>[?]</code>.</li>
+<li><b>Повтор вдався?</b> Ні — без виходу.</li>
+</ol>
+</details>
+<details><summary>Стани<span>5</span></summary>
+<ul>
+<li><b>empty:</b> Шухляда порожня — забирати нічого <code>[?]</code>.</li>
+<li><b>loading:</b> <code>готується</code> файл <code>[?]</code>; видаляємо акаунт <code>[?]</code>; виходимо на всіх пристроях. Звичайному виходу loading не потрібен: він на самому пристрої.</li>
+<li><b>error:</b> <code>не вдалося</code> підготувати файл <code>[?]</code>; не вдалося видалити акаунт <code>[?]</code>; не вдалося вийти на всіх пристроях. Помилки звичайного виходу немає: він не залежить від мережі.</li>
+<li><b>стан:</b> «Експорт»; підказка «Не відкривається в Excel? Відкрий у Google Sheets»; «Вийти» і вхід стерто на цьому пристрої; «Вийти на всіх пристроях»; «Видалити акаунт»; пропозиція забрати архів; «Архів не забрано»; попередження «назавжди».</li>
+<li><b>успіх кроку:</b> <code>готово</code>, файл завантажено.</li>
+</ul>
+</details>
+<details open><summary>Кінці<span>3</span></summary>
+<ul>
+<li><b>успіх:</b> архів у людини; вийшла → «Вхід»; вийшла на всіх пристроях → «Вхід», інші пристрої — не одразу <code>[?]</code>; акаунт <code>видалено</code> → «Вхід».</li>
+<li><b>кінець:</b> забирати нічого, Шухляда порожня; передумала.</li>
+<li><b>без виходу:</b> не вдається вийти на всіх пристроях — спробувати, коли буде мережа; файл не готується, а людина лише хотіла архів; файл не читається ні в Excel, ні в Google Sheets <code>[?]</code>; акаунт не видаляється.</li>
+</ul>
+</details>
+<p class="note"><b>Що flow показав.</b> Excel відкриває CSV з українськими літерами знаками, якщо файл збережено без позначки кодування. Тоді експорт формально є, а архів не прочитати — E2 провалено. <b>Рішення PM (2026-11-22):</b> файл зберігаємо з позначкою кодування (BOM), біля «Експорту» — підказка про Google Sheets. Лишається <code>[?]</code> роздільник: Excel з українськими налаштуваннями чекає крапку з комою, з англійськими — кому. На етапі 3 перевіряємо обидва варіанти Excel і Google Sheets; тупик «не читається ніде» лишається лише як перевірка.</p>
+</div>
   </section>
 
   <!-- ============ Трасування ============ -->
@@ -830,25 +1068,158 @@ flowchart TD
     flowchart: { useMaxWidth: false, htmlLabels: false, curve: "basis", wrappingWidth: 220 }
   });
   mermaid.run({ querySelector: "pre.mermaid" }).then(function () {
+    // Масштаб: «Читати» — не дрібніше за 80 % натуральної величини, далі прокрутка вбік;
+    // «Огляд» — уся діаграма в ширину; «100 %» — натуральна величина.
+    var READ = 0.8;
     document.querySelectorAll(".diagram").forEach(function (box) {
+      var svg = box.querySelector("svg");
+      if (!svg) return;
+      var natural = svg.viewBox.baseVal.width;
       var bar = document.createElement("div");
       bar.className = "diagram-bar";
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "zoom";
-      btn.textContent = "Повний розмір";
-      btn.setAttribute("aria-pressed", "false");
-      btn.addEventListener("click", function () {
-        var full = box.classList.toggle("fit") === false;
-        btn.textContent = full ? "Вписати в ширину" : "Повний розмір";
-        btn.setAttribute("aria-pressed", full ? "true" : "false");
+      bar.setAttribute("role", "group");
+      bar.setAttribute("aria-label", "Масштаб діаграми");
+      var btns = {};
+      function inner() {
+        var cs = getComputedStyle(box);
+        return box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      }
+      function apply(mode) {
+        var w = inner();
+        var px = mode === "full" ? natural
+               : mode === "fit" ? Math.min(natural, w)
+               : Math.min(natural, Math.max(w, natural * READ));
+        svg.style.width = px + "px";
+        box.dataset.mode = mode;
+        box.classList.toggle("grab", px > w + 1);
+        Object.keys(btns).forEach(function (k) { btns[k].setAttribute("aria-pressed", k === mode ? "true" : "false"); });
+      }
+      [["read", "Читати"], ["fit", "Огляд"], ["full", "100 %"]].forEach(function (m) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "zoom";
+        b.textContent = m[1];
+        b.addEventListener("click", function () { apply(m[0]); });
+        btns[m[0]] = b;
+        bar.appendChild(b);
       });
-      bar.appendChild(btn);
       box.parentNode.insertBefore(bar, box);
+      apply("read");
+      window.addEventListener("resize", function () { apply(box.dataset.mode || "read"); });
+
+      // Перетягування мишею вбік, коли діаграма ширша за рамку.
+      var drag = null;
+      box.addEventListener("pointerdown", function (ev) {
+        if (ev.pointerType !== "mouse" || ev.button !== 0 || !box.classList.contains("grab") || ev.target.closest("g.node")) return;
+        drag = { x: ev.clientX, sl: box.scrollLeft, moved: false };
+      });
+      window.addEventListener("pointermove", function (ev) {
+        if (!drag) return;
+        var dx = ev.clientX - drag.x;
+        if (Math.abs(dx) > 4) { drag.moved = true; box.classList.add("grabbing"); }
+        box.scrollLeft = drag.sl - dx;
+      });
+      window.addEventListener("pointerup", function () {
+        if (drag && drag.moved) box.dataset.dragged = "1";
+        drag = null;
+        box.classList.remove("grabbing");
+      });
     });
+    document.querySelectorAll(".diagram svg").forEach(makeInteractive);
   }).catch(function (e) {
     console.error("Mermaid:", e);
   });
+
+  // Клік по вузлу: підсвітити всі шляхи через нього — попередників і нащадків.
+  // Ребра-повернення (повтор, «назад») визначаємо обходом у глибину і не йдемо по них,
+  // інакше петля повтору підсвітила б усю діаграму. Їх малюємо пунктиром.
+  function makeInteractive(svg) {
+    var nodeOf = function (g) { var m = /^flowchart-(.+)-\d+$/.exec(g.id); return m ? m[1] : null; };
+    var nodes = new Map();
+    svg.querySelectorAll("g.node").forEach(function (g) { var id = nodeOf(g); if (id) nodes.set(id, g); });
+    var labels = Array.prototype.slice.call(svg.querySelectorAll("g.edgeLabels > g.edgeLabel"));
+    var edges = [];
+    svg.querySelectorAll("path.flowchart-link").forEach(function (p) {
+      var m = /^L_(.+)_(.+)_(\d+)$/.exec(p.id);
+      if (!m || !nodes.has(m[1]) || !nodes.has(m[2])) return;
+      edges.push({ from: m[1], to: m[2], n: +m[3], path: p });
+    });
+    edges.sort(function (a, b) { return a.n - b.n; });
+    edges.forEach(function (e, i) { e.label = labels[i] || null; });
+
+    // Зворотні ребра: DFS у порядку з flows.md, від вузлів без входів.
+    var out = new Map(), hasIn = new Set();
+    edges.forEach(function (e) { (out.get(e.from) || out.set(e.from, []).get(e.from)).push(e); hasIn.add(e.to); });
+    var state = new Map();
+    function dfs(u) {
+      state.set(u, 1);
+      (out.get(u) || []).forEach(function (e) {
+        var s = state.get(e.to);
+        if (s === 1) e.back = true;
+        else if (!s) dfs(e.to);
+      });
+      state.set(u, 2);
+    }
+    nodes.forEach(function (g, id) { if (!hasIn.has(id) && !state.get(id)) dfs(id); });
+    nodes.forEach(function (g, id) { if (!state.get(id)) dfs(id); });
+    edges.forEach(function (e) { if (e.back) e.path.classList.add("back"); });
+
+    // Основний шлях: ребра, що лежать на шляху від початку до успіху (cOk)
+    // і не заходять у помилку чи кінець без виходу (cErr, cDead).
+    var cls = function (id, c) { return nodes.get(id).classList.contains(c); };
+    var bad = function (id) { return cls(id, "cErr") || cls(id, "cDead"); };
+    var fe = edges.filter(function (e) { return !e.back && !bad(e.from) && !bad(e.to); });
+    var hasFwdIn = new Set(edges.filter(function (e) { return !e.back; }).map(function (e) { return e.to; }));
+    var reachF = new Set(), st = [];
+    nodes.forEach(function (g, id) { if (!hasFwdIn.has(id) && !bad(id)) { reachF.add(id); st.push(id); } });
+    while (st.length) { var x = st.pop(); fe.forEach(function (e) { if (e.from === x && !reachF.has(e.to)) { reachF.add(e.to); st.push(e.to); } }); }
+    var reachB = new Set();
+    nodes.forEach(function (g, id) { if (cls(id, "cOk")) { reachB.add(id); st.push(id); } });
+    while (st.length) { var y = st.pop(); fe.forEach(function (e) { if (e.to === y && !reachB.has(e.from)) { reachB.add(e.from); st.push(e.from); } }); }
+    fe.forEach(function (e) {
+      if (reachF.has(e.from) && reachB.has(e.from) && reachF.has(e.to) && reachB.has(e.to)) e.path.classList.add("main");
+    });
+
+    var fwd = edges.filter(function (e) { return !e.back; });
+    function walk(start, down) {
+      var seen = new Set([start]), stack = [start];
+      while (stack.length) {
+        var x = stack.pop();
+        fwd.forEach(function (e) {
+          var u = down ? e.from : e.to, v = down ? e.to : e.from;
+          if (u === x && !seen.has(v)) { seen.add(v); stack.push(v); }
+        });
+      }
+      return seen;
+    }
+    var current = null;
+    function reset() {
+      current = null;
+      svg.classList.remove("focus");
+      svg.querySelectorAll(".on, .sel").forEach(function (el) { el.classList.remove("on", "sel"); });
+    }
+    function focus(id) {
+      reset(); current = id;
+      var down = walk(id, true), up = walk(id, false);
+      svg.classList.add("focus");
+      nodes.forEach(function (g, n) { if (down.has(n) || up.has(n)) g.classList.add("on"); });
+      nodes.get(id).classList.add("sel");
+      fwd.forEach(function (e) {
+        if ((down.has(e.from) && down.has(e.to)) || (up.has(e.from) && up.has(e.to))) {
+          e.path.classList.add("on");
+          if (e.label) e.label.classList.add("on");
+        }
+      });
+    }
+    svg.addEventListener("click", function (ev) {
+      var box = svg.closest(".diagram");
+      if (box && box.dataset.dragged) { delete box.dataset.dragged; return; }
+      var g = ev.target.closest("g.node");
+      var id = g && nodeOf(g);
+      if (!id || id === current) reset(); else focus(id);
+    });
+    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") reset(); });
+  }
 </script>
 </body>
 </html>
