@@ -11,6 +11,10 @@
  * Формат:
  *  { title: "Сторінка", path: "dir/page.html", children: [ ... ] }
  *  { branch: "Гілка", items: [ { title, path, children? }, ... ] }
+ *
+ * Гілка «Екрани» — вайрфрейми. Розділи в ній — групи з sitemap.md («Екрани», колонка «Група»),
+ * вкладеними гілками: { branch: "Група", items: [ екрани групи ] }. Розділ групи з'являється
+ * разом з першою сторінкою групи; назви екранів — з реєстру.
  */
 window.NAV_TREE = [
   { title: "Старт", path: "index.html" },
@@ -45,5 +49,15 @@ window.NAV_TREE = [
       { title: "Кінці без виходу", path: "ia.html#dead-ends" }
     ] },
     { title: "Трасування", path: "ia.html#trace" }
+  ] },
+  { branch: "Екрани", items: [
+    { branch: "Шухляда", items: [
+      { title: "Моя Шухляда", path: "wireframes/drawer.html", children: [
+        { title: "Порожній", path: "wireframes/drawer-empty.html" },
+        { title: "Завантаження", path: "wireframes/drawer-loading.html" },
+        { title: "Помилка", path: "wireframes/drawer-error.html" },
+        { title: "Успіх", path: "wireframes/drawer-success.html" }
+      ] }
+    ] }
   ] }
 ];

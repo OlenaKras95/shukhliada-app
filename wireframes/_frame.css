@@ -1,0 +1,276 @@
+/*
+ * Рамка й каркас вайрфреймів Шухляди — правила в _conventions.md.
+ * Лише сірий: без кольору, шрифтів, іконок, тіней і округлень (етап 2).
+ * Класи з префіксом wf- — тимчасові, поки немає design-system/inventory.md
+ * (_conventions.md, «Відкриті питання», 1). Стабільний клас — лише .device.
+ */
+
+:root {
+  --wf-page: #ececec;      /* тло сторінки навколо рамки */
+  --wf-surface: #ffffff;   /* тло рамки */
+  --wf-fill: #f3f3f3;      /* заливка полів і заглушок */
+  --wf-line: #bdbdbd;      /* межі зон */
+  --wf-line-soft: #dedede; /* межі всередині зон */
+  --wf-text: #1f1f1f;      /* основний текст, 16:1 на білому */
+  --wf-text-2: #555555;    /* другорядний текст, 7,4:1 на білому — WCAG AA */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--wf-page);
+  color: var(--wf-text);
+  font: 15px/1.45 system-ui, sans-serif; /* системний шрифт, без вибору */
+}
+
+/* ---------- рамка: головна ширина — десктоп, бриф §5 ---------- */
+.device {
+  max-width: 1280px;
+  width: calc(100% - 32px); /* відступ від навігатора репо, що стоїть зліва, поза рамкою */
+  margin: 16px auto;
+  background: var(--wf-surface);
+  border: 1px solid var(--wf-line);
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
+  /* Каркас застосунку: рамка — на висоту вікна, шапка й сайдбар стоять, гортається лише main.
+     Так навігація з «Акаунтом» завжди на видноті. Смуга станів і вкладки — над рамкою: з ними сторінка
+     гортається на їхню висоту, а рамка лишається такою, як застосунок на весь екран. */
+  height: calc(100vh - 32px);
+  min-height: 560px;
+}
+
+/* ---------- шапка: назва продукту · пошук, на всю ширину ---------- */
+.device > header {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 208px minmax(0, 640px) 1fr; /* назва — над сайдбаром, пошук — над main */
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px 10px 12px;
+  border-bottom: 1px solid var(--wf-line);
+}
+.device > header .wf-label { margin: 0; justify-self: end; }
+.wf-brand { margin: 0; padding-left: 10px; font-weight: 600; font-size: 18px; }
+.wf-search { position: relative; }
+.wf-search kbd { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+.wf-search input { padding-right: 64px; }
+
+/* ---------- глобальна навігація: сайдбар ---------- */
+.device > nav {
+  border-right: 1px solid var(--wf-line);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+.device > nav ul { list-style: none; margin: 0; padding: 0; }
+.device > nav a {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  color: var(--wf-text);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.device > nav a[aria-current="page"] {
+  background: var(--wf-fill);
+  border-color: var(--wf-line);
+  font-weight: 600;
+}
+.device > nav footer { margin-top: auto; border-top: 1px solid var(--wf-line-soft); padding-top: 8px; }
+
+/* розкривні групи сайдбара — категорії, теги: details/summary, без JS */
+.wf-group { margin-top: 8px; border-top: 1px solid var(--wf-line-soft); padding-top: 8px; }
+.wf-group summary { padding: 6px 10px; font-weight: 600; cursor: pointer; }
+.device > nav .wf-group a { padding: 4px 10px 4px 22px; font-size: 14px; }
+.device > nav .wf-group a span:last-child { color: var(--wf-text-2); }
+.wf-group-empty { margin: 2px 10px 0 22px; font-size: 13px; color: var(--wf-text-2); } /* порожній список у групі */
+
+/* чип — тег: рамка, по ньому клікають */
+.wf-chip {
+  display: inline-block;
+  padding: 0 7px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-surface);
+  color: var(--wf-text);
+  font-size: 12px;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+/* ---------- основна частина ---------- */
+.device > main { position: relative; padding: 16px 28px 28px; min-width: 0; overflow-y: auto; } /* relative — щоб приховані .vh не розтягували сторінку */
+main h1 { margin: 0; font-size: 22px; }
+main h2 { margin: 0 0 8px; font-size: 16px; }
+main h3 { margin: 0; font-size: 15px; font-weight: 600; }
+
+/* ---------- зона і її підпис ---------- */
+.wf-zone {
+  border: 1px dashed var(--wf-line);
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+.wf-label {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--wf-text-2);
+}
+.wf-label b { font-weight: 600; }
+
+.wf-hint { margin: 6px 0 0; font-size: 13px; color: var(--wf-text-2); }
+
+/* ---------- поля й кнопки — справжні елементи, лише сірі ---------- */
+a { color: var(--wf-text); } /* посилання — без кольору браузера */
+input, button { font: inherit; color: inherit; }
+input[type="text"], input[type="search"] {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--wf-fill);
+  border: 1px solid var(--wf-line);
+}
+/* Плейсхолдер браузера (~#a9a9a9) на заливці поля — 2,1:1, нижче AA. Беремо другорядний текст: #555 на #f3f3f3 — 6,7:1 */
+::placeholder { color: var(--wf-text-2); opacity: 1; }
+button {
+  background: var(--wf-surface);
+  border: 1px solid var(--wf-line);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+kbd {
+  font: inherit;
+  font-size: 12px;
+  padding: 0 4px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-fill);
+}
+
+/* ---------- заглушки ---------- */
+.wf-icon {                /* іконка сайту — сірий квадрат */
+  width: 24px;
+  height: 24px;
+  flex: none;
+  background: var(--wf-fill);
+  border: 1px solid var(--wf-line);
+}
+.wf-icon--none {          /* м'яка заглушка, коли сторінка нічого не віддала */
+  border-style: dashed;
+  background: var(--wf-surface);
+}
+
+/* ---------- стани екрана ---------- */
+.wf-skel {                /* сіра заглушка на місці вмісту, поки завантажується */
+  display: block;
+  height: 12px;
+  background: var(--wf-fill);
+  border: 1px solid var(--wf-line-soft);
+}
+.wf-illustration {        /* місце ілюстрації порожнього стану; саму домалюємо на етапі 2 */
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  border: 1px dashed var(--wf-line);
+  background: var(--wf-fill);
+  color: var(--wf-text-2);
+  font-size: 13px;
+}
+.wf-status {              /* повідомлення: підтвердження, «не вдалося», «вкладаю» */
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-fill);
+}
+.wf-status--error { border: 2px solid var(--wf-text); } /* помилку видно формою, а не кольором */
+.wf-status p { margin: 0; }
+.wf-status p + p { margin-top: 2px; font-size: 14px; }
+.wf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 8px; }
+button:disabled { color: var(--wf-text-2); cursor: default; }
+
+/* ---------- над рамкою: стани екрана й вкладки варіантів ----------
+   Інструмент перегляду вайрфрейму, а не частина Шухляди — тому поза .device (_conventions.md, розділ 7) */
+.wf-states, .wf-tabs {
+  width: calc(100% - 32px);
+  max-width: 1280px;
+  margin: 12px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-size: 13px;
+}
+.wf-tabs { margin-top: 6px; }
+.wf-states p, .wf-tabs p { margin: 0; color: var(--wf-text-2); }
+.wf-states ul, .wf-tabs ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.wf-states a, .wf-tabs a {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid var(--wf-line);
+  background: var(--wf-surface);
+  color: var(--wf-text);
+  text-decoration: none;
+}
+.wf-states a[aria-current="page"] { border-color: var(--wf-text); font-weight: 600; }
+.wf-states ~ .device { margin-top: 8px; }
+/* Варіанти — без JS: вкладка веде на якір, видно варіант під :target; без якоря — перший.
+   Відкриту вкладку позначає стиль сторінки: правило для кожного якоря */
+.wf-variant { display: none; scroll-margin-top: 100vh; } /* перехід на якір не ховає вкладки за край вікна */
+.wf-variant:target,
+main:not(:has(> .wf-variant:target)) > .wf-variant:first-child { display: block; }
+body:not(:has(.wf-variant:target)) .wf-tabs li:first-child a { border-color: var(--wf-text); font-weight: 600; }
+
+/* ---------- телефон: сайдбар — меню за бургером ----------
+   Рішення PM 2026-11-24 (sitemap.md, «Навігація»): той самий сайдбар виїжджає зліва, таб-бару немає.
+   Пошук лишається в шапці, поза меню. Відкриття, Esc, свайп і фокус — _frame.js.
+   720px — та сама межа, з якої навігатор репо стає смугою вгорі (_nav/nav.css). */
+.wf-burger, .wf-menu-close, .wf-scrim { display: none; }
+
+@media (max-width: 720px) {
+  .device {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    height: calc(100vh - 16px);
+  }
+  .wf-states, .wf-tabs { width: calc(100% - 16px); }
+  /* шапка: бургер · назва, під ними — пошук на всю ширину */
+  .device > header {
+    grid-template-columns: auto 1fr;
+    gap: 8px 10px;
+    padding: 8px 12px;
+  }
+  .device > header .wf-search,
+  .device > header .wf-label { grid-column: 1 / -1; }
+  .device > header .wf-label { justify-self: start; }
+  .wf-brand { padding-left: 0; }
+  .wf-burger { display: block; padding: 6px 10px; font-size: 18px; line-height: 1; }
+  .wf-search kbd, .wf-desktop-only { display: none; } /* клавіатурних скорочень на телефоні немає */
+  .wf-search input { padding-right: 12px; }
+
+  /* меню: закрите — поза екраном і поза фокусом (visibility), відкрите — над затемненням */
+  .device > nav {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    width: min(300px, 85vw);
+    background: var(--wf-surface);
+    visibility: hidden;
+    transform: translateX(-100%);
+  }
+  .device.wf-menu-open > nav { visibility: visible; transform: none; }
+  .wf-menu-close { display: block; align-self: flex-end; }
+  .device.wf-menu-open > .wf-scrim { display: block; position: fixed; inset: 0; z-index: 19; background: rgb(0 0 0 / .4); }
+
+  .device > main { padding: 12px 14px 20px; }
+}
+
+/* ---------- службове ---------- */
+.vh {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

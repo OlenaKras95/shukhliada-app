@@ -1,0 +1,119 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Моя Шухляда · порожній (sitemap.md, «Екрани»: «Порожній: Шухляда порожня — ілюстрація, поле — єдина дія», бриф §6.1).
+  Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст.
+  flows.md, Main: «empty: Шухляда порожня, ілюстрація, поле — єдина дія» → «стан: дотик до поля, системне «Вставити»». Вихід — поле для вставки, не тупик.
+  Сайдбар: категорій 8 і завжди 8 (бриф §3.2) — з нулями; тегів немає — підказка, де їх додають.
+  Тексти з [?] у коментарях — мої, ключі в microcopy.md з'являться пізніше.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Моя Шухляда · порожній · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="drawer.css">
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7) -->
+<nav class="wf-states" aria-label="Стани екрана «Моя Шухляда»">
+  <p>Моя Шухляда · стани:</p>
+  <ul>
+    <li><a href="drawer.html">Базовий вигляд</a></li>
+    <li><a href="drawer-empty.html" aria-current="page">Порожній</a></li>
+    <li><a href="drawer-loading.html">Завантаження</a></li>
+    <li><a href="drawer-error.html">Помилка</a></li>
+    <li><a href="drawer-success.html">Успіх</a></li>
+  </ul>
+</nav>
+
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
+    <form role="search" action="search.html" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search.html"><span>Фільми й серіали</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Місця</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Статті й ресурси</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Документи</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Івенти</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Курси</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Покупки</span> <span>0</span></a></li>
+        <li><a href="search.html"><span>Інше</span> <span>0</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <p class="wf-group-empty">Тегів ще немає — тег додають через «⋯» на картці</p> <!-- flows.md, R4: «тегів ще немає» -->
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <main>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>0 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
+    <section class="wf-zone" aria-labelledby="save-title">
+      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити перше посилання; інших дій на екрані немає</p>
+      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <form action="#" onsubmit="return false">
+        <label for="paste">Встав перше посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…">
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
+      </form>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» -->
+    <section class="wf-zone" aria-labelledby="recent-title">
+      <p class="wf-label"><b>Нещодавно додане</b> · поки порожньо: ілюстрація й підказка, своєї дії немає — дія в полі вище</p>
+      <h2 id="recent-title">Нещодавно додане</h2>
+      <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 (_conventions.md, розділ 1) -->
+      <p class="empty-note">Тут з'являтиметься все, що відкладеш — свіже першим.</p> <!-- [?] текст -->
+      <p class="empty-note">Скопіюй будь-яке посилання й встав у поле вище.</p> <!-- [?] текст -->
+    </section>
+  </main>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>

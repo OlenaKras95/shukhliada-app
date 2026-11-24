@@ -45,6 +45,18 @@
   color: #777;
 }
 
+/* Вкладена гілка — розділ групи всередині гілки, напр. «Екрани» → «Шухляда» */
+.repo-nav__list .repo-nav__list .repo-nav__branch {
+  margin-top: 4px;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #555;
+}
+.repo-nav__list .repo-nav__list .repo-nav__branch + .repo-nav__list {
+  padding-left: 10px;
+}
+
 .repo-nav__row {
   display: flex;
   align-items: center;

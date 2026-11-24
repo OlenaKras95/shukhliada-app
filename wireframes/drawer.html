@@ -1,0 +1,310 @@
+<!doctype html>
+<!--
+  Вайрфрейм · Моя Шухляда — головний (sitemap.md, «Екрани»: група «Шухляда», файл drawer.html).
+  Базова сторінка: робочий вигляд. Стани — окремими сторінками: drawer-empty, drawer-loading, drawer-error, drawer-success.html; посилання на них — над рамкою.
+  Інші вигляди («Вже в Шухляді», `скасовано`, обгортку не розгорнуто, «Поділитися») — вкладками на цій сторінці, разом зі станами.
+
+  Крок main flow (flows.md, «Main. Відкласти за мить і дістати, коли знадобиться»):
+  - перший захід: [Моя Шухляда] → loading «завантажуємо Шухляду» → «У Шухляді вже є посилання?» так →
+    «стан: поле нагорі, «Нещодавно додане», категорії з кількістю» → «стан: дотик до поля, системне «Вставити»».
+    Це той вузол, з якого П1 починає main job: відкласти.
+  - другий захід: [Моя Шухляда] → «Річ видно в «Нещодавно доданому»?» так → «дотик до картки — сторінка сайту в новій вкладці»;
+    ні → перехід у flow R4 (поле пошуку в шапці, категорія, тег).
+
+  Перша дія main job — в один клік: дотик до поля для вставки (sitemap.md, «Глибина»). На десктопі — 0: Ctrl+V будь-де.
+
+  Ревʼю головного (рішення PM 2026-11-24, sitemap.md, «Навігація»):
+  - пошук — одне широке поле в шапці; воно, Ctrl+K і / відкривають той самий шар «Пошук»;
+  - категорії й теги — лише в сайдбарі, розкривними списками; у main — лише поле для вставки і «Нещодавно додане» на всю ширину;
+  - експорт — на «Акаунті», не в сайдбарі;
+  - у картці категорія, дата додавання, дата події й теги розрізняються формою, а не лише сірим; теги — чипи, що відкривають «Пошук» з фільтром тегу.
+
+  Телефон (рішення PM 2026-11-24, sitemap.md, «Навігація»; до 720px):
+  - сайдбар — меню за бургером «Меню» в шапці, той самий компонент; таб-бару немає;
+  - пошук — поза меню: поле в шапці під назвою, на всю ширину;
+  - меню закривається після вибору, по Esc, свайпу ліворуч, «Закрити» й дотику до затемнення; фокус не виходить з меню;
+  - категорія з меню відкриває шар «Пошук», і фільтр видно в його заголовку — «Фільми й серіали · 12» і «Скинути» (search.html).
+
+  Тригери довіри П1 «Скидає з телефона» (research/notes/10-personas.md, П1, «Заспокоює») — видно без прокрутки:
+  - зберегти там, де знайшлося, одним рухом → поле для вставки нагорі, без кнопки «Зберегти»;
+  - одразу видно, що збереглося [?] → «Нещодавно додане», свіже першим, «додано сьогодні»;
+  - знаходиться з іншим закінченням слова і з одруківкою [?] → підказка в полі пошуку — лише про одруківку, бо довша не влазить на телефоні;
+  - одне місце [?] → категорії з кількістю і загальна кількість;
+  - збережене не зникне, його можна забрати → пункт «Акаунт» завжди видно, експорт — там.
+  «Насторожує: зайві кроки» → одна дія замість форми з кнопкою.
+
+  Тексти з [?] у коментарях — не з брифу й реєстру, а мої; ключі в microcopy.md з'являться пізніше.
+-->
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Моя Шухляда · вайрфрейм</title>
+  <link rel="stylesheet" href="_frame.css">
+  <link rel="stylesheet" href="drawer.css"> <!-- розкладка екрана, спільна зі сторінками станів -->
+</head>
+<body>
+
+<!-- Стани екрана — інструмент перегляду вайрфрейму, поза рамкою (_conventions.md, розділ 7) -->
+<nav class="wf-states" aria-label="Стани екрана «Моя Шухляда»">
+  <p>Моя Шухляда · стани:</p>
+  <ul>
+    <li><a href="drawer.html" aria-current="page">Базовий вигляд</a></li>
+    <li><a href="drawer-empty.html">Порожній</a></li>
+    <li><a href="drawer-loading.html">Завантаження</a></li>
+    <li><a href="drawer-error.html">Помилка</a></li>
+    <li><a href="drawer-success.html">Успіх</a></li>
+  </ul>
+</nav>
+
+<div class="device">
+
+  <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
+  <header>
+    <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
+    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <p class="wf-brand">Шухляда</p>
+    <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) з тим, що вже введено -->
+    <form role="search" action="search.html" class="wf-search">
+      <label for="q" class="vh">Шукати в Шухляді</label>
+      <input id="q" name="q" type="search" autocomplete="off"
+             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+      <kbd>Ctrl+K</kbd>
+    </form>
+    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
+  </header>
+
+  <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
+       Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
+  <nav id="menu" aria-label="Розділи Шухляди">
+    <button type="button" class="wf-menu-close" aria-label="Закрити меню">✕</button> <!-- лише на телефоні -->
+    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
+    <ul>
+      <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
+    </ul>
+
+    <!-- Розкривні списки без JS: details/summary. Категорії розгорнуто: E3 «порядок» — видно одразу, інших входів на екрані немає -->
+    <details class="wf-group" open>
+      <summary>Категорії</summary>
+      <ul>
+        <li><a href="search.html"><span>Фільми й серіали</span> <span>12</span></a></li>
+        <li><a href="search.html"><span>Місця</span> <span>7</span></a></li>
+        <li><a href="search.html"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search.html"><span>Документи</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search.html"><span>Курси</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>Покупки</span> <span>2</span></a></li>
+        <li><a href="search.html"><span>Інше</span> <span>1</span></a></li>
+      </ul>
+    </details>
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <details class="wf-group" open>
+      <summary>Теги</summary>
+      <ul>
+        <li><a href="search.html"><span>дизайн</span> <span>8</span></a></li>
+        <li><a href="search.html"><span>карпати</span> <span>6</span></a></li>
+        <li><a href="search.html"><span>київ</span> <span>5</span></a></li>
+        <li><a href="search.html"><span>на вихідні</span> <span>4</span></a></li>
+        <li><a href="search.html"><span>робота</span> <span>3</span></a></li>
+      </ul>
+    </details>
+
+    <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
+    <footer>
+      <ul>
+        <li><a href="account.html">Акаунт</a></li>
+      </ul>
+    </footer>
+  </nav>
+  <div class="wf-scrim" aria-hidden="true"></div> <!-- затемнення під відкритим меню; дотик закриває -->
+
+  <main>
+    <div class="drawer-head">
+      <h1>Моя Шухляда</h1>
+      <p>48 посилань</p>
+    </div>
+
+    <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
+    <section class="wf-zone" aria-labelledby="save-title">
+      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
+      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <form action="#" onsubmit="return false">
+        <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
+               placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+      </form>
+    </section>
+
+    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+         чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
+    <section class="wf-zone" aria-labelledby="recent-title">
+      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
+      <h2 id="recent-title">Нещодавно додане</h2>
+      <ol class="cards">
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.imdb.com/title/tt0816692" target="_blank" rel="noopener">Interstellar (2014) — IMDb</a></h3>
+              <div class="meta">
+                <span>imdb.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://rozetka.com.ua/ua/ryukzak-turystychnyi-40l" target="_blank" rel="noopener">Рюкзак туристичний 40 л</a></h3>
+              <div class="meta">
+                <span>rozetka.com.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Покупки</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Як скласти рюкзак у похід</a></h3>
+              <div class="meta">
+                <span>youtube.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано сьогодні</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                  <li><a class="wf-chip" href="search.html">на вихідні</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://docs.google.com/document/d/karpaty-plan" target="_blank" rel="noopener">Поїздка в Карпати — план</a></h3>
+              <div class="meta">
+                <span>docs.google.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Документи</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">карпати</a></li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
+              <div class="meta">
+                <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                <span class="cat"><span class="vh">Категорія: </span>Місця</span>
+                <span>додано вчора</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: сходити з батьками</p>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
+              <div class="meta">
+                <span>eventbrite.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span>додано 23 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                  <li><a class="wf-chip" href="search.html">київ</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+            <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
+            <button type="button" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://dou.ua/lenta/articles/designer-interview" target="_blank" rel="noopener">Як дизайнеру підготуватися до співбесіди</a></h3>
+              <div class="meta">
+                <span>dou.ua</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 22 листопада</span>
+                <ul class="tags" aria-label="Теги">
+                  <li><a class="wf-chip" href="search.html">робота</a></li>
+                  <li><a class="wf-chip" href="search.html">дизайн</a></li>
+                </ul>
+              </div>
+              <p class="note">Нотатка: порадили в чаті курсу</p>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <!-- `лише домен`: сторінка нічого не віддала — домен замість назви, м'яка заглушка замість іконки (бриф §3.1) -->
+            <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
+              <div class="meta">
+                <span>telegra.ph</span>
+                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span>додано 20 листопада</span>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «telegra.ph»">⋯</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <span class="wf-icon" aria-hidden="true"></span>
+            <div class="card-text">
+              <h3><a href="https://letterboxd.com/film/shadows-of-forgotten-ancestors" target="_blank" rel="noopener">Shadows of Forgotten Ancestors (1965)</a></h3>
+              <div class="meta">
+                <span>letterboxd.com</span>
+                <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
+                <span>додано 18 листопада</span>
+                <span>✓ Вже переглянуто</span>
+              </div>
+            </div>
+            <button type="button" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</button>
+          </article>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+</div>
+
+<script src="_frame.js"></script>
+<script src="../_nav/nav.js" data-root="../"></script>
+</body>
+</html>
