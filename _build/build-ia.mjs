@@ -132,7 +132,7 @@ html = html.replace(/<!--JOBS:([^>]+)-->/g, (all, spec) => spec.trim().split(/\s
   const name = names[code];
   if (!name) throw new Error("no job name for " + code);
   const hyp = code.startsWith("Г");
-  const label = code + (hyp ? " [?]" : "") + (cond ? " · умовно" : "");
+  const label = code + (cond ? " · умовно" : ""); // гіпотезу видно рамкою й підписом «гіпотеза»
   const full = code + " — " + name + (hyp ? " (гіпотеза)" : "") + (cond ? ", прив'язано умовно до інтерв'ю" : "");
   const cls = isMain ? "main" : hyp ? "hyp" : "job";
   return `<span class="tag ${cls}" tabindex="0" data-name="${esc(full)}">${esc(label)}<span class="vh"> — ${esc(name)}</span></span>`;
