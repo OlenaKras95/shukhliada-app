@@ -6,11 +6,9 @@
  *  - href — шлях від кореня репо, без початкового "/";
  *  - children — вкладені сторінки або розділи сторінки (#якір); вузол із children згортається:
  *    стрілка ховає/показує підпункти, назва відкриває сторінку; поточна сторінка розгорнута;
- *  - icon — обов'язковий для кожного вузла верхнього рівня: ім'я іконки з ICONS у _nav/nav.js (Lucide).
- *    Нова сторінка верхнього рівня → додай icon тут і, якщо іконки ще немає, її SVG-розмітку в ICONS.
  *
  * Формат:
- *  { title: "Сторінка", href: "dir/page.html", icon: "house", children: [ ... ] }
+ *  { title: "Сторінка", href: "dir/page.html", children: [ ... ] }
  *  Вузол без href — гілка без своєї сторінки: лише «Екрани» і групи в ній. Клік по назві згортає гілку.
  *
  * Гілка «Екрани» — вайрфрейми. Її розділи — групи з sitemap.md («Екрани», колонка «Група»):
@@ -18,8 +16,8 @@
  * групи; назви екранів — з реєстру. Children екрана — лише сторінки його станів, зони екрана в дереві не показуємо.
  */
 window.NAV_TREE = [
-  { title: "Старт", icon: "house", href: "index.html" },
-  { title: "Ресерч", icon: "search", href: "research/research.html", children: [
+  { title: "Старт", href: "index.html" },
+  { title: "Ресерч", href: "research/research.html", children: [
     { title: "TL;DR", href: "research/research.html#tldr" },
     { title: "Звідки дані", href: "research/research.html#data" },
     { title: "Конкуренти", href: "research/research.html#competitors" },
@@ -28,14 +26,14 @@ window.NAV_TREE = [
     { title: "Висновки", href: "research/research.html#conclusions" },
     { title: "Джерела", href: "research/research.html#sources" }
   ] },
-  { title: "Персони і jobs", icon: "users", href: "personas.html", children: [
+  { title: "Персони і jobs", href: "personas.html", children: [
     { title: "TL;DR", href: "personas.html#tldr" },
     { title: "Персони", href: "personas.html#personas" },
     { title: "Ієрархія jobs", href: "personas.html#jobs" },
     { title: "JTBD-матриця", href: "personas.html#matrix" },
     { title: "Висновок", href: "personas.html#conclusion" }
   ] },
-  { title: "Структура IA", icon: "network", href: "ia.html", children: [
+  { title: "Структура IA", href: "ia.html", children: [
     { title: "TL;DR", href: "ia.html#tldr" },
     { title: "Карта екранів", href: "ia.html#sitemap" },
     { title: "Навігація", href: "ia.html#navigation" },
@@ -51,7 +49,7 @@ window.NAV_TREE = [
     ] },
     { title: "Трасування", href: "ia.html#trace" }
   ] },
-  { title: "Екрани", icon: "monitor", children: [
+  { title: "Екрани", children: [
     { title: "Шухляда", children: [
       { title: "Моя Шухляда", href: "wireframes/drawer.html", children: [
         { title: "Порожній", href: "wireframes/drawer-empty.html" },

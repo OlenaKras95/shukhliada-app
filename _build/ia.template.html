@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Згенеровано скриптом _build/build-ia.mjs із _build/ia.template.html, flows.md і sitemap.md. Руками не редагуй: правки — у шаблон чи в джерела, потім node _build/build-ia.mjs -->
-<html lang="uk" class="nav-dark">
+<html lang="uk">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,20 +8,20 @@
   <meta name="description" content="Знімок інформаційної архітектури Шухляди: дерево екранів з jobs і файлами, навігація, усі user flows і матриця трасування «екран × job».">
   <style>
     :root {
-      --bg: #121214;
-      --surface: #1b1b1f;
-      --surface-2: #232328;
-      --line: #313137;
-      --text: #ececef;
-      --muted: #a3a3ad;
-      --accent: #e8916b;
-      --accent-soft: rgba(232, 145, 107, 0.14);
-      --own: #8fc7a3;
-      --pub: #8fb4e8;
-      --brief: #e3c98f;
-      --warn: #e8c46b;
-      --hyp: #d4a6e8;
-      --dead: #e57373;
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --surface-2: #f3f3f5;
+      --line: #e2e2e6;
+      --text: #1d1d1f;
+      --muted: #5f5f68;
+      --accent: #a64b24;
+      --accent-soft: rgba(180, 83, 42, 0.10);
+      --own: #276b43;
+      --pub: #2f5fa8;
+      --brief: #85640f;
+      --warn: #8a5a00;
+      --hyp: #7b4aa0;
+      --dead: #c62828;
       --radius: 12px;
     }
     * { box-sizing: border-box; }
@@ -49,7 +49,7 @@
 
     /* позначки */
     .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
-    .tag.main { color: #1b1b1f; background: var(--accent); }
+    .tag.main { color: #ffffff; background: var(--accent); }
     .tag.job { color: var(--text); background: rgba(163, 163, 173, 0.16); }
     .tag.hyp { color: var(--hyp); background: rgba(212, 166, 232, 0.14); }
     .tag.cond { color: var(--warn); background: rgba(232, 196, 107, 0.14); }
@@ -96,7 +96,7 @@
     .jobs .tag[data-name]:hover::after, .jobs .tag[data-name]:focus-visible::after {
       content: attr(data-name); position: absolute; left: 0; top: calc(100% + 6px); z-index: 5;
       width: max-content; max-width: min(360px, 100%); white-space: normal; text-align: left;
-      background: #2b2b31; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+      background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 8px;
       padding: 6px 10px; font-size: 12.5px; font-weight: 500; line-height: 1.4; box-shadow: 0 6px 18px rgba(0,0,0,0.4);
     }
     .jobs .tag[data-name]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -117,7 +117,7 @@
     .zoom[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
     .diagram.grab { cursor: grab; }
     .diagram.grabbing { cursor: grabbing; user-select: none; }
-    .diagram svg path.flowchart-link.main { stroke: #8fc7a3 !important; stroke-width: 3px !important; }
+    .diagram svg path.flowchart-link.main { stroke: #2e7d4f !important; stroke-width: 3px !important; }
     .lists { margin: 14px 0 0; }
     .lists details { border-top: 1px solid var(--line); padding: 8px 0; }
     .lists summary { cursor: pointer; font-weight: 600; font-size: 15px; }
@@ -133,15 +133,15 @@
     .diagram svg path.flowchart-link.back { stroke-dasharray: 5 4; }
     .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { opacity: 0.14; transition: opacity 0.15s ease; }
     .diagram svg.focus g.node.on, .diagram svg.focus path.flowchart-link.on, .diagram svg.focus g.edgeLabel.on { opacity: 1; }
-    .diagram svg.focus path.flowchart-link.on, .diagram svg.focus path.flowchart-link.main.on { stroke: #e8916b !important; stroke-width: 3px !important; }
-    .diagram svg g.node.sel { filter: drop-shadow(0 0 6px #e8916b) drop-shadow(0 0 2px #e8916b); }
+    .diagram svg.focus path.flowchart-link.on, .diagram svg.focus path.flowchart-link.main.on { stroke: #a64b24 !important; stroke-width: 3px !important; }
+    .diagram svg g.node.sel { filter: drop-shadow(0 0 6px #a64b24) drop-shadow(0 0 2px #a64b24); }
     @media (prefers-reduced-motion: reduce) { .diagram svg.focus g.node, .diagram svg.focus path.flowchart-link, .diagram svg.focus g.edgeLabel { transition: none; } }
     .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 2px solid; vertical-align: -2px; }
-    .sw-ok { background: #1f3a2a; border-color: #8fc7a3; }
-    .sw-dead { background: #3d1f22; border-color: #e57373; }
-    .sw-err { background: #3d2e18; border-color: #e8a85b; }
-    .sw-load { background: #1c2a40; border-color: #8fb4e8; }
-    .sw-empty { background: #2a2824; border-color: #a89f8f; }
+    .sw-ok { background: #e3f1e5; border-color: #2e7d32; }
+    .sw-dead { background: #fbe4e4; border-color: #c62828; }
+    .sw-err { background: #fff1dc; border-color: #d9822b; }
+    .sw-load { background: #e7eefa; border-color: #3d6db5; }
+    .sw-empty { background: #f1efea; border-color: #8a8172; }
 
     /* матриця */
     .matrix th, .matrix td { text-align: center; font-size: 13.5px; }
@@ -326,7 +326,7 @@
     <span><code>(стан)</code> стан екрана</span>
     <span><code>([кінець])</code> кінець</span>
     <span><code>- - →</code> крок назад</span>
-    <span><span class="swatch" style="background:transparent;border-color:#8fc7a3;border-width:3px;border-radius:2px;height:0;width:18px;vertical-align:3px"></span> основний шлях до успіху</span>
+    <span><span class="swatch" style="background:transparent;border-color:#2e7d4f;border-width:3px;border-radius:2px;height:0;width:18px;vertical-align:3px"></span> основний шлях до успіху</span>
     <span><span class="swatch sw-ok"></span> успіх</span>
     <span><span class="swatch sw-dead"></span> без виходу</span>
     <span><span class="swatch sw-err"></span> error</span>
@@ -455,7 +455,7 @@
   <!--MD:sitemap.md#Що матриця ще показує-->
 
   <footer>
-    Знімок зібрано 2026-11-24 з <code>sitemap.md</code> і <code>flows.md</code>. Діаграми взято з <code>flows.md</code> дослівно, змінено лише кольори під темну тему. Змінилося джерело — перезбираємо знімок.
+    Знімок зібрано 2026-11-24 з <code>sitemap.md</code> і <code>flows.md</code>. Діаграми взято з <code>flows.md</code> дослівно, разом з кольорами. Змінилося джерело — перезбираємо знімок.
   </footer>
 </main>
 
@@ -463,20 +463,20 @@
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
   mermaid.initialize({
     startOnLoad: false,
-    theme: "dark",
+    theme: "base",
     securityLevel: "strict",
     htmlLabels: false,
     fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
     themeVariables: {
-      darkMode: true,
-      background: "#121214",
-      primaryColor: "#232328",
-      primaryTextColor: "#ececef",
-      primaryBorderColor: "#55555e",
-      secondaryColor: "#1b1b1f",
-      tertiaryColor: "#1b1b1f",
-      lineColor: "#8a8a94",
-      edgeLabelBackground: "#1b1b1f",
+      darkMode: false,
+      background: "#ffffff",
+      primaryColor: "#f3f3f5",
+      primaryTextColor: "#1d1d1f",
+      primaryBorderColor: "#9a9aa3",
+      secondaryColor: "#ffffff",
+      tertiaryColor: "#ffffff",
+      lineColor: "#6b6b73",
+      edgeLabelBackground: "#ffffff",
       fontSize: "14px"
     },
     flowchart: { useMaxWidth: false, htmlLabels: false, curve: "basis", wrappingWidth: 220 }

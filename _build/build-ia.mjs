@@ -18,21 +18,11 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---------- діаграми ----------
 const fences = [...md.matchAll(/```mermaid\n([\s\S]*?)```/g)];
-const dark = {
-  cOk: "fill:#1f3a2a,stroke:#8fc7a3,color:#e3f1e5",
-  cDead: "fill:#3d1f22,stroke:#e57373,color:#fbe4e4",
-  cErr: "fill:#3d2e18,stroke:#e8a85b,color:#fff1dc",
-  cLoad: "fill:#1c2a40,stroke:#8fb4e8,color:#e7eefa",
-  cEmpty: "fill:#2a2824,stroke:#a89f8f,color:#f1efea",
-};
 let html = fs.readFileSync(tpl, "utf8");
 const flowMarkers = [...html.matchAll(/<!--FLOW:(\d+)-->/g)].length;
 if (flowMarkers !== fences.length) throw new Error(`FLOW markers ${flowMarkers} != blocks ${fences.length}`);
 fences.forEach((m, i) => {
-  const code = m[1].replace(/^(\s*classDef\s+(\w+))\s+.*$/gm, (line, head, name) => {
-    if (!dark[name]) throw new Error("unknown classDef " + name);
-    return `${head} ${dark[name]}`;
-  }).trimEnd();
+  const code = m[1].trimEnd(); // кольори classDef — як у flows.md, світлі
   html = html.replace(`<!--FLOW:${i + 1}-->`, "\n" + esc(code) + "\n");
 });
 
