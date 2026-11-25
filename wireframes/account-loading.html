@@ -20,6 +20,10 @@
     body:has(#eksport:target) .wf-tabs a[href="#eksport"],
     body:has(#vykhid-vsiudy:target) .wf-tabs a[href="#vykhid-vsiudy"],
     body:has(#vydalennia:target) .wf-tabs a[href="#vydalennia"] { border-color: var(--wf-text); font-weight: 600; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#eksport:target) .wf-note__variant[data-variant="eksport"],
+    body:has(#vykhid-vsiudy:target) .wf-note__variant[data-variant="vykhid-vsiudy"],
+    body:has(#vydalennia:target) .wf-note__variant[data-variant="vydalennia"] { display: block; }
   </style>
 </head>
 <body>
@@ -45,6 +49,38 @@
   </ul>
 </nav>
 
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="eksport">
+    <p class="wf-flow"><b>Далі за flow</b> (E2) · файл готовий? так → <a href="account-success.html">«Готово — файл завантажено»</a> · ні → <a href="account-error.html#eksport">«Не вдалося підготувати файл»</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Архів</b> · файл готується — «Експорт» неактивний; головна дія — дочекатися: файл завантажиться сам</li>
+      <li><b>Вихід</b> · головна дія — вийти; «Вийти на всіх пристроях» — другорядна, рідко</li>
+      <li><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу; головна дія — видалити акаунт, рідко</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="vykhid-vsiudy">
+    <p class="wf-flow"><b>Далі за flow</b> (E2) · вийшли на всіх? так → <a href="login.html#pislia-vykhodu-vsiudy">«Вхід»: вхід закрито всюди</a> · ні → <a href="account-error.html#vykhid-vsiudy">«Не вдалося вийти на всіх пристроях»</a>; немає мережі → <a href="account-error.html#bez-merezhi">та сама помилка, причина — мережа</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Архів</b> · головна дія — забрати всю Шухляду файлом</li>
+      <li><b>Вихід</b> · виходимо на всіх пристроях — потрібна мережа; головна дія — дочекатися: далі «Вхід»</li>
+      <li><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу; головна дія — видалити акаунт, рідко</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="vydalennia">
+    <p class="wf-flow"><b>Далі за flow</b> (E2) · видалено? так → <a href="login.html#akaunt-vydaleno">«Вхід»: акаунт видалено</a> · ні → <a href="account-error.html#vydalennia">«Не вдалося видалити акаунт»</a>, дані на місці</p>
+    <ul class="wf-note__zones">
+      <li><b>Архів</b> · неактивно, поки видаляємо акаунт; головна дія — у зоні «Видалення акаунта»</li>
+      <li><b>Вихід</b> · неактивно, поки видаляємо акаунт; головна дія — у зоні «Видалення акаунта»</li>
+      <li><b>Видалення акаунта</b> · видаляємо акаунт — решта дій неактивна; головна дія — дочекатися, сторінку можна закрити</li>
+    </ul>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -59,14 +95,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html">Моя Шухляда</a></li>
     </ul>
@@ -109,7 +143,6 @@
   <main>
     <!-- Варіант «файл готується» -->
     <div class="wf-variant" id="eksport">
-    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · файл готовий? так → <a href="account-success.html">«Готово — файл завантажено»</a> · ні → <a href="account-error.html#eksport">«Не вдалося підготувати файл»</a></p>
 
     <div class="account-head">
       <h1>Акаунт</h1>
@@ -118,7 +151,6 @@
 
     <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
     <section class="wf-zone" aria-labelledby="export-title-1" aria-busy="true">
-      <p class="wf-label"><b>Архів</b> · файл готується — «Експорт» неактивний; головна дія — дочекатися: файл завантажиться сам</p>
       <h2 id="export-title-1">Забрати архів</h2>
       <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- бриф §3.5 --></p>
       <dl class="export-facts">
@@ -142,7 +174,7 @@
         </dd>
       </dl>
       <div class="wf-actions">
-        <button type="button" class="account-primary" disabled>Експорт</button>
+        <button type="button" disabled>Експорт</button>
       </div>
       <p class="wf-hint" role="status">Готуємо файл — 48 посилань… <!-- статус «готується», sitemap.md, «Сутності» → Експорт --></p>
       <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
@@ -150,7 +182,6 @@
 
     <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
     <section class="wf-zone" aria-labelledby="out-title-1">
-      <p class="wf-label"><b>Вихід</b> · головна дія — вийти; «Вийти на всіх пристроях» — другорядна, рідко</p>
       <h2 id="out-title-1">Вийти з Шухляди</h2>
       <ul class="account-rows">
         <li>
@@ -166,7 +197,6 @@
 
     <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
     <section class="wf-zone account-danger" aria-labelledby="del-title-1">
-      <p class="wf-label"><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу; головна дія — видалити акаунт, рідко</p>
       <h2 id="del-title-1">Видалити акаунт</h2>
       <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- бриф §3.5 --></p>
       <div class="wf-actions">
@@ -177,7 +207,6 @@
 
     <!-- Варіант «виходимо на всіх пристроях» -->
     <div class="wf-variant" id="vykhid-vsiudy">
-    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · вийшли на всіх? так → <a href="login.html#pislia-vykhodu-vsiudy">«Вхід»: вхід закрито всюди</a> · ні → <a href="account-error.html#vykhid-vsiudy">«Не вдалося вийти на всіх пристроях»</a>; немає мережі → <a href="account-error.html#bez-merezhi">та сама помилка, причина — мережа</a></p>
 
     <div class="account-head">
       <h1>Акаунт</h1>
@@ -186,7 +215,6 @@
 
     <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
     <section class="wf-zone" aria-labelledby="export-title-2">
-      <p class="wf-label"><b>Архів</b> · головна дія — забрати всю Шухляду файлом</p>
       <h2 id="export-title-2">Забрати архів</h2>
       <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- бриф §3.5 --></p>
       <dl class="export-facts">
@@ -210,14 +238,13 @@
         </dd>
       </dl>
       <div class="wf-actions">
-        <a class="wf-btn account-primary" href="account-loading.html#eksport">Експорт</a>
+        <a class="wf-btn" href="account-loading.html#eksport">Експорт</a>
       </div>
       <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
     </section>
 
     <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
     <section class="wf-zone" aria-labelledby="out-title-2" aria-busy="true">
-      <p class="wf-label"><b>Вихід</b> · виходимо на всіх пристроях — потрібна мережа; головна дія — дочекатися: далі «Вхід»</p>
       <h2 id="out-title-2">Вийти з Шухляди</h2>
       <ul class="account-rows">
         <li>
@@ -233,7 +260,6 @@
 
     <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
     <section class="wf-zone account-danger" aria-labelledby="del-title-2">
-      <p class="wf-label"><b>Видалення акаунта</b> · небезпечна дія — окремо, внизу; головна дія — видалити акаунт, рідко</p>
       <h2 id="del-title-2">Видалити акаунт</h2>
       <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- бриф §3.5 --></p>
       <div class="wf-actions">
@@ -244,7 +270,6 @@
 
     <!-- Варіант «видаляємо акаунт» -->
     <div class="wf-variant" id="vydalennia">
-    <p class="wf-label wf-flow"><b>Далі за flow</b> (E2) · видалено? так → <a href="login.html#akaunt-vydaleno">«Вхід»: акаунт видалено</a> · ні → <a href="account-error.html#vydalennia">«Не вдалося видалити акаунт»</a>, дані на місці</p>
 
     <div class="account-head">
       <h1>Акаунт</h1>
@@ -253,7 +278,6 @@
 
     <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
     <section class="wf-zone" aria-labelledby="export-title-3">
-      <p class="wf-label"><b>Архів</b> · неактивно, поки видаляємо акаунт; головна дія — у зоні «Видалення акаунта»</p>
       <h2 id="export-title-3">Забрати архів</h2>
       <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- бриф §3.5 --></p>
       <dl class="export-facts">
@@ -277,14 +301,13 @@
         </dd>
       </dl>
       <div class="wf-actions">
-        <button type="button" class="account-primary" disabled>Експорт</button>
+        <button type="button" disabled>Експорт</button>
       </div>
       <p class="wf-hint">Не відкривається в Excel? Відкрий у Google Sheets</p> <!-- рішення PM 2026-11-22, бриф §3.5 -->
     </section>
 
     <!-- Зона 2. Вихід — службові дії, без job (sitemap.md, «Трасування»): окремо від архіву, щоб не заступали його -->
     <section class="wf-zone" aria-labelledby="out-title-3">
-      <p class="wf-label"><b>Вихід</b> · неактивно, поки видаляємо акаунт; головна дія — у зоні «Видалення акаунта»</p>
       <h2 id="out-title-3">Вийти з Шухляди</h2>
       <ul class="account-rows">
         <li>
@@ -300,7 +323,6 @@
 
     <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
     <section class="wf-zone account-danger" aria-labelledby="del-title-3" aria-busy="true">
-      <p class="wf-label"><b>Видалення акаунта</b> · видаляємо акаунт — решта дій неактивна; головна дія — дочекатися, сторінку можна закрити</p>
       <h2 id="del-title-3">Видалити акаунт</h2>
       <div class="account-confirm">
         <p role="status"><b>Видаляємо акаунт…</b></p> <!-- flows.md, E2: deleting -->

@@ -31,7 +31,6 @@
 .export-file { font: inherit; font-weight: 600; } /* назва файлу — як є, без моноширинного шрифту */
 
 /* Головна дія зони — вагою й заливкою; небезпечна — товстою рамкою */
-.wf-btn.account-primary, button.account-primary { background: var(--wf-fill); font-weight: 600; }
 .wf-btn.account-danger-btn, button.account-danger-btn { border: 2px solid var(--wf-text); font-weight: 600; }
 
 /* Службові дії: кнопка й пояснення поруч, рядками */

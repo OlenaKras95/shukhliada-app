@@ -24,6 +24,12 @@
     body:has(#zberihaiemo:target) .wf-tabs a[href="#zberihaiemo"],
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
     body:has(#vydaliaiemo:target) .wf-tabs a[href="#vydaliaiemo"] { border-color: var(--wf-text); font-weight: 600; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#vidkryvaiemo:target) .wf-note__variant[data-variant="vidkryvaiemo"],
+    body:has(#pidtiahuietsia:target) .wf-note__variant[data-variant="pidtiahuietsia"],
+    body:has(#zberihaiemo:target) .wf-note__variant[data-variant="zberihaiemo"],
+    body:has(#katehoriia:target) .wf-note__variant[data-variant="katehoriia"],
+    body:has(#vydaliaiemo:target) .wf-note__variant[data-variant="vydaliaiemo"] { display: block; }
   </style>
 </head>
 <body>
@@ -49,6 +55,30 @@
     <li><a href="#vydaliaiemo">видаляємо</a></li>
   </ul>
 </nav>
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+    <li><b>Посилання · шар</b> · job <a href="../research/notes/11-jtbd.md#r2--одразу-розуміти-що-це-й-навіщо">R2</a> «одразу розуміти, що це й навіщо» · головна дія — звірити, що це й навіщо, і виправити поле</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="vidkryvaiemo">
+    <p class="wf-flow"><b>Далі за flow</b> (R3; Main, «Вже в Шухляді») · посилання відкрилось? так → <a href="link.html">шар з полями</a> · ні → <a href="link-error.html#ne-vidkrylos">не вдалося відкрити посилання</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="pidtiahuietsia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · дані сторінки прийшли? так → <a href="link.html#ivent">шар з назвою й описом</a> · ні → <a href="link.html#lyshe-domen">лише сайт</a>, назву можна дописати · дописує нотатку, тег чи дату → <a href="link-loading.html#zberihaiemo">зберігаємо зміну</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="zberihaiemo">
+    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · зміну збережено? так → <a href="link-success.html#zmina">зміну збережено</a> · ні → <a href="link-error.html#zmina">не вдалося зберегти зміну</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="katehoriia">
+    <p class="wf-flow"><b>Далі за flow</b> (R3) · зміну збережено? так → сайт з різним вмістом? ні → <a href="link-success.html#katehoriia">категорію змінено, правило сайту</a>; так (YouTube, Google, Medium) → <a href="link-success.html#bez-pravyla">без правила</a> · ні → <a href="link-error.html#katehoriia">не вдалося змінити категорію</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="vydaliaiemo">
+    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · видалено? так → <a href="link-success.html#vydaleno">шар закрито, посилання зникло зі списку</a> · ні → <a href="link-error.html#vydalennia">не вдалося видалити</a></p>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -63,14 +93,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
     </ul>
@@ -119,7 +147,6 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
@@ -128,13 +155,11 @@
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
-      <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
     </section>
 
     <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -300,12 +325,10 @@
   <!-- Шар «Посилання» (sitemap.md, «Екрани»: link.html, група «Посилання»; job R2, ще R3, R4 — research/notes/11-jtbd.md).
        Відкривається «⋯» на картці — на головному чи в результатах пошуку — і з «Вже в Шухляді» -->
   <dialog class="wf-layer" open aria-label="Посилання">
-    <p class="wf-label"><b>Посилання · шар</b> · job <a href="../research/notes/11-jtbd.md#r2--одразу-розуміти-що-це-й-навіщо">R2</a> «одразу розуміти, що це й навіщо» · головна дія — звірити, що це й навіщо, і виправити поле</p>
     <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
     <!-- Варіант «відкриваємо посилання» (flows.md, R3: loadLink; Main: loadDup) -->
     <div class="wf-variant" id="vidkryvaiemo">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3; Main, «Вже в Шухляді») · посилання відкрилось? так → <a href="link.html">шар з полями</a> · ні → <a href="link-error.html#ne-vidkrylos">не вдалося відкрити посилання</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
       <header class="link-head">
         <span class="wf-icon" aria-hidden="true"></span>
@@ -328,7 +351,6 @@
          Шар відкрито з картки, яку щойно збережено: назви, опису й іконки ще немає — поки сайт і м'яка заглушка.
          Категорію вже вгадано з сайту, тож решта полів працює: можна дописати нотатку, тег чи дату -->
     <div class="wf-variant" id="pidtiahuietsia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · дані сторінки прийшли? так → <a href="link.html#ivent">шар з назвою й описом</a> · ні → <a href="link.html#lyshe-domen">лише сайт</a>, назву можна дописати · дописує нотатку, тег чи дату → <a href="link-loading.html#zberihaiemo">зберігаємо зміну</a></p>
       <!-- Що це: назви ще немає — поки сайт і повна адреса, з ними й звірити -->
       <header class="link-head">
         <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
@@ -400,7 +422,6 @@
 
     <!-- Варіант «зберігаємо зміну» (flows.md, «R3, далі»: saveEdit): нотатку дописано — «у неділю». Статус — біля самого поля, решта шару працює -->
     <div class="wf-variant" id="zberihaiemo">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · зміну збережено? так → <a href="link-success.html#zmina">зміну збережено</a> · ні → <a href="link-error.html#zmina">не вдалося зберегти зміну</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
       <header class="link-head">
         <span class="wf-icon" aria-hidden="true"></span>
@@ -472,7 +493,6 @@
 
     <!-- Варіант «зберігаємо категорію» (flows.md, R3: saveCat): обрано «Статті й ресурси» замість вгаданої «Інше». Вибір закрито, нову категорію вже видно -->
     <div class="wf-variant" id="katehoriia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · зміну збережено? так → сайт з різним вмістом? ні → <a href="link-success.html#katehoriia">категорію змінено, правило сайту</a>; так (YouTube, Google, Medium) → <a href="link-success.html#bez-pravyla">без правила</a> · ні → <a href="link-error.html#katehoriia">не вдалося змінити категорію</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
       <header class="link-head">
         <span class="wf-icon" aria-hidden="true"></span>
@@ -545,7 +565,6 @@
 
     <!-- Варіант «видаляємо» (flows.md, «R3, далі»: deleting): «Видалити назавжди» натиснуто. Поля приглушено — посилання ось-ось зникне -->
     <div class="wf-variant" id="vydaliaiemo">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · видалено? так → <a href="link-success.html#vydaleno">шар закрито, посилання зникло зі списку</a> · ні → <a href="link-error.html#vydalennia">не вдалося видалити</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
       <header class="link-head">
         <span class="wf-icon" aria-hidden="true"></span>
