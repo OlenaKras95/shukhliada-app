@@ -6,11 +6,10 @@
  * де ROOT — шлях від сторінки до кореня репо: "./" для кореня,
  * "../" для research/page.html, "../../" для research/screens/page.html.
  * Скрипт сам підтягує _nav/tree.js, _nav/nav.css та іконку сайту favicon.svg.
- * Для темної сторінки додай клас на <html class="nav-dark"> — навігатор стане темним.
  *
- * Будова — як у навігаторі куратора: підпис «Шухляда · репо» і кнопка згортання;
- * вузли верхнього рівня з іконками; гілки без своєї сторінки («Екрани», групи) згортаються
- * кліком по назві; згорнутий навігатор — рейка з іконками. Навігатор живе в Shadow DOM:
+ * Будова — як у навігаторі куратора, але без іконок: підпис «Шухляда · репо» і кнопка згортання;
+ * гілки без своєї сторінки («Екрани», групи) згортаються кліком по назві;
+ * згорнутий навігатор — вузька смуга з кнопкою «Розгорнути». Навігатор живе в Shadow DOM:
  * стилі сторінок його не чіпають, і він однаковий скрізь.
  */
 (function () {
@@ -21,7 +20,7 @@
   var root = (script && script.getAttribute("data-root")) || "./";
   if (root.slice(-1) !== "/") root += "/";
   var KEY_OPEN = "repo-nav-open";           // які вузли розгорнуто
-  var KEY_COLLAPSED = "repo-nav-collapsed"; // "1" — навігатор згорнуто в рейку
+  var KEY_COLLAPSED = "repo-nav-collapsed"; // "1" — навігатор згорнуто у вузьку смугу
 
   function resolve(path) { return new URL(root + path, document.baseURI).href; }
 
@@ -30,15 +29,6 @@
     var u = new URL(href, document.baseURI);
     return u.origin + decodeURI(u.pathname).replace(/\/index\.html$/, "/") + (keepHash ? u.hash : "");
   }
-
-  // Іконки вузлів верхнього рівня (Lucide 24×24, stroke). Ключ — icon у tree.js.
-  var ICONS = {
-    house: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
-    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
-    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-    network: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
-    monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>'
-  };
 
   // Стилі для самої сторінки (лише відступ під навігатор) і для Shadow DOM — той самий файл.
   var pageCss = document.createElement("link");
@@ -94,13 +84,6 @@
           a.className = "nav-link nav-branch";
         }
         a.textContent = node.title;
-        if (depth === 0) {
-          a.title = node.title;
-          if (containsHere(node)) a.classList.add("is-here");
-          if (node.icon && ICONS[node.icon]) {
-            a.insertAdjacentHTML("afterbegin", '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[node.icon] + "</svg>");
-          } else if (window.console) console.warn("Навігатор: вузол верхнього рівня без icon — " + node.title);
-        }
         var key = node.href || "branch:" + node.title;
 
         if (hasKids) {
@@ -123,14 +106,7 @@
             save();
           };
           btn.addEventListener("click", toggle);
-          if (!node.href) a.addEventListener("click", function () {
-            // Згорнутий навігатор: клік по іконці гілки розгортає навігатор і цю гілку
-            if (depth === 0 && collapsed) {
-              setCollapsed(false);
-              if (btn.getAttribute("aria-expanded") === "true") return;
-            }
-            toggle();
-          });
+          if (!node.href) a.addEventListener("click", toggle);
           row.appendChild(btn);
           row.appendChild(a);
           li.appendChild(row);
@@ -163,7 +139,6 @@
     var nav = document.createElement("nav");
     nav.className = "repo-nav";
     nav.setAttribute("aria-label", "Сторінки репо");
-    if (document.documentElement.classList.contains("nav-dark")) nav.classList.add("is-dark");
 
     var head = document.createElement("div");
     head.className = "repo-nav-head";
@@ -176,7 +151,7 @@
     var list = renderList(tree, 0);
     list.id = "repo-nav-tree";
 
-    // Кнопка згортає весь навігатор у рейку з іконками
+    // Кнопка згортає весь навігатор у вузьку смугу
     var collapseBtn = document.createElement("button");
     collapseBtn.type = "button";
     collapseBtn.className = "repo-nav-collapse";
