@@ -36,6 +36,14 @@
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
     body:has(#teh:target) .wf-tabs a[href="#teh"],
     body:has(#vydalyty-teh:target) .wf-tabs a[href="#vydalyty-teh"] { border-color: var(--wf-text); font-weight: 600; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#porozhnii-zapyt:target) .wf-note__variant[data-variant="porozhnii-zapyt"],
+    body:has(#tochni:target) .wf-note__variant[data-variant="tochni"],
+    body:has(#lyshe-skhozhi:target) .wf-note__variant[data-variant="lyshe-skhozhi"],
+    body:has(#z-filtrom-nichoho:target) .wf-note__variant[data-variant="z-filtrom-nichoho"],
+    body:has(#katehoriia:target) .wf-note__variant[data-variant="katehoriia"],
+    body:has(#teh:target) .wf-note__variant[data-variant="teh"],
+    body:has(#vydalyty-teh:target) .wf-note__variant[data-variant="vydalyty-teh"] { display: block; }
   </style>
 </head>
 <body>
@@ -64,6 +72,36 @@
     <li><a href="#vydalyty-teh">попередження перед видаленням тегу</a></li>
   </ul>
 </nav>
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+    <li><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="porozhnii-zapyt">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · у Шухляді є посилання? так → цей вигляд: свіже видно; ні → <a href="search-empty.html#porozhnia-shukhliada">«спершу відклади посилання»</a> · річ серед свіжого? так → картка, сторінка сайту; ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="tochni">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · річ серед результатів? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="lyshe-skhozhi">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · річ серед схожих? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="z-filtrom-nichoho">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · шукає всюди? так → «Шукати всюди» → <a href="search-loading.html#shukaiemo">шукаємо</a> без фільтра · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="katehoriia">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · річ видно в категорії? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="teh">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · річ видно серед посилань з тегом? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · («R3, далі») «Видалити тег» → <a href="search.html#vydalyty-teh">попередження</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="vydalyty-teh">
+    <p class="wf-flow"><b>Далі за flow</b> («R3, далі») · підтверджує? так → «Видалити тег» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a>; ні → «Скасувати» → <a href="search.html#teh">тег на місці, фільтр той самий</a></p>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -78,14 +116,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
     </ul>
@@ -134,7 +170,6 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
@@ -147,7 +182,6 @@
     <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -313,12 +347,10 @@
   <!-- Шар «Пошук» (sitemap.md, «Екрани»: search.html, група «Пошук»; job R4 — research/notes/11-jtbd.md).
        Відкривається полем пошуку в шапці, Ctrl+K чи /, категорією чи тегом у сайдбарі, чипом тегу на картці -->
   <dialog class="wf-layer" open aria-label="Пошук">
-    <p class="wf-label"><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</p>
     <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
     <!-- Варіант «запит порожній» -->
     <div class="wf-variant" id="porozhnii-zapyt">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · у Шухляді є посилання? так → цей вигляд: свіже видно; ні → <a href="search-empty.html#porozhnia-shukhliada">«спершу відклади посилання»</a> · річ серед свіжого? так → картка, сторінка сайту; ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
@@ -446,7 +478,6 @@
 
     <!-- Варіант «точні збіги — схожі нижче» -->
     <div class="wf-variant" id="tochni">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ серед результатів? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
@@ -616,7 +647,6 @@
 
     <!-- Варіант «лише схожі» -->
     <div class="wf-variant" id="lyshe-skhozhi">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ серед схожих? так → картка, сторінка сайту · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
@@ -676,7 +706,6 @@
 
     <!-- Варіант «з фільтром і нічого» -->
     <div class="wf-variant" id="z-filtrom-nichoho">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · шукає всюди? так → «Шукати всюди» → <a href="search-loading.html#shukaiemo">шукаємо</a> без фільтра · ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#tochni">Скинути</a>
@@ -714,14 +743,13 @@
       <div class="wf-status layer-empty" role="status">
         <p><b>Шукали лише у «Фільмах». Шукати всюди?</b></p> <!-- flows.md, R4: everywhere; _conventions.md, «Тексти інтерфейсу» -->
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#shukaiemo">Шукати всюди</a> <!-- той самий запит без фільтра: 6 точних, 1 схожий -->
+          <a class="wf-btn wf-primary" href="search-loading.html#shukaiemo">Шукати всюди</a> <!-- той самий запит без фільтра: 6 точних, 1 схожий -->
         </div>
       </div>
     </div>
 
     <!-- Варіант «фільтр категорії» -->
     <div class="wf-variant" id="katehoriia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно в категорії? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -828,7 +856,6 @@
 
     <!-- Варіант «фільтр тегу» -->
     <div class="wf-variant" id="teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · річ видно серед посилань з тегом? так → картка, сторінка сайту · ні → запит у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · («R3, далі») «Видалити тег» → <a href="search.html#vydalyty-teh">попередження</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -977,7 +1004,6 @@
     <!-- Варіант «попередження перед видаленням тегу» (flow «R3, далі»: tagWarn → dTagSure).
          Попередження — біля тегу у фільтрі, там, де «Видалити тег». Поки не відповіли, решта шару недоступна (inert) -->
     <div class="wf-variant" id="vydalyty-teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · підтверджує? так → «Видалити тег» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a>; ні → «Скасувати» → <a href="search.html#teh">тег на місці, фільтр той самий</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
       </div>
@@ -985,7 +1011,7 @@
         <h3 id="tag-warn-title">Видалити тег «карпати»?</h3>
         <p id="tag-warn-text">Тег зніметься з усіх 6 посилань. Самі посилання лишаться в Шухляді. Відновити тег не можна. <!-- бриф §3.2; sitemap.md, «Інші вигляди» --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#vydaliaiemo-teh">Видалити тег</a>
+          <a class="wf-btn wf-primary" href="search-loading.html#vydaliaiemo-teh">Видалити тег</a>
           <a class="wf-btn" href="search.html#teh">Скасувати</a> <!-- кінець «передумали, тег на місці» — назад у фільтр тегу -->
         </div>
       </section>

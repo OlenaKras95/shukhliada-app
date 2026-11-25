@@ -41,6 +41,15 @@
     body:not(:has(.wf-variant:target)) .device > nav .wf-group:last-of-type ul,
     body:has(#zavantazhennia:target) .device > nav .wf-group:last-of-type ul,
     body:has(#podilytysia:target) .device > nav .wf-group:last-of-type ul { display: none; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#zavantazhennia:target) .wf-note__variant[data-variant="zavantazhennia"],
+    body:has(#podilytysia:target) .wf-note__variant[data-variant="podilytysia"],
+    body:has(#ne-posylannia:target) .wf-note__variant[data-variant="ne-posylannia"],
+    body:has(#ne-zberehlosia:target) .wf-note__variant[data-variant="ne-zberehlosia"],
+    body:has(#bez-merezhi:target) .wf-note__variant[data-variant="bez-merezhi"],
+    body:has(#tretia-sproba:target) .wf-note__variant[data-variant="tretia-sproba"],
+    body:has(#ne-skasuvalosia:target) .wf-note__variant[data-variant="ne-skasuvalosia"],
+    body:has(#zminyty:target) .wf-note__variant[data-variant="zminyty"] { display: block; }
   </style>
 </head>
 <body>
@@ -71,6 +80,70 @@
   </ul>
 </nav>
 
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="zavantazhennia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> · не вдалося знову — лишається прийти пізніше або написати на пошту</p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · головна дія — повторити</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="podilytysia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a> · «Скопіювати посилання» — посилання не губиться, навіть якщо повтор не вдасться</p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · головна дія — повторити; посилання з «Поділитися» не губиться</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="ne-posylannia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · є посилання, щоб вставити? так → встав у поле — <a href="drawer-loading.html#vkladaietsia">вкладається</a> · ні → «Закрити» → <a href="drawer.html">Моя Шухляда</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · вставлене — не посилання; головна дія — вставити посилання в те саме поле</li>
+      <li><b>Нещодавно додане</b> · без змін; головна дія — відкрити сторінку, клікнувши картку</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="ne-zberehlosia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Спробувати ще» → <a href="drawer-loading.html#vkladaietsia">вкладається</a> · закриває картку → <a href="drawer.html">Моя Шухляда</a>, посилання — в буфері, якщо скопійоване</p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · картка лишається з повідомленням; головна дія — спробувати ще, поруч «Скопіювати посилання»</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="bez-merezhi">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · мережа повернулася — «Спробувати ще» → <a href="drawer-loading.html#vkladaietsia">вкладається</a> · ні — «Скопіювати посилання» й закрити картку → <a href="drawer.html">Моя Шухляда</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · без мережі: сказано причину, спроба не рахується; головна дія — спробувати ще</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="tretia-sproba">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Скопіювати посилання» — збереже пізніше · закриває картку → <a href="drawer.html">Моя Шухляда</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · три спроби не вдалися, повтору немає; головна дія — скопіювати посилання</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="ne-skasuvalosia">
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> без картки · не вдалося — <a href="link.html#vydalyty">«Видалити» через «⋯»</a> на шарі «Посилання» (flow R3)</p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · помилка «Скасувати» — на картці, бо підтвердження вже зникло; головна дія — повторити</li>
+    </ul>
+  </div>
+  <div class="wf-note__variant" data-variant="zminyty">
+    <p class="wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="drawer-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="drawer.html">Моя Шухляда</a>: картка з новою категорією · не вдалося знову — посилання на місці, категорію виправити пізніше через <a href="link.html#katehoriia">«⋯» → категорія</a></p>
+    <ul class="wf-note__zones">
+      <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
+      <li><b>Нещодавно додане</b> · помилка «Змінити» — на картці, бо підтвердження вже зникло; категорія стара; головна дія — повторити</li>
+    </ul>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -85,14 +158,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
     </ul>
@@ -135,7 +206,6 @@
   <main>
     <!-- Варіант «не вдалося завантажити Шухляду» -->
     <div class="wf-variant" id="zavantazhennia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> · не вдалося знову — лишається прийти пізніше або написати на пошту</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p></p>
@@ -143,7 +213,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-1">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-1" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-1">Встав посилання — і воно вже в Шухляді</label>
@@ -155,13 +224,12 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-1">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — повторити</p>
       <h2 id="recent-title-1">Нещодавно додане</h2>
       <div class="wf-status wf-status--error" role="alert">
         <p><b>Не вдалося завантажити Шухляду</b></p>
         <p>Збережене нікуди не поділося — його просто не вдалося показати. Спробуй ще раз.</p>
         <div class="wf-actions">
-          <a class="wf-btn" href="drawer-loading.html#shukhliada">Повторити</a>
+          <a class="wf-btn wf-primary" href="drawer-loading.html#shukhliada">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
@@ -170,7 +238,6 @@
 
     <!-- Варіант «після «Поділитися» · Android» -->
     <div class="wf-variant" id="podilytysia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a> · «Скопіювати посилання» — посилання не губиться, навіть якщо повтор не вдасться</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p></p>
@@ -178,7 +245,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-2">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-2" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-2">Встав посилання — і воно вже в Шухляді</label>
@@ -190,13 +256,12 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-2">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — повторити; посилання з «Поділитися» не губиться</p>
       <h2 id="recent-title-2">Нещодавно додане</h2>
       <div class="wf-status wf-status--error" role="alert">
         <p><b>Не вдалося завантажити Шухляду</b></p>
         <p>Посилання з «Поділитися» ще не збережено: <b>meetup.com</b>. Скопіюй його, щоб не загубити, і спробуй ще раз. <!-- бриф §3.1, рішення PM 2026-11-24 --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="drawer-loading.html#shukhliada">Повторити</a>
+          <a class="wf-btn wf-primary" href="drawer-loading.html#shukhliada">Повторити</a>
           <button type="button">Скопіювати посилання</button>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
@@ -206,7 +271,6 @@
 
     <!-- Варіант «вставлене — не посилання» -->
     <div class="wf-variant" id="ne-posylannia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · є посилання, щоб вставити? так → встав у поле — <a href="drawer-loading.html#vkladaietsia">вкладається</a> · ні → «Закрити» → <a href="drawer.html">Моя Шухляда</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>48 посилань</p>
@@ -214,7 +278,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-3">
-      <p class="wf-label"><b>Поле для вставки</b> · вставлене — не посилання; головна дія — вставити посилання в те саме поле</p>
       <h2 id="save-title-3" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-3">Встав посилання — і воно вже в Шухляді</label>
@@ -233,7 +296,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-3">
-      <p class="wf-label"><b>Нещодавно додане</b> · без змін; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-3">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -294,7 +356,6 @@
 
     <!-- Варіант «не вдалося зберегти» -->
     <div class="wf-variant" id="ne-zberehlosia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Спробувати ще» → <a href="drawer-loading.html#vkladaietsia">вкладається</a> · закриває картку → <a href="drawer.html">Моя Шухляда</a>, посилання — в буфері, якщо скопійоване</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>48 посилань</p>
@@ -302,7 +363,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-4">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-4" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-4">Встав посилання — і воно вже в Шухляді</label>
@@ -314,7 +374,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-4">
-      <p class="wf-label"><b>Нещодавно додане</b> · картка лишається з повідомленням; головна дія — спробувати ще, поруч «Скопіювати посилання»</p>
       <h2 id="recent-title-4">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -326,7 +385,7 @@
                 <p><b>Не вдалося зберегти</b></p>
                 <p>Спробуй ще раз — лишилося 2 спроби. <!-- до 3 спроб, бриф §3.1 --></p>
                 <div class="wf-actions">
-                  <a class="wf-btn" href="drawer-loading.html#vkladaietsia">Спробувати ще</a>
+                  <a class="wf-btn wf-primary" href="drawer-loading.html#vkladaietsia">Спробувати ще</a>
                   <button type="button">Скопіювати посилання</button>
                   <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
                 </div>
@@ -393,7 +452,6 @@
 
     <!-- Варіант «без мережі» -->
     <div class="wf-variant" id="bez-merezhi">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · мережа повернулася — «Спробувати ще» → <a href="drawer-loading.html#vkladaietsia">вкладається</a> · ні — «Скопіювати посилання» й закрити картку → <a href="drawer.html">Моя Шухляда</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>48 посилань</p>
@@ -401,7 +459,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-5">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-5" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-5">Встав посилання — і воно вже в Шухляді</label>
@@ -413,7 +470,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-5">
-      <p class="wf-label"><b>Нещодавно додане</b> · без мережі: сказано причину, спроба не рахується; головна дія — спробувати ще</p>
       <h2 id="recent-title-5">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -425,7 +481,7 @@
                 <p><b>Не вдалося зберегти — немає мережі</b></p>
                 <p>Спробуй, коли мережа повернеться. Ця спроба не рахується. <!-- sitemap.md, рішення PM 2026-11-18: «спробуй пізніше» — приклад, не фінальний текст --></p>
                 <div class="wf-actions">
-                  <a class="wf-btn" href="drawer-loading.html#vkladaietsia">Спробувати ще</a>
+                  <a class="wf-btn wf-primary" href="drawer-loading.html#vkladaietsia">Спробувати ще</a>
                   <button type="button">Скопіювати посилання</button>
                 </div>
               </div>
@@ -491,7 +547,6 @@
 
     <!-- Варіант «після третьої спроби» -->
     <div class="wf-variant" id="tretia-sproba">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Скопіювати посилання» — збереже пізніше · закриває картку → <a href="drawer.html">Моя Шухляда</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>48 посилань</p>
@@ -499,7 +554,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-6">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-6" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-6">Встав посилання — і воно вже в Шухляді</label>
@@ -511,7 +565,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-6">
-      <p class="wf-label"><b>Нещодавно додане</b> · три спроби не вдалися, повтору немає; головна дія — скопіювати посилання</p>
       <h2 id="recent-title-6">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -523,7 +576,7 @@
                 <p><b>Не вдалося зберегти</b></p>
                 <p>Три спроби не вдалися. Скопіюй посилання, щоб зберегти його пізніше. <!-- бриф §3.1, рішення PM 2026-11-22 --></p>
                 <div class="wf-actions">
-                  <button type="button">Скопіювати посилання</button>
+                  <button class="wf-primary" type="button">Скопіювати посилання</button>
                   <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
                 </div>
               </div>
@@ -589,7 +642,6 @@
 
     <!-- Варіант «не вдалося скасувати» -->
     <div class="wf-variant" id="ne-skasuvalosia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> без картки · не вдалося — <a href="link.html#vydalyty">«Видалити» через «⋯»</a> на шарі «Посилання» (flow R3)</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -597,7 +649,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-7">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-7" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-7">Встав посилання — і воно вже в Шухляді</label>
@@ -609,7 +660,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-7">
-      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Скасувати» — на картці, бо підтвердження вже зникло; головна дія — повторити</p>
       <h2 id="recent-title-7">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -626,7 +676,7 @@
                 <p><b>Не вдалося скасувати</b></p>
                 <p>Спробуй ще раз. Або видали пізніше — через «⋯» на картці. <!-- рішення PM 2026-11-24, flows.md: delLater --></p>
                 <div class="wf-actions">
-                  <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Повторити</a>
+                  <a class="wf-btn wf-primary" href="drawer-loading.html#skasovuiemo">Повторити</a>
                 </div>
               </div>
             </div>
@@ -691,7 +741,6 @@
     <!-- Варіант «не вдалося змінити категорію» — flows.md, R3: errChange. Помилка на картці, а не в підтвердженні: воно зникає (рішення PM 2026-11-24).
          Приклад — обгортка linkedin.com (drawer.html#obhortka): обрано «Статті й ресурси», зміну не збережено — лишилося «Інше» -->
     <div class="wf-variant" id="zminyty">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="drawer-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="drawer.html">Моя Шухляда</a>: картка з новою категорією · не вдалося знову — посилання на місці, категорію виправити пізніше через <a href="link.html#katehoriia">«⋯» → категорія</a></p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -699,7 +748,6 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-8">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-8" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-8">Встав посилання — і воно вже в Шухляді</label>
@@ -711,7 +759,6 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-8">
-      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Змінити» — на картці, бо підтвердження вже зникло; категорія стара; головна дія — повторити</p>
       <h2 id="recent-title-8">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -728,7 +775,7 @@
                 <p><b>Не вдалося змінити категорію</b></p>
                 <p>Посилання на місці, лишилося в «Інше». Спробуй ще раз або зміни пізніше — через «⋯» на картці. <!-- flows.md, R3: errChange, endLater --></p>
                 <div class="wf-actions">
-                  <a class="wf-btn" href="drawer-loading.html#katehoriia">Повторити</a>
+                  <a class="wf-btn wf-primary" href="drawer-loading.html#katehoriia">Повторити</a>
                 </div>
               </div>
             </div>

@@ -29,6 +29,11 @@
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
     body:has(#teh:target) .wf-tabs a[href="#teh"],
     body:has(#vydalyty-teh:target) .wf-tabs a[href="#vydalyty-teh"] { border-color: var(--wf-text); font-weight: 600; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#ne-vdalosia-shukaty:target) .wf-note__variant[data-variant="ne-vdalosia-shukaty"],
+    body:has(#katehoriia:target) .wf-note__variant[data-variant="katehoriia"],
+    body:has(#teh:target) .wf-note__variant[data-variant="teh"],
+    body:has(#vydalyty-teh:target) .wf-note__variant[data-variant="vydalyty-teh"] { display: block; }
   </style>
 </head>
 <body>
@@ -54,6 +59,27 @@
     <li><a href="#vydalyty-teh">не вдалося видалити тег</a></li>
   </ul>
 </nav>
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+    <li><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="ne-vdalosia-shukaty">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#shukaiemo">шукаємо</a> · не вдалося знову — гортає категорію? так → чип категорії нижче → <a href="search-loading.html#katehoriia">завантажуємо категорію</a>; ні — прийти пізніше або написати на пошту</p>
+  </div>
+  <div class="wf-note__variant" data-variant="katehoriia">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#katehoriia">завантажуємо категорію</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="teh">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#teh">завантажуємо посилання з тегом</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="vydalyty-teh">
+    <p class="wf-flow"><b>Далі за flow</b> («R3, далі») · «Повторити» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a> · повтор не вдався — тег лишився, спробувати пізніше або написати на пошту · тег на місці, тож можна й далі гортати його посилання нижче або <a href="search.html#porozhnii-zapyt">скинути фільтр</a></p>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -68,14 +94,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
     </ul>
@@ -124,7 +148,6 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
@@ -137,7 +160,6 @@
     <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -303,12 +325,10 @@
   <!-- Шар «Пошук» (sitemap.md, «Екрани»: search.html, група «Пошук»; job R4 — research/notes/11-jtbd.md).
        Відкривається полем пошуку в шапці, Ctrl+K чи /, категорією чи тегом у сайдбарі, чипом тегу на картці -->
   <dialog class="wf-layer" open aria-label="Пошук">
-    <p class="wf-label"><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</p>
     <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
     <!-- Варіант «не вдалося шукати» -->
     <div class="wf-variant" id="ne-vdalosia-shukaty">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#shukaiemo">шукаємо</a> · не вдалося знову — гортає категорію? так → чип категорії нижче → <a href="search-loading.html#katehoriia">завантажуємо категорію</a>; ні — прийти пізніше або написати на пошту</p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
@@ -344,7 +364,7 @@
         <p><b>Не вдалося шукати</b></p>
         <p>Пошук зараз не відповідає. Спробуй ще раз — або знайди, гортаючи категорію. <!-- flows.md, errQ, dBrowse --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#shukaiemo">Повторити</a>
+          <a class="wf-btn wf-primary" href="search-loading.html#shukaiemo">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
@@ -365,7 +385,6 @@
 
     <!-- Варіант «не вдалося завантажити категорію» -->
     <div class="wf-variant" id="katehoriia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#katehoriia">завантажуємо категорію</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -404,7 +423,7 @@
         <p><b>Не вдалося завантажити «Фільми й серіали»</b></p>
         <p>Посилання на місці — їх просто не вдалося показати. Спробуй ще раз. <!-- flows.md, errCat --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#katehoriia">Повторити</a>
+          <a class="wf-btn wf-primary" href="search-loading.html#katehoriia">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
@@ -412,7 +431,6 @@
 
     <!-- Варіант «не вдалося завантажити тег» -->
     <div class="wf-variant" id="teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · «Повторити» → <a href="search-loading.html#teh">завантажуємо посилання з тегом</a> · або запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -451,7 +469,7 @@
         <p><b>Не вдалося завантажити тег «карпати»</b></p>
         <p>Посилання на місці — їх просто не вдалося показати. Спробуй ще раз. <!-- flows.md, errTagLoad --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#teh">Повторити</a>
+          <a class="wf-btn wf-primary" href="search-loading.html#teh">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>
@@ -460,7 +478,6 @@
     <!-- Варіант «не вдалося видалити тег» (flow «R3, далі»: errTag → dTagRetry). Тег на місці — на всіх 6 посиланнях.
          Повтор не вдався — кінець «без виходу» (deadTag): тег лишився, спробувати пізніше; тому ще й пошта -->
     <div class="wf-variant" id="vydalyty-teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · «Повторити» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a> · повтор не вдався — тег лишився, спробувати пізніше або написати на пошту · тег на місці, тож можна й далі гортати його посилання нижче або <a href="search.html#porozhnii-zapyt">скинути фільтр</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -469,7 +486,7 @@
         <p><b>Не вдалося видалити тег «карпати»</b></p>
         <p>Тег на місці, на всіх 6 посиланнях. Спробуй ще раз — або трохи пізніше. <!-- flows.md, errTag --></p>
         <div class="wf-actions">
-          <a class="wf-btn" href="search-loading.html#vydaliaiemo-teh">Повторити</a>
+          <a class="wf-btn wf-primary" href="search-loading.html#vydaliaiemo-teh">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
       </div>

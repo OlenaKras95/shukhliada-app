@@ -1,184 +1,188 @@
-/* Навігатор репо — нейтральний службовий інструмент, не частина продукту. */
+/* Навігатор репо — службовий інструмент, не частина продукту.
+   Будова й вигляд — як у навігаторі куратора: білий фон, 13px, бірюзові активні стани,
+   вкладені рівні — з тонкою напрямною лінією зліва, а не відступами-сходами.
+   Навігатор живе в Shadow DOM хоста #repo-nav-host, тож CSS сторінок його не чіпає.
+   Файл вантажиться двічі: у сторінку (лише відступ body) і в shadow root (решта). */
 
-.has-repo-nav body {
-  margin-left: 240px;
-}
+/* --- Сторінка: місце під навігатор --- */
+body.has-repo-nav { margin-left: 256px; }
+body.has-repo-nav.repo-nav-collapsed { margin-left: 56px; }
 
+/* --- Shadow DOM --- */
+:host { all: initial; }
 .repo-nav {
+  --nav-bg: #ffffff;
+  --nav-fg: #1d1d1d;
+  --nav-text: #3d3d3d;
+  --nav-text-3: #5c5c5c;
+  --nav-muted: #8a8a8a;
+  --nav-line: #ececec;
+  --nav-hover: #f4f4f4;
+  --nav-active: #0f766e;
+  --nav-active-strong: #115e59;
+  --nav-active-bg: #e8f4f1;
+
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 240px;
-  box-sizing: border-box;
+  inset: 0 auto 0 0;
+  width: 256px;
   overflow-y: auto;
-  padding: 16px 12px;
-  background: #f6f6f6;
-  border-right: 1px solid #dcdcdc;
-  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  color: #222;
+  box-sizing: border-box;
+  padding: 8px 12px 32px;
+  background: var(--nav-bg);
+  color: var(--nav-text);
+  border-right: 1px solid var(--nav-line);
+  font: 400 13px/1.35 "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
   z-index: 1000;
 }
 
-.repo-nav__head {
-  display: block;
-  padding: 4px 8px 12px;
-  font-weight: 600;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  color: #222;
+/* Темний варіант для темних сторінок: <html class="nav-dark"> */
+.repo-nav.is-dark {
+  --nav-bg: #18181b;
+  --nav-fg: #f0f0f3;
+  --nav-text: #d8d8dd;
+  --nav-text-3: #b4b4bc;
+  --nav-muted: #8a8a93;
+  --nav-line: #2c2c31;
+  --nav-hover: #26262b;
+  --nav-active: #5eead4;
+  --nav-active-strong: #99f6e4;
+  --nav-active-bg: #133b37;
+}
+
+/* Рядок заголовка: підпис зліва, кнопка згортання справа */
+.repo-nav-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  margin: 0 -6px 4px 0;
+  padding: 0 0 0 30px;
+}
+.repo-nav-label {
+  color: var(--nav-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
 }
-
-.repo-nav__list {
-  list-style: none;
-  margin: 0;
+.repo-nav-label:hover { color: var(--nav-fg); }
+.repo-nav-label:focus-visible { outline: 2px solid var(--nav-active); outline-offset: 2px; border-radius: 4px; }
+.repo-nav-collapse {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   padding: 0;
-}
-
-.repo-nav__branch {
-  margin-top: 12px;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #777;
-}
-
-/* Вкладена гілка — розділ групи всередині гілки, напр. «Екрани» → «Шухляда» */
-.repo-nav__list .repo-nav__list .repo-nav__branch {
-  margin-top: 4px;
-  font-size: 12px;
-  text-transform: none;
-  letter-spacing: 0;
-  color: #555;
-}
-.repo-nav__list .repo-nav__list .repo-nav__branch + .repo-nav__list {
-  padding-left: 10px;
-}
-
-.repo-nav__row {
-  display: flex;
-  align-items: center;
-  padding-left: calc(var(--depth, 0) * 14px);
-}
-
-/* Пункт без підпунктів отримує порожнє місце під стрілку, щоб текст стояв рівно. */
-.repo-nav__row.is-leaf::before {
-  content: "";
-  flex: 0 0 18px;
-}
-
-.repo-nav__toggle {
-  flex: 0 0 18px;
-  width: 18px;
-  height: 22px;
   margin: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--nav-muted);
+  cursor: pointer;
+}
+.repo-nav-collapse svg { display: block; transition: transform .15s ease; }
+.repo-nav-collapse:hover { background: var(--nav-hover); color: var(--nav-fg); }
+.repo-nav-collapse:focus-visible { outline: 2px solid var(--nav-active); outline-offset: -2px; color: var(--nav-active); }
+
+.nav-list { list-style: none; margin: 0; padding: 0; }
+.nav-list > li + li { margin-top: 1px; }
+.repo-nav > .nav-list > li + li { margin-top: 4px; }
+
+/* Вкладений рівень: напрямна під шевроном батька */
+.nav-list .nav-list {
+  margin: 2px 0 4px 10px;
+  padding-left: 0;
+  border-left: 1px solid var(--nav-line);
+}
+
+.nav-row { display: flex; align-items: center; }
+.nav-row.is-leaf { padding-left: 20px; }
+
+.nav-toggle {
+  flex: none;
+  width: 20px;
+  height: 30px;
   padding: 0;
   border: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
-  color: inherit;
+  color: var(--nav-muted);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-
-.repo-nav__toggle::before {
+.nav-toggle::before {
   content: "";
+  display: block;
   width: 5px;
   height: 5px;
+  margin: auto;
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: rotate(-45deg);
-  opacity: 0.7;
-  transition: transform 0.15s ease;
+  transition: transform .15s ease;
 }
+.nav-toggle[aria-expanded="true"]::before { transform: rotate(45deg) translate(-1px, -1px); }
+.nav-toggle:hover { color: var(--nav-active); }
 
-.repo-nav__toggle[aria-expanded="true"]::before {
-  transform: rotate(45deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .repo-nav__toggle::before { transition: none; }
-}
-
-.repo-nav__toggle:hover {
-  background: #e8e8e8;
-}
-
-.repo-nav__toggle:focus-visible {
-  outline: 2px solid #555;
-  outline-offset: -2px;
-}
-
-.repo-nav__list[hidden] {
-  display: none;
-}
-
-.repo-nav__link {
-  display: block;
-  flex: 1 1 auto;
+.nav-link {
+  flex: 1;
   min-width: 0;
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: #222;
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--nav-text);
   text-decoration: none;
+  transition: background-color .12s ease, color .12s ease;
 }
+.repo-nav > .nav-list > li > .nav-row > .nav-link { color: var(--nav-fg); font-weight: 500; }
+.nav-list .nav-list .nav-list .nav-link { color: var(--nav-text-3); }
 
-.repo-nav__link:hover {
-  background: #e8e8e8;
-}
+.nav-link:hover { background: var(--nav-hover); color: var(--nav-fg); }
+.nav-link:focus-visible,
+.nav-toggle:focus-visible { outline: 2px solid var(--nav-active); outline-offset: -2px; }
 
-.repo-nav__link:focus-visible {
-  outline: 2px solid #555;
-  outline-offset: -2px;
-}
-
-.repo-nav__link.is-current {
-  background: #222;
-  color: #fff;
+.nav-link[aria-current="page"] {
+  background: var(--nav-active-bg);
+  color: var(--nav-active-strong);
   font-weight: 600;
 }
+.nav-link[aria-current="location"] {
+  color: var(--nav-active);
+  font-weight: 600;
+  background: transparent;
+}
+[hidden] { display: none; }
 
-/* Темний варіант для темних сторінок: <html class="nav-dark"> */
-.nav-dark .repo-nav {
-  background: #18181b;
-  border-right-color: #2c2c31;
-  color: #d8d8dd;
+/* Гілка без своєї сторінки («Екрани», групи): підпис, клік згортає */
+.nav-branch { cursor: pointer; user-select: none; }
+/* Іконка вузла верхнього рівня (icon у tree.js) */
+.nav-icon { flex: none; width: 18px; height: 18px; margin-right: 10px; vertical-align: -3px; }
+
+/* Згорнутий навігатор: рейка з іконками верхнього рівня (назва — у title) */
+.repo-nav.is-collapsed { width: 56px; padding: 8px 6px; overflow: hidden; }
+.repo-nav.is-collapsed .repo-nav-head { padding: 0; margin: 0; justify-content: center; }
+.repo-nav.is-collapsed .repo-nav-collapse svg { transform: rotate(180deg); }
+.repo-nav.is-collapsed > .nav-list .nav-list,
+.repo-nav.is-collapsed .nav-toggle { display: none; }
+.repo-nav.is-collapsed .nav-row,
+.repo-nav.is-collapsed .nav-row.is-leaf { padding-left: 0; justify-content: center; }
+.repo-nav.is-collapsed > .nav-list .nav-link {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; font-size: 0;
 }
-.nav-dark .repo-nav__head,
-.nav-dark .repo-nav__link {
-  color: #d8d8dd;
-}
-.nav-dark .repo-nav__branch {
-  color: #8a8a93;
-}
-.nav-dark .repo-nav__link:hover,
-.nav-dark .repo-nav__toggle:hover {
-  background: #26262b;
-}
-.nav-dark .repo-nav__link:focus-visible,
-.nav-dark .repo-nav__toggle:focus-visible {
-  outline-color: #e8916b;
-}
-.nav-dark .repo-nav__link.is-current {
-  background: #2e2e34;
-  color: #fff;
+.repo-nav.is-collapsed .nav-icon { margin: 0; }
+.repo-nav.is-collapsed .nav-link.is-here { background: var(--nav-active-bg); color: var(--nav-active); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle::before, .nav-link, .repo-nav-collapse svg { transition: none; }
 }
 
+/* Вузький екран: навігатор над сторінкою, а не збоку */
 @media (max-width: 720px) {
-  .nav-dark .repo-nav {
-    border-bottom-color: #2c2c31;
-  }
-  .has-repo-nav body {
-    margin-left: 0;
-  }
-  .repo-nav {
-    position: static;
-    width: auto;
-    border-right: 0;
-    border-bottom: 1px solid #dcdcdc;
-  }
+  body.has-repo-nav, body.has-repo-nav.repo-nav-collapsed { margin-left: 0; }
+  .repo-nav { position: static; width: auto; max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--nav-line); }
+  .repo-nav.is-collapsed { width: auto; padding: 4px 12px; }
+  .repo-nav.is-collapsed .repo-nav-head { justify-content: flex-end; }
 }

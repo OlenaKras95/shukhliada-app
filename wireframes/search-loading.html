@@ -26,6 +26,11 @@
     body:has(#katehoriia:target) .wf-tabs a[href="#katehoriia"],
     body:has(#teh:target) .wf-tabs a[href="#teh"],
     body:has(#vydaliaiemo-teh:target) .wf-tabs a[href="#vydaliaiemo-teh"] { border-color: var(--wf-text); font-weight: 600; }
+    /* примітка над рамкою: блок відкритого варіанта */
+    body:has(#shukaiemo:target) .wf-note__variant[data-variant="shukaiemo"],
+    body:has(#katehoriia:target) .wf-note__variant[data-variant="katehoriia"],
+    body:has(#teh:target) .wf-note__variant[data-variant="teh"],
+    body:has(#vydaliaiemo-teh:target) .wf-note__variant[data-variant="vydaliaiemo-teh"] { display: block; }
   </style>
 </head>
 <body>
@@ -51,6 +56,27 @@
     <li><a href="#vydaliaiemo-teh">видаляємо тег</a></li>
   </ul>
 </nav>
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · головна дія — шукати</li>
+    <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
+    <li><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</li>
+  </ul>
+  <div class="wf-note__variant" data-variant="shukaiemo">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · пошук відповів? ні → <a href="search-error.html#ne-vdalosia-shukaty">«Не вдалося шукати»</a> · так → є точні збіги? так → <a href="search.html#tochni">точні збіги, схожі нижче</a>; ні → є схожі? так → <a href="search.html#lyshe-skhozhi">лише схожі</a>; ні → шукали з фільтром? так → <a href="search.html#z-filtrom-nichoho">«Шукати всюди?»</a>; ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="katehoriia">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · категорія завантажилась? ні → <a href="search-error.html#katehoriia">«Не вдалося завантажити»</a> · так → є посилання? так → <a href="search.html#katehoriia">уся категорія</a>; ні → <a href="search-empty.html#porozhnia-katehoriia">«У цій категорії ще нічого»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="teh">
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · тег завантажився? ні → <a href="search-error.html#teh">«Не вдалося завантажити тег»</a> · так → є посилання з тегом? так → <a href="search.html#teh">усі посилання з тегом</a>; ні → <a href="search-empty.html#teh-bez-posylan">«З цього тегу знято всі посилання»</a>. До завантаження: теги взагалі є? ні → <a href="search-empty.html#bez-tehiv">«Тегів ще немає»</a></p>
+  </div>
+  <div class="wf-note__variant" data-variant="vydaliaiemo-teh">
+    <p class="wf-flow"><b>Далі за flow</b> («R3, далі») · тег видалено? так → <a href="search-success.html">«Тег «карпати» видалено»</a>, фільтр знято; ні → <a href="search-error.html#vydalyty-teh">«Не вдалося видалити тег»</a></p>
+  </div>
+</aside>
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
@@ -65,14 +91,12 @@
              placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
-    <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
   </header>
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
   <nav id="menu" inert aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
-    <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
       <li><a href="drawer.html" aria-current="page">Моя Шухляда</a></li>
     </ul>
@@ -121,7 +145,6 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
@@ -134,7 +157,6 @@
     <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -300,12 +322,10 @@
   <!-- Шар «Пошук» (sitemap.md, «Екрани»: search.html, група «Пошук»; job R4 — research/notes/11-jtbd.md).
        Відкривається полем пошуку в шапці, Ctrl+K чи /, категорією чи тегом у сайдбарі, чипом тегу на картці -->
   <dialog class="wf-layer" open aria-label="Пошук">
-    <p class="wf-label"><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</p>
     <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
     <!-- Варіант «шукаємо» -->
     <div class="wf-variant" id="shukaiemo">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · пошук відповів? ні → <a href="search-error.html#ne-vdalosia-shukaty">«Не вдалося шукати»</a> · так → є точні збіги? так → <a href="search.html#tochni">точні збіги, схожі нижче</a>; ні → є схожі? так → <a href="search.html#lyshe-skhozhi">лише схожі</a>; ні → шукали з фільтром? так → <a href="search.html#z-filtrom-nichoho">«Шукати всюди?»</a>; ні → <a href="search-empty.html#nichoho">«Нічого не знайшлося»</a></p>
       <div class="layer-head"><h2 class="vh">Пошук</h2></div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
@@ -370,7 +390,6 @@
 
     <!-- Варіант «завантажуємо категорію» -->
     <div class="wf-variant" id="katehoriia">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · категорія завантажилась? ні → <a href="search-error.html#katehoriia">«Не вдалося завантажити»</a> · так → є посилання? так → <a href="search.html#katehoriia">уся категорія</a>; ні → <a href="search-empty.html#porozhnia-katehoriia">«У цій категорії ще нічого»</a></p>
       <div class="layer-head">
         <h2>Фільми й серіали <span>· 12</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -438,7 +457,6 @@
 
     <!-- Варіант «завантажуємо посилання з тегом» -->
     <div class="wf-variant" id="teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (R4) · тег завантажився? ні → <a href="search-error.html#teh">«Не вдалося завантажити тег»</a> · так → є посилання з тегом? так → <a href="search.html#teh">усі посилання з тегом</a>; ні → <a href="search-empty.html#teh-bez-posylan">«З цього тегу знято всі посилання»</a>. До завантаження: теги взагалі є? ні → <a href="search-empty.html#bez-tehiv">«Тегів ще немає»</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
         <a href="search.html#porozhnii-zapyt">Скинути</a>
@@ -508,7 +526,6 @@
     <!-- Варіант «видаляємо тег» (flow «R3, далі»: delTag). Тег ще на картках: його знімають, поки чекаємо відповіді.
          Фільтри й картки недоступні (inert), щоб не відкрити тег, якого за мить не стане; шукати словом можна; «Закрити» — як завжди -->
     <div class="wf-variant" id="vydaliaiemo-teh">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · тег видалено? так → <a href="search-success.html">«Тег «карпати» видалено»</a>, фільтр знято; ні → <a href="search-error.html#vydalyty-teh">«Не вдалося видалити тег»</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
       </div>

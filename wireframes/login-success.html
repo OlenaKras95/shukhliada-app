@@ -30,28 +30,34 @@
   </ul>
 </nav>
 
+<!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
+     Блок варіанта видно разом з його вкладкою -->
+<aside class="wf-note" aria-label="Примітка до вайрфрейму">
+  <p class="wf-flow"><b>Далі за flow</b> (Main) · прийшли з «Поділитися»? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a> → «Збережено в Шухляді» · ні → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a> → <a href="drawer.html">Моя Шухляда</a></p>
+  <ul class="wf-note__zones">
+    <li><b>Шапка</b> · лише назва — без пошуку й меню; своєї дії немає, головна дія — у формі входу</li>
+    <li><b>Вхід</b> · ввійшли — видно, в який акаунт; головна дія — відкрити Шухляду</li>
+  </ul>
+</aside>
 <div class="device">
 
   <!-- Шапка «Входу» — лише назва: шукати ще нічого, і пунктів навігації до входу немає (_conventions.md, розділ 3).
        Без бургера й сайдбара; сітка рамки в одну колонку — login.css -->
   <header>
     <p class="wf-brand">Шухляда</p>
-    <p class="wf-label"><b>Шапка</b> · лише назва — без пошуку й меню; своєї дії немає, головна дія — у формі входу</p>
   </header>
 
   <main>
-    <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · прийшли з «Поділитися»? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a> → «Збережено в Шухляді» · ні → <a href="drawer-loading.html#shukhliada">завантажуємо Шухляду</a> → <a href="drawer.html">Моя Шухляда</a></p>
     <div class="login-box">
       <h1>Вхід</h1>
       <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-1">
-        <p class="wf-label"><b>Вхід</b> · ввійшли — видно, в який акаунт; головна дія — відкрити Шухляду</p>
         <h2 id="login-title-1" class="vh">Увійти в Шухляду</h2>
         <aside class="wf-status" role="status">
           <p><b>Вхід через Google — готово</b></p> <!-- без роду — бриф §6.4 -->
           <p>Акаунт: <b>sasha.kovalenko.demo@gmail.com</b>. Відкриваємо Шухляду… <!-- пошта вигадана --></p>
           <div class="wf-actions">
-            <a class="wf-btn" href="drawer-loading.html#shukhliada">Відкрити Шухляду</a> <!-- якщо не відкрилася сама; з «Поділитися» — далі «вкладається» (flows.md, Main) -->
+            <a class="wf-btn wf-primary" href="drawer-loading.html#shukhliada">Відкрити Шухляду</a> <!-- якщо не відкрилася сама; з «Поділитися» — далі «вкладається» (flows.md, Main) -->
           </div>
         </aside>
       </section>
