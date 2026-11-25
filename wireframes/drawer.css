@@ -16,8 +16,7 @@
 
 /* Метарядок: домен · категорія · дата додавання — і теги-чипи. Кожне — своєю формою */
 .meta { margin: 3px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13px; color: var(--wf-text-2); }
-.meta .cat { display: inline-flex; align-items: center; gap: 5px; color: var(--wf-text); font-weight: 600; }
-.meta .cat::before { content: ""; width: 9px; height: 9px; background: var(--wf-text-2); } /* місце кольору категорії, етап 2 */
+.meta .cat { color: var(--wf-text); font-weight: 600; } /* категорія — назвою, жирним; колір — етап 2 */
 .meta .tags { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .note { margin: 3px 0 0; font-size: 13px; }
 

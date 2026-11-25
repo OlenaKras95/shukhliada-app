@@ -62,8 +62,7 @@
   list-style: none;
 }
 .cat-pick summary::-webkit-details-marker { display: none; }
-.cat-pick summary .cat { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
-.cat-pick summary .cat::before { content: ""; width: 9px; height: 9px; background: var(--wf-text-2); } /* місце кольору категорії, етап 2 */
+.cat-pick summary .cat { font-weight: 600; } /* категорія — назвою, жирним; колір — етап 2 */
 .cat-change { font-size: 13px; text-decoration: underline; }
 .cat-options { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .cat-options a[aria-current="true"] { border: 2px solid var(--wf-text); font-weight: 600; } /* поточна — формою */
@@ -84,6 +83,8 @@
 .link-skel .field .wf-skel { height: 36px; }
 .link-skel .field:nth-of-type(3) .wf-skel { height: 56px; } /* опис — вищий; перший p — «Відкриваємо посилання…» */
 .link-skel .field > span:first-child { font-size: 14px; font-weight: 600; }
+.field--pending > span:first-child { font-size: 14px; font-weight: 600; } /* поле, яке ще підтягується зі сторінки */
+.field--pending .wf-skel { height: 36px; }
 
 /* ---------- телефон: «Відкрити сторінку» — під назвою ---------- */
 @media (max-width: 720px) {

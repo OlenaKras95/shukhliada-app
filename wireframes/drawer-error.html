@@ -1,9 +1,9 @@
 <!doctype html>
 <!--
   Вайрфрейм · Моя Шухляда · помилка (sitemap.md, «Екрани»: не вдалося завантажити Шухляду — «Повторити», після «Поділитися» ще
-  «Скопіювати посилання»; вставлене — не посилання [?]; не вдалося зберегти — «Спробувати ще» і «Скопіювати посилання», до 3 спроб;
+  «Скопіювати посилання»; вставлене — не посилання; не вдалося зберегти — «Спробувати ще» і «Скопіювати посилання», до 3 спроб;
   без мережі — причина в мережі, спроба не рахується; після третьої — без повтору, лише «Скопіювати посилання»;
-  не вдалося скасувати — на картці, «Повторити» [?]; крок 08: не вдалося змінити категорію — на картці, бо підтвердження зникає, «Повторити» [?], flow R3).
+  не вдалося скасувати — на картці, «Повторити»; крок 08: не вдалося змінити категорію — на картці, бо підтвердження зникає, «Повторити», flow R3).
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст. Варіанти — вкладками над рамкою.
   
   Виходи звірено з flows.md, Main — тупика немає в жодному варіанті:
@@ -62,12 +62,12 @@
   <ul>
     <li><a href="#zavantazhennia">не вдалося завантажити Шухляду</a></li>
     <li><a href="#podilytysia">після «Поділитися» · Android</a></li>
-    <li><a href="#ne-posylannia">вставлене — не посилання [?]</a></li>
+    <li><a href="#ne-posylannia">вставлене — не посилання</a></li>
     <li><a href="#ne-zberehlosia">не вдалося зберегти</a></li>
     <li><a href="#bez-merezhi">без мережі</a></li>
     <li><a href="#tretia-sproba">після третьої спроби</a></li>
-    <li><a href="#ne-skasuvalosia">не вдалося скасувати [?]</a></li>
-    <li><a href="#zminyty">не вдалося змінити категорію [?]</a></li>
+    <li><a href="#ne-skasuvalosia">не вдалося скасувати</a></li>
+    <li><a href="#zminyty">не вдалося змінити категорію</a></li>
   </ul>
 </nav>
 
@@ -76,13 +76,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -111,7 +111,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -159,7 +159,7 @@
       <h2 id="recent-title-1">Нещодавно додане</h2>
       <div class="wf-status wf-status--error" role="alert">
         <p><b>Не вдалося завантажити Шухляду</b></p>
-        <p>Збережене нікуди не поділося — його просто не вдалося показати. Спробуй ще раз. <!-- [?] текст --></p>
+        <p>Збережене нікуди не поділося — його просто не вдалося показати. Спробуй ще раз.</p>
         <div class="wf-actions">
           <a class="wf-btn" href="drawer-loading.html#shukhliada">Повторити</a>
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
@@ -194,7 +194,7 @@
       <h2 id="recent-title-2">Нещодавно додане</h2>
       <div class="wf-status wf-status--error" role="alert">
         <p><b>Не вдалося завантажити Шухляду</b></p>
-        <p>Посилання з «Поділитися» ще не збережено: <b>meetup.com</b>. Скопіюй його, щоб не загубити, і спробуй ще раз. <!-- [?] текст; бриф §3.1, рішення PM 2026-11-24 --></p>
+        <p>Посилання з «Поділитися» ще не збережено: <b>meetup.com</b>. Скопіюй його, щоб не загубити, і спробуй ще раз. <!-- бриф §3.1, рішення PM 2026-11-24 --></p>
         <div class="wf-actions">
           <a class="wf-btn" href="drawer-loading.html#shukhliada">Повторити</a>
           <button type="button">Скопіювати посилання</button>
@@ -204,7 +204,7 @@
     </section>
     </div>
 
-    <!-- Варіант «вставлене — не посилання [?]» -->
+    <!-- Варіант «вставлене — не посилання» -->
     <div class="wf-variant" id="ne-posylannia">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · є посилання, щоб вставити? так → встав у поле — <a href="drawer-loading.html#vkladaietsia">вкладається</a> · ні → «Закрити» → <a href="drawer.html">Моя Шухляда</a></p>
     <div class="drawer-head">
@@ -214,7 +214,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title-3">
-      <p class="wf-label"><b>Поле для вставки</b> · вставлене — не посилання; вихід — те саме поле</p>
+      <p class="wf-label"><b>Поле для вставки</b> · вставлене — не посилання; головна дія — вставити посилання в те саме поле</p>
       <h2 id="save-title-3" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-3">Встав посилання — і воно вже в Шухляді</label>
@@ -222,7 +222,7 @@
                placeholder="https://…" value="купити квитки на суботу" aria-invalid="true" aria-describedby="paste-err-3">
         <div class="wf-status wf-status--error" id="paste-err-3" role="alert">
           <p><b>Це не посилання</b></p>
-          <p>Скопіюй посилання на сторінку й встав сюди ще раз. <!-- [?] текст; flows.md, errNotLink --></p>
+          <p>Скопіюй посилання на сторінку й встав сюди ще раз. <!-- flows.md, errNotLink --></p>
           <div class="wf-actions">
             <a class="wf-btn" href="drawer.html">Закрити</a> <!-- flows.md: endNotLink — закриває підказку й іде по посилання -->
           </div>
@@ -233,7 +233,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-3">
-      <p class="wf-label"><b>Нещодавно додане</b> · без змін</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · без змін; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-3">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -314,7 +314,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-4">
-      <p class="wf-label"><b>Нещодавно додане</b> · картка лишається з повідомленням — повторити чи забрати посилання</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · картка лишається з повідомленням; головна дія — спробувати ще, поруч «Скопіювати посилання»</p>
       <h2 id="recent-title-4">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -324,7 +324,7 @@
               <h3>meetup.com</h3> <!-- не збереглося — назви немає, лише домен -->
               <div class="wf-status wf-status--error" role="alert">
                 <p><b>Не вдалося зберегти</b></p>
-                <p>Спробуй ще раз — лишилося 2 спроби. <!-- [?] текст; до 3 спроб, бриф §3.1 --></p>
+                <p>Спробуй ще раз — лишилося 2 спроби. <!-- до 3 спроб, бриф §3.1 --></p>
                 <div class="wf-actions">
                   <a class="wf-btn" href="drawer-loading.html#vkladaietsia">Спробувати ще</a>
                   <button type="button">Скопіювати посилання</button>
@@ -413,7 +413,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-5">
-      <p class="wf-label"><b>Нещодавно додане</b> · без мережі: сказано причину; спроба не рахується</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · без мережі: сказано причину, спроба не рахується; головна дія — спробувати ще</p>
       <h2 id="recent-title-5">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -511,7 +511,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-6">
-      <p class="wf-label"><b>Нещодавно додане</b> · три спроби не вдалися: повтору немає, лише забрати посилання</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · три спроби не вдалися, повтору немає; головна дія — скопіювати посилання</p>
       <h2 id="recent-title-6">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -521,7 +521,7 @@
               <h3>meetup.com</h3> <!-- не збереглося — назви немає, лише домен -->
               <div class="wf-status wf-status--error" role="alert">
                 <p><b>Не вдалося зберегти</b></p>
-                <p>Три спроби не вдалися. Скопіюй посилання, щоб зберегти його пізніше. <!-- [?] текст; бриф §3.1, рішення PM 2026-11-22 --></p>
+                <p>Три спроби не вдалися. Скопіюй посилання, щоб зберегти його пізніше. <!-- бриф §3.1, рішення PM 2026-11-22 --></p>
                 <div class="wf-actions">
                   <button type="button">Скопіювати посилання</button>
                   <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
@@ -587,7 +587,7 @@
     </section>
     </div>
 
-    <!-- Варіант «не вдалося скасувати [?]» -->
+    <!-- Варіант «не вдалося скасувати» -->
     <div class="wf-variant" id="ne-skasuvalosia">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>; вдалося → <a href="drawer.html">Моя Шухляда</a> без картки · не вдалося — <a href="link.html#vydalyty">«Видалити» через «⋯»</a> на шарі «Посилання» (flow R3)</p>
     <div class="drawer-head">
@@ -609,7 +609,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-7">
-      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Скасувати» — на картці, бо підтвердження вже зникло</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Скасувати» — на картці, бо підтвердження вже зникло; головна дія — повторити</p>
       <h2 id="recent-title-7">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -624,7 +624,7 @@
               </div>
               <div class="wf-status wf-status--error" role="alert">
                 <p><b>Не вдалося скасувати</b></p>
-                <p>Спробуй ще раз. Або видали пізніше — через «⋯» на картці. <!-- [?] текст; рішення PM 2026-11-24, flows.md: delLater --></p>
+                <p>Спробуй ще раз. Або видали пізніше — через «⋯» на картці. <!-- рішення PM 2026-11-24, flows.md: delLater --></p>
                 <div class="wf-actions">
                   <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Повторити</a>
                 </div>
@@ -688,7 +688,7 @@
       </ol>
     </section>
     </div>
-    <!-- Варіант «не вдалося змінити категорію [?]» — flows.md, R3: errChange. Помилка на картці, а не в підтвердженні: воно зникає (рішення PM 2026-11-24).
+    <!-- Варіант «не вдалося змінити категорію» — flows.md, R3: errChange. Помилка на картці, а не в підтвердженні: воно зникає (рішення PM 2026-11-24).
          Приклад — обгортка linkedin.com (drawer.html#obhortka): обрано «Статті й ресурси», зміну не збережено — лишилося «Інше» -->
     <div class="wf-variant" id="zminyty">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="drawer-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="drawer.html">Моя Шухляда</a>: картка з новою категорією · не вдалося знову — посилання на місці, категорію виправити пізніше через <a href="link.html#katehoriia">«⋯» → категорія</a></p>
@@ -711,14 +711,14 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-8">
-      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Змінити» — на картці, бо підтвердження вже зникло; категорія — стара</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · помилка «Змінити» — на картці, бо підтвердження вже зникло; категорія стара; головна дія — повторити</p>
       <h2 id="recent-title-8">Нещодавно додане</h2>
       <ol class="cards">
         <li>
           <article>
             <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
             <div class="card-text">
-              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: домен обгортки [?] -->
+              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: домен обгортки -->
               <div class="meta">
                 <span>linkedin.com</span>
                 <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- зміну не збережено — вгадана категорія -->
@@ -726,7 +726,7 @@
               </div>
               <div class="wf-status wf-status--error" role="alert">
                 <p><b>Не вдалося змінити категорію</b></p>
-                <p>Посилання на місці, лишилося в «Інше». Спробуй ще раз або зміни пізніше — через «⋯» на картці. <!-- [?] текст; flows.md, R3: errChange, endLater --></p>
+                <p>Посилання на місці, лишилося в «Інше». Спробуй ще раз або зміни пізніше — через «⋯» на картці. <!-- flows.md, R3: errChange, endLater --></p>
                 <div class="wf-actions">
                   <a class="wf-btn" href="drawer-loading.html#katehoriia">Повторити</a>
                 </div>

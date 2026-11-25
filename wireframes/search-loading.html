@@ -6,10 +6,10 @@
   Шар — поверх усієї рамки, як Ctrl+K: своє поле запиту, той самий компонент .wf-search, що в шапці.
   Біля поля — дані для звірки запиту: де шукаємо (назва, опис, адреса, нотатка, теги — бриф §3.4), фільтр, скільки знайшлося;
   у результатах — де знайшлося і сам збіг, підкреслено.
-  Тексти з [?] — мої, ключі в microcopy.md з'являться пізніше; тестові посилання з [?] додано для пошуку.
+  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше; тестові посилання додано для пошуку.
   4 варіанти (sitemap.md; flows.md, R4 і «R3, далі»): шукаємо (loadQ) — чекаємо відповіді пошуку на запит;
   завантажуємо категорію (loadCat) — чекаємо посилання категорії; завантажуємо посилання з тегом (loadTag);
-  видаляємо тег [?] (delTag) — після «Видалити тег» у попередженні: так → search-success.html, ні → search-error.html#vydalyty-teh.
+  видаляємо тег (delTag) — після «Видалити тег» у попередженні: так → search-success.html, ні → search-error.html#vydalyty-teh.
   Сірі заглушки на місці результатів; запит, фільтр і заголовок уже видно — їх людина ввела чи вибрала сама.
 -->
 <html lang="uk">
@@ -48,7 +48,7 @@
     <li><a href="#shukaiemo">шукаємо</a></li>
     <li><a href="#katehoriia">завантажуємо категорію</a></li>
     <li><a href="#teh">завантажуємо посилання з тегом</a></li>
-    <li><a href="#vydaliaiemo-teh">видаляємо тег [?]</a></li>
+    <li><a href="#vydaliaiemo-teh">видаляємо тег</a></li>
   </ul>
 </nav>
 <div class="device">
@@ -56,13 +56,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header inert>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -91,7 +91,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -124,10 +124,10 @@
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
-        <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <label for="paste">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
-        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+               placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
     </section>
 
@@ -212,7 +212,7 @@
             <div class="card-text">
               <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
               <div class="meta">
-                <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                <span>google.com/maps</span> <!-- домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
                 <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
@@ -239,7 +239,7 @@
                 </ul>
               </div>
             </div>
-            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
             <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
           </article>
@@ -287,7 +287,7 @@
                 <span>letterboxd.com</span>
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано 18 листопада</span>
-                <span>✓ Вже переглянуто</span>
+                <span>Вже переглянуто</span>
               </div>
             </div>
             <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
@@ -301,7 +301,7 @@
        Відкривається полем пошуку в шапці, Ctrl+K чи /, категорією чи тегом у сайдбарі, чипом тегу на картці -->
   <dialog class="wf-layer" open aria-label="Пошук">
     <p class="wf-label"><b>Пошук · шар</b> · job <a href="../research/notes/11-jtbd.md#r4--дістати-за-тим-що-памятається">R4</a> «дістати за тим, що пам'ятається» · головна дія — знайти й відкрити сторінку</p>
-    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 [?] -->
+    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
     <!-- Варіант «шукаємо» -->
     <div class="wf-variant" id="shukaiemo">
@@ -311,10 +311,9 @@
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
         <input id="lq-1" name="q" type="search" autocomplete="off" value="карпати"
                placeholder="Шукай — знайде й з одруківкою">
-        <kbd>Esc</kbd>
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах</p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
-      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters">
         <legend class="vh">Фільтри</legend>
         <label>Категорія <select name="cat">
@@ -336,10 +335,10 @@
             <option>на вихідні · 4</option>
             <option>робота · 3</option>
           </select></label>
-        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <section class="results" aria-label="Результати" aria-busy="true">
-        <p class="wf-hint" role="status">Шукаємо «карпати»…</p> <!-- [?] текст -->
+        <p class="wf-hint" role="status">Шукаємо «карпати»…</p>
         <ol class="cards" aria-hidden="true">
           <li>
             <article class="card-skel">
@@ -380,10 +379,9 @@
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
         <input id="lq-2" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
-        <kbd>Esc</kbd>
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>Фільми й серіали</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
-      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters">
         <legend class="vh">Фільтри</legend>
         <label>Категорія <select name="cat">
@@ -405,10 +403,10 @@
             <option>на вихідні · 4</option>
             <option>робота · 3</option>
           </select></label>
-        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <section class="results" aria-label="Уся категорія" aria-busy="true">
-        <p class="wf-hint" role="status">Завантажуємо «Фільми й серіали»…</p> <!-- [?] текст; flows.md, loadCat -->
+        <p class="wf-hint" role="status">Завантажуємо «Фільми й серіали»…</p> <!-- flows.md, loadCat -->
         <ol class="cards" aria-hidden="true">
           <li>
             <article class="card-skel">
@@ -450,10 +448,9 @@
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
         <input id="lq-3" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
-        <kbd>Esc</kbd>
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «карпати»</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
-      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters">
         <legend class="vh">Фільтри</legend>
         <label>Категорія <select name="cat">
@@ -475,10 +472,10 @@
             <option>на вихідні · 4</option>
             <option>робота · 3</option>
           </select></label>
-        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <section class="results" aria-label="Посилання з тегом" aria-busy="true">
-        <p class="wf-hint" role="status">Завантажуємо посилання з тегом «карпати»…</p> <!-- [?] текст; flows.md, loadTag -->
+        <p class="wf-hint" role="status">Завантажуємо посилання з тегом «карпати»…</p> <!-- flows.md, loadTag -->
         <ol class="cards" aria-hidden="true">
           <li>
             <article class="card-skel">
@@ -508,25 +505,24 @@
       </section>
     </div>
 
-    <!-- Варіант «видаляємо тег [?]» (flow «R3, далі»: delTag). Тег ще на картках: його знімають, поки чекаємо відповіді.
-         Фільтри й картки недоступні (inert), щоб не відкрити тег, якого за мить не стане; шукати словом можна [?]; «Закрити» — як завжди -->
+    <!-- Варіант «видаляємо тег» (flow «R3, далі»: delTag). Тег ще на картках: його знімають, поки чекаємо відповіді.
+         Фільтри й картки недоступні (inert), щоб не відкрити тег, якого за мить не стане; шукати словом можна; «Закрити» — як завжди -->
     <div class="wf-variant" id="vydaliaiemo-teh">
       <p class="wf-label wf-flow"><b>Далі за flow</b> («R3, далі») · тег видалено? так → <a href="search-success.html">«Тег «карпати» видалено»</a>, фільтр знято; ні → <a href="search-error.html#vydalyty-teh">«Не вдалося видалити тег»</a></p>
       <div class="layer-head">
         <h2>карпати <span>· 6</span></h2>
       </div>
       <div class="wf-status tag-warn" role="status" aria-busy="true">
-        <p><b>Видаляємо тег «карпати»…</b></p> <!-- [?] текст; flows.md, «R3, далі»: delTag -->
-        <p>Знімаємо його з 6 посилань. Самі посилання лишаються. <!-- [?] текст --></p>
+        <p><b>Видаляємо тег «карпати»…</b></p> <!-- flows.md, «R3, далі»: delTag -->
+        <p>Знімаємо його з 6 посилань. Самі посилання лишаються.</p>
       </div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-4" class="vh">Шукати в Шухляді</label>
         <input id="lq-4" name="q" type="search" autocomplete="off"
                placeholder="Шукай — знайде й з одруківкою">
-        <kbd>Esc</kbd>
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «карпати»</b></p>
-      <!-- Фільтри застосовуються одразу при виборі — етап 3 [?]; у вайрфреймі без JS -->
+      <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters" inert>
         <legend class="vh">Фільтри</legend>
         <label>Категорія <select name="cat">
@@ -548,7 +544,7 @@
             <option>на вихідні · 4</option>
             <option>робота · 3</option>
           </select></label>
-        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- [?] що саме «нещодавно» — тиждень? -->
+        <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <section class="results" aria-label="Усі посилання з тегом, свіже першим" inert>
         <h3>Усі посилання з тегом, свіже першим <span>· 6</span></h3>
@@ -622,7 +618,7 @@
               <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Банка «На Карпати»»">⋯</a>
             </article>
           </li>
-          <li> <!-- тестове посилання для пошуку [?] -->
+          <li> <!-- тестове посилання для пошуку -->
             <article>
               <span class="wf-icon" aria-hidden="true"></span>
               <div class="card-text">
@@ -639,7 +635,7 @@
               <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Київ — Ворохта: квитки на потяг»">⋯</a>
             </article>
           </li>
-          <li> <!-- тестове посилання для пошуку [?] -->
+          <li> <!-- тестове посилання для пошуку -->
             <article>
               <span class="wf-icon" aria-hidden="true"></span>
               <div class="card-text">

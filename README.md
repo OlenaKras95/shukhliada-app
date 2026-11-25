@@ -10,7 +10,7 @@
 
 ## Перша версія
 - Збереження вставкою посилання (`Ctrl+V`); назва, опис та іконка сайту підтягуються автоматично
-- 6 категорій + «Інше», що визначаються за сайтом і запам'ятовують виправлення; прості теги, нотатка, позначка «Вже переглянуто»
+- 8 категорій, серед них «Покупки» й «Інше»; категорії визначаються за сайтом і запам'ятовують виправлення; прості теги, нотатка, позначка «Вже переглянуто»
 - Пошук, стійкий до одруківок і до різних форм слова (`Ctrl+K`), і фільтри
 - Вхід через Google, синхронізація між пристроями; експорт усієї Шухляди одним файлом
 - Desktop-first; зберігати й шукати можна й з телефона (на Android — через «Поділитися»); українською
@@ -46,5 +46,11 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Структура IA: дерево екранів, навігація, flows і трасування — знімок `sitemap.md` і `flows.md` | [ia.html](./ia.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/ia.html) |
 | Збирання `ia.html`: `node _build/build-ia.mjs` | [_build/build-ia.mjs](./_build/build-ia.mjs) · шаблон [_build/ia.template.html](./_build/ia.template.html) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
+| Правила вайрфреймів: рамка, стани, вкладки, підписи зон | [wireframes/_conventions.md](./wireframes/_conventions.md) |
+| Вайрфрейм «Моя Шухляда» (головний) і стани | [drawer.html](./wireframes/drawer.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/drawer.html) |
+| Вайрфрейм «Пошук» і стани; попередження для тегу без посилань | [search.html](./wireframes/search.html) · [search-empty.html#vydalyty-teh](./wireframes/search-empty.html#vydalyty-teh) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/search.html) |
+| Вайрфрейм «Посилання» і стани; назва й опис підтягуються | [link.html](./wireframes/link.html) · [link-loading.html#pidtiahuietsia](./wireframes/link-loading.html#pidtiahuietsia) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/link.html) |
+| Вайрфрейм «Акаунт» і стани; «назавжди» для порожньої Шухляди | [account.html](./wireframes/account.html) · [account-empty.html#nazavzhdy](./wireframes/account-empty.html#nazavzhdy) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/account.html) |
+| Вайрфрейм «Вхід» і стани | [login.html](./wireframes/login.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/login.html) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |
 | Навігатор: скрипт і стилі | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) |

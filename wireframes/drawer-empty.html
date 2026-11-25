@@ -4,7 +4,7 @@
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст.
   flows.md, Main: «empty: Шухляда порожня, ілюстрація, поле — єдина дія» → «стан: дотик до поля, системне «Вставити»». Вихід — поле для вставки, не тупик.
   Сайдбар: категорій 8 і завжди 8 (бриф §3.2) — з нулями; тегів немає — підказка, де їх додають.
-  Тексти з [?] у коментарях — мої, ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
 -->
 <html lang="uk">
 <head>
@@ -33,13 +33,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -68,10 +68,10 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>0</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
-      <p class="wf-group-empty">Тегів ще немає — тег додають через «⋯» на картці</p> <!-- flows.md, R4: «тегів ще немає» -->
+      <p class="wf-group-empty">Теги з'являться, коли відкладеш перше посилання</p> <!-- flows.md, R4: «тегів ще немає» -->
     </details>
 
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
@@ -94,7 +94,7 @@
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити перше посилання; інших дій на екрані немає</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
-        <label for="paste">Встав перше посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <label for="paste">Встав перше посилання — і воно вже в Шухляді</label>
         <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
                placeholder="https://…">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
@@ -104,11 +104,11 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · поки порожньо: ілюстрація й підказка, своєї дії немає — дія в полі вище</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · поки порожньо: ілюстрація й підказка; головна дія — у полі вище: вставити перше посилання</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 (_conventions.md, розділ 1) -->
-      <p class="empty-note">Тут з'являтиметься все, що відкладеш — свіже першим.</p> <!-- [?] текст -->
-      <p class="empty-note">Скопіюй будь-яке посилання й встав у поле вище.</p> <!-- [?] текст -->
+      <p class="empty-note">Тут з'являтиметься все, що відкладеш — свіже першим.</p>
+      <p class="empty-note">Скопіюй будь-яке посилання й встав у поле вище.</p>
     </section>
   </main>
 

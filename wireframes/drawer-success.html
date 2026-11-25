@@ -34,13 +34,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -69,7 +69,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -98,7 +98,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <p class="wf-label"><b>Поле для вставки</b> · збережено: підтвердження під полем, поле знову вільне</p>
+      <p class="wf-label"><b>Поле для вставки</b> · збережено: підтвердження під полем; головна дія — вставити наступне</p>
       <h2 id="save-title" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
@@ -113,7 +113,7 @@
         <div class="wf-actions">
           <a class="wf-btn" href="drawer.html#zminyty">Змінити</a> <!-- категорію, одним кліком: flow R3 → вибір із 8 -->
           <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Скасувати</a>
-          <span class="wf-hint">Можна вставляти наступне</span> <!-- [?] текст -->
+          <span class="wf-hint">Можна вставляти наступне</span>
         </div>
       </aside>
       <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · саме → <a href="drawer-loading.html#pidtiahuietsia">підтягується назва, опис, іконка</a> · «Скасувати» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a> · «Змінити» → <a href="drawer.html#zminyty">вибір із 8 категорій</a> (flow R3) · вставити наступне — поле вище</p>
@@ -121,7 +121,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title">
-      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху; назва, опис та іконка ще підтягуються</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху; назва, опис та іконка ще підтягуються; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -134,9 +134,9 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Підтягуємо назву й опис…</p> <!-- [?] текст -->
+              <p class="card-state" role="status">Підтягуємо назву й опис…</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «meetup.com»">⋯</a>
+            <a class="wf-btn" href="link-loading.html#pidtiahuietsia" aria-label="Відкрити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
