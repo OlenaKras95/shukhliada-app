@@ -5,11 +5,11 @@
   Job: R2 «одразу розуміти, що це й навіщо» (research/notes/11-jtbd.md); ще R3, R4. Розкладку шару обґрунтовано в link.html.
   Рамка, шапка й навігація — ті самі, що на drawer.html. Під шаром — «Моя Шухляда», приглушена й inert.
   4 варіанти (sitemap.md; flows.md, R3 і «R3, далі»):
-  - зміну збережено — одразу, без «Зберегти» [?]: «Збережено» біля поля (okEdit);
+  - зміну збережено — одразу, без «Зберегти»: «Збережено» біля поля (okEdit);
   - категорію змінено — правило сайту: «наступні з цього сайту ляжуть сюди», старі не чіпаємо (okRule; бриф §3.2);
   - категорію змінено для YouTube — сайт з різним вмістом, правило не створюємо (okNoRule);
   - `видалено` — шар закрито, посилання зникло зі списку під ним (okDel); без «Відновити» — видалене зникає назавжди (бриф §3.3).
-  Тексти з [?] — мої; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
 -->
 <html lang="uk">
 <head>
@@ -28,6 +28,14 @@
     /* «видалено»: шар закрито — ховаємо його й не приглушуємо екран під ним */
     body:has(#vydaleno:target) .wf-layer { display: none; }
     body:has(#vydaleno:target) .device > :not(.wf-layer) { opacity: 1; }
+    /* поки шар відкрито — шапка й сайдбар під ним недоступні, як inert; «видалено» — шар закрито, вони знову працюють.
+       inert-атрибут CSS не знімає, тож без JS — властивістю interactivity */
+    body:not(:has(#vydaleno:target)) .device > :is(header, nav) { interactivity: inert; pointer-events: none; }
+    /* «видалено»: Музей Ханенків зник — у «Місцях» і тегу «київ» на одне посилання менше */
+    body:has(#vydaleno:target) .device > nav .wf-group:first-of-type li:nth-child(2) a span:last-child,
+    body:has(#vydaleno:target) .device > nav .wf-group:last-of-type li:nth-child(3) a span:last-child { font-size: 0; }
+    body:has(#vydaleno:target) .device > nav .wf-group:first-of-type li:nth-child(2) a span:last-child::after { content: "6"; font-size: 14px; }
+    body:has(#vydaleno:target) .device > nav .wf-group:last-of-type li:nth-child(3) a span:last-child::after { content: "4"; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -46,7 +54,7 @@
 <nav class="wf-tabs" aria-label="Варіанти: Посилання · успіх">
   <p>Посилання · успіх — варіанти:</p>
   <ul>
-    <li><a href="#zmina">зміну збережено [?]</a></li>
+    <li><a href="#zmina">зміну збережено</a></li>
     <li><a href="#katehoriia">категорію змінено — правило сайту</a></li>
     <li><a href="#bez-pravyla">без правила — YouTube</a></li>
     <li><a href="#vydaleno">видалено</a></li>
@@ -55,15 +63,15 @@
 <div class="device">
 
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
-  <header inert>
+  <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -71,7 +79,7 @@
 
   <!-- Глобальна навігація — звичайний компонент (sitemap.md, «Навігація»). Поточний — aria-current.
        Категорії й теги — не пункти, а входи в шар «Пошук» з фільтром -->
-  <nav id="menu" inert aria-label="Розділи Шухляди">
+  <nav id="menu" aria-label="Розділи Шухляди">
     <button type="button" class="wf-menu-close" aria-label="Закрити меню">×</button> <!-- лише на телефоні -->
     <p class="wf-label"><b>Глобальна навігація</b> · головна дія — гортати категорію</p>
     <ul>
@@ -92,7 +100,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -127,10 +135,10 @@
         <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
         <h2 id="save-title" class="vh">Відкласти посилання</h2>
         <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
-          <label for="paste">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+          <label for="paste">Встав посилання — і воно вже в Шухляді</label>
           <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
-                 placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
-          <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+                 placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+          <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
         </form>
         <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
         <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
@@ -217,7 +225,7 @@
               <div class="card-text">
                 <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
                 <div class="meta">
-                  <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                  <span>google.com/maps</span> <!-- домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
                   <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                   <span>додано вчора</span>
                   <ul class="tags" aria-label="Теги">
@@ -244,7 +252,7 @@
                   </ul>
                 </div>
               </div>
-              <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+              <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
               <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
               <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
             </article>
@@ -292,7 +300,7 @@
                   <span>letterboxd.com</span>
                   <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                   <span>додано 18 листопада</span>
-                  <span>✓ Вже переглянуто</span>
+                  <span>Вже переглянуто</span>
                 </div>
               </div>
               <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
@@ -302,8 +310,8 @@
       </section>
     </div>
 
-    <!-- Варіант «видалено» (flows.md, «R3, далі»: okDel): шар закрито, «Музей Ханенків» зник зі списку під ним. Шапка й сайдбар лишаються
-         в розмітці inert, бо сторінка спільна з варіантами шару [?]; вихід — сам список -->
+    <!-- Варіант «видалено» (flows.md, «R3, далі»: okDel): шар закрито, «Музей Ханенків» зник зі списку під ним. Шапка й сайдбар
+         знову працюють — шукати й гортати можна, як на «Моїй Шухляді»; у «Місцях» і «київ» на одне посилання менше -->
     <div class="wf-variant" id="vydaleno">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · успіх: видалено назавжди — шар закрився, посилання зникло зі списку · далі — <a href="drawer.html">Моя Шухляда</a> як завжди; вставити наступне — поле нижче</p>
       <div class="drawer-head">
@@ -316,10 +324,10 @@
         <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
         <h2 id="save-title-v" class="vh">Відкласти посилання</h2>
         <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
-          <label for="paste-v">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+          <label for="paste-v">Встав посилання — і воно вже в Шухляді</label>
           <input id="paste-v" name="link" type="text" inputmode="url" autocomplete="off"
-                 placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
-          <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+                 placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+          <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
         </form>
         <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
         <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
@@ -333,7 +341,7 @@
         <!-- Підтвердження — над списком, звідки картка зникла. Без «Відновити»: видалене зникає назавжди (бриф §3.3) -->
         <aside class="wf-status" role="status" aria-label="Підтвердження">
           <p><b>Видалено назавжди</b></p>
-          <p>«Музей Ханенків — Google Карти» більше немає в Шухляді</p> <!-- [?] текст -->
+          <p>«Музей Ханенків — Google Карти» більше немає в Шухляді</p>
         </aside>
         <ol class="cards">
           <li>
@@ -420,7 +428,7 @@
                   </ul>
                 </div>
               </div>
-              <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+              <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
               <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
               <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
             </article>
@@ -468,7 +476,7 @@
                   <span>letterboxd.com</span>
                   <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                   <span>додано 18 листопада</span>
-                  <span>✓ Вже переглянуто</span>
+                  <span>Вже переглянуто</span>
                 </div>
               </div>
               <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
@@ -483,9 +491,9 @@
        Відкривається «⋯» на картці — на головному чи в результатах пошуку — і з «Вже в Шухляді» -->
   <dialog class="wf-layer" open aria-label="Посилання">
     <p class="wf-label"><b>Посилання · шар</b> · job <a href="../research/notes/11-jtbd.md#r2--одразу-розуміти-що-це-й-навіщо">R2</a> «одразу розуміти, що це й навіщо» · головна дія — звірити, що це й навіщо, і виправити поле</p>
-    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 [?] -->
+    <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
-    <!-- Варіант «зміну збережено» — одразу, без «Зберегти» [?] (flows.md, «R3, далі»: okEdit). Позначка — біля поля, шар лишається відкритим -->
+    <!-- Варіант «зміну збережено» — одразу, без «Зберегти» (flows.md, «R3, далі»: okEdit). Позначка — біля поля, шар лишається відкритим -->
     <div class="wf-variant" id="zmina">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (R3, «далі») · успіх: через тижні видно, що це й навіщо · далі — інша правка на <a href="link.html">шарі</a> або «Закрити» → <a href="drawer.html">список як був</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
@@ -496,23 +504,23 @@
         <a class="wf-btn" href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Відкрити сторінку</a>
       </header>
       <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
-           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
       <form class="link-fields" action="link-loading.html#zberihaiemo">
         <p class="field">
           <label for="name-1">Назва</label>
           <input id="name-1" name="title" type="text" value="Музей Ханенків — Google Карти">
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="desc-1">Опис</label>
           <textarea id="desc-1" name="description" rows="2">Музей мистецтв імені Богдана та Варвари Ханенків · вул. Терещенківська, 15–17, Київ</textarea>
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="note-1">Нотатка</label>
-          <textarea id="note-1" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">сходити з батьками в неділю</textarea> <!-- [?] текст -->
-          <small class="field-src">Нотатку змінено щойно</small> <!-- [?] текст -->
-          <small class="field-status" role="status">Збережено</small> <!-- [?] текст -->
+          <textarea id="note-1" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">сходити з батьками в неділю</textarea>
+          <small class="field-src">Нотатку змінено щойно</small>
+          <small class="field-status" role="status">Збережено</small>
         </p>
         <fieldset class="field">
           <legend>Категорія</legend>
@@ -530,7 +538,7 @@
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
             </ul>
           </details>
-          <small class="field-src">Вгадано за сайтом google.com/maps</small> <!-- [?] текст; статус категорії: `вгадана` -->
+          <small class="field-src">Вгадано за сайтом google.com/maps</small> <!-- статус категорії: `вгадана` -->
         </fieldset>
         <fieldset class="field">
           <legend>Теги</legend>
@@ -539,11 +547,11 @@
           </ul>
           <span class="tag-add">
             <label for="tag-1" class="vh">Додати тег</label>
-            <input id="tag-1" name="tag" type="text" list="known-tags-1" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <input id="tag-1" name="tag" type="text" list="known-tags-1" autocomplete="off" placeholder="Новий тег">
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-1"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-1" name="seen" type="checkbox" role="switch">
@@ -568,22 +576,22 @@
         <a class="wf-btn" href="https://dou.ua/lenta/articles/designer-interview" target="_blank" rel="noopener">Відкрити сторінку</a>
       </header>
       <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
-           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
       <form class="link-fields" action="link-loading.html#zberihaiemo">
         <p class="field">
           <label for="name-2">Назва</label>
           <input id="name-2" name="title" type="text" value="Як дизайнеру підготуватися до співбесіди">
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="desc-2">Опис</label>
           <textarea id="desc-2" name="description" rows="2">Що питають на співбесіді дизайнера і як розповісти про своє портфоліо</textarea>
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="note-2">Нотатка</label>
-          <textarea id="note-2" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">порадили в чаті курсу</textarea> <!-- [?] текст -->
-          <small class="field-src">Нотатку додано 22 листопада</small> <!-- [?] текст -->
+          <textarea id="note-2" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">порадили в чаті курсу</textarea>
+          <small class="field-src">Нотатку додано 22 листопада</small>
         </p>
         <fieldset class="field">
           <legend>Категорія</legend>
@@ -601,10 +609,10 @@
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
             </ul>
           </details>
-          <small class="field-src">Змінено вручну щойно · було «Інше»</small> <!-- [?] текст; статус категорії: `змінена людиною` -->
+          <small class="field-src">Змінено вручну щойно · було «Інше»</small> <!-- статус категорії: `змінена людиною` -->
           <aside class="wf-status" role="status" aria-label="Категорію змінено">
-            <p><b>Категорію змінено: Статті й ресурси</b></p> <!-- [?] текст -->
-            <p>Наступні посилання з dou.ua ляжуть сюди самі. Ті, що вже в Шухляді, лишаються, де були.</p> <!-- [?] текст -->
+            <p><b>Категорію змінено: Статті й ресурси</b></p>
+            <p>Наступні посилання з dou.ua ляжуть сюди самі. Ті, що вже в Шухляді, лишаються, де були.</p>
           </aside>
         </fieldset>
         <fieldset class="field">
@@ -615,11 +623,11 @@
           </ul>
           <span class="tag-add">
             <label for="tag-2" class="vh">Додати тег</label>
-            <input id="tag-2" name="tag" type="text" list="known-tags-2" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <input id="tag-2" name="tag" type="text" list="known-tags-2" autocomplete="off" placeholder="Новий тег">
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-2"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-2" name="seen" type="checkbox" role="switch">
@@ -633,7 +641,7 @@
       </footer>
     </div>
 
-    <!-- Варіант «категорію змінено» без правила (flows.md, R3: okNoRule; бриф §3.2): YouTube — сайт з різним вмістом, тож зміна — лише для цього посилання. Вгадана «Фільми й серіали» — [?] -->
+    <!-- Варіант «категорію змінено» без правила (flows.md, R3: okNoRule; бриф §3.2): YouTube — сайт з різним вмістом, тож зміна — лише для цього посилання. Вгадана «Фільми й серіали» — -->
     <div class="wf-variant" id="bez-pravyla">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (R3) · успіх: це посилання на місці, правило не створюємо — наступні з YouTube вгадуємо як зазвичай · далі — <a href="link.html">шар</a> або «Закрити» → <a href="drawer.html">список як був</a></p>
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
@@ -644,22 +652,22 @@
         <a class="wf-btn" href="https://www.youtube.com/watch?v=hike-backpack" target="_blank" rel="noopener">Відкрити сторінку</a>
       </header>
       <!-- Поля — у порядку питань R2: що це (назва, опис) → навіщо (нотатка) → куди лягло (категорія, теги) → що з ним (переглянуто) → коли додано.
-           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама [?]; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
+           Під полем — з чим звірити. «Зберегти» немає: правка зберігається сама; у вайрфреймі Enter і «Додати» ведуть у «зберігаємо зміну» -->
       <form class="link-fields" action="link-loading.html#zberihaiemo">
         <p class="field">
           <label for="name-3">Назва</label>
           <input id="name-3" name="title" type="text" value="Як скласти рюкзак у похід">
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="desc-3">Опис</label>
           <textarea id="desc-3" name="description" rows="2">Що взяти в похід на три дні й як розкласти речі в рюкзаку</textarea>
-          <small class="field-src">Зі сторінки сайту</small> <!-- [?] текст -->
+          <small class="field-src">Зі сторінки сайту</small>
         </p>
         <p class="field">
           <label for="note-3">Нотатка</label>
-          <textarea id="note-3" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні"></textarea> <!-- [?] текст -->
-          <small class="field-src">Нотатки ще немає — її бачиш лише ти, і за нею шукає пошук</small> <!-- [?] текст -->
+          <textarea id="note-3" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні"></textarea>
+          <small class="field-src">Нотатки ще немає — її бачиш лише ти, і за нею шукає пошук</small>
         </p>
         <fieldset class="field">
           <legend>Категорія</legend>
@@ -677,10 +685,10 @@
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
             </ul>
           </details>
-          <small class="field-src">Змінено вручну щойно · було «Фільми й серіали»</small> <!-- [?] текст; статус категорії: `змінена людиною` -->
+          <small class="field-src">Змінено вручну щойно · було «Фільми й серіали»</small> <!-- статус категорії: `змінена людиною` -->
           <aside class="wf-status" role="status" aria-label="Категорію змінено">
-            <p><b>Категорію змінено: Статті й ресурси</b></p> <!-- [?] текст -->
-            <p>Лише для цього посилання: на YouTube буває всяке, тож наступні з нього вгадуватимемо як зазвичай.</p> <!-- [?] текст -->
+            <p><b>Категорію змінено: Статті й ресурси</b></p>
+            <p>Лише для цього посилання: на YouTube буває всяке, тож наступні з нього вгадуватимемо як зазвичай.</p>
           </aside>
         </fieldset>
         <fieldset class="field">
@@ -691,11 +699,11 @@
           </ul>
           <span class="tag-add">
             <label for="tag-3" class="vh">Додати тег</label>
-            <input id="tag-3" name="tag" type="text" list="known-tags-3" autocomplete="off" placeholder="Новий тег"> <!-- [?] текст -->
+            <input id="tag-3" name="tag" type="text" list="known-tags-3" autocomplete="off" placeholder="Новий тег">
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-3"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small> <!-- [?] текст -->
+          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-3" name="seen" type="checkbox" role="switch">

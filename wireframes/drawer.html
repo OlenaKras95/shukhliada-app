@@ -7,7 +7,7 @@
   - #vzhe-v-shukhliadi — «Вже в Шухляді» з переходом до наявного → link-loading.html#vidkryvaiemo (flows.md, Main: dup);
   - #skasovano — «Скасувати» вдалося, картки немає (Main: cancel);
   - #lyshe-domen — дані сторінки не прийшли: домен замість назви, м'яка заглушка (Main: domain);
-  - #obhortka — обгортку не розгорнуто [?]: «Збережено в Шухляді», але домен linkedin.com і хибна категорія, «Змінити» (Main: wrapFail);
+  - #obhortka — обгортку не розгорнуто: «Збережено в Шухляді», але домен linkedin.com і хибна категорія, «Змінити» (Main: wrapFail);
   - #podilytysia — прийшли через «Поділитися», Android: одразу стан збереження (Main: share);
   - #zminyty — «Змінити» в підтвердженні: вибір із 8 категорій (flow R3: change) → drawer-loading.html#katehoriia.
   «⋯» на картці → шар «Посилання» (link.html); «Акаунт» у сайдбарі → account.html.
@@ -35,13 +35,13 @@
 
   Тригери довіри П1 «Скидає з телефона» (research/notes/10-personas.md, П1, «Заспокоює») — видно без прокрутки:
   - зберегти там, де знайшлося, одним рухом → поле для вставки нагорі, без кнопки «Зберегти»;
-  - одразу видно, що збереглося [?] → «Нещодавно додане», свіже першим, «додано сьогодні»;
-  - знаходиться з іншим закінченням слова і з одруківкою [?] → підказка в полі пошуку — лише про одруківку, бо довша не влазить на телефоні;
-  - одне місце [?] → категорії з кількістю і загальна кількість;
+  - одразу видно, що збереглося → «Нещодавно додане», свіже першим, «додано сьогодні»;
+  - знаходиться з іншим закінченням слова і з одруківкою → підказка в полі пошуку — лише про одруківку, бо довша не влазить на телефоні;
+  - одне місце → категорії з кількістю і загальна кількість;
   - збережене не зникне, його можна забрати → пункт «Акаунт» завжди видно, експорт — там.
   «Насторожує: зайві кроки» → одна дія замість форми з кнопкою.
 
-  Тексти з [?] у коментарях — не з брифу й реєстру, а мої; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
 -->
 <html lang="uk">
 <head>
@@ -82,7 +82,7 @@
     <li><a href="#vzhe-v-shukhliadi">«Вже в Шухляді»</a></li>
     <li><a href="#skasovano">скасовано</a></li>
     <li><a href="#lyshe-domen">лише домен</a></li>
-    <li><a href="#obhortka">обгортку не розгорнуто [?]</a></li>
+    <li><a href="#obhortka">обгортку не розгорнуто</a></li>
     <li><a href="#podilytysia">після «Поділитися» · Android</a></li>
     <li><a href="#zminyty">«Змінити» — вибір категорії</a></li>
   </ul>
@@ -93,13 +93,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -128,7 +128,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -162,10 +162,10 @@
       <p class="wf-label"><b>Поле для вставки</b> · головна дія — вставити посилання</p>
       <h2 id="save-title-1" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
-        <label for="paste-1">Встав посилання — і воно вже в Шухляді</label> <!-- [?] текст -->
+        <label for="paste-1">Встав посилання — і воно вже в Шухляді</label>
         <input id="paste-1" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…"> <!-- [?] текст; без кнопки «Зберегти»: вставка і є збереження -->
-        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p> <!-- [?] текст -->
+               placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+        <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
       <p class="wf-label wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
@@ -252,7 +252,7 @@
             <div class="card-text">
               <h3><a href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Музей Ханенків — Google Карти</a></h3>
               <div class="meta">
-                <span>google.com/maps</span> <!-- [?] домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
+                <span>google.com/maps</span> <!-- домен нічого не каже про сервіс — показуємо з першим розділом адреси -->
                 <span class="cat"><span class="vh">Категорія: </span>Місця</span>
                 <span>додано вчора</span>
                 <ul class="tags" aria-label="Теги">
@@ -279,7 +279,7 @@
                 </ul>
               </div>
             </div>
-            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) [?] формат -->
+            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
             <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
           </article>
@@ -327,7 +327,7 @@
                 <span>letterboxd.com</span>
                 <span class="cat"><span class="vh">Категорія: </span>Фільми й серіали</span>
                 <span>додано 18 листопада</span>
-                <span>✓ Вже переглянуто</span>
+                <span>Вже переглянуто</span>
               </div>
             </div>
             <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
@@ -347,7 +347,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-2">
-      <p class="wf-label"><b>Поле для вставки</b> · вставлене вже є — м'яка підказка з переходом до наявного, не помилка</p>
+      <p class="wf-label"><b>Поле для вставки</b> · вставлене вже є — м'яка підказка, не помилка; головна дія — перейти до наявного</p>
       <h2 id="save-title-2" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-2">Встав посилання — і воно вже в Шухляді</label>
@@ -359,17 +359,17 @@
       <aside class="wf-status" role="status" aria-label="Вже в Шухляді">
         <p><b>Вже в Шухляді</b></p>
         <p>Interstellar (2014) — IMDb · Категорія: <b>Фільми й серіали</b> · додано сьогодні</p>
-        <p>Це те саме посилання, тож удруге не кладемо. <!-- [?] текст: відрізнялося лише m. і хвостом з Telegram --></p>
+        <p>Це те саме посилання, тож удруге не кладемо. <!-- відрізнялося лише m. і хвостом з Telegram --></p>
         <div class="wf-actions">
           <a class="wf-btn" href="link-loading.html#vidkryvaiemo">Перейти до наявного</a> <!-- шар «Посилання» над карткою; flows.md, Main: linkDup -->
-          <a class="wf-btn" href="drawer.html">Закрити</a> <!-- [?] текст; flows.md: okDup -->
+          <a class="wf-btn" href="drawer.html">Закрити</a> <!-- flows.md: okDup -->
         </div>
       </aside>
     </section>
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-2">
-      <p class="wf-label"><b>Нещодавно додане</b> · без змін: нової картки немає, наявна — на своєму місці</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · без змін: нової картки немає, наявна — на своєму місці; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-2">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -446,12 +446,12 @@
                placeholder="https://…">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
-      <p class="wf-hint" role="status">Скасовано — посилання прибрано з Шухляди</p> <!-- [?] текст; чи потрібна підказка взагалі — [?], бриф каже лише «прибрати картку» -->
+      <p class="wf-hint" role="status">Скасовано — посилання прибрано з Шухляди</p> <!-- чи потрібна підказка взагалі — перевіримо на прототипі; бриф каже лише «прибрати картку» -->
     </section>
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-3">
-      <p class="wf-label"><b>Нещодавно додане</b> · картки meetup.com немає — список як до вставки</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · картки meetup.com немає — список як до вставки; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-3">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -532,7 +532,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-4">
-      <p class="wf-label"><b>Нещодавно додане</b> · назва, опис та іконка не прийшли — домен і м'яка заглушка; назву можна дописати через «⋯»</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · назва, опис та іконка не прийшли — домен і м'яка заглушка; головна дія — дописати назву через «⋯»</p>
       <h2 id="recent-title-4">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -605,10 +605,10 @@
     </section>
     </div>
 
-    <!-- Вигляд «обгортку не розгорнуто» [?] — flows.md, Main: wrapFail → flow R3. Вставлено linkedin.com/safety/go/?url=… до статті на dou.ua; розгорнути не вдалося — домен обгортки й хибна категорія -->
+    <!-- Вигляд «обгортку не розгорнуто» — flows.md, Main: wrapFail → flow R3. Вставлено linkedin.com/safety/go/?url=… до статті на dou.ua; розгорнути не вдалося — домен обгортки й хибна категорія -->
     <div class="wf-variant" id="obhortka">
-      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main → R3) · обгортку не розгорнуто [?] → «Змінити» → <a href="drawer.html#zminyty">вибір із 8 категорій</a> · «Скасувати» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>, щоб вставити посилання на саму статтю [?] · не помічено, поки підтвердження на екрані → пізніше «⋯» → <a href="link.html#katehoriia">категорія на шарі «Посилання»</a></p>
-      <p class="wf-label">Домен обгортки «Змінити» не виправляє: змінюється лише категорія [?]</p>
+      <p class="wf-label wf-flow"><b>Далі за flow</b> (Main → R3) · обгортку не розгорнуто → «Змінити» → <a href="drawer.html#zminyty">вибір із 8 категорій</a> · «Скасувати» → <a href="drawer-loading.html#skasovuiemo">скасовуємо</a>, щоб вставити посилання на саму статтю · не помічено, поки підтвердження на екрані → пізніше «⋯» → <a href="link.html#katehoriia">категорія на шарі «Посилання»</a></p>
+      <p class="wf-label">Домен обгортки «Змінити» не виправляє: змінюється лише категорія</p>
     <div class="drawer-head">
       <h1>Моя Шухляда</h1>
       <p>49 посилань</p>
@@ -616,7 +616,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-5">
-      <p class="wf-label"><b>Поле для вставки</b> · збережено, але видно, що щось не так: домен обгортки й хибна категорія — «Змінити» поруч</p>
+      <p class="wf-label"><b>Поле для вставки</b> · збережено, але видно, що щось не так: домен обгортки й хибна категорія; головна дія — «Змінити»</p>
       <h2 id="save-title-5" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-5">Встав посилання — і воно вже в Шухляді</label>
@@ -637,17 +637,17 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-5">
-      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху: домен обгортки, категорія «Інше»</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху: домен обгортки, категорія «Інше»; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-5">Нещодавно додане</h2>
       <ol class="cards">
         <li>
           <article>
             <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
             <div class="card-text">
-              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: назва й іконка — не тієї сторінки, лишається домен обгортки [?] -->
+              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: назва й іконка — не тієї сторінки, лишається домен обгортки -->
               <div class="meta">
                 <span>linkedin.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- [?] невідомий домен → «Інше» (бриф §3.2); насправді — стаття на dou.ua, «Статті й ресурси» -->
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- невідомий домен → «Інше» (бриф §3.2); насправді — стаття на dou.ua, «Статті й ресурси» -->
                 <span>додано щойно</span>
               </div>
             </div>
@@ -720,7 +720,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-6">
-      <p class="wf-label"><b>Поле для вставки</b> · вставляти не треба: посилання прийшло з «Поділитися», одразу підтвердження</p>
+      <p class="wf-label"><b>Поле для вставки</b> · вставляти не треба: посилання прийшло з «Поділитися», одразу підтвердження; головна дія — «Змінити», якщо категорія не та</p>
       <h2 id="save-title-6" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-6">Встав посилання — і воно вже в Шухляді</label>
@@ -735,14 +735,14 @@
         <div class="wf-actions">
           <a class="wf-btn" href="drawer.html#zminyty">Змінити</a> <!-- категорію, одним кліком: flow R3 → вибір із 8 -->
           <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Скасувати</a>
-          <span class="wf-hint">Можна повертатися — кнопкою «Назад» телефона</span> <!-- [?] текст -->
+          <span class="wf-hint">Можна повертатися — кнопкою «Назад» телефона</span>
         </div>
       </aside>
     </section>
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-6">
-      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху; назва, опис та іконка ще підтягуються</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху; назва, опис та іконка ще підтягуються; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-6">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -755,9 +755,9 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Підтягуємо назву й опис…</p> <!-- [?] текст -->
+              <p class="card-state" role="status">Підтягуємо назву й опис…</p>
             </div>
-            <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «meetup.com»">⋯</a>
+            <a class="wf-btn" href="link-loading.html#pidtiahuietsia" aria-label="Відкрити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -826,7 +826,7 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-7">
-      <p class="wf-label"><b>Поле для вставки</b> · «Змінити» в підтвердженні розгортає вибір із 8 категорій — другий клік і є вибір</p>
+      <p class="wf-label"><b>Поле для вставки</b> · «Змінити» в підтвердженні розгортає вибір із 8 категорій; головна дія — обрати категорію другим кліком</p>
       <h2 id="save-title-7" class="vh">Відкласти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-7">Встав посилання — і воно вже в Шухляді</label>
@@ -834,13 +834,13 @@
                placeholder="https://…">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
-      <!-- Підтвердження з розгорнутим вибором. Поки вибір відкрито, підтвердження не зникає [?] -->
+      <!-- Підтвердження з розгорнутим вибором. Поки вибір відкрито, підтвердження не зникає -->
       <aside class="wf-status" role="status" aria-label="Підтвердження">
         <p><b>Збережено в Шухляді</b></p>
         <p>linkedin.com · Категорія: <b>Інше</b></p>
         <form class="cat-pick" action="drawer-loading.html#katehoriia"> <!-- кнопка категорії — одразу збереження, без «Зберегти» -->
           <fieldset>
-            <legend>Куди покласти?</legend> <!-- [?] текст -->
+            <legend>Куди покласти?</legend>
             <ul>
               <li><button type="submit" name="category" value="Фільми й серіали">Фільми й серіали</button></li>
               <li><button type="submit" name="category" value="Місця">Місця</button></li>
@@ -849,7 +849,7 @@
               <li><button type="submit" name="category" value="Івенти">Івенти</button></li>
               <li><button type="submit" name="category" value="Курси">Курси</button></li>
               <li><button type="submit" name="category" value="Покупки">Покупки</button></li>
-              <li><button type="submit" name="category" value="Інше" aria-current="true">Інше · зараз</button></li> <!-- вгадана; [?] позначка -->
+              <li><button type="submit" name="category" value="Інше" aria-current="true">Інше · зараз</button></li> <!-- вгадана; позначка -->
             </ul>
           </fieldset>
           <div class="wf-actions">
@@ -861,17 +861,17 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-7">
-      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху, з вгаданою категорією, поки не обрано іншу</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · нове — зверху, з вгаданою категорією, поки не обрано іншу; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-7">Нещодавно додане</h2>
       <ol class="cards">
         <li>
           <article>
             <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
             <div class="card-text">
-              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: назва й іконка — не тієї сторінки, лишається домен обгортки [?] -->
+              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: назва й іконка — не тієї сторінки, лишається домен обгортки -->
               <div class="meta">
                 <span>linkedin.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- [?] невідомий домен → «Інше» (бриф §3.2); насправді — стаття на dou.ua, «Статті й ресурси» -->
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span> <!-- невідомий домен → «Інше» (бриф §3.2); насправді — стаття на dou.ua, «Статті й ресурси» -->
                 <span>додано щойно</span>
               </div>
             </div>

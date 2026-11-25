@@ -1,14 +1,14 @@
 <!doctype html>
 <!--
   Вайрфрейм · Моя Шухляда · завантаження (sitemap.md, «Екрани»: 4 варіанти — завантажуємо Шухляду, на обох заходах;
-  «вкладається» — анімація «вкладання», на картці домен; «підтягується» назва, опис, іконка; скасовуємо [?]).
+  «вкладається» — анімація «вкладання», на картці домен; «підтягується» назва, опис, іконка; скасовуємо).
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст. Варіанти — вкладками над рамкою.
   flows.md, Main: loadHome / load2 «завантажуємо Шухляду»; saving «вкладається, анімація «вкладання», на картці домен»;
-  meta «підтягується назва, опис, іконка»; cancelling «скасовуємо [?]».
+  meta «підтягується назва, опис, іконка»; cancelling «скасовуємо».
   Крок 08 (sitemap.md, «Завантаження, крок 08»): зберігаємо категорію після «Змінити» — flows.md, R3, saveCat;
   так → changed (картка з новою категорією), ні → errChange (drawer-error.html#zminyty).
   Анімацію «вкладання» в статичному вайрфреймі замінює підпис стану на картці (_conventions.md, розділ 1).
-  Поле для вставки під час завантаження лишається: це не дані, а дія. Чи можна вставляти до кінця завантаження — [?], етап 3.
+  Поле для вставки під час завантаження лишається: це не дані, а дія. Чи можна вставляти до кінця завантаження — вирішимо на етапі 3.
 -->
 <html lang="uk">
 <head>
@@ -52,7 +52,7 @@
     <li><a href="#shukhliada">завантажуємо Шухляду</a></li>
     <li><a href="#vkladaietsia">вкладається</a></li>
     <li><a href="#pidtiahuietsia">підтягується назва, опис, іконка</a></li>
-    <li><a href="#skasovuiemo">скасовуємо [?]</a></li>
+    <li><a href="#skasovuiemo">скасовуємо</a></li>
     <li><a href="#katehoriia">зберігаємо категорію</a></li>
   </ul>
 </nav>
@@ -62,13 +62,13 @@
   <!-- Шапка — звичайний компонент, однаковий на кожному екрані: назва продукту й пошук (_conventions.md, розділ 3) -->
   <header>
     <!-- Лише на телефоні: відкриває той самий сайдбар меню (_frame.js). Пошук — не в меню, а нижче в шапці -->
-    <button type="button" class="wf-burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">☰</button>
+    <button type="button" class="wf-burger" aria-controls="menu" aria-expanded="false">Меню</button>
     <p class="wf-brand">Шухляда</p>
     <!-- Єдиний вхід у пошук. Дотик чи Ctrl+K / / відкриває шар «Пошук» (search.html) — етап 3; у вайрфреймі Enter веде в «шукаємо» (search-loading.html) -->
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- [?] текст; бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
     <p class="wf-label"><b>Шапка</b> · головна дія — шукати</p>
@@ -97,7 +97,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
       </ul>
     </details>
-    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою [?] -->
+    <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
       <ul>
@@ -141,7 +141,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-1" aria-busy="true">
-      <p class="wf-label"><b>Нещодавно додане</b> · завантажується: сірі заглушки на місці карток</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · завантажується: сірі заглушки на місці карток; головна дія — дочекатися карток</p>
       <h2 id="recent-title-1">Нещодавно додане</h2>
       <p class="wf-hint" role="status">Завантажуємо Шухляду…</p>
       <ol class="cards" aria-hidden="true">
@@ -201,7 +201,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-2">
-      <p class="wf-label"><b>Нещодавно додане</b> · нове посилання вкладається — зверху, з доменом замість назви</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · нове посилання вкладається — зверху, з доменом замість назви; головна дія — вставити наступне в поле вище</p>
       <h2 id="recent-title-2">Нещодавно додане</h2>
       <!-- «Вкладаю в Шухляду…» — research.md, механізм 1; тут буде анімація «вкладання» -->
       <ol class="cards">
@@ -292,7 +292,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-3">
-      <p class="wf-label"><b>Нещодавно додане</b> · збережено; назва, опис та іконка ще підтягуються — поки домен і заглушка</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · збережено; назва, опис та іконка ще підтягуються — поки домен і заглушка; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-3">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -305,9 +305,9 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Підтягуємо назву й опис…</p> <!-- [?] текст -->
+              <p class="card-state" role="status">Підтягуємо назву й опис…</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «meetup.com»">⋯</a>
+            <a class="wf-btn" href="link-loading.html#pidtiahuietsia" aria-label="Відкрити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -366,7 +366,7 @@
     </section>
     </div>
 
-    <!-- Варіант «скасовуємо [?]» -->
+    <!-- Варіант «скасовуємо» -->
     <div class="wf-variant" id="skasovuiemo">
       <p class="wf-label wf-flow"><b>Далі за flow</b> (Main) · скасовано? так → <a href="drawer.html#skasovano">Моя Шухляда</a>: картки немає · ні → <a href="drawer-error.html#ne-skasuvalosia">«Не вдалося скасувати»</a></p>
     <div class="drawer-head">
@@ -388,7 +388,7 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-4">
-      <p class="wf-label"><b>Нещодавно додане</b> · натиснуто «Скасувати» — картка ще на місці, поки скасовуємо</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · натиснуто «Скасувати» — картка ще на місці, поки скасовуємо; головна дія — дочекатися: картка зникне</p>
       <h2 id="recent-title-4">Нещодавно додане</h2>
       <ol class="cards">
         <li>
@@ -401,7 +401,7 @@
                 <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Скасовуємо…</p> <!-- [?] текст; flows.md, Main: cancelling -->
+              <p class="card-state" role="status">Скасовуємо…</p> <!-- flows.md, Main: cancelling -->
             </div>
             <button type="button" aria-label="Відкрити посилання «Kyiv UX Community — груднева зустріч»" disabled>⋯</button>
           </article>
@@ -484,22 +484,22 @@
 
     <!-- Зона 2. «Нещодавно додане» -->
     <section class="wf-zone" aria-labelledby="recent-title-5">
-      <p class="wf-label"><b>Нещодавно додане</b> · обрано нову категорію — на картці вже вона, поки зберігаємо</p>
+      <p class="wf-label"><b>Нещодавно додане</b> · обрано нову категорію — на картці вже вона, поки зберігаємо; головна дія — відкрити сторінку, клікнувши картку</p>
       <h2 id="recent-title-5">Нещодавно додане</h2>
       <ol class="cards">
         <li>
           <article aria-busy="true">
             <span class="wf-icon wf-icon--none" aria-hidden="true"></span>
             <div class="card-text">
-              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: домен обгортки [?] -->
+              <h3><a href="https://www.linkedin.com/safety/go/?url=https%3A%2F%2Fdou.ua%2Flenta%2Farticles%2Fdesign-salaries-2026" target="_blank" rel="noopener">linkedin.com</a></h3> <!-- обгортку не розгорнуто: домен обгортки -->
               <div class="meta">
                 <span>linkedin.com</span>
                 <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Зберігаємо категорію…</p> <!-- [?] текст; flows.md, R3: saveCat -->
+              <p class="card-state" role="status">Зберігаємо категорію…</p> <!-- flows.md, R3: saveCat -->
             </div>
-            <button type="button" aria-label="Відкрити посилання «linkedin.com»" disabled>⋯</button> <!-- поки зберігаємо, шар не відкриваємо [?] -->
+            <button type="button" aria-label="Відкрити посилання «linkedin.com»" disabled>⋯</button> <!-- поки зберігаємо, шар не відкриваємо -->
           </article>
         </li>
         <li>

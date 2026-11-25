@@ -239,7 +239,7 @@ body:not(:has(.wf-variant:target)) .wf-tabs li:first-child a { border-color: var
 /* ---------- шар: «Пошук», «Посилання» ----------
    Поверх усієї рамки, як Ctrl+K: власне поле, свої дії. Екран під шаром приглушений і недоступний (inert) —
    це той екран, з якого шар відкрили (_conventions.md, розділ 3). Закрити — посилання на екран під шаром;
-   Esc і фокус усередині шару — етап 3 [?], у вайрфреймі без JS. */
+   Esc і фокус усередині шару — етап 3, у вайрфреймі без JS. */
 .wf-layer {
   grid-area: 1 / 1 / -1 / -1;
   position: relative;
@@ -286,7 +286,7 @@ mark { background: none; color: inherit; font-weight: 700; text-decoration: unde
   .device > header .wf-label { grid-column: 1 / -1; }
   .device > header .wf-label { justify-self: start; }
   .wf-brand { padding-left: 0; }
-  .wf-burger { display: block; padding: 6px 10px; font-size: 18px; line-height: 1; }
+  .wf-burger { display: block; padding: 6px 10px; line-height: 1; } /* текстом «Меню», без значка */
   .wf-search kbd, .wf-desktop-only { display: none; } /* клавіатурних скорочень на телефоні немає */
   .wf-search input { padding-right: 12px; }
 
