@@ -31,17 +31,17 @@
   - сайдбар — меню за бургером «Меню» в шапці, той самий компонент; таб-бару немає;
   - пошук — поза меню: поле в шапці під назвою, на всю ширину;
   - меню закривається після вибору, по Esc, свайпу ліворуч, «Закрити» й дотику до затемнення; фокус не виходить з меню;
-  - категорія з меню відкриває шар «Пошук», і фільтр видно в його заголовку — «Фільми й серіали · 12» і «Скинути» (search.html).
+  - категорія з меню відкриває шар «Пошук», і фільтр видно в його заголовку — «Фільми й серіали · 12» і «Скинути фільтр» (search.html).
 
   Тригери довіри П1 «Скидає з телефона» (research/notes/10-personas.md, П1, «Заспокоює») — видно без прокрутки:
   - зберегти там, де знайшлося, одним рухом → поле для вставки нагорі, без кнопки «Зберегти»;
-  - одразу видно, що збереглося → «Нещодавно додане», свіже першим, «додано сьогодні»;
+  - одразу видно, що збереглося → «Нещодавно додане», новіше першим, «додано сьогодні»;
   - знаходиться з іншим закінченням слова і з одруківкою → підказка в полі пошуку — лише про одруківку, бо довша не влазить на телефоні;
   - одне місце → категорії з кількістю і загальна кількість;
   - збережене не зникне, його можна забрати → пункт «Акаунт» завжди видно, експорт — там.
   «Насторожує: зайві кроки» → одна дія замість форми з кнопкою.
 
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `drawer`.
 -->
 <html lang="uk">
 <head>
@@ -92,7 +92,7 @@
     <li><a href="#lyshe-domen">лише домен</a></li>
     <li><a href="#obhortka">обгортку не розгорнуто</a></li>
     <li><a href="#podilytysia">після «Поділитися» · Android</a></li>
-    <li><a href="#zminyty">«Змінити» — вибір категорії</a></li>
+    <li><a href="#zminyty">«Змінити» — вибір із 8 категорій</a></li>
   </ul>
 </nav>
 
@@ -104,14 +104,14 @@
     <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
   </ul>
   <div class="wf-note__variant" data-variant="robochyi">
-    <p class="wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
+    <p class="wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не схоже на посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
     <ul class="wf-note__zones">
       <li><b>Поле для вставки</b> · головна дія — вставити посилання</li>
       <li><b>Нещодавно додане</b> · головна дія — відкрити сторінку, клікнувши картку</li>
     </ul>
   </div>
   <div class="wf-note__variant" data-variant="vzhe-v-shukhliadi">
-    <p class="wf-flow"><b>Далі за flow</b> (Main) · переходить до наявного? так → «Перейти до наявного» → <a href="link-loading.html#vidkryvaiemo">відкриваємо посилання</a> (шар «Посилання») · ні → «Закрити» → <a href="drawer.html">Моя Шухляда</a>: посилання вже в Шухляді, вдруге відкладати не треба</p>
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · переходить до наявного? так → «Перейти до нього» → <a href="link-loading.html#vidkryvaiemo">завантажуємо посилання</a> (шар «Посилання») · ні → «Закрити» → <a href="drawer.html">Моя Шухляда</a>: посилання вже в Шухляді, вдруге відкладати не треба</p>
     <ul class="wf-note__zones">
       <li><b>Поле для вставки</b> · вставлене вже є — м'яка підказка, не помилка; головна дія — перейти до наявного</li>
       <li><b>Нещодавно додане</b> · без змін: нової картки немає, наявна — на своєму місці; головна дія — відкрити сторінку, клікнувши картку</li>
@@ -165,7 +165,7 @@
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайдемо й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
   </header>
@@ -184,12 +184,12 @@
       <ul>
         <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>13</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Події</span> <span>3</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>2</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
@@ -223,17 +223,16 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title-1">
-      <h2 id="save-title-1" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-1" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-1">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-1" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+        <input id="paste-1" name="link" type="text" inputmode="url" autocomplete="off"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
     </section>
 
-    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+    <!-- Зона 2. «Нещодавно додане» — новіше першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title-1">
       <h2 id="recent-title-1">Нещодавно додане</h2>
@@ -252,7 +251,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -269,7 +268,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -287,7 +286,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -304,7 +303,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -322,7 +321,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -332,7 +331,7 @@
               <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
               <div class="meta">
                 <span>eventbrite.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span class="cat"><span class="vh">Категорія: </span>Події</span>
                 <span>додано 23 листопада</span>
                 <ul class="tags" aria-label="Теги">
                   <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
@@ -340,9 +339,9 @@
                 </ul>
               </div>
             </div>
-            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
+            <!-- Дата події — поле «Дата події», лише для «Подій» (бриф §3.3) формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
+            <a class="wf-btn" href="link.html#ivent" aria-label="Змінити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -361,7 +360,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -372,11 +371,11 @@
               <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
               <div class="meta">
                 <span>telegra.ph</span>
-                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span>
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
+            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Змінити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -391,7 +390,7 @@
                 <span>Вже переглянуто</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -407,20 +406,19 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-2">
-      <h2 id="save-title-2" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-2" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-2">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-2" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-2" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- М'яка підказка, не помилка: тонка рамка, як у підтвердження (бриф §3.1) -->
       <aside class="wf-status" role="status" aria-label="Вже в Шухляді">
         <p><b>Вже в Шухляді</b></p>
         <p>Interstellar (2014) — IMDb · Категорія: <b>Фільми й серіали</b> · додано сьогодні</p>
-        <p>Це те саме посилання, тож удруге не кладемо. <!-- відрізнялося лише m. і хвостом з Telegram --></p>
+        <p>Це те саме посилання — удруге не зберігаємо. <!-- відрізнялося лише m. і хвостом з Telegram --></p>
         <div class="wf-actions">
-          <a class="wf-btn wf-primary" href="link-loading.html#vidkryvaiemo">Перейти до наявного</a> <!-- шар «Посилання» над карткою; flows.md, Main: linkDup -->
+          <a class="wf-btn wf-primary" href="link-loading.html#vidkryvaiemo">Перейти до нього</a> <!-- шар «Посилання» над карткою; flows.md, Main: linkDup -->
           <a class="wf-btn" href="drawer.html">Закрити</a> <!-- flows.md: okDup -->
         </div>
       </aside>
@@ -444,7 +442,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -461,7 +459,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -479,7 +477,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -495,11 +493,10 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-3">
-      <h2 id="save-title-3" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-3" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-3">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-3" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-3" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <p class="wf-hint" role="status">Скасовано — посилання прибрано з Шухляди</p> <!-- чи потрібна підказка взагалі — перевіримо на прототипі; бриф каже лише «прибрати картку» -->
@@ -523,7 +520,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -540,7 +537,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -558,7 +555,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -574,11 +571,10 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-4">
-      <h2 id="save-title-4" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-4" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-4">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-4" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-4" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
     </section>
@@ -594,11 +590,11 @@
               <h3><a href="https://www.meetup.com/kyiv-ux/events/december" target="_blank" rel="noopener">meetup.com</a></h3> <!-- `лише домен`: сторінка нічого не віддала — домен замість назви (бриф §3.1) -->
               <div class="meta">
                 <span>meetup.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span class="cat"><span class="vh">Категорія: </span>Події</span>
                 <span>додано щойно</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Відкрити посилання «meetup.com»">⋯</a>
+            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Змінити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -615,7 +611,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -632,7 +628,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -650,7 +646,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -666,15 +662,14 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-5">
-      <h2 id="save-title-5" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-5" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-5">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-5" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-5" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Підтвердження — біля поля, де вставляли. Зникає за кілька секунд (бриф §3.1) -->
-      <aside class="wf-status" role="status" aria-label="Підтвердження">
+      <aside class="wf-status" role="status" aria-label="Збережено в Шухляді">
         <p><b>Збережено в Шухляді</b></p>
         <p>linkedin.com · Категорія: <b>Інше</b></p> <!-- домен, поки назва підтягується -->
         <div class="wf-actions">
@@ -699,7 +694,7 @@
                 <span>додано щойно</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html#katehoriia" aria-label="Відкрити посилання «linkedin.com»">⋯</a>
+            <a class="wf-btn" href="link.html#katehoriia" aria-label="Змінити посилання «linkedin.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -716,7 +711,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -733,7 +728,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -751,7 +746,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -767,17 +762,16 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-6">
-      <h2 id="save-title-6" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-6" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-6">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-6" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-6" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Підтвердження — біля поля, де вставляли. Зникає за кілька секунд (бриф §3.1) -->
-      <aside class="wf-status" role="status" aria-label="Підтвердження">
+      <aside class="wf-status" role="status" aria-label="Збережено в Шухляді">
         <p><b>Збережено в Шухляді</b></p>
-        <p>meetup.com · Категорія: <b>Івенти</b></p> <!-- домен, поки назва підтягується -->
+        <p>meetup.com · Категорія: <b>Події</b></p> <!-- домен, поки назва підтягується -->
         <div class="wf-actions">
           <a class="wf-btn wf-primary" href="drawer.html#zminyty">Змінити</a> <!-- категорію, одним кліком: flow R3 → вибір із 8 -->
           <a class="wf-btn" href="drawer-loading.html#skasovuiemo">Скасувати</a>
@@ -797,12 +791,12 @@
               <h3><a href="https://www.meetup.com/kyiv-ux/events/december" target="_blank" rel="noopener">meetup.com</a></h3>
               <div class="meta">
                 <span>meetup.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span class="cat"><span class="vh">Категорія: </span>Події</span>
                 <span>додано щойно</span>
               </div>
-              <p class="card-state" role="status">Підтягуємо назву й опис…</p>
+              <p class="card-state" role="status">Беремо назву й опис зі сторінки…</p>
             </div>
-            <a class="wf-btn" href="link-loading.html#pidtiahuietsia" aria-label="Відкрити посилання «meetup.com»">⋯</a>
+            <a class="wf-btn" href="link-loading.html#pidtiahuietsia" aria-label="Змінити посилання «meetup.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -819,7 +813,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -836,7 +830,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -854,7 +848,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>
@@ -870,26 +864,25 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що в робочому вигляді -->
     <section class="wf-zone" aria-labelledby="save-title-7">
-      <h2 id="save-title-7" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title-7" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste-7">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste-7" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste-7" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Підтвердження з розгорнутим вибором. Поки вибір відкрито, підтвердження не зникає -->
-      <aside class="wf-status" role="status" aria-label="Підтвердження">
+      <aside class="wf-status" role="status" aria-label="Збережено в Шухляді">
         <p><b>Збережено в Шухляді</b></p>
         <p>linkedin.com · Категорія: <b>Інше</b></p>
         <form class="cat-pick" action="drawer-loading.html#katehoriia"> <!-- кнопка категорії — одразу збереження, без «Зберегти» -->
           <fieldset>
-            <legend>Куди покласти?</legend>
+            <legend>Категорія</legend>
             <ul>
               <li><button type="submit" name="category" value="Фільми й серіали">Фільми й серіали</button></li>
               <li><button type="submit" name="category" value="Місця">Місця</button></li>
               <li><button type="submit" name="category" value="Статті й ресурси">Статті й ресурси</button></li>
               <li><button type="submit" name="category" value="Документи">Документи</button></li>
-              <li><button type="submit" name="category" value="Івенти">Івенти</button></li>
+              <li><button type="submit" name="category" value="Події">Події</button></li>
               <li><button type="submit" name="category" value="Курси">Курси</button></li>
               <li><button type="submit" name="category" value="Покупки">Покупки</button></li>
               <li><button type="submit" name="category" value="Інше" aria-current="true">Інше · зараз</button></li> <!-- вгадана; позначка -->
@@ -917,7 +910,7 @@
                 <span>додано щойно</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html#katehoriia" aria-label="Відкрити посилання «linkedin.com»">⋯</a>
+            <a class="wf-btn" href="link.html#katehoriia" aria-label="Змінити посилання «linkedin.com»">⋯</a>
           </article>
         </li>
         <li>
@@ -934,7 +927,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -951,7 +944,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -969,7 +962,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
       </ol>

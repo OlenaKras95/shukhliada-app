@@ -1,13 +1,13 @@
 <!doctype html>
 <!--
-  Вайрфрейм · Вхід · помилка (sitemap.md, «Екрани»: не вдалося увійти — «Повторити»; прийшли з «Поділитися» — ще «Скопіювати посилання», рішення PM 2026-11-24).
-  Виходи звірено з flows.md, Main — тупика немає: errLogin / errLogin2 → «Повторити» (dLoginRetry); не вдалося знову — deadLogin:
+  Вайрфрейм · Вхід · помилка (sitemap.md, «Екрани»: не вдалося увійти — «Спробувати ще»; прийшли з «Поділитися» — ще «Скопіювати посилання», рішення PM 2026-11-24).
+  Виходи звірено з flows.md, Main — тупика немає: errLogin / errLogin2 → «Спробувати ще» (dLoginRetry); не вдалося знову — deadLogin:
   спробувати пізніше, а посилання з «Поділитися» — «Скопіювати посилання». Повтор може не допомогти, тож є ще пошта допомоги (рішення PM 2026-11-25).
-  Помилка стоїть на місці кнопки «Увійти через Google»: її дію тепер робить «Повторити».
+  Помилка стоїть на місці кнопки «Увійти через Google»: її дію тепер робить «Спробувати ще».
   «Вхід» — службовий екран без job, вхідна умова для всіх (sitemap.md, «Трасування»). Стоїть до навігації: шапка лише з назвою,
   без поля пошуку, бургера й сайдбара (_conventions.md, розділ 3); сітка в одну колонку — login.css.
   Порожнього стану немає («—» у sitemap.md): це форма входу, даних до входу немає. login-empty.html не робимо.
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `login`.
 -->
 <html lang="uk">
 <head>
@@ -53,13 +53,13 @@
     <li><b>Шапка</b> · лише назва — без пошуку й меню; своєї дії немає, головна дія — у формі входу</li>
   </ul>
   <div class="wf-note__variant" data-variant="ne-vdalosia">
-    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="login-loading.html">вхід через Google</a>; вдалося → <a href="login-success.html">ввійшли</a> · не вдалося знову — без входу не зберегти й не дістати: спробувати пізніше або написати на пошту</p>
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Спробувати ще» → <a href="login-loading.html">вхід через Google</a>; вдалося → <a href="login-success.html">ввійшли</a> · не вдалося знову — без входу не зберегти й не дістати: спробувати пізніше або написати на пошту</p>
     <ul class="wf-note__zones">
       <li><b>Вхід</b> · не вдалося увійти; головна дія — повторити</li>
     </ul>
   </div>
   <div class="wf-note__variant" data-variant="podilytysia">
-    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Повторити» → <a href="login-loading.html">вхід через Google</a>; вдалося → <a href="login-success.html">ввійшли</a>, далі одразу збереження · «Скопіювати посилання» — посилання не губиться, навіть якщо вхід так і не вдасться</p>
+    <p class="wf-flow"><b>Далі за flow</b> (Main) · «Спробувати ще» → <a href="login-loading.html">вхід через Google</a>; вдалося → <a href="login-success.html">ввійшли</a>, далі одразу збереження · «Скопіювати посилання» — посилання не губиться, навіть якщо вхід так і не вдасться</p>
     <ul class="wf-note__zones">
       <li><b>Вхід</b> · не вдалося увійти, посилання з «Поділитися» не губиться; головна дія — повторити</li>
     </ul>
@@ -78,14 +78,14 @@
     <div class="wf-variant" id="ne-vdalosia">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-1">
         <h2 id="login-title-1" class="vh">Увійти в Шухляду</h2>
         <div class="wf-status wf-status--error" role="alert">
           <p><b>Не вдалося увійти</b></p> <!-- flows.md, Main: errLogin -->
           <p>Посилання в Шухляді на місці. Спробуй ще раз.</p>
           <div class="wf-actions">
-            <a class="wf-btn wf-primary" href="login-loading.html">Повторити</a>
+            <a class="wf-btn wf-primary" href="login-loading.html">Спробувати ще</a>
             <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
           </div>
         </div>
@@ -97,14 +97,14 @@
     <div class="wf-variant" id="podilytysia">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-2">
         <h2 id="login-title-2" class="vh">Увійти в Шухляду</h2>
         <div class="wf-status wf-status--error" role="alert">
           <p><b>Не вдалося увійти</b></p> <!-- flows.md, Main: errLogin -->
           <p>Посилання з «Поділитися» ще не збережено: <b>meetup.com</b>. Скопіюй його, щоб не загубити, і спробуй ще раз. <!-- бриф §3.1, рішення PM 2026-11-24 --></p>
           <div class="wf-actions">
-            <a class="wf-btn wf-primary" href="login-loading.html">Повторити</a>
+            <a class="wf-btn wf-primary" href="login-loading.html">Спробувати ще</a>
             <button type="button">Скопіювати посилання</button>
             <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
           </div>

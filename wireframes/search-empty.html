@@ -6,13 +6,13 @@
   Шар — поверх усієї рамки, як Ctrl+K: своє поле запиту, той самий компонент .wf-search, що в шапці.
   Біля поля — дані для звірки запиту: де шукаємо (назва, опис, адреса, нотатка, теги — бриф §3.4), фільтр, скільки знайшлося;
   у результатах — де знайшлося і сам збіг, підкреслено.
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше; тестові посилання додано для пошуку.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `search`; тестові посилання додано для пошуку.
   6 варіантів (sitemap.md, «Екрани»; flows.md, R4 і «R3, далі») — і в кожного вихід:
-  - порожня категорія (emptyCat → query): шукати словом, «Скинути» фільтр, «Моя Шухляда»;
+  - порожня категорія (emptyCat → query): шукати словом, «Скинути фільтр», «Моя Шухляда»;
   - тегів ще немає (noTags → query, рішення PM 2026-11-24): підказка, де теги додають, і «Нещодавно додане»;
-  - тег без посилань (emptyTag → query; тег лишається, бриф §3.2): шукати словом, «Скинути», «Видалити тег» → попередження;
-  - видалити тег без посилань («R3, далі»): попередження — знімати нічого, зникне лише тег; «Видалити тег» → видаляємо, «Скасувати» → назад у фільтр;
-  - Шухляда порожня (emptyAll → flow Main, вставка): «Відкласти перше посилання» — на поле для вставки;
+  - тег без посилань (emptyTag → query; тег лишається, бриф §3.2): шукати словом, «Скинути фільтр», «Видалити тег» → попередження;
+  - видалити тег без посилань («R3, далі»): попередження — знімати нічого, зникне лише тег; «Видалити назавжди» → видаляємо, «Не видаляти» → назад у фільтр;
+  - Шухляда порожня (emptyAll → flow Main, вставка): «Зберегти перше посилання» — на поле для вставки;
   - нічого не знайшлося (nothing → fallback, рішення PM 2026-11-22): «спробуй інше слово», де шукали, під ним категорії й «Нещодавно додане».
   Сайдбар у варіантах змінює лише вміст — нулі й «Тегів ще немає»; так у вайрфреймі зроблено стилем сторінки.
 -->
@@ -77,7 +77,7 @@
     <li><a href="#porozhnia-katehoriia">порожня категорія</a></li>
     <li><a href="#bez-tehiv">тегів ще немає</a></li>
     <li><a href="#teh-bez-posylan">тег без посилань</a></li>
-    <li><a href="#vydalyty-teh">видалити тег без посилань</a></li>
+    <li><a href="#vydalyty-teh">тег без посилань — попередження</a></li>
     <li><a href="#porozhnia-shukhliada">Шухляда порожня</a></li>
     <li><a href="#nichoho">нічого не знайшлося</a></li>
   </ul>
@@ -94,19 +94,19 @@
     <p class="wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · «Скинути фільтр» → <a href="search.html#porozhnii-zapyt">Пошук без фільтра</a> · <a href="drawer.html">Моя Шухляда</a></p>
   </div>
   <div class="wf-note__variant" data-variant="bez-tehiv">
-    <p class="wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · свіже нижче — картка, сторінка сайту · тег додають через «⋯» на картці → <a href="link.html">шар «Посилання»</a> (flow «R3, далі»)</p>
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · нещодавно додане нижче — картка, сторінка сайту · тег додають через «⋯» на картці → <a href="link.html">шар «Посилання»</a> (flow «R3, далі»)</p>
   </div>
   <div class="wf-note__variant" data-variant="teh-bez-posylan">
     <p class="wf-flow"><b>Далі за flow</b> (R4) · запит словом у полі → <a href="search-loading.html#shukaiemo">шукаємо</a> · «Скинути фільтр» → <a href="search.html#porozhnii-zapyt">Пошук без фільтра</a> · «Видалити тег» → <a href="search-empty.html#vydalyty-teh">попередження</a> (flow «R3, далі»)</p>
   </div>
   <div class="wf-note__variant" data-variant="vydalyty-teh">
-    <p class="wf-flow"><b>Далі за flow</b> («R3, далі») · підтверджує? так → «Видалити тег» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a>; ні → «Скасувати» → <a href="search-empty.html#teh-bez-posylan">тег на місці, фільтр той самий</a></p>
+    <p class="wf-flow"><b>Далі за flow</b> («R3, далі») · підтверджує? так → «Видалити назавжди» → <a href="search-loading.html#vydaliaiemo-teh">видаляємо тег</a>; ні → «Не видаляти» → <a href="search-empty.html#teh-bez-posylan">тег на місці, фільтр той самий</a></p>
   </div>
   <div class="wf-note__variant" data-variant="porozhnia-shukhliada">
-    <p class="wf-flow"><b>Далі за flow</b> (R4 → Main) · «Відкласти перше посилання» → <a href="drawer-empty.html">поле для вставки</a></p>
+    <p class="wf-flow"><b>Далі за flow</b> (R4 → Main) · «Зберегти перше посилання» → <a href="drawer-empty.html">поле для вставки</a></p>
   </div>
   <div class="wf-note__variant" data-variant="nichoho">
-    <p class="wf-flow"><b>Далі за flow</b> (R4) · що далі? інше слово → <a href="search-loading.html#shukaiemo">шукаємо</a> · гортає категорію → чип нижче → <a href="search-loading.html#katehoriia">завантажуємо категорію</a> · свіже — картка, сторінка сайту</p>
+    <p class="wf-flow"><b>Далі за flow</b> (R4) · що далі? інше слово → <a href="search-loading.html#shukaiemo">шукаємо</a> · гортає категорію → чип нижче → <a href="search-loading.html#katehoriia">завантажуємо категорію</a> · нещодавно додане — картка, сторінка сайту</p>
   </div>
 </aside>
 <div class="device">
@@ -120,7 +120,7 @@
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайдемо й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
   </header>
@@ -139,12 +139,12 @@
       <ul>
         <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>13</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Події</span> <span>3</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>2</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
@@ -178,16 +178,15 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
     </section>
 
-    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+    <!-- Зона 2. «Нещодавно додане» — новіше першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
       <h2 id="recent-title">Нещодавно додане</h2>
@@ -206,7 +205,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -223,7 +222,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -241,7 +240,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -258,7 +257,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -276,7 +275,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -286,7 +285,7 @@
               <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
               <div class="meta">
                 <span>eventbrite.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span class="cat"><span class="vh">Категорія: </span>Події</span>
                 <span>додано 23 листопада</span>
                 <ul class="tags" aria-label="Теги">
                   <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
@@ -294,9 +293,9 @@
                 </ul>
               </div>
             </div>
-            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
+            <!-- Дата події — поле «Дата події», лише для «Подій» (бриф §3.3) формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -315,7 +314,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -326,11 +325,11 @@
               <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
               <div class="meta">
                 <span>telegra.ph</span>
-                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span>
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -345,7 +344,7 @@
                 <span>Вже переглянуто</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -361,14 +360,14 @@
     <div class="wf-variant" id="porozhnia-katehoriia">
       <div class="layer-head">
         <h2>Покупки <span>· 0</span></h2>
-        <a href="search.html#porozhnii-zapyt">Скинути</a>
+        <a href="search.html#porozhnii-zapyt">Скинути фільтр</a>
       </div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-1" class="vh">Шукати в Шухляді</label>
         <input id="lq-1" name="q" type="search" autocomplete="off"
-               placeholder="Шукай — знайде й з одруківкою">
+               placeholder="Шукай — знайдемо й з одруківкою">
       </form>
-      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>Покупки</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · лише в категорії <b>«Покупки»</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
       <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters">
         <legend class="vh">Фільтри</legend>
@@ -376,12 +375,12 @@
             <option value="">Усі категорії</option>
             <option>Фільми й серіали · 12</option>
             <option>Місця · 7</option>
-            <option>Статті й ресурси · 14</option>
+            <option>Статті й ресурси · 13</option>
             <option>Документи · 4</option>
-            <option>Івенти · 3</option>
+            <option>Події · 3</option>
             <option>Курси · 5</option>
             <option selected>Покупки · 0</option>
-            <option>Інше · 1</option>
+            <option>Інше · 2</option>
           </select></label>
         <label>Тег <select name="tag">
             <option value="" selected>Усі теги</option>
@@ -396,10 +395,10 @@
       <div class="layer-empty">
         <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 -->
         <p class="empty-note"><b>У цій категорії ще нічого</b></p>
-        <p class="empty-note">Сюди лягають посилання з Rozetka, Prom, OLX чи Amazon. Пошукай словом у полі вище або подивись усю Шухляду. <!-- перше речення — flows.md, emptyCat; домени — бриф §3.2 --></p>
+        <p class="empty-note">Сюди потрапляють посилання з Rozetka, Prom, OLX чи Amazon. Скинь фільтр, щоб побачити всю Шухляду. <!-- перше речення — flows.md, emptyCat; домени — бриф §3.2 --></p>
         <div class="wf-actions">
           <a href="search.html#porozhnii-zapyt">Скинути фільтр</a>
-          <a href="drawer.html">До «Моєї Шухляди»</a>
+          <a href="drawer.html">Перейти до «Моєї Шухляди»</a>
         </div>
       </div>
     </div>
@@ -410,7 +409,7 @@
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-2" class="vh">Шукати в Шухляді</label>
         <input id="lq-2" name="q" type="search" autocomplete="off"
-               placeholder="Шукай — знайде й з одруківкою">
+               placeholder="Шукай — знайдемо й з одруківкою">
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах</p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
       <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
@@ -420,19 +419,19 @@
             <option value="" selected>Усі категорії</option>
             <option>Фільми й серіали · 12</option>
             <option>Місця · 7</option>
-            <option>Статті й ресурси · 14</option>
+            <option>Статті й ресурси · 13</option>
             <option>Документи · 4</option>
-            <option>Івенти · 3</option>
+            <option>Події · 3</option>
             <option>Курси · 5</option>
             <option>Покупки · 2</option>
-            <option>Інше · 1</option>
+            <option>Інше · 2</option>
           </select></label>
-        <span>Тег: <b>тегів ще немає</b> — тег додають через <a href="link.html">«⋯» на картці</a></span> <!-- flows.md, R4: noTags -->
+        <span><b>Тегів ще немає</b> — тег додають через <a href="link.html">«⋯» на картці</a></span> <!-- flows.md, R4: noTags -->
         <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <div class="layer-empty">
         <p class="empty-note"><b>Тегів ще немає</b></p>
-        <p class="empty-note">Тег додають на картці — натисни на ній «⋯». Поки шукай словом або гортай свіже. <!-- flows.md, noTags --></p>
+        <p class="empty-note">Тег додають на картці — натисни на ній «⋯». А поки гортай нещодавно додане. <!-- flows.md, noTags --></p>
       </div>
       <section class="results" aria-label="Нещодавно додане">
         <h3>Нещодавно додане</h3>
@@ -451,7 +450,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -468,7 +467,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -486,7 +485,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
         </ol>
@@ -497,15 +496,15 @@
     <div class="wf-variant" id="teh-bez-posylan">
       <div class="layer-head">
         <h2>на вихідні <span>· 0</span></h2>
-        <a href="search.html#porozhnii-zapyt">Скинути</a>
+        <a href="search.html#porozhnii-zapyt">Скинути фільтр</a>
         <a class="wf-btn" href="search-empty.html#vydalyty-teh">Видалити тег</a> <!-- біля тегу у фільтрі (sitemap.md, «Що на кожному екрані»); далі — попередження (flow «R3, далі») -->
       </div>
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-3" class="vh">Шукати в Шухляді</label>
         <input id="lq-3" name="q" type="search" autocomplete="off"
-               placeholder="Шукай — знайде й з одруківкою">
+               placeholder="Шукай — знайдемо й з одруківкою">
       </form>
-      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «на вихідні»</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
+      <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · лише <b>з тегом «на вихідні»</b></p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
       <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
       <fieldset class="layer-filters">
         <legend class="vh">Фільтри</legend>
@@ -513,12 +512,12 @@
             <option value="" selected>Усі категорії</option>
             <option>Фільми й серіали · 12</option>
             <option>Місця · 7</option>
-            <option>Статті й ресурси · 14</option>
+            <option>Статті й ресурси · 13</option>
             <option>Документи · 4</option>
-            <option>Івенти · 3</option>
+            <option>Події · 3</option>
             <option>Курси · 5</option>
             <option>Покупки · 2</option>
-            <option>Інше · 1</option>
+            <option>Інше · 2</option>
           </select></label>
         <label>Тег <select name="tag">
             <option value="">Усі теги</option>
@@ -533,7 +532,7 @@
       <div class="layer-empty">
         <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 -->
         <p class="empty-note"><b>З цього тегу знято всі посилання</b></p>
-        <p class="empty-note">Тег лишається, поки його не видалиш. Пошукай словом у полі вище або скинь фільтр. <!-- flows.md, emptyTag; бриф §3.2 --></p>
+        <p class="empty-note">Тег лишається, поки його не видалиш. Скинь фільтр, щоб побачити всю Шухляду. <!-- flows.md, emptyTag; бриф §3.2 --></p>
         <div class="wf-actions">
           <a href="search.html#porozhnii-zapyt">Скинути фільтр</a>
         </div>
@@ -547,20 +546,20 @@
         <h2>на вихідні <span>· 0</span></h2>
       </div>
       <section class="wf-status tag-warn" role="alertdialog" aria-labelledby="tag-warn-title-0" aria-describedby="tag-warn-text-0">
-        <h3 id="tag-warn-title-0">Видалити тег «на вихідні»?</h3>
-        <p id="tag-warn-text-0">Посилань з цим тегом немає — зникне лише сам тег. Відновити його не можна. <!-- бриф §3.2 --></p>
+        <h3 id="tag-warn-title-0">Видалити тег «на вихідні» назавжди?</h3>
+        <p id="tag-warn-text-0">Посилань з цим тегом немає — зникне лише сам тег. Відновити його не вийде. <!-- бриф §3.2 --></p>
         <div class="wf-actions">
-          <a class="wf-btn wf-primary" href="search-loading.html#vydaliaiemo-teh">Видалити тег</a>
-          <a class="wf-btn" href="search-empty.html#teh-bez-posylan">Скасувати</a> <!-- передумали — тег на місці, назад у фільтр тегу -->
+          <a class="wf-btn wf-primary" href="search-loading.html#vydaliaiemo-teh">Видалити назавжди</a>
+          <a class="wf-btn" href="search-empty.html#teh-bez-posylan">Не видаляти</a> <!-- передумали — тег на місці, назад у фільтр тегу -->
         </div>
       </section>
       <div inert>
         <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
           <label for="lq-6" class="vh">Шукати в Шухляді</label>
           <input id="lq-6" name="q" type="search" autocomplete="off"
-                 placeholder="Шукай — знайде й з одруківкою">
+                 placeholder="Шукай — знайдемо й з одруківкою">
         </form>
-        <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · фільтр <b>тег «на вихідні»</b></p>
+        <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · лише <b>з тегом «на вихідні»</b></p>
         <div class="layer-empty">
           <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 -->
           <p class="empty-note"><b>З цього тегу знято всі посилання</b></p>
@@ -574,7 +573,7 @@
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-4" class="vh">Шукати в Шухляді</label>
         <input id="lq-4" name="q" type="search" autocomplete="off"
-               placeholder="Шукай — знайде й з одруківкою">
+               placeholder="Шукай — знайдемо й з одруківкою">
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах</p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
       <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
@@ -586,20 +585,20 @@
             <option>Місця · 0</option>
             <option>Статті й ресурси · 0</option>
             <option>Документи · 0</option>
-            <option>Івенти · 0</option>
+            <option>Події · 0</option>
             <option>Курси · 0</option>
             <option>Покупки · 0</option>
             <option>Інше · 0</option>
           </select></label>
-        <span>Тег: <b>тегів ще немає</b> — тег додають через «⋯» на картці</span> <!-- flows.md, R4: noTags -->
+        <span><b>Тегів ще немає</b> — тег додають через «⋯» на картці</span> <!-- flows.md, R4: noTags -->
         <label><input type="checkbox" name="recent"> Лише нещодавно додане</label> <!-- що саме «нещодавно» — тиждень? -->
       </fieldset>
       <div class="layer-empty">
         <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 -->
         <p class="empty-note"><b>Шукати поки нічого</b></p>
-        <p class="empty-note">Спершу відклади посилання — і його можна буде знайти словом. <!-- flows.md, emptyAll --></p>
+        <p class="empty-note">Спершу збережи посилання — і його можна буде знайти словом. <!-- flows.md, emptyAll --></p>
         <div class="wf-actions">
-          <a href="drawer-empty.html">Відкласти перше посилання</a> <!-- на поле для вставки: flow Main -->
+          <a href="drawer-empty.html">Зберегти перше посилання</a> <!-- на поле для вставки: flow Main -->
         </div>
       </div>
     </div>
@@ -610,7 +609,7 @@
       <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
         <label for="lq-5" class="vh">Шукати в Шухляді</label>
         <input id="lq-5" name="q" type="search" autocomplete="off" value="рецепт борщу"
-               placeholder="Шукай — знайде й з одруківкою">
+               placeholder="Шукай — знайдемо й з одруківкою">
       </form>
       <p class="layer-where">Шукаємо в назві, описі, адресі, нотатці й тегах · нічого не знайшлося</p> <!-- бриф §3.4: де шукаємо — щоб звірити запит -->
       <!-- Фільтри застосовуються одразу при виборі — етап 3; у вайрфреймі без JS -->
@@ -620,12 +619,12 @@
             <option value="" selected>Усі категорії</option>
             <option>Фільми й серіали · 12</option>
             <option>Місця · 7</option>
-            <option>Статті й ресурси · 14</option>
+            <option>Статті й ресурси · 13</option>
             <option>Документи · 4</option>
-            <option>Івенти · 3</option>
+            <option>Події · 3</option>
             <option>Курси · 5</option>
             <option>Покупки · 2</option>
-            <option>Інше · 1</option>
+            <option>Інше · 2</option>
           </select></label>
         <label>Тег <select name="tag">
             <option value="" selected>Усі теги</option>
@@ -646,12 +645,12 @@
         <ul class="cat-chips" aria-label="Категорії">
           <li><a class="wf-chip" href="search-loading.html#katehoriia">Фільми й серіали · 12</a></li>
           <li><a class="wf-chip" href="search-loading.html#katehoriia">Місця · 7</a></li>
-          <li><a class="wf-chip" href="search-loading.html#katehoriia">Статті й ресурси · 14</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Статті й ресурси · 13</a></li>
           <li><a class="wf-chip" href="search-loading.html#katehoriia">Документи · 4</a></li>
-          <li><a class="wf-chip" href="search-loading.html#katehoriia">Івенти · 3</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Події · 3</a></li>
           <li><a class="wf-chip" href="search-loading.html#katehoriia">Курси · 5</a></li>
           <li><a class="wf-chip" href="search-loading.html#katehoriia">Покупки · 2</a></li>
-          <li><a class="wf-chip" href="search-loading.html#katehoriia">Інше · 1</a></li>
+          <li><a class="wf-chip" href="search-loading.html#katehoriia">Інше · 2</a></li>
         </ul>
       </section>
       <section class="results" aria-label="Нещодавно додане">
@@ -671,7 +670,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
             </article>
           </li>
           <li>
@@ -688,7 +687,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
             </article>
           </li>
           <li>
@@ -706,7 +705,7 @@
                   </ul>
                 </div>
               </div>
-              <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+              <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
             </article>
           </li>
         </ol>

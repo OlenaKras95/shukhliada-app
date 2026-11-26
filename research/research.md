@@ -89,7 +89,45 @@
 
 1. **Структура проти «нічого не впорядковуй».** У Raindrop і Notion — колекції, бази, вкладеність `04·[R1]` `04·[N2]` 🌐. У mymind — «Folders are dead», автотеги `04·[M1]` 🌐. У Telegram — хронологічна стрічка `04·[T5]` 👤. Шухляда з 7 фіксованими категоріями й пласкими тегами (бриф §3.2) — посередині.
 2. **Що робити, коли не пам'ятаєш назву.** Raindrop і mymind — пошук «за змістом» або ШІ `04·[R4]` `04·[M1]` 🌐. Raycast — нечіткий збіг і ранжування за звичкою `04·[Y3]` 🌐. Telegram — згадати, з якого чату переслано `04·[T2]` 🌐. Notion — звузити за датою чи місцем `04·[N4]` 🌐.
-3. **Мова й тон.** Українською — лише Telegram, але він не архів `04·[T1]` 🌐. Серед міжнародних менеджерів посилань української немає ні в кого `04·[R1]` `04·[N6]` `04·[M4]` 🌐. Теплий тон — тільки mymind: порожній стан «Maybe what you need is some space.» проти «No bookmarks» у Raindrop `04·[M7]` `04·[R9]` 👤.
+3. **Мова й тон.** Українською — лише Telegram, але він не архів `04·[T1]` 🌐. Серед міжнародних менеджерів посилань української немає ні в кого `04·[R1]` `04·[N6]` `04·[M4]` 🌐. Теплий тон — тільки mymind: порожній стан «Maybe what you need is some space.» проти «No bookmarks» у Raindrop `04·[M7]` `04·[R9]` 👤. Подробиці — «Мова конкурентів» нижче.
+
+### Мова конкурентів
+
+> Додано 2026-11-25 для принципів голосу (`voice.md`). Як конкуренти говорять з людиною в самому продукті й у довідці до ключової задачі — зберегти й знайти — і що люди пишуть своїми словами. Продукти закриті логіном, тож текст інтерфейсу — зі скрінів 👤 і кадрів трейлера 🎬. Довідки й App Store — 10 публічних сторінок, завантажених 2026-11-25 🌐 `res·[W5]`–`[W14]`; ще 3 сторінки Google Play не завантажилися `res·[W15]`–`[W17]`. Цитати дослівні, мовою оригіналу.
+
+**Що говорить інтерфейс**
+
+| | Порожньо | Зберегти й після | Нічого не знайшлося | Збій, межа, прохання | Як звертається, які слова |
+|---|---|---|---|---|---|
+| **Raindrop** | «No bookmarks» · «Add a link or drop a file here.» `📷 raindrop/06` 👤 | «+ Add» → поле «URL» з «https://» → «Cancel» · «Submit» `📷 raindrop/08` 👤; у довідці — «That's it — your first bookmark is saved.» `res·[W7]` | «Nothing found in All bookmarks»; підказки «Narrow your search», «In title/description», «In URL», «Put - (dash) in front of a condition you want to exclude from search» `📷 own/raindrop/04` 👤 | «Get the most out of Raindrop.io · Upgrade to PRO» — постійно в боковій панелі; у порожньому стані «Install browser extension», «Import bookmarks» `📷 raindrop/06` 👤; «If the problem persists, contact support at…» `res·[W5]` | «you», наказовий спосіб у довідці. URL, thumbnail, preview, «re-extract content», «needs a few minutes to index», web archive `res·[W5]` `res·[W6]`. Без окликів і емодзі |
+| **mymind** | «Maybe what you need is some space.» · «Watch this first.» · «CREATE A SPACE» `📷 mymind/06` 👤 | «One moment, saving…» → «Saved to your mind» + «Add tags» `📷 mymind/09–10` 🎬 | порожній екран, без жодного слова `📷 own/mymind/05` 👤 | «You need at least 50 cards saved in your mind to unlock the "Serendipity" feature. Don't stress it. Keep saving as you normally do…» · «OKAY, GOT IT» `📷 mymind/07` 👤; постійно «Unlock features» і «Finish setting up your mind.» `📷 mymind/05` 👤; «Sadly, sometimes a website might block mymind» `res·[W8]` | «you» і «we»; метафора «mind» скрізь: «Search my mind…», «Saved to your mind». Кнопки капсом. У FAQ оклики: «Ohh yes they will!» `res·[W8]`. В описі App Store — поетично: «It's a quiet, private garden for the things you care most about.» `res·[W13]` |
+| **Telegram «Збережене»** | — | лише ✓✓ біля повідомлення `📷 telegram/04` 👤 | качка з лупою, «No Results · There were no results for "закладкок".» `📷 own/telegram/03` 👤 | поруч з пошуком — «🔒 Add tags to your Saved Messages» (Premium) `📷 own/telegram/03` 👤 | у блозі — «a powerful storage system for your links, media, and bookmarks» `res·[W10]`. Опис в App Store Україна — на «ви» й капсом: «Усі дані залишаться з вами, навіть якщо ви купите новий телефон або загубите старий.», «ШВИДКА.», «256-бітного симетричного шифрування AES» `res·[W14]` |
+| **Notion Web Clipper** | — | після збереження лише «Open in Notion» · «Enter» · «Open in desktop app» `📷 notion/04` 👤; у довідці — «Press `Save page` or `enter`.» `res·[W9]` | у довідці немає | «Uh-oh! It looks like your ad blocker is preventing the video from playing.», «Oops, sorry about that» з емодзі мавпи `res·[W9]` | «you», наказовий спосіб. Workspace, database, parsed; декоративні емодзі в довідці `res·[W9]` |
+| **Raycast** | — | «Click Save Quicklink ⌘↵ / Ctrl↵ to create the Quicklink.» `res·[W11]` | у довідці немає | «Raycast asks for confirmation before destructive actions.» `res·[W11]` | про себе в третій особі: «Raycast will automatically use the favicon when a website URL is entered.» URL, favicon, deeplink, JSON `res·[W11]` |
+| *LinkLy* (поза п'ятіркою) | — | «Редагування посилання» · «Заголовок»: «Без назви» · «Зміни збережено» · «Зберегти» `📷 own/linkly/06` 👤 | пошуку немає `03` картка 1.5 | — | українською, на «ви» `03` картка 1.5 |
+
+**Що спільне — і де Шухляда говорить інакше**
+1. **Після дії мовчать або кажуть лише «зроблено».** ✓✓, «Open in Notion», «Saved to your mind», «Зміни збережено». Куди лягло і що з цим можна зробити, не каже ніхто (див. також патерн 3 вище).
+2. **«Нічого не знайшлося» — глухий кут.** «No Results», «Nothing found in All bookmarks», у mymind — порожній екран. Далі Raindrop пропонує хіба оператори пошуку: «Put - (dash) in front of a condition…».
+3. **Мова системи.** URL, Submit, thumbnail, re-extract, index, workspace, parsed, favicon, deeplink — навіть у довідках для новачків. Українською говорять лише Telegram і LinkLy, обидва на «ви», а LinkLy ще й канцелярськи: «Редагування посилання».
+4. **Продукт просить щось зверху.** «Upgrade to PRO», «Unlock features», «Finish setting up your mind.», «Install browser extension · Import bookmarks» у порожньому стані, «🔒 Add tags» поруч із пошуком.
+
+**Де розходяться: дотепність проти сухості.** mymind і Notion грають і жартують: «Maybe what you need is some space.», «Don't stress it.», «Ohh yes they will!», «Uh-oh!», «Oops, sorry about that» з емодзі. Notion жартує саме тоді, коли щось не працює. Raindrop, Telegram і Raycast говорять сухо: «No bookmarks», «No Results», «Submit». Тепло й водночас ясно не говорить ніхто: mymind теплий, але на «нічого не знайшлося» мовчить.
+
+**Що люди пишуть своїми словами** (поверх «Що кажуть користувачі» вище)
+
+| Про що | Дослівно | Джерело |
+|---|---|---|
+| Пам'ятати, де збережено | «You no longer have to worry about syncing, remembering where you saved stuff» (Raindrop) | `res·[W12]` |
+| Знайти | «It is consistently faster to find articles I saved a while ago» (Raindrop); «Once you save enough things, you can search for pretty much anything and it'll come up.» (mymind) | `res·[W12]` `res·[W13]` |
+| Знайти в Telegram | «you can barely find what you're looking for without accidentally tapping something else.» (App Store Україна, англійською) | `res·[W14]` |
+| Незрозуміла кнопка | «The new "up" arrow in the bottom bar just saves things to Top of Mind; I thought it was a share button :(» (mymind) | `res·[W13]` |
+| Втратити | «For some saved items I can't get the url now» (mymind); «Daily backups that keep my collections, highlights and notes safe» (Raindrop) | `res·[W13]` `res·[W12]` |
+| Українською, з нашого ресерчу | «закидую собі багато чого в збережене і не можу потім найти щось конкретне»; «все Сохраненные пустые, хотя там было данных за 3 года» | `09·[SV1]` 📋 `12·[GP1]` |
+
+Люди кажуть «save», «find», «gone», «where you saved stuff», українською — «закидую в збережене», «найти». Слів «index», «metadata», «workspace» у відгуках немає: це мова продуктів, а не людей.
+
+**Межі.** Три сторінки Google Play (Raindrop, mymind, Telegram українською) віддали заглушку без опису й відгуків `res·[W15]`–`[W17]`. В App Store не видно оцінок окремих відгуків, а у видимих відгуках Telegram Україна про «Збережене» — жодного. Текст інтерфейсу — лише те, що потрапило на скріни PM; Telegram на них англійською. Довідки — англійською, українською лише опис Telegram в App Store. ⚠️ Як мова конкурентів діє на нашу аудиторію — дані не підтверджені.
 
 ---
 
@@ -317,3 +355,18 @@ Gmail оцінено лише за довідками: скрінів з ака�
 - `res·[W2]` — Can I use, «webapp: share_target» (підтримка в браузерах): https://caniuse.com/mdn-manifests_webapp_share_target 🌐
 - `res·[W3]` — WebKit Bugzilla 194593, запит на Web Share Target у Safari: https://bugs.webkit.org/show_bug.cgi?id=194593 🌐
 - `res·[W4]` — Mozilla Bugzilla 1478037, «Allow bookmarklets to run even when the CSP on the page would normally block javascript: execution», виправлено у Firefox 69: https://bugzilla.mozilla.org/show_bug.cgi?id=1478037 🌐
+
+Для «Мови конкурентів», завантажено 2026-11-25:
+- `res·[W5]` — Raindrop.io, довідка «Bookmarks»: https://help.raindrop.io/bookmarks 🌐
+- `res·[W6]` — Raindrop.io, довідка «Search»: https://help.raindrop.io/using-search 🌐
+- `res·[W7]` — Raindrop.io, довідка «Quickstart»: https://help.raindrop.io/quickstart 🌐
+- `res·[W8]` — mymind, FAQ: https://mymind.com/faq 🌐
+- `res·[W9]` — Notion, довідка «Web Clipper»: https://www.notion.com/help/web-clipper 🌐
+- `res·[W10]` — Telegram, блог «Saved Messages 2.0…», частина про «Збережене»: https://telegram.org/blog/new-saved-messages-and-9-more 🌐
+- `res·[W11]` — Raycast Manual, «Quicklinks»: https://manual.raycast.com/quicklinks 🌐
+- `res·[W12]` — App Store, Raindrop.io (4,5; 428 оцінок): https://apps.apple.com/app/raindrop-io/id1021913807 🌐
+- `res·[W13]` — App Store США, mymind (4,0; 417 оцінок): https://apps.apple.com/us/app/mymind-extend-your-mind/id1520332347 🌐
+- `res·[W14]` — App Store Україна, Telegram (3,7; 66 тис. оцінок): https://apps.apple.com/ua/app/telegram-messenger/id686449807?l=uk 🌐
+- `res·[W15]` — Google Play, Raindrop.io — не завантажилася, лише заглушка: https://play.google.com/store/apps/details?id=io.raindrop.raindropio 🌐
+- `res·[W16]` — Google Play, mymind — не завантажилася: https://play.google.com/store/apps/details?id=com.mymind.access 🌐
+- `res·[W17]` — Google Play, Telegram українською — не завантажилася: https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=uk 🌐

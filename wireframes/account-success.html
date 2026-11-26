@@ -6,7 +6,7 @@
   flows.md, E2: «успіх кроку: готово, файл CSV завантажено» → «Файл відкривається?» ні → підказка про Google Sheets → «Йде видаляти акаунт?»
   так → попередження «назавжди»; ні → успіх: архів у людини. Тому поруч з підтвердженням — з чим звірити файл: назва, 48 посилань, колонки.
   Шапка й навігація — байт-у-байт як у drawer.html; змінено лише поточний пункт: «Акаунт» (aria-current).
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `account`.
 -->
 <html lang="uk">
 <head>
@@ -53,7 +53,7 @@
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайдемо й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
   </header>
@@ -72,12 +72,12 @@
       <ul>
         <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>13</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Події</span> <span>3</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>2</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
@@ -111,19 +111,19 @@
     <!-- Зона 1. Архів — головна, нагорі (E2): видно, що архів можна забрати, і з чим звірити файл -->
     <section class="wf-zone" aria-labelledby="export-title-1">
       <h2 id="export-title-1">Забрати архів</h2>
-      <p class="account-lead">Уся Шухляда одним файлом. Забрати можна будь-коли — і перед тим, як піти. <!-- бриф §3.5 --></p>
+      <p class="account-lead">Уся Шухляда в одному архіві. Забрати можна будь-коли — і перед тим, як піти. <!-- бриф §3.5 --></p>
       <aside class="wf-status" role="status">
-        <p><b>Готово — файл завантажено</b></p> <!-- статус «готово», sitemap.md, «Сутності» → Експорт -->
+        <p><b>Архів завантажено</b></p> <!-- статус «готово», sitemap.md, «Сутності» → Експорт -->
         <p><span class="export-file">shukhliada-2026-11-25.csv</span> — у завантаженнях браузера.</p>
       </aside>
       <dl class="export-facts">
         <dt>У файлі</dt>
         <dd>48 посилань — уся Шухляда</dd>
         <dt>Формат</dt>
-        <dd>таблиця CSV з позначкою кодування — щоб Excel показав українські літери</dd> <!-- BOM, бриф §3.5 -->
+        <dd>таблиця CSV — Excel покаже українські літери</dd> <!-- BOM, бриф §3.5 -->
         <dt>Колонки</dt>
         <dd>
-          <ul class="export-cols" aria-label="Колонки у файлі">
+          <ul class="export-cols" aria-label="Колонки в архіві">
             <li>адреса</li>
             <li>назва</li>
             <li>опис</li>
@@ -131,14 +131,14 @@
             <li>теги</li>
             <li>нотатка</li>
             <li>«Вже переглянуто»</li>
-            <li>дата івенту</li>
+            <li>дата події</li>
             <li>дата додавання</li>
           </ul>
         </dd>
       </dl>
-      <p class="wf-hint">Не відкривається в Excel? <a href="https://sheets.google.com" target="_blank" rel="noopener">Відкрий у Google Sheets</a></p> <!-- рішення PM 2026-11-22; flows.md, E2: hint — після файлу ця підказка й потрібна -->
+      <p class="wf-hint">Не відкривається в Excel? <a href="https://sheets.google.com" target="_blank" rel="noopener">Відкрити в Google Sheets</a></p> <!-- рішення PM 2026-11-22; flows.md, E2: hint — після файлу ця підказка й потрібна -->
       <div class="wf-actions">
-        <a class="wf-btn" href="account-loading.html#eksport">Експорт ще раз</a>
+        <a class="wf-btn" href="account-loading.html#eksport">Забрати ще раз</a>
       </div>
     </section>
 
@@ -152,7 +152,7 @@
         </li>
         <li>
           <a href="account-loading.html#vykhid-vsiudy">Вийти на всіх пристроях</a> <!-- другорядна: посиланням, не кнопкою -->
-          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а інші пристрої вийдуть не одразу. <!-- рішення PM 2026-11-24 --></p>
+          <p class="wf-hint">Якщо Шухляда лишилася відкритою на чужому чи робочому комп'ютері. Тут теж доведеться увійти знову, а на інших пристроях вхід закриється не одразу. <!-- рішення PM 2026-11-24 --></p>
         </li>
       </ul>
     </section>
@@ -160,7 +160,7 @@
     <!-- Зона 3. Видалити акаунт — окремо внизу, відділено: небезпечна й остаточна дія. Видно формою — товстою рамкою -->
     <section class="wf-zone account-danger" aria-labelledby="del-title-1">
       <h2 id="del-title-1">Видалити акаунт</h2>
-      <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим Шухляда запропонує забрати архів. <!-- бриф §3.5 --></p>
+      <p class="account-lead">Акаунт зникне назавжди разом з усіма посиланнями, тегами й запам'ятованими категоріями сайтів. Перед цим запропонуємо забрати архів. <!-- бриф §3.5 --></p>
       <div class="wf-actions">
         <a class="wf-btn account-danger-btn" href="account.html#propozytsiia">Видалити акаунт</a>
       </div>

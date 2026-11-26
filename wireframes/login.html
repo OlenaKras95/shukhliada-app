@@ -11,7 +11,7 @@
   «Вхід» — службовий екран без job, вхідна умова для всіх (sitemap.md, «Трасування»). Стоїть до навігації: шапка лише з назвою,
   без поля пошуку, бургера й сайдбара (_conventions.md, розділ 3); сітка в одну колонку — login.css.
   Порожнього стану немає («—» у sitemap.md): це форма входу, даних до входу немає. login-empty.html не робимо.
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `login`.
 -->
 <html lang="uk">
 <head>
@@ -104,11 +104,11 @@
     <div class="wf-variant" id="forma">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-1">
         <h2 id="login-title-1" class="vh">Увійти в Шухляду</h2>
         <a class="wf-btn login-google wf-primary" href="login-loading.html">Увійти через Google</a>
-        <p class="wf-hint">Лише через Google, без пароля. Той самий вхід на телефоні й комп'ютері — та сама Шухляда. <!-- бриф §3.5 --></p>
+        <p class="wf-hint">Лише через Google, без пароля <!-- бриф §3.5 --></p>
       </section>
     </div>
     </div>
@@ -117,15 +117,15 @@
     <div class="wf-variant" id="podilytysia">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-2">
         <h2 id="login-title-2" class="vh">Увійти в Шухляду</h2>
         <aside class="wf-status" role="status">
           <p><b>Посилання чекає</b></p> <!-- бриф §3.1, рішення PM 2026-11-24 -->
-          <p><b>meetup.com</b> — збережемо в Шухляду, щойно увійдеш.</p>
+          <p><b>meetup.com</b> — збережемо в Шухляді, щойно увійдеш.</p>
         </aside>
         <a class="wf-btn login-google wf-primary" href="login-loading.html">Увійти через Google</a>
-        <p class="wf-hint">Лише через Google, без пароля. Той самий вхід на телефоні й комп'ютері — та сама Шухляда. <!-- бриф §3.5 --></p>
+        <p class="wf-hint">Лише через Google, без пароля <!-- бриф §3.5 --></p>
       </section>
     </div>
     </div>
@@ -134,7 +134,7 @@
     <div class="wf-variant" id="pislia-vykhodu">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-3">
         <h2 id="login-title-3" class="vh">Увійти в Шухляду</h2>
         <aside class="wf-status" role="status">
@@ -142,7 +142,7 @@
           <p>Усе збережене на місці — увійди, щоб побачити.</p>
         </aside>
         <a class="wf-btn login-google wf-primary" href="login-loading.html">Увійти через Google</a>
-        <p class="wf-hint">Лише через Google, без пароля. Той самий вхід на телефоні й комп'ютері — та сама Шухляда. <!-- бриф §3.5 --></p>
+        <p class="wf-hint">Лише через Google, без пароля <!-- бриф §3.5 --></p>
       </section>
     </div>
     </div>
@@ -151,15 +151,15 @@
     <div class="wf-variant" id="pislia-vykhodu-vsiudy">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-4">
         <h2 id="login-title-4" class="vh">Увійти в Шухляду</h2>
         <aside class="wf-status" role="status">
-          <p><b>Вхід закрито на всіх пристроях</b></p> <!-- бриф §3.5, рішення PM 2026-11-24; скільки — етап 3 -->
-          <p>І тут теж. Інші пристрої вийдуть не одразу — коли скінчиться їхній поточний вхід. Усе збережене на місці.</p>
+          <p><b>Закриваємо вхід на всіх пристроях</b></p> <!-- бриф §3.5, рішення PM 2026-11-24; скільки — етап 3 -->
+          <p>Тут вхід уже закрито. На інших пристроях він закриється не одразу — коли скінчиться поточний. Усе збережене на місці.</p>
         </aside>
         <a class="wf-btn login-google wf-primary" href="login-loading.html">Увійти через Google</a>
-        <p class="wf-hint">Лише через Google, без пароля. Той самий вхід на телефоні й комп'ютері — та сама Шухляда. <!-- бриф §3.5 --></p>
+        <p class="wf-hint">Лише через Google, без пароля <!-- бриф §3.5 --></p>
       </section>
     </div>
     </div>
@@ -168,7 +168,7 @@
     <div class="wf-variant" id="akaunt-vydaleno">
     <div class="login-box">
       <h1>Вхід</h1>
-      <p class="login-lead">Усе корисне — в одній шухляді: відклади за мить, дістань, коли знадобиться. <!-- бриф §1 --></p>
+      <p class="login-lead">Усе корисне — в одному місці: збережи за мить, знайди, коли знадобиться. <!-- бриф §1 --></p>
       <section class="wf-zone" aria-labelledby="login-title-5">
         <h2 id="login-title-5" class="vh">Увійти в Шухляду</h2>
         <aside class="wf-status" role="status">
@@ -176,7 +176,7 @@
           <p>Посилання, теги й запам'ятовані категорії сайтів видалено назавжди. Увійти можна знову — з порожньою Шухлядою.</p>
         </aside>
         <a class="wf-btn login-google wf-primary" href="login-loading.html">Увійти через Google</a>
-        <p class="wf-hint">Лише через Google, без пароля. Той самий вхід на телефоні й комп'ютері — та сама Шухляда. <!-- бриф §3.5 --></p>
+        <p class="wf-hint">Лише через Google, без пароля <!-- бриф §3.5 --></p>
       </section>
     </div>
     </div>
