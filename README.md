@@ -45,6 +45,7 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | User flows: main job, R4, R3, E2 (чернетки) | [flows.md](./flows.md) |
 | Структура IA: дерево екранів, навігація, flows і трасування — знімок `sitemap.md` і `flows.md` | [ia.html](./ia.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/ia.html) |
 | Збирання `ia.html`: `node _build/build-ia.mjs` | [_build/build-ia.mjs](./_build/build-ia.mjs) · шаблон [_build/ia.template.html](./_build/ia.template.html) |
+| Діаграми flows у SVG — малює заздалегідь, коли діаграми у `flows.md` змінилися (потрібен Chrome чи Edge) | [_build/render-flows.mjs](./_build/render-flows.mjs) · готові SVG [_build/flows-svg.json](./_build/flows-svg.json) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
 | Голос продукту: принципи, словник, заборонене, правила мікрокопі | [voice.md](./voice.md) |
 | Тексти інтерфейсу: ключі, «було» і «стало» — джерело правди тексту | [microcopy.md](./microcopy.md) |
