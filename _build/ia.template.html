@@ -108,10 +108,23 @@
     .flow { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin: 18px 0 28px; }
     .flow h3 { margin: 0 0 6px; }
     .flow .meta { font-size: 14px; color: var(--muted); margin: 0 0 4px; }
+    .flow { margin: 12px 0 6px; }
+    .flow .diagram { margin: 6px 0 0; }
+    .diagram-cap { font-size: 13px; color: var(--muted); margin: 0; }
+    .diagram svg { display: block; max-width: none; }
+    .diagram g.node.screen { cursor: pointer; }
+    .diagram g.node.screen text { text-decoration: underline; }
+    a.wf { text-decoration: none; }
+    a.wf code { text-decoration: underline; text-underline-offset: 2px; }
+    a.tag { text-decoration: none; }
+    a.tag:hover { text-decoration: underline; }
+    .zoom.open-wf { margin-left: auto; }
+    dialog.wf-dialog { width: min(1100px, 96vw); height: min(860px, 92vh); padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--text); }
+    dialog.wf-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+    .wf-dialog .wf-head { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+    .wf-dialog .wf-head h2 { font-size: 16px; margin: 0; flex: 1; }
+    .wf-dialog iframe { display: block; width: 100%; height: calc(100% - 52px); border: 0; background: #fff; }
     .diagram { overflow-x: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 12px 0 6px; }
-    .diagram pre.mermaid { margin: 0; color: var(--muted); font-size: 12px; white-space: pre; }
-    .diagram pre.mermaid[data-processed] { white-space: normal; color: inherit; font-size: inherit; line-height: normal; }
-    .diagram pre.mermaid[data-processed] p { margin: 0; }
     .diagram svg { max-width: none; height: auto; }
     .diagram-bar { display: flex; justify-content: flex-end; gap: 6px; margin: 12px 0 -4px; }
     .zoom[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
@@ -172,7 +185,7 @@
 </head>
 <body>
 <main>
-  <p class="kicker">Етап 1 · Прототип · знімок на 2026-11-24</p>
+  <p class="kicker">Етап 1 · Прототип · знімок на <!--DATE--></p>
   <h1>Структура IA</h1>
   <p class="lead">Інформаційна архітектура Шухляди на одній сторінці: які є екрани і для чого кожен, як між ними ходять, якими маршрутами людина виконує jobs і чи кожен екран і кожен job має пару.</p>
   <p class="note">Це знімок для перегляду, а не джерело. Джерело правди — <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/sitemap.md">sitemap.md</a> (сутності, екрани, навігація, трасування) і <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/flows.md">flows.md</a> (маршрути). Стани екранів, сутності й обґрунтування кожного рішення — там. Jobs — <a href="personas.html#jobs">Персони і jobs</a>.</p>
@@ -219,7 +232,7 @@
           <ul>
             <li>
               <div class="node screen home">
-                <h4>Моя Шухляда <span class="tag home">головний</span> <span class="tag type">глобальний</span> <code>drawer.html</code></h4>
+                <h4>Моя Шухляда <span class="tag home">головний</span> <span class="tag type">глобальний</span> <a class="wf" href="wireframes/drawer.html"><code>drawer.html</code></a></h4>
                 <div class="jobs"><!--JOBS:*Main R1 R4 E1 E3 R3 R2 Г1 Г3~ Г4~ Г5--></div>
                 <p class="what">Поле для вставки. «Нещодавно додане»: дотик до картки — сторінка сайту, «⋯» — шар «Посилання». Під ним «Нещодавно додане» на всю ширину; категорії з кількістю й теги — у сайдбарі; теги на картці — чипи, що відкривають «Пошук» з фільтром.</p>
               </div>
@@ -231,7 +244,7 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Пошук <span class="tag layer">шар</span> <span class="tag type">глобальний</span> <code>search.html</code></h4>
+                <h4>Пошук <span class="tag layer">шар</span> <span class="tag type">глобальний</span> <a class="wf" href="wireframes/search.html"><code>search.html</code></a></h4>
                 <div class="jobs"><!--JOBS:*R4 Main E3 R2 Г1 Г3~--></div>
                 <p class="what">Запит і фільтри: категорія, тег, «Нещодавно додане». Категорія чи тег — із сайдбара чи чипа на картці — відкриває цей шар з фільтром. Біля тегу у фільтрі — «Видалити тег».</p>
               </div>
@@ -243,7 +256,7 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Посилання <span class="tag layer">шар</span> <span class="tag type">контекстний</span> <code>link.html</code></h4>
+                <h4>Посилання <span class="tag layer">шар</span> <span class="tag type">контекстний</span> <a class="wf" href="wireframes/link.html"><code>link.html</code></a></h4>
                 <div class="jobs"><!--JOBS:*R2 R3 R4--></div>
                 <p class="what">Назва, опис, нотатка «навіщо», категорія, теги, «Вже переглянуто», дата для «Івентів». Відкрити сторінку, видалити. Відкривається «⋯» на картці або з «Вже в Шухляді».</p>
               </div>
@@ -255,14 +268,14 @@
           <ul>
             <li>
               <div class="node screen">
-                <h4>Акаунт <span class="tag type">глобальний</span> <code>account.html</code></h4>
+                <h4>Акаунт <span class="tag type">глобальний</span> <a class="wf" href="wireframes/account.html"><code>account.html</code></a></h4>
                 <div class="jobs"><!--JOBS:*E2--></div>
                 <p class="what">Експорт усієї Шухляди в CSV. Видалити акаунт — спершу пропозиція забрати архів. Службові дії без job: <span class="tag svc">Вийти</span> на цьому пристрої, без мережі; <span class="tag svc">Вийти на всіх пристроях</span> — з мережею.</p>
               </div>
             </li>
             <li>
               <div class="node screen svc">
-                <h4>Вхід <span class="tag svc">службовий</span> <span class="tag type">контекстний</span> <code>login.html</code></h4>
+                <h4>Вхід <span class="tag svc">службовий</span> <span class="tag type">контекстний</span> <a class="wf" href="wireframes/login.html"><code>login.html</code></a></h4>
                 <div class="jobs"><span class="tag svc">без job — вхідна умова для всіх jobs</span></div>
                 <p class="what">Вхід через Google. Перший екран для того, хто ще не ввійшов; після виходу чи видалення акаунта. Стоїть до навігації.</p>
               </div>
@@ -281,9 +294,9 @@
     <table>
       <thead><tr><th>Пункт</th><th>На телефоні</th><th>Веде в</th><th>Job</th><th>Навіщо</th></tr></thead>
       <tbody>
-        <tr><th>Моя Шухляда</th><td>У меню</td><td><code>drawer.html</code></td><td>Main, R1, E1, E3</td><td>Обидві половини main job: поле, щоб відкласти, і «Нещодавно додане», щоб дістати</td></tr>
-        <tr><th>Пошук</th><td>Поле в шапці, не в меню</td><td><code>search.html</code></td><td>R4</td><td>Шар над поточним екраном. На видноті, бо на телефоні немає <code>Ctrl+K</code>. На десктопі — поле в шапці</td></tr>
-        <tr><th>Акаунт</th><td>У меню</td><td><code>account.html</code></td><td>E2</td><td>Експорт має бути видно. Тут же обидва виходи. На десктопі — унизу сайдбара</td></tr>
+        <tr><th>Моя Шухляда</th><td>У меню</td><td><a class="wf" href="wireframes/drawer.html"><code>drawer.html</code></a></td><td>Main, R1, E1, E3</td><td>Обидві половини main job: поле, щоб відкласти, і «Нещодавно додане», щоб дістати</td></tr>
+        <tr><th>Пошук</th><td>Поле в шапці, не в меню</td><td><a class="wf" href="wireframes/search.html"><code>search.html</code></a></td><td>R4</td><td>Шар над поточним екраном. На видноті, бо на телефоні немає <code>Ctrl+K</code>. На десктопі — поле в шапці</td></tr>
+        <tr><th>Акаунт</th><td>У меню</td><td><a class="wf" href="wireframes/account.html"><code>account.html</code></a></td><td>E2</td><td>Експорт має бути видно. Тут же обидва виходи. На десктопі — унизу сайдбара</td></tr>
       </tbody>
     </table>
   </div>
@@ -300,7 +313,7 @@
         <tr><th>Виправити категорію після збереження</th><td>«Змінити» в підтвердженні → категорія</td><td>2</td><td>так</td></tr>
         <tr><th>Виправити категорію пізніше</th><td>«⋯» → категорія на шарі → нова категорія</td><td>3</td><td>на межі</td></tr>
         <tr><th>Скасувати випадкову вставку</th><td>«Скасувати» в підтвердженні</td><td>1</td><td>так</td></tr>
-        <tr><th>Дістати свіже, гортаючи</th><td>Картка в «Нещодавно доданому» → сторінка</td><td><b>1</b></td><td>так</td></tr>
+        <tr><th>Дістати нещодавно додане, гортаючи</th><td>Картка в «Нещодавно доданому» → сторінка</td><td><b>1</b></td><td>так</td></tr>
         <tr><th>Дістати старіше, гортаючи категорію</th><td>Категорія → шар «Пошук» → картка</td><td>2 · на телефоні 3, з бургером</td><td>так</td></tr>
         <tr><th>Дістати словом</th><td>Поле пошуку → запит → результат</td><td>2</td><td>так</td></tr>
         <tr><th>Дістати за тегом</th><td>Тег у сайдбарі чи чип на картці → картка</td><td>2</td><td>так</td></tr>
@@ -308,7 +321,7 @@
         <tr><th>Видалити посилання</th><td>«⋯» → «Видалити» → «назавжди»</td><td>3</td><td>так</td></tr>
         <tr><th>Видалити тег</th><td>Тег у сайдбарі → «Видалити тег» → підтвердження</td><td>3</td><td>так</td></tr>
         <tr><th>Вийти · Вийти на всіх пристроях</th><td>«Акаунт» → дія</td><td>2</td><td>так</td></tr>
-        <tr><th>Забрати архів</th><td>«Акаунт» → «Експорт» → файл</td><td>2 · на телефоні 3, з бургером</td><td>так</td></tr>
+        <tr><th>Забрати архів</th><td>«Акаунт» → «Забрати архів» → файл</td><td>2 · на телефоні 3, з бургером</td><td>так</td></tr>
         <tr><th>Видалити акаунт</th><td>«Акаунт» → «Видалити акаунт» → пропозиція архіву → «назавжди»</td><td>4</td><td><span class="tag dead">понад межу свідомо</span></td></tr>
       </tbody>
     </table>
@@ -333,7 +346,7 @@
     <span><span class="swatch sw-load"></span> loading</span>
     <span><span class="swatch sw-empty"></span> empty</span>
   </div>
-  <p class="note"><b>Клікни на вузол</b> — підсвітиться весь шлях через нього: звідки до нього доходять і куди з нього можна дійти. Повторний клік, клік повз вузол або <code>Esc</code> — скинути. Пунктир — крок назад: повтор чи повернення. Зелена лінія — шлях до успіху без помилок. Масштаб: «Читати» — текст читається, діаграму тягнеш мишею вбік; «Огляд» — уся діаграма в ширину сторінки; «100 %» — натуральна величина.</p>
+  <p class="note"><b>Клікни на вузол</b> — підсвітиться весь шлях через нього: звідки до нього доходять і куди з нього можна дійти. Повторний клік, клік повз вузол або <code>Esc</code> — скинути. Пунктир — крок назад: повтор чи повернення. Зелена лінія — шлях до успіху без помилок. Масштаб: «Читати» — текст читається, діаграму тягнеш мишею вбік; «Огляд» — уся діаграма в ширину сторінки; «100 %» — натуральна величина. Підкреслені вузли — екрани: після кліку над схемою з’являється кнопка «Вайрфрейм» — він відкриється у вікні поверх сторінки.</p>
 
   <h3 id="flows-why">Чому ці jobs</h3>
   <!--MD:flows.md#Чому ці jobs-->
@@ -341,8 +354,8 @@
   <section class="flow" id="flow-main" aria-labelledby="flow-main-title">
     <h3 id="flow-main-title">Main · Відкласти за мить і дістати, коли знадобиться</h3>
     <p class="meta"><b>Персона:</b> П1 «Скидає з телефона». <b>Обставини:</b> телефон, посилання трапилось у стрічці чи чаті; на Android ще й «Поділитися». Два заходи: відкласти зараз і дістати через дні.</p>
-    <p class="meta"><b>Кліків:</b> відкласти — 1, дістати свіже — 1.</p>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:1--></pre></div>
+    <p class="meta"><b>Кліків:</b> відкласти — 1, дістати нещодавно додане — 1.</p>
+    <!--FLOW:1-->
     <div class="lists"><!--LISTS:1--></div>
   </section>
 
@@ -350,7 +363,7 @@
     <h3 id="flow-r4-title">R4 · Дістати за тим, що пам'ятається</h3>
     <p class="meta"><b>Персона:</b> П1, той самий шлях у П2. <b>Обставини:</b> річ знадобилася, а в «Нещодавно доданому» її вже не видно. П1 спершу гортає, П2 частіше шукає словом. Ціль — знайти до 10 с.</p>
     <p class="meta"><b>Кліків:</b> категорія → картка — 2; запит → картка — 2; тег → картка — 3.</p>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:2--></pre></div>
+    <!--FLOW:2-->
     <div class="lists"><!--LISTS:2--></div>
   </section>
 
@@ -358,7 +371,7 @@
     <h3 id="flow-r3-title">R3 · Мати порядок без сортування</h3>
     <p class="meta"><b>Персона:</b> П2 «Тримає вкладки й закладки». <b>Обставини:</b> комп'ютер, вставила <code>Ctrl+V</code> і хоче закрити вкладку. Від збереження до правильної категорії.</p>
     <p class="meta"><b>Кліків:</b> вгадано — 0; «Змінити» → категорія — 2; пізніше через «⋯» — 3.</p>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:3--></pre></div>
+    <!--FLOW:3-->
     <div class="lists"><!--LISTS:3--></div>
   </section>
 
@@ -366,8 +379,8 @@
     <h3 id="flow-r3-next-title">R3, далі · Дії на шарі «Посилання» і видалення тегу</h3>
     <p class="meta"><b>Персона:</b> П2 — R2 «що це й навіщо» її job. Тег знімають на шарі «Посилання», а видаляють у фільтрі тегів на шарі «Пошук».</p>
     <p class="meta"><b>Кліків:</b> «⋯» → поле — 2; видалити посилання — 3; видалити тег — 3.</p>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:4--></pre></div>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:5--></pre></div>
+    <!--FLOW:4-->
+    <!--FLOW:5-->
     <div class="lists"><!--LISTS:5--></div>
   </section>
 
@@ -375,7 +388,7 @@
     <h3 id="flow-e2-title">E2 · Не боятися втратити все разом із сервісом</h3>
     <p class="meta"><b>Персона:</b> П1 і П2. <b>Обставини:</b> забрати архів про запас або перед тим, як піти зовсім. Тут же обидва виходи — службові дії без job.</p>
     <p class="meta"><b>Кліків:</b> експорт — 2; кожен вихід — 2; видалення акаунта — 4, свідомо.</p>
-    <div class="diagram"><pre class="mermaid"><!--FLOW:6--></pre></div>
+    <!--FLOW:6-->
     <div class="lists"><!--LISTS:6--></div>
   </section>
 
@@ -420,7 +433,7 @@
     <table>
       <thead><tr><th>Сирота</th><th>Рішення PM (2026-11-24)</th><th>Чому</th></tr></thead>
       <tbody>
-        <tr><th>Вхід <code>login.html</code></th><td><span class="tag svc">службовий екран-виняток</span></td><td>Вхідна умова для всіх jobs, сам жодного не закриває. Прив'язка до E1 порушувала правило «вхідні умови не рахуються». Видалити не можна: без входу немає синхронізації й експорту</td></tr>
+        <tr><th>Вхід <a class="wf" href="wireframes/login.html"><code>login.html</code></a></th><td><span class="tag svc">службовий екран-виняток</span></td><td>Вхідна умова для всіх jobs, сам жодного не закриває. Прив'язка до E1 порушувала правило «вхідні умови не рахуються». Видалити не можна: без входу немає синхронізації й експорту</td></tr>
         <tr><th>R5 Справді повертатися</th><td><span class="tag job">backlog</span></td><td>Нагадувань у MVP немає. «Вже переглянуто» позначає, але не нагадує. Перший у backlog: «забуваю повернутися» часто в 7 з 14</td></tr>
         <tr><th>Г2 Вирішити разом</th><td><span class="tag job">backlog</span></td><td>Потрібен шерінг, а його в MVP немає. Job — гіпотеза без даних</td></tr>
         <tr><th>Г3 Під рукою</th><td><span class="tag cond">умовно</span> → Моя Шухляда, Пошук</td><td>«Під рукою» — це і є main job. Позначка тримається лише до інтерв'ю</td></tr>
@@ -455,33 +468,21 @@
   <!--MD:sitemap.md#Що матриця ще показує-->
 
   <footer>
-    Знімок зібрано 2026-11-24 з <code>sitemap.md</code> і <code>flows.md</code>. Діаграми взято з <code>flows.md</code> дослівно, разом з кольорами. Змінилося джерело — перезбираємо знімок.
+    Знімок зібрано <!--DATE--> з <code>sitemap.md</code> і <code>flows.md</code>. Діаграми взято з <code>flows.md</code> дослівно, разом з кольорами, і намальовано заздалегідь у SVG (<code>_build/render-flows.mjs</code>): сторінка не залежить від CDN і показує схеми навіть без JavaScript. Змінилося джерело — перезбираємо знімок.
   </footer>
 </main>
 
+<dialog class="wf-dialog" id="wf-dialog" aria-labelledby="wf-title">
+  <div class="wf-head">
+    <h2 id="wf-title">Вайрфрейм</h2>
+    <a id="wf-open" href="#" target="_blank" rel="noopener">Відкрити окремо</a>
+    <button type="button" class="zoom" id="wf-close">Закрити</button>
+  </div>
+  <iframe id="wf-frame" title="Вайрфрейм екрана"></iframe>
+</dialog>
+
 <script type="module">
-  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({
-    startOnLoad: false,
-    theme: "base",
-    securityLevel: "strict",
-    htmlLabels: false,
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-    themeVariables: {
-      darkMode: false,
-      background: "#ffffff",
-      primaryColor: "#f3f3f5",
-      primaryTextColor: "#1d1d1f",
-      primaryBorderColor: "#9a9aa3",
-      secondaryColor: "#ffffff",
-      tertiaryColor: "#ffffff",
-      lineColor: "#6b6b73",
-      edgeLabelBackground: "#ffffff",
-      fontSize: "14px"
-    },
-    flowchart: { useMaxWidth: false, htmlLabels: false, curve: "basis", wrappingWidth: 220 }
-  });
-  mermaid.run({ querySelector: "pre.mermaid" }).then(function () {
+  function setupDiagrams() {
     // Масштаб: «Читати» — не дрібніше за 80 % натуральної величини, далі прокрутка вбік;
     // «Огляд» — уся діаграма в ширину; «100 %» — натуральна величина.
     var READ = 0.8;
@@ -540,9 +541,22 @@
       });
     });
     document.querySelectorAll(".diagram svg").forEach(makeInteractive);
-  }).catch(function (e) {
-    console.error("Mermaid:", e);
-  });
+  }
+
+  // Вузли-екрани: назва з реєстру екранів → вайрфрейм (sitemap.md, «Екрани»).
+  var SCREENS = { "Моя Шухляда": "drawer.html", "Пошук": "search.html", "Посилання": "link.html", "Акаунт": "account.html", "Вхід": "login.html" };
+  var dlg = document.getElementById("wf-dialog");
+  var frame = document.getElementById("wf-frame");
+  function openWireframe(name) {
+    var href = "wireframes/" + SCREENS[name];
+    document.getElementById("wf-title").textContent = "Вайрфрейм «" + name + "»";
+    document.getElementById("wf-open").href = href;
+    frame.src = href;
+    dlg.showModal();
+  }
+  document.getElementById("wf-close").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (ev) { if (ev.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", function () { frame.removeAttribute("src"); });
 
   // Клік по вузлу: підсвітити всі шляхи через нього — попередників і нащадків.
   // Ребра-повернення (повтор, «назад») визначаємо обходом у глибину і не йдемо по них,
@@ -551,6 +565,19 @@
     var nodeOf = function (g) { var m = /^flowchart-(.+)-\d+$/.exec(g.id); return m ? m[1] : null; };
     var nodes = new Map();
     svg.querySelectorAll("g.node").forEach(function (g) { var id = nodeOf(g); if (id) nodes.set(id, g); });
+    var screenOf = new Map();
+    nodes.forEach(function (g, id) {
+      var name = g.textContent.replace(/\s+/g, " ").trim();
+      if (SCREENS[name]) { g.classList.add("screen"); screenOf.set(id, name); }
+    });
+    var box = svg.closest(".diagram");
+    var bar = box && box.previousElementSibling && box.previousElementSibling.classList.contains("diagram-bar") ? box.previousElementSibling : null;
+    var wfBtn = document.createElement("button");
+    wfBtn.type = "button";
+    wfBtn.className = "zoom open-wf";
+    wfBtn.hidden = true;
+    wfBtn.addEventListener("click", function () { if (wfBtn.dataset.name) openWireframe(wfBtn.dataset.name); });
+    if (bar) bar.appendChild(wfBtn);
     var labels = Array.prototype.slice.call(svg.querySelectorAll("g.edgeLabels > g.edgeLabel"));
     var edges = [];
     svg.querySelectorAll("path.flowchart-link").forEach(function (p) {
@@ -609,6 +636,7 @@
     var current = null;
     function reset() {
       current = null;
+      wfBtn.hidden = true;
       svg.classList.remove("focus");
       svg.querySelectorAll(".on, .sel").forEach(function (el) { el.classList.remove("on", "sel"); });
     }
@@ -618,6 +646,11 @@
       svg.classList.add("focus");
       nodes.forEach(function (g, n) { if (down.has(n) || up.has(n)) g.classList.add("on"); });
       nodes.get(id).classList.add("sel");
+      if (screenOf.has(id)) {
+        wfBtn.dataset.name = screenOf.get(id);
+        wfBtn.textContent = "Вайрфрейм «" + screenOf.get(id) + "» ↗";
+        wfBtn.hidden = false;
+      }
       fwd.forEach(function (e) {
         if ((down.has(e.from) && down.has(e.to)) || (up.has(e.from) && up.has(e.to))) {
           e.path.classList.add("on");
@@ -632,8 +665,9 @@
       var id = g && nodeOf(g);
       if (!id || id === current) reset(); else focus(id);
     });
-    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") reset(); });
+    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && !dlg.open) reset(); });
   }
+  setupDiagrams();
 </script>
 </body>
 </html>

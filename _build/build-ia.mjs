@@ -2,7 +2,10 @@
 // Запуск з кореня репо: node _build/build-ia.mjs
 // Змінили sitemap.md, flows.md чи шаблон — перезбираємо в тому самому кроці (бриф §10).
 // Діаграми й списки під ними беруться з flows.md дослівно, назви jobs — з матриці в sitemap.md.
+// Діаграми заздалегідь малює _build/render-flows.mjs і кладе в _build/flows-svg.json;
+// браузер (Chrome чи Edge) потрібен лише тоді, коли діаграми у flows.md змінилися.
 import fs from "node:fs";
+import { getSvgs } from "./render-flows.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -21,10 +24,28 @@ const fences = [...md.matchAll(/```mermaid\n([\s\S]*?)```/g)];
 let html = fs.readFileSync(tpl, "utf8");
 const flowMarkers = [...html.matchAll(/<!--FLOW:(\d+)-->/g)].length;
 if (flowMarkers !== fences.length) throw new Error(`FLOW markers ${flowMarkers} != blocks ${fences.length}`);
-fences.forEach((m, i) => {
-  const code = m[1].trimEnd(); // кольори classDef — як у flows.md, світлі
-  html = html.replace(`<!--FLOW:${i + 1}-->`, "\n" + esc(code) + "\n");
+// SVG замість коду Mermaid: сторінка не тягне Mermaid з CDN і показує схеми без JavaScript.
+const svgs = getSvgs();
+const plural = (n, one, few, many) => {
+  const d = n % 10, dd = n % 100;
+  return n + " " + (d === 1 && dd !== 11 ? one : d >= 2 && d <= 4 && (dd < 12 || dd > 14) ? few : many);
+};
+svgs.forEach((svg, i) => {
+  const count = (re) => (svg.match(re) || []).length;
+  const nodes = count(/<g [^>]*class="node /g);
+  const ok = count(/<g [^>]*class="node [^"]*\bcOk\b/g);
+  const dead = count(/<g [^>]*class="node [^"]*\bcDead\b/g);
+  // Підпис — і огляд для зору, і текст для екранного читача: сама схема для нього — одне зображення.
+  const cap = `Блок-схема: ${plural(nodes, "вузол", "вузли", "вузлів")} — ${plural(ok, "успішний кінець", "успішні кінці", "успішних кінців")}, ${dead} без виходу. Текстом — розвилки, стани й кінці під схемою.`;
+  const body = svg.replace(/role="graphics-document document"/, `role="img" aria-label="${esc(cap)}"`);
+  html = html.replace(`<!--FLOW:${i + 1}-->`,
+    `<figure class="flow">\n<figcaption class="diagram-cap">${esc(cap)}</figcaption>\n<div class="diagram">${body}</div>\n</figure>`);
 });
+
+// ---------- дата знімка ----------
+const now = new Date();
+const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+html = html.replace(/<!--DATE-->/g, today);
 
 // ---------- розвилки, стани, кінці під діаграмами ----------
 function inline(s) {
@@ -125,7 +146,9 @@ html = html.replace(/<!--JOBS:([^>]+)-->/g, (all, spec) => spec.trim().split(/\s
   const label = code + (cond ? " · умовно" : ""); // гіпотезу видно рамкою й підписом «гіпотеза»
   const full = code + " — " + name + (hyp ? " (гіпотеза)" : "") + (cond ? ", прив'язано умовно до інтерв'ю" : "");
   const cls = isMain ? "main" : hyp ? "hyp" : "job";
-  return `<span class="tag ${cls}" tabindex="0" data-name="${esc(full)}">${esc(label)}<span class="vh"> — ${esc(name)}</span></span>`;
+  // Код job веде до його опису: jobs — на сторінку персон, гіпотези — у 11-jtbd.md.
+  const href = hyp ? REPO + "research/notes/11-jtbd.md#гіпотези" : "personas.html#job-" + code.toLowerCase();
+  return `<a class="tag ${cls}" href="${esc(href)}" data-name="${esc(full)}">${esc(label)}<span class="vh"> — ${esc(name)}</span></a>`;
 }).join(""));
 
 const left = html.match(/<!--(FLOW|LISTS|JOBS|MD):/);
