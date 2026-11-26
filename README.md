@@ -2,7 +2,7 @@
 
 **Репо:** https://github.com/OlenaKras95/shukhliada-app · **Сайт:** https://olenakras95.github.io/shukhliada-app/
 
-Особистий цифровий архів посилань: фільми й серіали, місця, статті, документи, івенти, курси. Усе в одному місці.
+Особистий цифровий архів посилань: фільми й серіали, місця, статті, документи, події, курси. Усе в одному місці.
 
 **Навіщо.** Посилання розкидані по закладках, нотатках, «Збереженому» в Telegram і чатах, і згадати, де що лежить, неможливо. Шухляда це виправляє: зберегти посилання займає кілька секунд, а знайти його можна одним пошуком.
 
@@ -46,10 +46,13 @@ Next.js · Tailwind CSS · Supabase · Vercel
 | Структура IA: дерево екранів, навігація, flows і трасування — знімок `sitemap.md` і `flows.md` | [ia.html](./ia.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/ia.html) |
 | Збирання `ia.html`: `node _build/build-ia.mjs` | [_build/build-ia.mjs](./_build/build-ia.mjs) · шаблон [_build/ia.template.html](./_build/ia.template.html) |
 | Скріни дослідження | [research/screens/](./research/screens/) · перелік: [README.md](./research/screens/README.md) |
+| Голос продукту: принципи, словник, заборонене, правила мікрокопі | [voice.md](./voice.md) |
+| Тексти інтерфейсу: ключі, «було» і «стало» — джерело правди тексту | [microcopy.md](./microcopy.md) |
+| Мова конкурентів (розділ ресерчу) | [research/research.md, «Мова конкурентів»](./research/research.md#мова-конкурентів) |
 | Правила вайрфреймів: рамка, стани, вкладки, підписи зон | [wireframes/_conventions.md](./wireframes/_conventions.md) |
 | Вайрфрейм «Моя Шухляда» (головний) і стани | [drawer.html](./wireframes/drawer.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/drawer.html) |
 | Вайрфрейм «Пошук» і стани; попередження для тегу без посилань | [search.html](./wireframes/search.html) · [search-empty.html#vydalyty-teh](./wireframes/search-empty.html#vydalyty-teh) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/search.html) |
-| Вайрфрейм «Посилання» і стани; назва й опис підтягуються | [link.html](./wireframes/link.html) · [link-loading.html#pidtiahuietsia](./wireframes/link-loading.html#pidtiahuietsia) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/link.html) |
+| Вайрфрейм «Посилання» і стани; дані сторінки підтягуються | [link.html](./wireframes/link.html) · [link-loading.html#pidtiahuietsia](./wireframes/link-loading.html#pidtiahuietsia) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/link.html) |
 | Вайрфрейм «Акаунт» і стани; «назавжди» для порожньої Шухляди | [account.html](./wireframes/account.html) · [account-empty.html#nazavzhdy](./wireframes/account-empty.html#nazavzhdy) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/account.html) |
 | Вайрфрейм «Вхід» і стани | [login.html](./wireframes/login.html) · [на сайті](https://olenakras95.github.io/shukhliada-app/wireframes/login.html) |
 | Навігатор: дерево сторінок | [_nav/tree.js](./_nav/tree.js) |

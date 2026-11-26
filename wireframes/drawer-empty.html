@@ -4,7 +4,7 @@
   Базова сторінка — drawer.html; шапка, навігація й зони ті самі, змінено лише вміст.
   flows.md, Main: «empty: Шухляда порожня, ілюстрація, поле — єдина дія» → «стан: дотик до поля, системне «Вставити»». Вихід — поле для вставки, не тупик.
   Сайдбар: категорій 8 і завжди 8 (бриф §3.2) — з нулями; тегів немає — підказка, де їх додають.
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `drawer`.
 -->
 <html lang="uk">
 <head>
@@ -31,7 +31,7 @@
 <!-- Примітка до вайрфрейму — над рамкою, поза нею: переходи за flow і зони з головною дією (_conventions.md, «Примітка над рамкою»).
      Блок варіанта видно разом з його вкладкою -->
 <aside class="wf-note" aria-label="Примітка до вайрфрейму">
-  <p class="wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
+  <p class="wf-flow"><b>Далі за flow</b> · вставлене — посилання? так → <a href="drawer-loading.html#vkladaietsia">вкладається</a>; ні → <a href="drawer-error.html#ne-posylannia">«Це не схоже на посилання»</a> · немає мережі → <a href="drawer-error.html#bez-merezhi">помилка без мережі</a></p>
   <ul class="wf-note__zones">
     <li><b>Шапка</b> · головна дія — шукати</li>
     <li><b>Глобальна навігація</b> · головна дія — гортати категорію</li>
@@ -50,7 +50,7 @@
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайдемо й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
   </header>
@@ -71,7 +71,7 @@
         <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>0</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>0</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>0</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>0</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Події</span> <span>0</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>0</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>0</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>0</span></a></li>
@@ -80,7 +80,7 @@
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
     <details class="wf-group" open>
       <summary>Теги</summary>
-      <p class="wf-group-empty">Теги з'являться, коли відкладеш перше посилання</p> <!-- flows.md, R4: «тегів ще немає» -->
+      <p class="wf-group-empty">Теги з'являться, коли збережеш перше посилання</p> <!-- flows.md, R4: «тегів ще немає» -->
     </details>
 
     <!-- «Акаунт» — унизу сайдбара, окремо: ним користуються рідко, але видно завжди — там експорт (E2) -->
@@ -100,11 +100,10 @@
 
     <!-- Зона 1. Поле для вставки — та сама, що на базовій сторінці -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав перше посилання — і воно вже в Шухляді</label>
-        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…">
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off">
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
     </section>
@@ -113,7 +112,7 @@
     <section class="wf-zone" aria-labelledby="recent-title">
       <h2 id="recent-title">Нещодавно додане</h2>
       <div class="wf-illustration" aria-hidden="true">Ілюстрація</div> <!-- домалюємо на етапі 2 (_conventions.md, розділ 1) -->
-      <p class="empty-note">Тут з'являтиметься все, що відкладеш — свіже першим.</p>
+      <p class="empty-note">Тут з'являтиметься все, що збережеш, — новіше першим.</p>
       <p class="empty-note">Скопіюй будь-яке посилання й встав у поле вище.</p>
     </section>
   </main>

@@ -5,12 +5,12 @@
   Рамка, шапка й навігація — ті самі, що на drawer.html. Під шаром — «Моя Шухляда», приглушена й inert.
   4 варіанти (sitemap.md; flows.md, R3 і «R3, далі»). Помилку видно формою — товста рамка, — і стоїть вона там, де людина діяла.
   Виходи звірено з flows.md — тупика немає в жодному варіанті:
-  - errLink / errDup → «Повторити» або «Закрити» шар: категорію виправить пізніше (endClose);
-  - errEdit → «Повторити»; текст лишається в полі, поки шар відкрито (deadEdit);
-  - errChange → «Повторити»; категорія як була, виправити пізніше через «⋯» (endLater);
-  - errDel → «Повторити» або «Скасувати»; посилання лишилося (deadDel).
+  - errLink / errDup → «Спробувати ще» або «Закрити» шар: категорію змінить пізніше (endClose);
+  - errEdit → «Спробувати ще»; текст лишається в полі, поки шар відкрито (deadEdit);
+  - errChange → «Спробувати ще»; категорія як була, виправити пізніше через «⋯» (endLater);
+  - errDel → «Спробувати ще» або «Не видаляти»; посилання лишилося (deadDel).
   «Не минає? Напиши нам на пошту» (рішення PM 2026-11-25) — у кожному з чотирьох: причина невідома, і повтор може не допомогти.
-  Тексти переглянуто PM 2026-11-25; ключі в microcopy.md з'являться пізніше.
+  Тексти переглянуто PM 2026-11-25; ключі — у microcopy.md, екран `link`.
 -->
 <html lang="uk">
 <head>
@@ -49,7 +49,7 @@
 <nav class="wf-tabs" aria-label="Варіанти: Посилання · помилка">
   <p>Посилання · помилка — варіанти:</p>
   <ul>
-    <li><a href="#ne-vidkrylos">не вдалося відкрити посилання</a></li>
+    <li><a href="#ne-vidkrylos">не вдалося завантажити посилання</a></li>
     <li><a href="#zmina">не вдалося зберегти зміну</a></li>
     <li><a href="#katehoriia">не вдалося змінити категорію</a></li>
     <li><a href="#vydalennia">не вдалося видалити</a></li>
@@ -64,16 +64,16 @@
     <li><b>Посилання · шар</b> · job <a href="../research/notes/11-jtbd.md#r2--одразу-розуміти-що-це-й-навіщо">R2</a> «одразу розуміти, що це й навіщо» · головна дія — звірити, що це й навіщо, і виправити поле</li>
   </ul>
   <div class="wf-note__variant" data-variant="ne-vidkrylos">
-    <p class="wf-flow"><b>Далі за flow</b> (R3; Main) · «Повторити» → <a href="link-loading.html#vidkryvaiemo">відкриваємо посилання</a>; вдалося → <a href="link.html">шар з полями</a> · ні — закриває шар → <a href="drawer.html">список як був</a>, виправити пізніше через «⋯»</p>
+    <p class="wf-flow"><b>Далі за flow</b> (R3; Main) · «Спробувати ще» → <a href="link-loading.html#vidkryvaiemo">завантажуємо посилання</a>; вдалося → <a href="link.html">шар з полями</a> · ні — закриває шар → <a href="drawer.html">список як був</a>, виправити пізніше через «⋯»</p>
   </div>
   <div class="wf-note__variant" data-variant="zmina">
-    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · «Повторити» → <a href="link-loading.html#zberihaiemo">зберігаємо зміну</a>; вдалося → <a href="link-success.html#zmina">зміну збережено</a> · ні — текст лишається в полі, поки шар відкрито: спробувати пізніше або написати на пошту · закриває шар → <a href="drawer.html">список</a></p>
+    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · «Спробувати ще» → <a href="link-loading.html#zberihaiemo">зберігаємо зміну</a>; вдалося → <a href="link-success.html#zmina">зміну збережено</a> · ні — текст лишається в полі, поки шар відкрито: спробувати пізніше або написати на пошту · закриває шар → <a href="drawer.html">список</a></p>
   </div>
   <div class="wf-note__variant" data-variant="katehoriia">
-    <p class="wf-flow"><b>Далі за flow</b> (R3) · «Повторити» → <a href="link-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="link-success.html#katehoriia">категорію змінено</a> · ні — категорія як була, посилання на місці: «Закрити» → <a href="drawer.html">список</a>, виправити пізніше через «⋯»</p>
+    <p class="wf-flow"><b>Далі за flow</b> (R3) · «Спробувати ще» → <a href="link-loading.html#katehoriia">зберігаємо категорію</a>; вдалося → <a href="link-success.html#katehoriia">категорію змінено</a> · ні — категорія як була, посилання на місці: «Закрити» → <a href="drawer.html">список</a>, виправити пізніше через «⋯»</p>
   </div>
   <div class="wf-note__variant" data-variant="vydalennia">
-    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · «Повторити» → <a href="link-loading.html#vydaliaiemo">видаляємо</a>; вдалося → <a href="link-success.html#vydaleno">видалено</a> · ні — посилання лишилося: «Скасувати» → <a href="link.html">шар як був</a>, спробувати пізніше або написати на пошту</p>
+    <p class="wf-flow"><b>Далі за flow</b> (R3, «далі») · «Спробувати ще» → <a href="link-loading.html#vydaliaiemo">видаляємо</a>; вдалося → <a href="link-success.html#vydaleno">видалено</a> · ні — посилання лишилося: «Не видаляти» → <a href="link.html">шар як був</a>, спробувати пізніше або написати на пошту</p>
   </div>
 </aside>
 <div class="device">
@@ -87,7 +87,7 @@
     <form role="search" action="search-loading.html#shukaiemo" class="wf-search">
       <label for="q" class="vh">Шукати в Шухляді</label>
       <input id="q" name="q" type="search" autocomplete="off"
-             placeholder="Шукай — знайде й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
+             placeholder="Шукай — знайдемо й з одруківкою"> <!-- бриф §3.4. Короткий, щоб влазив на телефоні від 360px; «інша форма слова» не влізла -->
       <kbd>Ctrl+K</kbd>
     </form>
   </header>
@@ -106,12 +106,12 @@
       <ul>
         <li><a href="search-loading.html#katehoriia"><span>Фільми й серіали</span> <span>12</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Місця</span> <span>7</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>14</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Статті й ресурси</span> <span>13</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Документи</span> <span>4</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Івенти</span> <span>3</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Події</span> <span>3</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Курси</span> <span>5</span></a></li>
         <li><a href="search-loading.html#katehoriia"><span>Покупки</span> <span>2</span></a></li>
-        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>1</span></a></li>
+        <li><a href="search-loading.html#katehoriia"><span>Інше</span> <span>2</span></a></li>
       </ul>
     </details>
     <!-- Теги розгорнуто: інакше в них входу немає, крім чипа на картці. Порядок — за абеткою -->
@@ -144,17 +144,16 @@
 
     <!-- Зона 1. Поле для вставки — R1, main job «відкласти». Нагорі: на телефоні це перше, що бачить П1 -->
     <section class="wf-zone" aria-labelledby="save-title">
-      <h2 id="save-title" class="vh">Відкласти посилання</h2>
+      <h2 id="save-title" class="vh">Зберегти посилання</h2>
       <form action="drawer-loading.html#vkladaietsia"> <!-- вставка → «вкладається»; Ctrl+V будь-де — етап 3 -->
         <label for="paste">Встав посилання — і воно вже в Шухляді</label>
-        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"
-               placeholder="https://…"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
+        <input id="paste" name="link" type="text" inputmode="url" autocomplete="off"> <!-- без кнопки «Зберегти»: вставка і є збереження -->
         <p class="wf-hint wf-desktop-only">Або натисни <kbd>Ctrl+V</kbd> будь-де в Шухляді</p>
       </form>
       <!-- Розвилки flows.md, Main, після вставки — в обидва боки -->
     </section>
 
-    <!-- Зона 2. «Нещодавно додане» — свіже першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
+    <!-- Зона 2. «Нещодавно додане» — новіше першим, на всю ширину. Дотик до назви відкриває сторінку сайту,
          чип тегу — шар «Пошук» з фільтром тегу, «⋯» — шар «Посилання» (рішення PM 2026-11-22) -->
     <section class="wf-zone" aria-labelledby="recent-title">
       <h2 id="recent-title">Нещодавно додане</h2>
@@ -173,7 +172,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Interstellar (2014) — IMDb»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Interstellar (2014) — IMDb»">⋯</a>
           </article>
         </li>
         <li>
@@ -190,7 +189,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Рюкзак туристичний 40 л»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Рюкзак туристичний 40 л»">⋯</a>
           </article>
         </li>
         <li>
@@ -208,7 +207,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як скласти рюкзак у похід»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як скласти рюкзак у похід»">⋯</a>
           </article>
         </li>
         <li>
@@ -225,7 +224,7 @@
                 </ul>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Поїздка в Карпати — план»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Поїздка в Карпати — план»">⋯</a>
           </article>
         </li>
         <li>
@@ -243,7 +242,7 @@
               </div>
               <p class="note">Нотатка: сходити з батьками</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Музей Ханенків — Google Карти»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Музей Ханенків — Google Карти»">⋯</a>
           </article>
         </li>
         <li>
@@ -253,7 +252,7 @@
               <h3><a href="https://www.eventbrite.com/e/design-talks-kyiv" target="_blank" rel="noopener">Design Talks Kyiv</a></h3>
               <div class="meta">
                 <span>eventbrite.com</span>
-                <span class="cat"><span class="vh">Категорія: </span>Івенти</span>
+                <span class="cat"><span class="vh">Категорія: </span>Події</span>
                 <span>додано 23 листопада</span>
                 <ul class="tags" aria-label="Теги">
                   <li><a class="wf-chip" href="search-loading.html#teh">дизайн</a></li>
@@ -261,9 +260,9 @@
                 </ul>
               </div>
             </div>
-            <!-- Дата події — поле «Дата», лише для «Івентів» (бриф §3.3) формат -->
+            <!-- Дата події — поле «Дата події», лише для «Подій» (бриф §3.3) формат -->
             <p class="event-date"><span>Подія</span> <b><time datetime="2026-12-05">5 грудня</time></b> <span>субота</span></p>
-            <a class="wf-btn" href="link.html#ivent" aria-label="Відкрити посилання «Design Talks Kyiv»">⋯</a>
+            <a class="wf-btn" href="link.html#ivent" aria-label="Змінити посилання «Design Talks Kyiv»">⋯</a>
           </article>
         </li>
         <li>
@@ -282,7 +281,7 @@
               </div>
               <p class="note">Нотатка: порадили в чаті курсу</p>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Як дизайнеру підготуватися до співбесіди»">⋯</a>
           </article>
         </li>
         <li>
@@ -293,11 +292,11 @@
               <h3><a href="https://telegra.ph/notes-11-20" target="_blank" rel="noopener">telegra.ph</a></h3>
               <div class="meta">
                 <span>telegra.ph</span>
-                <span class="cat"><span class="vh">Категорія: </span>Статті й ресурси</span>
+                <span class="cat"><span class="vh">Категорія: </span>Інше</span>
                 <span>додано 20 листопада</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Відкрити посилання «telegra.ph»">⋯</a>
+            <a class="wf-btn" href="link.html#lyshe-domen" aria-label="Змінити посилання «telegra.ph»">⋯</a>
           </article>
         </li>
         <li>
@@ -312,7 +311,7 @@
                 <span>Вже переглянуто</span>
               </div>
             </div>
-            <a class="wf-btn" href="link.html" aria-label="Відкрити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
+            <a class="wf-btn" href="link.html" aria-label="Змінити посилання «Shadows of Forgotten Ancestors (1965)»">⋯</a>
           </article>
         </li>
       </ol>
@@ -324,7 +323,7 @@
   <dialog class="wf-layer" open aria-label="Посилання">
     <a class="wf-layer-close" href="drawer.html">Закрити</a> <!-- повертає на екран під шаром; Esc — етап 3 -->
 
-    <!-- Варіант «не вдалося відкрити посилання» (flows.md, R3: errLink; Main: errDup). Назву, сайт і адресу видно з картки -->
+    <!-- Варіант «не вдалося завантажити посилання» (flows.md, R3: errLink; Main: errDup). Назву, сайт і адресу видно з картки -->
     <div class="wf-variant" id="ne-vidkrylos">
       <!-- Що це: назва може брехати (R2, «Назва бреше»), тож поруч сайт і повна адреса — звірити, не відкриваючи сторінку -->
       <header class="link-head">
@@ -334,10 +333,10 @@
         <a class="wf-btn" href="https://www.google.com/maps/place/khanenko-museum" target="_blank" rel="noopener">Відкрити сторінку</a>
       </header>
       <aside class="wf-status wf-status--error" role="alert">
-        <p><b>Не вдалося відкрити посилання</b></p>
-        <p>Шухляда зараз не відповідає. Спробуй ще раз — або закрий і повернись пізніше.</p>
+        <p><b>Не вдалося завантажити посилання</b></p>
+        <p>Посилання на місці — його просто не вдалося показати. Спробуй ще раз.</p>
         <div class="wf-actions">
-          <a class="wf-btn wf-primary" href="link-loading.html#vidkryvaiemo">Повторити</a>
+          <a class="wf-btn wf-primary" href="link-loading.html#vidkryvaiemo">Спробувати ще</a>
           <a class="wf-btn" href="drawer.html">Закрити</a> <!-- не вийшло — закрити шар (sitemap.md) -->
           <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
         </div>
@@ -369,13 +368,13 @@
         <p class="field">
           <label for="note-1">Нотатка</label>
           <textarea id="note-1" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні" aria-invalid="true" aria-describedby="note-err-1">сходити з батьками в неділю</textarea>
-          <small class="field-src">Нотатку додано 24 листопада</small>
+          <small class="field-src">Нотатку додано вчора</small>
         </p>
         <aside class="wf-status wf-status--error field-msg" id="note-err-1" role="alert">
-          <p><b>Не вдалося зберегти зміну</b></p>
+          <p><b>Не вдалося зберегти нотатку</b></p>
           <p>Твій текст лишився в полі — спробуй ще раз.</p>
           <div class="wf-actions">
-            <a class="wf-btn wf-primary" href="link-loading.html#zberihaiemo">Повторити</a>
+            <a class="wf-btn wf-primary" href="link-loading.html#zberihaiemo">Спробувати ще</a>
             <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
           </div>
         </aside>
@@ -389,7 +388,7 @@
               <li><a class="wf-btn" href="link.html" aria-current="true">Місця</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
-              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Події</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
@@ -408,13 +407,13 @@
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-1"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
+          <small class="field-src">Вже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж можна шукати.</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-1" name="seen" type="checkbox" role="switch">
           <label for="seen-1">Вже переглянуто</label>
         </p>
-        <p class="field-ro">Додано <time datetime="2026-11-24">24 листопада 2026</time></p>
+        <p class="field-ro">Додано <time datetime="2026-11-24">вчора</time></p>
       </form>
       <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
       <footer class="link-foot">
@@ -459,7 +458,7 @@
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Місця</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
-              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Події</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
               <li><a class="wf-btn" href="link.html" aria-current="true">Інше</a></li>
@@ -468,9 +467,9 @@
           <small class="field-src">Сайт незнайомий — тому «Інше»</small> <!-- статус категорії: `вгадана` -->
           <aside class="wf-status wf-status--error" role="alert">
             <p><b>Не вдалося змінити категорію</b></p>
-            <p>Посилання лишилося в «Інше». Спробуй ще раз — або виправ пізніше через «⋯» на картці.</p>
+            <p>Посилання на місці, у категорії «Інше». Спробуй ще раз або зміни пізніше через «⋯» на картці.</p>
             <div class="wf-actions">
-              <a class="wf-btn wf-primary" href="link-loading.html#katehoriia">Повторити</a>
+              <a class="wf-btn wf-primary" href="link-loading.html#katehoriia">Спробувати ще</a>
               <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
             </div>
           </aside>
@@ -487,13 +486,13 @@
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-2"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
+          <small class="field-src">Вже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж можна шукати.</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-2" name="seen" type="checkbox" role="switch">
           <label for="seen-2">Вже переглянуто</label>
         </p>
-        <p class="field-ro">Додано <time datetime="2026-11-22">22 листопада 2026</time></p>
+        <p class="field-ro">Додано <time datetime="2026-11-22">22 листопада</time></p>
       </form>
       <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
       <footer class="link-foot">
@@ -526,7 +525,7 @@
         <p class="field">
           <label for="note-3">Нотатка</label>
           <textarea id="note-3" name="note" rows="2" placeholder="Навіщо це тобі — щоб згадати через тижні">сходити з батьками</textarea>
-          <small class="field-src">Нотатку додано 24 листопада</small>
+          <small class="field-src">Нотатку додано вчора</small>
         </p>
         <fieldset class="field">
           <legend>Категорія</legend>
@@ -538,7 +537,7 @@
               <li><a class="wf-btn" href="link.html" aria-current="true">Місця</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Статті й ресурси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Документи</a></li>
-              <li><a class="wf-btn" href="link-loading.html#katehoriia">Івенти</a></li>
+              <li><a class="wf-btn" href="link-loading.html#katehoriia">Події</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Курси</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Покупки</a></li>
               <li><a class="wf-btn" href="link-loading.html#katehoriia">Інше</a></li>
@@ -557,22 +556,22 @@
             <button type="submit">Додати</button>
           </span>
           <datalist id="known-tags-3"><option value="дизайн"></option><option value="карпати"></option><option value="київ"></option><option value="на вихідні"></option><option value="робота"></option></datalist>
-          <small class="field-src">Уже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж шукає пошук</small>
+          <small class="field-src">Вже є: дизайн, карпати, київ, на вихідні, робота. За тегами теж можна шукати.</small>
         </fieldset>
         <p class="field field--switch">
           <input id="seen-3" name="seen" type="checkbox" role="switch">
           <label for="seen-3">Вже переглянуто</label>
         </p>
-        <p class="field-ro">Додано <time datetime="2026-11-24">24 листопада 2026</time></p>
+        <p class="field-ro">Додано <time datetime="2026-11-24">вчора</time></p>
       </form>
       <!-- «Видалити» — унизу, окремо від полів: рідкісна дія назавжди, без кошика (бриф §3.3) -->
       <footer class="link-foot">
         <aside class="wf-status wf-status--error" role="alert">
-          <p><b>Не вдалося видалити</b></p>
-          <p>Посилання на місці, нічого не загубилося. Спробуй ще раз трохи згодом.</p>
+          <p><b>Не вдалося видалити посилання</b></p>
+          <p>Посилання на місці, нічого не загубилося. Спробуй ще раз трохи пізніше.</p>
           <div class="wf-actions">
-            <a class="wf-btn wf-primary" href="link-loading.html#vydaliaiemo">Повторити</a>
-            <a class="wf-btn" href="link.html">Скасувати</a>
+            <a class="wf-btn wf-primary" href="link-loading.html#vydaliaiemo">Спробувати ще</a>
+            <a class="wf-btn" href="link.html">Не видаляти</a>
             <a href="mailto:help-shukhliada@gmail.com">Не минає? Напиши нам на пошту</a> <!-- допомога — пошта (рішення PM 2026-11-25) -->
           </div>
         </aside>
