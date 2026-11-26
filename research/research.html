@@ -68,6 +68,9 @@
     .avg td, .avg th { font-weight: 700; color: var(--accent); background: var(--surface-2); }
     .voice td:first-child { font-weight: 600; width: 200px; }
     .voice q { quotes: "«" "»"; }
+    .lang td { min-width: 180px; }
+    .lang tbody th { width: 120px; }
+    .lang q { quotes: "«" "»"; }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
     .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
     .card h4 { margin: 0 0 8px; font-size: 16px; }
@@ -300,8 +303,96 @@
   <div class="cards">
     <div class="card"><h4>Структура проти «нічого не впорядковуй»</h4><p>Raindrop і Notion — колекції й бази, mymind — автотеги, Telegram — стрічка. Шухляда з 7 категоріями й пласкими тегами посередині. <a class="src" href="#s-04-R1">04·R1</a> <a class="src" href="#s-04-N2">04·N2</a> <a class="src" href="#s-04-M1">04·M1</a> <span class="tag pub">🌐</span></p></div>
     <div class="card"><h4>Коли не пам'ятаєш назву</h4><p>Raindrop і mymind — пошук за змістом або ШІ, Raycast — нечіткий збіг і звичка, Telegram — «згадай чат», Notion — дата й місце. <a class="src" href="#s-04-R4">04·R4</a> <a class="src" href="#s-04-Y3">04·Y3</a> <a class="src" href="#s-04-T2">04·T2</a> <a class="src" href="#s-04-N4">04·N4</a> <span class="tag pub">🌐</span></p></div>
-    <div class="card"><h4>Мова й тон</h4><p>Українською — лише Telegram, але він не архів. Теплий тон — лише mymind: «Maybe what you need is some space.» проти «No bookmarks» у Raindrop. <a class="src" href="#s-04-T1">04·T1</a> <span class="tag pub">🌐</span> <a class="src" href="#s-04-M7">04·M7</a> <a class="src" href="#s-04-R9">04·R9</a> <span class="tag own">👤</span></p></div>
+    <div class="card"><h4>Мова й тон</h4><p>Українською — лише Telegram, але він не архів. Теплий тон — лише mymind: «Maybe what you need is some space.» проти «No bookmarks» у Raindrop. <a class="src" href="#s-04-T1">04·T1</a> <span class="tag pub">🌐</span> <a class="src" href="#s-04-M7">04·M7</a> <a class="src" href="#s-04-R9">04·R9</a> <span class="tag own">👤</span> Подробиці — <a href="#language">Мова конкурентів</a>.</p></div>
   </div>
+
+  <h3 id="language">Мова конкурентів</h3>
+  <p class="note">Додано 2026-11-25 для принципів голосу (<a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/voice.md">voice.md</a>). Як конкуренти говорять з людиною в самому продукті й у довідці до ключової задачі — зберегти й знайти — і що люди пишуть своїми словами. Продукти закриті логіном, тож текст інтерфейсу — зі скрінів <span class="tag own">👤</span> і кадрів трейлера <span class="tag vid">🎬</span>. Довідки й App Store — 10 публічних сторінок, завантажених 2026-11-25 <span class="tag pub">🌐</span> <a class="src" href="#s-res-W5">res·W5</a>–<a class="src" href="#s-res-W14">W14</a>; ще 3 сторінки Google Play не завантажилися <a class="src" href="#s-res-W15">res·W15</a>–<a class="src" href="#s-res-W17">W17</a>. Цитати дослівні, мовою оригіналу.</p>
+
+  <h4>Що говорить інтерфейс</h4>
+  <div class="table-wrap">
+    <table class="lang">
+      <thead><tr><th scope="col"></th><th scope="col">Порожньо</th><th scope="col">Зберегти й після</th><th scope="col">Нічого не знайшлося</th><th scope="col">Збій, межа, прохання</th><th scope="col">Як звертається, які слова</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row">Raindrop</th>
+          <td><q>No bookmarks</q> · <q>Add a link or drop a file here.</q> <a href="screens/raindrop/06-all-bookmarks.png">raindrop/06</a> <span class="tag own">👤</span></td>
+          <td><q>+ Add</q> → поле <q>URL</q> з <q>https://</q> → <q>Cancel</q> · <q>Submit</q> <a href="screens/raindrop/08-add-url.png">raindrop/08</a> <span class="tag own">👤</span>; у довідці — <q>That's it — your first bookmark is saved.</q> <a class="src" href="#s-res-W7">res·W7</a></td>
+          <td><q>Nothing found in All bookmarks</q>; підказки <q>Narrow your search</q>, <q>In title/description</q>, <q>In URL</q>, <q>Put - (dash) in front of a condition you want to exclude from search</q> <a href="screens/own/raindrop/04-search-layout-no-results.png">own/raindrop/04</a> <span class="tag own">👤</span></td>
+          <td><q>Get the most out of Raindrop.io · Upgrade to PRO</q> — постійно в боковій панелі; у порожньому стані <q>Install browser extension</q>, <q>Import bookmarks</q> <a href="screens/raindrop/06-all-bookmarks.png">raindrop/06</a> <span class="tag own">👤</span>; <q>If the problem persists, contact support at…</q> <a class="src" href="#s-res-W5">res·W5</a></td>
+          <td>«you», наказовий спосіб у довідці. URL, thumbnail, preview, «re-extract content», «needs a few minutes to index», web archive <a class="src" href="#s-res-W5">res·W5</a> <a class="src" href="#s-res-W6">res·W6</a>. Без окликів і емодзі</td>
+        </tr>
+        <tr>
+          <th scope="row">mymind</th>
+          <td><q>Maybe what you need is some space.</q> · <q>Watch this first.</q> · <q>CREATE A SPACE</q> <a href="screens/mymind/06-spaces.png">mymind/06</a> <span class="tag own">👤</span></td>
+          <td><q>One moment, saving…</q> → <q>Saved to your mind</q> + <q>Add tags</q> <a href="screens/mymind/09-trailer-saving.png">mymind/09</a>–<a href="screens/mymind/10-trailer-saved-add-tags.png">10</a> <span class="tag vid">🎬</span></td>
+          <td>порожній екран, без жодного слова <a href="screens/own/mymind/05-search-other-ending-no-results.png">own/mymind/05</a> <span class="tag own">👤</span></td>
+          <td><q>You need at least 50 cards saved in your mind to unlock the "Serendipity" feature. Don't stress it. Keep saving as you normally do…</q> · <q>OKAY, GOT IT</q> <a href="screens/mymind/07-serendipity.png">mymind/07</a> <span class="tag own">👤</span>; постійно <q>Unlock features</q> і <q>Finish setting up your mind.</q> <a href="screens/mymind/05-everything.png">mymind/05</a> <span class="tag own">👤</span>; <q>Sadly, sometimes a website might block mymind</q> <a class="src" href="#s-res-W8">res·W8</a></td>
+          <td>«you» і «we»; метафора «mind» скрізь: <q>Search my mind…</q>, <q>Saved to your mind</q>. Кнопки капсом. У FAQ оклики: <q>Ohh yes they will!</q> <a class="src" href="#s-res-W8">res·W8</a>. В описі App Store — поетично: <q>It's a quiet, private garden for the things you care most about.</q> <a class="src" href="#s-res-W13">res·W13</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Telegram «Збережене»</th>
+          <td>—</td>
+          <td>лише ✓✓ біля повідомлення <a href="screens/telegram/04-saved.png">telegram/04</a> <span class="tag own">👤</span></td>
+          <td>качка з лупою, <q>No Results · There were no results for "закладкок".</q> <a href="screens/own/telegram/03-search-typo-no-results.png">own/telegram/03</a> <span class="tag own">👤</span></td>
+          <td>поруч з пошуком — <q>🔒 Add tags to your Saved Messages</q> (Premium) <a href="screens/own/telegram/03-search-typo-no-results.png">own/telegram/03</a> <span class="tag own">👤</span></td>
+          <td>у блозі — <q>a powerful storage system for your links, media, and bookmarks</q> <a class="src" href="#s-res-W10">res·W10</a>. Опис в App Store Україна — на «ви» й капсом: <q>Усі дані залишаться з вами, навіть якщо ви купите новий телефон або загубите старий.</q>, <q>ШВИДКА.</q>, <q>256-бітного симетричного шифрування AES</q> <a class="src" href="#s-res-W14">res·W14</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Notion Web Clipper</th>
+          <td>—</td>
+          <td>після збереження лише <q>Open in Notion</q> · <q>Enter</q> · <q>Open in desktop app</q> <a href="screens/notion/04-web-clipper-saved.png">notion/04</a> <span class="tag own">👤</span>; у довідці — <q>Press <code>Save page</code> or <code>enter</code>.</q> <a class="src" href="#s-res-W9">res·W9</a></td>
+          <td>у довідці немає</td>
+          <td><q>Uh-oh! It looks like your ad blocker is preventing the video from playing.</q>, <q>Oops, sorry about that</q> з емодзі мавпи <a class="src" href="#s-res-W9">res·W9</a></td>
+          <td>«you», наказовий спосіб. Workspace, database, parsed; декоративні емодзі в довідці <a class="src" href="#s-res-W9">res·W9</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Raycast</th>
+          <td>—</td>
+          <td><q>Click Save Quicklink ⌘↵ / Ctrl↵ to create the Quicklink.</q> <a class="src" href="#s-res-W11">res·W11</a></td>
+          <td>у довідці немає</td>
+          <td><q>Raycast asks for confirmation before destructive actions.</q> <a class="src" href="#s-res-W11">res·W11</a></td>
+          <td>про себе в третій особі: <q>Raycast will automatically use the favicon when a website URL is entered.</q> URL, favicon, deeplink, JSON <a class="src" href="#s-res-W11">res·W11</a></td>
+        </tr>
+        <tr>
+          <th scope="row"><em>LinkLy</em> <span class="note">поза п'ятіркою</span></th>
+          <td>—</td>
+          <td><q>Редагування посилання</q> · <q>Заголовок</q>: <q>Без назви</q> · <q>Зміни збережено</q> · <q>Зберегти</q> <a href="screens/own/linkly/06-add-link-saved.png">own/linkly/06</a> <span class="tag own">👤</span></td>
+          <td>пошуку немає <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md">03</a>, картка 1.5</td>
+          <td>—</td>
+          <td>українською, на «ви» <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/03-competitors.md">03</a>, картка 1.5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Що спільне — і де Шухляда говорить інакше</h4>
+  <div class="cards">
+    <div class="card"><h4>1. Після дії мовчать або кажуть лише «зроблено»</h4><p>✓✓, «Open in Notion», «Saved to your mind», «Зміни збережено». Куди лягло і що з цим можна зробити, не каже ніхто (див. також патерн 3 вище).</p></div>
+    <div class="card"><h4>2. «Нічого не знайшлося» — глухий кут</h4><p>«No Results», «Nothing found in All bookmarks», у mymind — порожній екран. Далі Raindrop пропонує хіба оператори пошуку: «Put - (dash) in front of a condition…».</p></div>
+    <div class="card"><h4>3. Мова системи</h4><p>URL, Submit, thumbnail, re-extract, index, workspace, parsed, favicon, deeplink — навіть у довідках для новачків. Українською говорять лише Telegram і LinkLy, обидва на «ви», а LinkLy ще й канцелярськи: «Редагування посилання».</p></div>
+    <div class="card"><h4>4. Продукт просить щось зверху</h4><p>«Upgrade to PRO», «Unlock features», «Finish setting up your mind.», «Install browser extension · Import bookmarks» у порожньому стані, «🔒 Add tags» поруч із пошуком.</p></div>
+  </div>
+
+  <p class="summary"><strong>Дотепність проти сухості.</strong> mymind і Notion грають і жартують: «Maybe what you need is some space.», «Don't stress it.», «Ohh yes they will!», «Uh-oh!», «Oops, sorry about that» з емодзі. Notion жартує саме тоді, коли щось не працює. Raindrop, Telegram і Raycast говорять сухо: «No bookmarks», «No Results», «Submit». Тепло й водночас ясно не говорить ніхто: mymind теплий, але на «нічого не знайшлося» мовчить.</p>
+
+  <h4>Що люди пишуть своїми словами</h4>
+  <p class="note">Поверх таблиці «Що кажуть користувачі» вище.</p>
+  <div class="table-wrap">
+    <table class="voice">
+      <thead><tr><th scope="col">Про що</th><th scope="col">Дослівно</th><th scope="col">Джерело</th></tr></thead>
+      <tbody>
+        <tr><td>Пам'ятати, де збережено</td><td><q>You no longer have to worry about syncing, remembering where you saved stuff</q> (Raindrop)</td><td><a class="src" href="#s-res-W12">res·W12</a></td></tr>
+        <tr><td>Знайти</td><td><q>It is consistently faster to find articles I saved a while ago</q> (Raindrop); <q>Once you save enough things, you can search for pretty much anything and it'll come up.</q> (mymind)</td><td><a class="src" href="#s-res-W12">res·W12</a> <a class="src" href="#s-res-W13">res·W13</a></td></tr>
+        <tr><td>Знайти в Telegram</td><td><q>you can barely find what you're looking for without accidentally tapping something else.</q> (App Store Україна, англійською)</td><td><a class="src" href="#s-res-W14">res·W14</a></td></tr>
+        <tr><td>Незрозуміла кнопка</td><td><q>The new "up" arrow in the bottom bar just saves things to Top of Mind; I thought it was a share button :(</q> (mymind)</td><td><a class="src" href="#s-res-W13">res·W13</a></td></tr>
+        <tr><td>Втратити</td><td><q>For some saved items I can't get the url now</q> (mymind); <q>Daily backups that keep my collections, highlights and notes safe</q> (Raindrop)</td><td><a class="src" href="#s-res-W13">res·W13</a> <a class="src" href="#s-res-W12">res·W12</a></td></tr>
+        <tr><td>Українською, з нашого ресерчу</td><td><q>закидую собі багато чого в збережене і не можу потім найти щось конкретне</q>; <q>все Сохраненные пустые, хотя там было данных за 3 года</q></td><td><a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/09-survey.md">09·SV1</a> <span class="tag">📋</span> <a href="https://github.com/OlenaKras95/shukhliada-app/blob/main/research/notes/12-personas-review.md">12·GP1</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Люди кажуть «save», «find», «gone», «where you saved stuff», українською — «закидую в збережене», «найти». Слів «index», «metadata», «workspace» у відгуках немає: це мова продуктів, а не людей.</p>
+  <p class="note"><strong>Межі.</strong> Три сторінки Google Play (Raindrop, mymind, Telegram українською) віддали заглушку без опису й відгуків <a class="src" href="#s-res-W15">res·W15</a>–<a class="src" href="#s-res-W17">W17</a>. В App Store не видно оцінок окремих відгуків, а у видимих відгуках Telegram Україна про «Збережене» — жодного. Текст інтерфейсу — лише те, що потрапило на скріни PM; Telegram на них англійською. Довідки — англійською, українською лише опис Telegram в App Store. <span class="tag warn">⚠️ не підтверджено</span>: як мова конкурентів діє на нашу аудиторію.</p>
 
   <!-- ============ 2 ============ -->
   <h2 id="benchmark"><span class="num">2</span>Бенчмарк</h2>
@@ -620,6 +711,19 @@
         <tr id="s-res-W2"><td>res·W2</td><td>Can I use, share_target — підтримка в браузерах <span class="tag pub">🌐</span></td><td><a href="https://caniuse.com/mdn-manifests_webapp_share_target">caniuse.com/mdn-manifests_webapp_share_target</a></td><td>—</td></tr>
         <tr id="s-res-W3"><td>res·W3</td><td>WebKit Bugzilla 194593, Web Share Target у Safari <span class="tag pub">🌐</span></td><td><a href="https://bugs.webkit.org/show_bug.cgi?id=194593">bugs.webkit.org/show_bug.cgi?id=194593</a></td><td>—</td></tr>
         <tr id="s-res-W4"><td>res·W4</td><td>Mozilla Bugzilla 1478037, букмарклети і CSP, виправлено у Firefox 69 <span class="tag pub">🌐</span></td><td><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1478037">bugzilla.mozilla.org/show_bug.cgi?id=1478037</a></td><td>—</td></tr>
+        <tr id="s-res-W5"><td>res·W5</td><td>Raindrop.io, довідка «Bookmarks» <span class="tag pub">🌐</span></td><td><a href="https://help.raindrop.io/bookmarks">help.raindrop.io/bookmarks</a></td><td><a href="screens/raindrop/03-help-bookmarks.png">raindrop/03-help-bookmarks</a></td></tr>
+        <tr id="s-res-W6"><td>res·W6</td><td>Raindrop.io, довідка «Search» <span class="tag pub">🌐</span></td><td><a href="https://help.raindrop.io/using-search">help.raindrop.io/using-search</a></td><td><a href="screens/raindrop/04-help-search.png">raindrop/04-help-search</a></td></tr>
+        <tr id="s-res-W7"><td>res·W7</td><td>Raindrop.io, довідка «Quickstart» <span class="tag pub">🌐</span></td><td><a href="https://help.raindrop.io/quickstart">help.raindrop.io/quickstart</a></td><td>—</td></tr>
+        <tr id="s-res-W8"><td>res·W8</td><td>mymind, FAQ <span class="tag pub">🌐</span></td><td><a href="https://mymind.com/faq">mymind.com/faq</a></td><td><a href="screens/mymind/04-faq.png">mymind/04-faq</a></td></tr>
+        <tr id="s-res-W9"><td>res·W9</td><td>Notion, довідка «Web Clipper» <span class="tag pub">🌐</span></td><td><a href="https://www.notion.com/help/web-clipper">notion.com/help/web-clipper</a></td><td><a href="screens/notion/05-help-web-clipper.png">notion/05-help-web-clipper</a></td></tr>
+        <tr id="s-res-W10"><td>res·W10</td><td>Telegram, блог «Saved Messages 2.0…», частина про «Збережене» <span class="tag pub">🌐</span></td><td><a href="https://telegram.org/blog/new-saved-messages-and-9-more">telegram.org/blog/new-saved-messages-and-9-more</a></td><td><a href="screens/telegram/03-blog-saved-messages.png">telegram/03-blog-saved-messages</a></td></tr>
+        <tr id="s-res-W11"><td>res·W11</td><td>Raycast Manual, «Quicklinks» <span class="tag pub">🌐</span></td><td><a href="https://manual.raycast.com/quicklinks">manual.raycast.com/quicklinks</a></td><td>—</td></tr>
+        <tr id="s-res-W12"><td>res·W12</td><td>App Store, Raindrop.io (4,5; 428 оцінок) <span class="tag pub">🌐</span></td><td><a href="https://apps.apple.com/app/raindrop-io/id1021913807">apps.apple.com/…/id1021913807</a></td><td>—</td></tr>
+        <tr id="s-res-W13"><td>res·W13</td><td>App Store США, mymind (4,0; 417 оцінок) <span class="tag pub">🌐</span></td><td><a href="https://apps.apple.com/us/app/mymind-extend-your-mind/id1520332347">apps.apple.com/us/…/id1520332347</a></td><td>—</td></tr>
+        <tr id="s-res-W14"><td>res·W14</td><td>App Store Україна, Telegram (3,7; 66 тис. оцінок) <span class="tag pub">🌐</span></td><td><a href="https://apps.apple.com/ua/app/telegram-messenger/id686449807?l=uk">apps.apple.com/ua/…/id686449807</a></td><td>—</td></tr>
+        <tr id="s-res-W15"><td>res·W15</td><td>Google Play, Raindrop.io — не завантажилася, лише заглушка <span class="tag pub">🌐</span></td><td><a href="https://play.google.com/store/apps/details?id=io.raindrop.raindropio">play.google.com/…/io.raindrop.raindropio</a></td><td>—</td></tr>
+        <tr id="s-res-W16"><td>res·W16</td><td>Google Play, mymind — не завантажилася <span class="tag pub">🌐</span></td><td><a href="https://play.google.com/store/apps/details?id=com.mymind.access">play.google.com/…/com.mymind.access</a></td><td>—</td></tr>
+        <tr id="s-res-W17"><td>res·W17</td><td>Google Play, Telegram українською — не завантажилася <span class="tag pub">🌐</span></td><td><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger&amp;hl=uk">play.google.com/…/org.telegram.messenger</a></td><td>—</td></tr>
       </tbody>
     </table>
   </div>
